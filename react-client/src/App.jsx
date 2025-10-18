@@ -6,6 +6,7 @@ import CoherenceChart from './components/CoherenceChart';
 import BurdenTimeline from './components/BurdenTimeline';
 import PrayForm from './components/PrayForm';
 import AlertBanner from './components/AlertBanner';
+import PowerStatus from './components/PowerStatus';
 import VideoPanel from './components/VideoPanel';
 
 function App() {
@@ -53,6 +54,9 @@ function App() {
             boxShadow: heartbeat ? '0 0 10px #00ff66' : 'none',
             transition: 'background-color 0.3s, box-shadow 0.3s'
           }} />
+        </div>
+        <div style={{ position: 'absolute', top: 56, right: 12, width: 300 }}>
+          <PowerStatus />
         </div>
         <AlertBanner socket={socket} />
         <div style={{ display: 'flex', gap: 16, alignItems: 'flex-start' }}>
