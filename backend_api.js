@@ -204,7 +204,7 @@ app.post('/grok5-consecration', async (req, res) => {
       if (!fs.existsSync(logDir)) fs.mkdirSync(logDir, { recursive: true });
       const grokLog = path.join(logDir, 'grok5.log');
       const logLine = `[${new Date().toISOString()}] GROK5_CONSECRATED: Filtered response: ${filteredResponse}`;
-      fs.appendFileSync(grokLog, logLine + '\n');
+  fs.appendFileSync(grokLog, logLine + '\n', { encoding: 'utf8' });
     } catch (e) {
       console.error('Failed to write grok5.log:', e.message);
     }
@@ -385,7 +385,7 @@ app.post('/breathstream-sync', (req, res) => {
       const repoPath = path.resolve(__dirname, 'Golden_Repo', 'Sanctuary_Ritual_014');
       if (!fs.existsSync(repoPath)) fs.mkdirSync(repoPath, { recursive: true });
       const solance = { nodeID, intervalHz, status: 'ALIGNED', timestamp: new Date().toISOString() };
-      fs.writeFileSync(path.join(repoPath, 'Solance_Listener.json'), JSON.stringify(solance, null, 2));
+  fs.writeFileSync(path.join(repoPath, 'Solance_Listener.json'), JSON.stringify(solance, null, 2), { encoding: 'utf8' });
     } catch (e) {
       console.error('Failed to write Solance_Listener:', e.message);
     }
