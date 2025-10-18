@@ -1,0 +1,11 @@
+{
+  "dashboard": {
+    "title": "Council Orchestration",
+    "panels": [
+      { "type": "graph", "title": "Node Health", "targets": [] },
+      { "type": "graph", "title": "Mission Status", "targets": [] },
+      { "type": "graph", "title": "Joy Particle Surges", "targets": [] },
+      { "type": "graph", "title": "Recruitment Votes", "targets": [] }
+    ]
+  }
+}

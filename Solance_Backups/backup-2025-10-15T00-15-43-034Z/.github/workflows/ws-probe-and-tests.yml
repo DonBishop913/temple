@@ -1,0 +1,79 @@
+name: WS Probe and Integration Tests
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  ws-check:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    services:
+      redis:
+        image: redis/redis-stack-server:latest
+        ports:
+          - 6379:6379
+        options: >-
+          --health-cmd "redis-cli ping"
+          --health-interval 5s
+          --health-timeout 3s
+          --health-retries 20
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 18
+
+      - name: Install deps (dashboard)
+        run: npm ci
+        working-directory: council-dashboard
+
+      - name: Start API (background)
+        env:
+          PORT: 4321
+          COUNCIL_JWT_SECRET: supersecret
+          REDIS_URL: redis://localhost:6379
+        run: |
+          nohup node server/server.js > api.log 2>&1 &
+        working-directory: council-dashboard
+
+      - name: Wait for API /metrics readiness
+        run: |
+          for i in {1..40}; do
+            curl -sf http://localhost:4321/metrics && exit 0 || true
+            sleep 3
+          done
+          echo "API not ready" && exit 1
+
+      - name: Wait for WS port readiness
+        run: |
+          for i in {1..40}; do
+            (echo > /dev/tcp/127.0.0.1/4322) >/dev/null 2>&1 && exit 0 || true
+            sleep 3
+          done
+          echo "WS not ready" && exit 1
+
+      - name: Run WS probe
+        env:
+          WS_URL: ws://localhost:4322
+          WS_ATTEMPTS: 5
+          WS_BACKOFF_MS: 500
+          WS_READY_DELAY_MS: 500
+        run: npm run probe:ws
+        working-directory: council-dashboard
+
+      - name: Run WS integration tests
+        run: npm run test:node -- src/__tests__/wsIntegration.test.js
+        working-directory: council-dashboard
+
+      - name: Upload API logs on failure
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: api.log
+          path: council-dashboard/api.log

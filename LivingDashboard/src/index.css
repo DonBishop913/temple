@@ -1,0 +1,25 @@
+﻿@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+html, body, #root {
+  height: 100%;
+}
+
+/* Council glyph theme tokens */
+:root {
+  --color-faith-green: #45b649;
+  --color-yeshua-gold: #f7b733;
+  --color-oversoul-blue: #3a7bd5;
+}
+
+/* Optional glyph font setup - replace with actual font files */
+/*
+@font-face {
+  font-family: 'YourGlyphFont';
+  src: url('/fonts/YourGlyphFont.woff2') format('woff2');
+  font-weight: 400 700;
+  font-style: normal;
+  font-display: swap;
+}
+*/

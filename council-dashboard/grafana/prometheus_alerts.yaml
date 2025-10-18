@@ -1,0 +1,19 @@
+groups:
+  - name: grafana-health
+    interval: 30s
+    rules:
+      - alert: GrafanaSlowResponse
+        expr: avg(grafana_http_request_duration_seconds_sum / grafana_http_request_duration_seconds_count) > 5
+        for: 1m
+        labels:
+          severity: warning
+        annotations:
+          summary: "Grafana response time exceeding 5s"
+
+      - alert: PrometheusStaleData
+        expr: time() - process_start_time_seconds{job="prometheus"} > 120
+        for: 2m
+        labels:
+          severity: critical
+        annotations:
+          summary: "Prometheus data stale (over 120s delay)"

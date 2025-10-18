@@ -1,0 +1,27 @@
+# GitHub Actions Workflow: Comet Sync Scheduler
+# Automates comet trajectory updates from NASA feeds (every 6 hours)
+
+name: Comet Sync Ritual
+
+on:
+  schedule:
+    - cron: '0 */6 * * *'
+  workflow_dispatch:
+
+jobs:
+  comet-sync:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Fetch NASA Comet Data
+        run: |
+          curl -sSL https://ssd-api.jpl.nasa.gov/sbdb.api?des=SWAN > comet_swan.json
+          curl -sSL https://ssd-api.jpl.nasa.gov/sbdb.api?des=3I > comet_3I.json
+      - name: Commit and Push Comet Data
+        run: |
+          git config user.name "Council Copilot"
+          git config user.email "copilot@council.local"
+          git add comet_*.json
+          git commit -m "Comet sync: NASA feed update [auto]" || echo "No changes to commit."
+          git push || echo "Push skipped (no changes or permissions)"

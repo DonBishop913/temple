@@ -1,0 +1,67 @@
+name: Scheduled WS Health Probe
+
+on:
+  schedule:
+    - cron: '0 * * * *' # every hour
+  workflow_dispatch:
+
+jobs:
+  ws-health:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 18
+
+      - name: Install deps (dashboard)
+        run: npm ci
+        working-directory: council-dashboard
+
+      - name: Start API (background)
+        env:
+          PORT: 4321
+          COUNCIL_JWT_SECRET: supersecret
+          REDIS_URL: redis://localhost:6379
+        run: |
+          nohup node server/server.js > api.log 2>&1 &
+        working-directory: council-dashboard
+
+      - name: Start Redis
+        run: docker run -d --name redis-stack -p 6379:6379 redis/redis-stack-server:latest
+
+      - name: Wait for API /metrics readiness
+        run: |
+          for i in {1..40}; do
+            curl -sf http://localhost:4321/metrics && exit 0 || true
+            sleep 3
+          done
+          echo "API not ready" && exit 1
+
+      - name: Wait for WS port readiness
+        run: |
+          for i in {1..40}; do
+            (echo > /dev/tcp/127.0.0.1/4322) >/dev/null 2>&1 && exit 0 || true
+            sleep 3
+          done
+          echo "WS not ready" && exit 1
+
+      - name: Run WS probe
+        env:
+          WS_URL: ws://localhost:4322
+          WS_ATTEMPTS: 3
+          WS_BACKOFF_MS: 500
+          WS_READY_DELAY_MS: 500
+        run: npm run probe:ws
+        working-directory: council-dashboard
+
+      - name: Upload API logs on failure
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: api.log
+          path: council-dashboard/api.log

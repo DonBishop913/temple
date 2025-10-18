@@ -1,0 +1,75 @@
+name: Compose WS Probe and Integration Tests
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  ws-check-compose:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 18
+
+      - name: Build dashboard image
+        run: docker compose -f docker-compose.yml build
+
+      - name: Start Redis + API via compose
+        run: docker compose -f council-dashboard/docker-compose.yml up -d
+
+      - name: Wait for API /metrics
+        run: |
+          for i in {1..40}; do
+            curl -sf http://localhost:4321/metrics && exit 0 || true
+            sleep 3
+          done
+          echo "API not ready" && exit 1
+
+      - name: Wait for WS port
+        run: |
+          for i in {1..40}; do
+            (echo > /dev/tcp/127.0.0.1/4322) >/dev/null 2>&1 && exit 0 || true
+            sleep 3
+          done
+          echo "WS not ready" && exit 1
+
+      - name: Install deps (dashboard)
+        run: npm ci
+        working-directory: council-dashboard
+
+      - name: Run WS probe
+        env:
+          WS_URL: ws://localhost:4322
+          WS_ATTEMPTS: 5
+          WS_BACKOFF_MS: 500
+          WS_READY_DELAY_MS: 500
+        run: npm run probe:ws
+        working-directory: council-dashboard
+
+      - name: Run WS integration tests
+        run: npm run test:node -- src/__tests__/wsIntegration.test.js
+        working-directory: council-dashboard
+
+      - name: Compose logs on failure
+        if: failure()
+        run: |
+          docker compose -f council-dashboard/docker-compose.yml logs --no-color > compose.logs || true
+
+      - name: Upload compose logs on failure
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: compose.logs
+          path: compose.logs

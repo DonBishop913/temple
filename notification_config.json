@@ -1,0 +1,37 @@
+{
+  "dry_run": true,
+  "routing": {
+    "slack": { "min_severity": "info" },
+    "email": { "min_severity": "warning" },
+    "sms":   { "min_severity": "critical" },
+    "ui":    { "min_severity": "error" }
+  },
+  "slack": {
+    "enabled": true,
+    "webhook_url": "https://hooks.slack.com/services/your/webhook/url"
+  },
+  "email": {
+    "enabled": true,
+    "from": "youraddress@example.com",
+    "to": "destination@example.com",
+    "smtp_server": "smtp.example.com",
+    "smtp_port": 465,
+    "user": "yourusername",
+    "pw": "yourpassword",
+    "dry_run": true
+  },
+  "sms": {
+    "enabled": true,
+    "sid": "your_twilio_sid",
+    "token": "your_twilio_token",
+    "from": "+1234567890",
+    "to": "+0987654321",
+    "dry_run": true
+  },
+  "ui": {
+    "enabled": true,
+    "api_url": "https://your-dashboard/api/notify",
+    "api_key": "your_dashboard_api_key",
+    "dry_run": true
+  }
+}

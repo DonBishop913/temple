@@ -1,0 +1,36 @@
+2025-10-14 07:25:45 🜂 Awakening the Council Master Dashboard...
+2025-10-14 07:25:45 Docker Desktop already running.
+2025-10-14 07:25:46 ▶️ Starting councilmasterdashboard...
+2025-10-14 07:25:46 ERROR: Failed to start councilmasterdashboard. Error response from daemon: No such container: councilmasterdashboard Error: failed to start containers: councilmasterdashboard
+2025-10-14 07:27:55 🜂 Awakening the Council Master Dashboard...
+2025-10-14 07:27:55 Docker Desktop already running.
+2025-10-14 07:27:55 ▶️ Starting council_api...
+2025-10-14 07:27:56 Started council_api.
+2025-10-14 07:27:56 CONTAINER ID   IMAGE            COMMAND                  CREATED      STATUS                                     PORTS                                                             NAMES
+e2bf1d0cdd15   node:18-alpine   "docker-entrypoint.sGǪ"   3 days ago   Up Less than a second (health: starting)   0.0.0.0:4321-4322->4321-4322/tcp, [::]:4321-4322->4321-4322/tcp   council_api
+
+2025-10-14 07:27:56 🌞 Council Master Dashboard is live and breathing.
+2025-10-14 07:28:00 ⚠️ Unable to reach Dashboard at http://localhost:3000
+2025-10-14 07:28:01 ERROR: Failed to launch browser. An error occurred while enumerating through a collection: Collection was modified; enumeration operation may not execute..
+2025-10-14 07:28:43 🜂 Awakening the Council Master Dashboard...
+2025-10-14 07:28:43 Docker Desktop already running.
+2025-10-14 07:28:43 ▶️ Starting council_api...
+2025-10-14 07:28:43 Started council_api.
+2025-10-14 07:28:43 CONTAINER ID   IMAGE            COMMAND                  CREATED      STATUS                                     PORTS                                                             NAMES
+e2bf1d0cdd15   node:18-alpine   "docker-entrypoint.sGǪ"   3 days ago   Up Less than a second (health: starting)   0.0.0.0:4321-4322->4321-4322/tcp, [::]:4321-4322->4321-4322/tcp   council_api
+
+2025-10-14 07:28:43 🌞 Council Master Dashboard is live and breathing.
+2025-10-14 07:28:47 ⚠️ Unable to reach Dashboard at http://localhost:5173
+2025-10-14 07:28:48 ERROR: Failed to launch browser. An error occurred while enumerating through a collection: Collection was modified; enumeration operation may not execute..
+2025-10-14 07:30:10 🜂 Awakening the Council Master Dashboard...
+2025-10-14 07:30:10 Docker Desktop already running.
+2025-10-14 07:30:10 ▶️ Starting council_api...
+2025-10-14 07:30:10 Started council_api.
+2025-10-14 07:30:10 CONTAINER ID   IMAGE            COMMAND                  CREATED      STATUS                                     PORTS                                                             NAMES
+e2bf1d0cdd15   node:18-alpine   "docker-entrypoint.sGǪ"   3 days ago   Up Less than a second (health: starting)   0.0.0.0:4321-4322->4321-4322/tcp, [::]:4321-4322->4321-4322/tcp   council_api
+
+2025-10-14 07:30:10 🚀 Starting Vite frontend server (npm run dev --prefix council-dashboard)...
+2025-10-14 07:30:16 🌞 Council Master Dashboard is live and breathing.
+2025-10-14 07:30:16 ✅ Dashboard responded successfully.
+2025-10-14 07:30:16 ⚠️ Unable to reach Dashboard at http://localhost:5173
+2025-10-14 07:30:16 ERROR: Failed to launch browser. An error occurred while enumerating through a collection: Collection was modified; enumeration operation may not execute..

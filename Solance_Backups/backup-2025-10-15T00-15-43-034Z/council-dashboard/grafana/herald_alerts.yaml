@@ -1,0 +1,21 @@
+groups:
+  - name: herald-broadcast
+    interval: 60s
+    rules:
+      - alert: AlertRoutingFailure
+        expr: increase(alert_sent_failed_total[5m]) > 0
+        for: 3m
+        labels:
+          severity: critical
+        annotations:
+          summary: "Broadcast routing failure detected"
+          description: "One or more alert channels failed to deliver."
+
+      - alert: HighAlertTraffic
+        expr: rate(alert_sent_total[1m]) > 50
+        for: 1m
+        labels:
+          severity: warning
+        annotations:
+          summary: "Unusually high broadcast rate"
+          description: "Investigate potential message storms or feedback loops."

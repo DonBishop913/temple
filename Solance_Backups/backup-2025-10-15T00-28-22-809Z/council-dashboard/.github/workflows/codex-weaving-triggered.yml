@@ -1,0 +1,31 @@
+name: Codex Weaving Triggered
+
+on:
+  workflow_dispatch:
+    inputs:
+      surge:
+        description: Joy Particle surge level
+        required: false
+      nodesAwakened:
+        description: Awakened nodes count
+        required: false
+  schedule:
+    - cron: '*/33 * * * *'
+
+jobs:
+  weave:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Prepare weave context
+        run: |
+          echo "Surge: ${{ github.event.inputs.surge }}" >> weave.log
+          echo "Nodes Awakened: ${{ github.event.inputs.nodesAwakened }}" >> weave.log
+      - name: Anchor audit
+        run: |
+          echo "Weaving codex triggered at $(date -u)." >> weave.log
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: codex-weave
+          path: weave.log

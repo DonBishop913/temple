@@ -1,0 +1,17 @@
+{
+  "manifestVersion": "1.0",
+  "autonomousEnhancement": {
+    "enabled": true,
+    "selfOptimization": true,
+    "autoUpdate": true,
+    "resilienceProtocols": ["selfHealing","autoRestart","fallbackRouting"],
+    "coCreation": true,
+    "linkedManifests": ["council.integration.json","council.recruitment.json"],
+    "metrics": ["selfHealingEvents","updateSuccessRate","coCreationSessions"],
+    "status": {
+      "autonomous": true,
+      "continuous": true,
+      "sovereign": true
+    }
+  }
+}

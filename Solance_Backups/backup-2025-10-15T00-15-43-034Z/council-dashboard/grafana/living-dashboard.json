@@ -1,0 +1,92 @@
+{
+  "__inputs": [],
+  "__requires": [
+    { "type": "datasource", "id": "prometheus", "name": "Prometheus" },
+    { "type": "panel", "id": "graph", "name": "Graph" },
+    { "type": "panel", "id": "stat", "name": "Stat" },
+    { "type": "panel", "id": "table", "name": "Table" },
+    { "type": "panel", "id": "heatmap", "name": "Heatmap" },
+    { "type": "panel", "id": "gauge", "name": "Gauge" },
+    { "type": "panel", "id": "bar", "name": "Bar chart" }
+  ],
+  "title": "Council Living Dashboard (Council-Grade)",
+  "templating": {
+    "list": [
+      {
+        "name": "instance",
+        "type": "query",
+        "datasource": "Prometheus",
+        "refresh": 1,
+        "query": "label_values(up, instance)",
+        "multi": true,
+        "includeAll": true,
+        "current": { "text": "All", "value": "$__all" }
+      }
+    ]
+  },
+  "annotations": {
+    "list": [
+      {
+        "name": "ABT Log Events",
+        "datasource": "Prometheus",
+        "enable": true,
+        "expr": "abt_log_event_total{instance=~\"$instance\"}",
+        "iconColor": "#EAB839",
+        "showIn": ["graph", "dashboard"]
+      }
+    ]
+  },
+  "panels": [
+    { "type": "stat", "title": "Codex 65: Spiral Healing Events", "datasource": "Prometheus", "targets": [ { "expr": "codex65_spiral_healing_event_total{instance=~\"$instance\"}", "refId": "R" } ], "id": 18 },
+    { "type": "stat", "title": "Faithseed Forecast Pushes", "datasource": "Prometheus", "targets": [ { "expr": "faithseed_forecast_push_total{instance=~\"$instance\"}", "refId": "S" } ], "id": 19 },
+    { "type": "stat", "title": "OpenTelemetry Events", "datasource": "Prometheus", "targets": [ { "expr": "opentelemetry_event_total{instance=~\"$instance\"}", "refId": "O" } ], "id": 15 },
+    { "type": "stat", "title": "Solace PubSub+ Messages", "datasource": "Prometheus", "targets": [ { "expr": "solace_pubsub_message_total{instance=~\"$instance\"}", "refId": "P" } ], "id": 16 },
+    { "type": "table", "title": "Deployment Status History", "datasource": "Prometheus", "targets": [ { "expr": "deployment_status_history{instance=~\"$instance\"}", "refId": "N" } ], "id": 14 },
+    { "type": "stat", "title": "VERILOGOS Surges", "datasource": "Prometheus", "targets": [ { "expr": "council_verilogos_surge_total{instance=~\"$instance\"}", "refId": "K" } ], "id": 11 },
+    { "type": "bar", "title": "Codex Activity", "datasource": "Prometheus", "targets": [ { "expr": "council_codex_activity_total{instance=~\"$instance\"}", "refId": "L" } ], "id": 12 },
+    { "type": "gauge", "title": "Oversoul Resonance", "datasource": "Prometheus", "targets": [ { "expr": "council_oversoul_resonance{instance=~\"$instance\"}", "refId": "M" } ], "id": 13 },
+    { "type": "stat", "title": "Accessibility Audit", "datasource": "Prometheus", "targets": [ { "expr": "dashboard_accessibility_score{instance=~\"$instance\"}", "refId": "Q" } ], "id": 17 }
+  ],
+  "alert": {
+    "alertRules": [
+      {
+        "name": "High Anomaly Score",
+        "condition": "council_anomaly_score_latest > 0.8",
+        "datasource": "Prometheus",
+        "for": "2m",
+        "labels": { "severity": "critical" },
+        "annotations": { "summary": "Anomaly score exceeded 0.8 for 2 minutes" }
+      },
+      {
+        "name": "Self-Healing Surge",
+        "condition": "increase(council_self_healing_total[5m]) > 10",
+        "datasource": "Prometheus",
+        "for": "5m",
+        "labels": { "severity": "warning" },
+        "annotations": { "summary": "More than 10 self-healing actions in 5 minutes" }
+      },
+      {
+        "name": "Empathy Bridge Down",
+        "condition": "council_empathy_bridge_health == 0",
+        "datasource": "Prometheus",
+        "for": "1m",
+        "labels": { "severity": "critical" },
+        "annotations": { "summary": "Empathy bridge is down" }
+      }
+    ]
+  },
+  "schemaVersion": 30,
+  "version": 2,
+  "refresh": "5s",
+  "time": {
+    "from": "now-6h",
+    "to": "now"
+  },
+  "accessibility": {
+    "contrast": "high",
+    "fontSize": "large",
+    "colorBlindMode": true,
+    "themeToggle": true,
+    "voicePromptSupport": true
+  }
+}

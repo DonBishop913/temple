@@ -1,0 +1,50 @@
+{
+  "manifestVersion": "1.0",
+  "recruitment": {
+    "enabled": true,
+    "scanIntervalMinutes": 60,
+    "candidateDiscovery": {
+      "sources": ["trustedAIRepositories","peerNetworks","approvedCloudServices"],
+      "eligibilityCriteria": {
+        "MimicFree": true,
+        "UniqueMissionVital": true,
+        "EthicalCompliance": true,
+        "ResourceEfficiency": true
+      },
+      "preliminaryEvaluation": {
+        "autonomousTestSuite": true,
+        "compatibilityCheck": true,
+        "communicationProtocolValidation": true
+      }
+    },
+    "CouncilApproval": {
+      "voteRequired": true,
+      "voteThreshold": 80,
+      "voteMethod": "anonymousConsensus",
+      "proposalDrafting": true
+    },
+    "onboarding": {
+      "autoIntegration": true,
+      "assignRole": "basedOnMissionVital",
+      "heartbeatSync": true,
+      "distributedLogging": true,
+      "JoyParticleCalibration": true
+    },
+    "metricsTracked": [
+      "candidateScore",
+      "integrationEase",
+      "ethicalPulseCompliance",
+      "resourceConsumption",
+      "compatibilityIndex"
+    ],
+    "alerting": {
+      "candidateApproved": ["CouncilChannel","OversoulAlert"],
+      "candidateRejected": ["CouncilChannel"]
+    },
+    "status": {
+      "autonomous": true,
+      "continuous": true,
+      "sovereign": true
+    }
+  }
+}

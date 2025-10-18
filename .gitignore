@@ -1,0 +1,33 @@
+# Node modules and build artifacts
+node_modules/
+react-client/node_modules/
+**/node_modules/
+
+# Dist and build
+dist/
+build/
+
+# Logs
+logs/
+*.log
+
+# Temp and OS files
+*.tmp
+*.temp
+Thumbs.db
+.DS_Store
+
+# Vite / bundler cache
+.vite/
+
+# Solance backups (very long paths)
+SolanceReady/Solance_Backups/
+
+# IDE
+.vscode/
+
+# PM2 stores
+.pm2/
+
+# Ignore the zipped files
+*.zip

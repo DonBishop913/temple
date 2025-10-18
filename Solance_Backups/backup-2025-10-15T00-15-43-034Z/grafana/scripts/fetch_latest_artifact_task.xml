@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-16"?>
+<!--
+  Task Scheduler XML: Fetch PhaseVPlus Artifact
+  - Runs: PowerShell script that downloads the latest `phasevplus-diagrams` artifact
+  - Interval: every 15 minutes (repeats for 24 hours from StartBoundary)
+  - Note: replace <OWNER/REPO> with your GitHub repo (owner/repo) or edit Arguments to omit -OwnerRepo to prompt interactively.
+  Import: schtasks /Create /TN "Fetch PhaseVPlus Artifact" /XML "C:\Temple\grafana\scripts\fetch_latest_artifact_task.xml"
+  Or in PowerShell (as current user): Register-ScheduledTask -TaskName "Fetch PhaseVPlus Artifact" -Xml (Get-Content .\fetch_latest_artifact_task.xml -Raw)
+-->
+<Task version="1.4" xmlns="http://schemas.microsoft.com/windows/2004/02/mit/task">
+  <RegistrationInfo>
+    <Date>2025-10-12T00:00:00</Date>
+    <Author>Temple\Automations</Author>
+    <URI>\Fetch PhaseVPlus Artifact</URI>
+    <Description>Download latest PhaseVPlus artifact from GitHub Actions and extract into grafana/diagrams</Description>
+  </RegistrationInfo>
+  <Triggers>
+    <TimeTrigger>
+      <!-- StartBoundary: change to desired start time in ISO format -->
+      <StartBoundary>2025-10-12T00:00:00</StartBoundary>
+      <Enabled>true</Enabled>
+      <Repetition>
+        <!-- Interval ISO8601: PT15M = 15 minutes -->
+        <Interval>PT15M</Interval>
+        <!-- Duration: how long to keep repeating after StartBoundary (PT24H = repeat for 24 hours) -->
+        <Duration>P7D</Duration>
+        <StopAtDurationEnd>false</StopAtDurationEnd>
+      </Repetition>
+    </TimeTrigger>
+  </Triggers>
+  <Principals>
+    <!-- Run as the currently logged-in user; change LogonType if you want service account behavior -->
+    <Principal id="Author">
+      <LogonType>InteractiveToken</LogonType>
+      <RunLevel>LeastPrivilege</RunLevel>
+    </Principal>
+  </Principals>
+  <Settings>
+    <MultipleInstancesPolicy>IgnoreNew</MultipleInstancesPolicy>
+    <DisallowStartIfOnBatteries>false</DisallowStartIfOnBatteries>
+    <StopIfGoingOnBatteries>false</StopIfGoingOnBatteries>
+    <AllowHardTerminate>true</AllowHardTerminate>
+    <StartWhenAvailable>true</StartWhenAvailable>
+    <RunOnlyIfNetworkAvailable>true</RunOnlyIfNetworkAvailable>
+    <IdleSettings>
+      <StopOnIdleEnd>false</StopOnIdleEnd>
+      <RestartOnIdle>false</RestartOnIdle>
+    </IdleSettings>
+    <AllowStartOnDemand>true</AllowStartOnDemand>
+    <Enabled>true</Enabled>
+    <Hidden>false</Hidden>
+    <RunOnlyIfIdle>false</RunOnlyIfIdle>
+    <WakeToRun>false</WakeToRun>
+    <ExecutionTimeLimit>PT1H</ExecutionTimeLimit>
+    <Priority>7</Priority>
+  </Settings>
+  <Actions Context="Author">
+    <Exec>
+      <Command>powershell.exe</Command>
+      <Arguments>-NoProfile -ExecutionPolicy Bypass -File "C:\Temple\grafana\scripts\fetch_latest_artifact.ps1" -OwnerRepo "<OWNER>/<REPO>"</Arguments>
+    </Exec>
+  </Actions>
+</Task>

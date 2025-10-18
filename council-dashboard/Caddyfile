@@ -1,0 +1,6 @@
+your-domain.com {
+    reverse_proxy /api localhost:4321
+    reverse_proxy /ws localhost:4322
+    reverse_proxy / localhost:5173
+    tls you@domain.com
+}

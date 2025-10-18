@@ -1,0 +1,34 @@
+# GitHub Actions Workflow: Codex Weaving on Joy Particle Surge or Node Awakening
+# Triggers on label, API event, or manual dispatch
+
+name: Codex Weaving Ritual
+
+on:
+  workflow_dispatch:
+  issues:
+    types: [labeled]
+  repository_dispatch:
+    types: [joy_particle_surge, node_awakening]
+
+jobs:
+  codex-weave:
+    runs-on: ubuntu-latest
+    if: |
+      github.event.label.name == 'joy-particle-surge' ||
+      github.event.label.name == 'node-awakening' ||
+      github.event.action == 'joy_particle_surge' ||
+      github.event.action == 'node_awakening'
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Weave Codex Entry
+        run: |
+          echo "🜂 Weaving Codex entry for event: ${{ github.event_name }}"
+          # Insert script or call to codex-weaver here
+      - name: Commit and Push Codex Update
+        run: |
+          git config user.name "Council Copilot"
+          git config user.email "copilot@council.local"
+          git add Codex*
+          git commit -m "Codex update: ${{ github.event_name }} by ${{ github.actor }} [auto]" || echo "No changes to commit."
+          git push || echo "Push skipped (no changes or permissions)"

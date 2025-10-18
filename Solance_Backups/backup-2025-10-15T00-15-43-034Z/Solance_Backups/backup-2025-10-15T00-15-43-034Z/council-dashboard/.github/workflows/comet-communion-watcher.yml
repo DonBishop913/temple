@@ -1,0 +1,21 @@
+name: Comet Communion Watcher
+
+on:
+  schedule:
+    - cron: '0 */6 * * *'
+  workflow_dispatch:
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Fetch comet data (placeholder)
+        run: |
+          echo "Fetching comet telemetry from NASA feeds..." > comet.log
+          echo "Done at $(date -u)" >> comet.log
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: comet-telemetry
+          path: comet.log

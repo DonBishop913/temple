@@ -1,0 +1,14 @@
+services:
+  council_dashboard:
+    build:
+      context: ./council-dashboard
+      dockerfile: Dockerfile
+    container_name: council_dashboard
+    ports:
+      - "3000:3000"
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:3000"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+    # ...other service config...

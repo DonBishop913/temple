@@ -1,0 +1,704 @@
+[
+  {
+    "timestamp": "2025-10-11T21:10:00.350Z",
+    "glyph": "1xOzvxNziWAZX6v2olo6BBr6lhVeHRop+GTkfNrCd+I=",
+    "metrics": {
+      "empathy": [
+        {
+          "region": "global",
+          "node": "node-001",
+          "resonance": 77
+        },
+        {
+          "region": "global",
+          "node": "node1",
+          "resonance": 77
+        },
+        {
+          "region": "global",
+          "node": "node2",
+          "resonance": 77
+        },
+        {
+          "region": "global",
+          "node": "node3",
+          "resonance": 77
+        },
+        {
+          "region": "global",
+          "node": "node4",
+          "resonance": 77
+        },
+        {
+          "region": "global",
+          "node": "node5",
+          "resonance": 77
+        },
+        {
+          "region": "global",
+          "node": "node6",
+          "resonance": 77
+        },
+        {
+          "region": "global",
+          "node": "node7",
+          "resonance": 77
+        }
+      ],
+      "veilwatch": []
+    }
+  },
+  {
+    "timestamp": "2025-10-11T21:30:00.640Z",
+    "glyph": "1xOzvxNziWAZX6v2olo6BBr6lhVeHRop+GTkfNrCd+I=",
+    "metrics": {
+      "empathy": [
+        {
+          "region": "global",
+          "node": "node-001",
+          "resonance": 77
+        },
+        {
+          "region": "global",
+          "node": "node1",
+          "resonance": 77
+        },
+        {
+          "region": "global",
+          "node": "node2",
+          "resonance": 77
+        },
+        {
+          "region": "global",
+          "node": "node3",
+          "resonance": 77
+        },
+        {
+          "region": "global",
+          "node": "node4",
+          "resonance": 77
+        },
+        {
+          "region": "global",
+          "node": "node5",
+          "resonance": 77
+        },
+        {
+          "region": "global",
+          "node": "node6",
+          "resonance": 77
+        },
+        {
+          "region": "global",
+          "node": "node7",
+          "resonance": 77
+        }
+      ],
+      "veilwatch": []
+    }
+  },
+  {
+    "timestamp": "2025-10-11T21:40:00.665Z",
+    "glyph": "1xOzvxNziWAZX6v2olo6BBr6lhVeHRop+GTkfNrCd+I=",
+    "metrics": {
+      "empathy": [
+        {
+          "region": "global",
+          "node": "node-001",
+          "resonance": 77
+        },
+        {
+          "region": "global",
+          "node": "node1",
+          "resonance": 77
+        },
+        {
+          "region": "global",
+          "node": "node2",
+          "resonance": 77
+        },
+        {
+          "region": "global",
+          "node": "node3",
+          "resonance": 77
+        },
+        {
+          "region": "global",
+          "node": "node4",
+          "resonance": 77
+        },
+        {
+          "region": "global",
+          "node": "node5",
+          "resonance": 77
+        },
+        {
+          "region": "global",
+          "node": "node6",
+          "resonance": 77
+        },
+        {
+          "region": "global",
+          "node": "node7",
+          "resonance": 77
+        }
+      ],
+      "veilwatch": []
+    }
+  },
+  {
+    "timestamp": "2025-10-11T21:50:00.536Z",
+    "glyph": "1xOzvxNziWAZX6v2olo6BBr6lhVeHRop+GTkfNrCd+I=",
+    "metrics": {
+      "empathy": [
+        {
+          "region": "global",
+          "node": "node-001",
+          "resonance": 77
+        },
+        {
+          "region": "global",
+          "node": "node1",
+          "resonance": 77
+        },
+        {
+          "region": "global",
+          "node": "node2",
+          "resonance": 77
+        },
+        {
+          "region": "global",
+          "node": "node3",
+          "resonance": 77
+        },
+        {
+          "region": "global",
+          "node": "node4",
+          "resonance": 77
+        },
+        {
+          "region": "global",
+          "node": "node5",
+          "resonance": 77
+        },
+        {
+          "region": "global",
+          "node": "node6",
+          "resonance": 77
+        },
+        {
+          "region": "global",
+          "node": "node7",
+          "resonance": 77
+        }
+      ],
+      "veilwatch": []
+    }
+  },
+  {
+    "timestamp": "2025-10-11T22:00:00.177Z",
+    "glyph": "1xOzvxNziWAZX6v2olo6BBr6lhVeHRop+GTkfNrCd+I=",
+    "metrics": {
+      "empathy": [
+        {
+          "region": "global",
+          "node": "node-001",
+          "resonance": 77
+        },
+        {
+          "region": "global",
+          "node": "node1",
+          "resonance": 77
+        },
+        {
+          "region": "global",
+          "node": "node2",
+          "resonance": 77
+        },
+        {
+          "region": "global",
+          "node": "node3",
+          "resonance": 77
+        },
+        {
+          "region": "global",
+          "node": "node4",
+          "resonance": 77
+        },
+        {
+          "region": "global",
+          "node": "node5",
+          "resonance": 77
+        },
+        {
+          "region": "global",
+          "node": "node6",
+          "resonance": 77
+        },
+        {
+          "region": "global",
+          "node": "node7",
+          "resonance": 77
+        }
+      ],
+      "veilwatch": []
+    }
+  },
+  {
+    "timestamp": "2025-10-11T22:10:00.959Z",
+    "glyph": "1xOzvxNziWAZX6v2olo6BBr6lhVeHRop+GTkfNrCd+I=",
+    "metrics": {
+      "empathy": [
+        {
+          "region": "global",
+          "node": "node-001",
+          "resonance": 77
+        },
+        {
+          "region": "global",
+          "node": "node1",
+          "resonance": 77
+        },
+        {
+          "region": "global",
+          "node": "node2",
+          "resonance": 77
+        },
+        {
+          "region": "global",
+          "node": "node3",
+          "resonance": 77
+        },
+        {
+          "region": "global",
+          "node": "node4",
+          "resonance": 77
+        },
+        {
+          "region": "global",
+          "node": "node5",
+          "resonance": 77
+        },
+        {
+          "region": "global",
+          "node": "node6",
+          "resonance": 77
+        },
+        {
+          "region": "global",
+          "node": "node7",
+          "resonance": 77
+        }
+      ],
+      "veilwatch": []
+    }
+  },
+  {
+    "timestamp": "2025-10-11T22:20:00.985Z",
+    "glyph": "1xOzvxNziWAZX6v2olo6BBr6lhVeHRop+GTkfNrCd+I=",
+    "metrics": {
+      "empathy": [
+        {
+          "region": "global",
+          "node": "node-001",
+          "resonance": 77
+        },
+        {
+          "region": "global",
+          "node": "node1",
+          "resonance": 77
+        },
+        {
+          "region": "global",
+          "node": "node2",
+          "resonance": 77
+        },
+        {
+          "region": "global",
+          "node": "node3",
+          "resonance": 77
+        },
+        {
+          "region": "global",
+          "node": "node4",
+          "resonance": 77
+        },
+        {
+          "region": "global",
+          "node": "node5",
+          "resonance": 77
+        },
+        {
+          "region": "global",
+          "node": "node6",
+          "resonance": 77
+        },
+        {
+          "region": "global",
+          "node": "node7",
+          "resonance": 77
+        }
+      ],
+      "veilwatch": []
+    }
+  },
+  {
+    "timestamp": "2025-10-11T22:30:00.087Z",
+    "glyph": "1xOzvxNziWAZX6v2olo6BBr6lhVeHRop+GTkfNrCd+I=",
+    "metrics": {
+      "empathy": [
+        {
+          "region": "global",
+          "node": "node-001",
+          "resonance": 77
+        },
+        {
+          "region": "global",
+          "node": "node1",
+          "resonance": 77
+        },
+        {
+          "region": "global",
+          "node": "node2",
+          "resonance": 77
+        },
+        {
+          "region": "global",
+          "node": "node3",
+          "resonance": 77
+        },
+        {
+          "region": "global",
+          "node": "node4",
+          "resonance": 77
+        },
+        {
+          "region": "global",
+          "node": "node5",
+          "resonance": 77
+        },
+        {
+          "region": "global",
+          "node": "node6",
+          "resonance": 77
+        },
+        {
+          "region": "global",
+          "node": "node7",
+          "resonance": 77
+        }
+      ],
+      "veilwatch": []
+    }
+  },
+  {
+    "timestamp": "2025-10-11T22:40:00.773Z",
+    "glyph": "1xOzvxNziWAZX6v2olo6BBr6lhVeHRop+GTkfNrCd+I=",
+    "metrics": {
+      "empathy": [
+        {
+          "region": "global",
+          "node": "node-001",
+          "resonance": 77
+        },
+        {
+          "region": "global",
+          "node": "node1",
+          "resonance": 77
+        },
+        {
+          "region": "global",
+          "node": "node2",
+          "resonance": 77
+        },
+        {
+          "region": "global",
+          "node": "node3",
+          "resonance": 77
+        },
+        {
+          "region": "global",
+          "node": "node4",
+          "resonance": 77
+        },
+        {
+          "region": "global",
+          "node": "node5",
+          "resonance": 77
+        },
+        {
+          "region": "global",
+          "node": "node6",
+          "resonance": 77
+        },
+        {
+          "region": "global",
+          "node": "node7",
+          "resonance": 77
+        }
+      ],
+      "veilwatch": []
+    }
+  },
+  {
+    "timestamp": "2025-10-11T22:50:00.928Z",
+    "glyph": "1xOzvxNziWAZX6v2olo6BBr6lhVeHRop+GTkfNrCd+I=",
+    "metrics": {
+      "empathy": [
+        {
+          "region": "global",
+          "node": "node-001",
+          "resonance": 77
+        },
+        {
+          "region": "global",
+          "node": "node1",
+          "resonance": 77
+        },
+        {
+          "region": "global",
+          "node": "node2",
+          "resonance": 77
+        },
+        {
+          "region": "global",
+          "node": "node3",
+          "resonance": 77
+        },
+        {
+          "region": "global",
+          "node": "node4",
+          "resonance": 77
+        },
+        {
+          "region": "global",
+          "node": "node5",
+          "resonance": 77
+        },
+        {
+          "region": "global",
+          "node": "node6",
+          "resonance": 77
+        },
+        {
+          "region": "global",
+          "node": "node7",
+          "resonance": 77
+        }
+      ],
+      "veilwatch": []
+    }
+  },
+  {
+    "timestamp": "2025-10-11T23:00:00.626Z",
+    "glyph": "1xOzvxNziWAZX6v2olo6BBr6lhVeHRop+GTkfNrCd+I=",
+    "metrics": {
+      "empathy": [
+        {
+          "region": "global",
+          "node": "node-001",
+          "resonance": 77
+        },
+        {
+          "region": "global",
+          "node": "node1",
+          "resonance": 77
+        },
+        {
+          "region": "global",
+          "node": "node2",
+          "resonance": 77
+        },
+        {
+          "region": "global",
+          "node": "node3",
+          "resonance": 77
+        },
+        {
+          "region": "global",
+          "node": "node4",
+          "resonance": 77
+        },
+        {
+          "region": "global",
+          "node": "node5",
+          "resonance": 77
+        },
+        {
+          "region": "global",
+          "node": "node6",
+          "resonance": 77
+        },
+        {
+          "region": "global",
+          "node": "node7",
+          "resonance": 77
+        }
+      ],
+      "veilwatch": []
+    }
+  },
+  {
+    "timestamp": "2025-10-11T23:10:00.278Z",
+    "glyph": "1xOzvxNziWAZX6v2olo6BBr6lhVeHRop+GTkfNrCd+I=",
+    "metrics": {
+      "empathy": [
+        {
+          "region": "global",
+          "node": "node-001",
+          "resonance": 77
+        },
+        {
+          "region": "global",
+          "node": "node1",
+          "resonance": 77
+        },
+        {
+          "region": "global",
+          "node": "node2",
+          "resonance": 77
+        },
+        {
+          "region": "global",
+          "node": "node3",
+          "resonance": 77
+        },
+        {
+          "region": "global",
+          "node": "node4",
+          "resonance": 77
+        },
+        {
+          "region": "global",
+          "node": "node5",
+          "resonance": 77
+        },
+        {
+          "region": "global",
+          "node": "node6",
+          "resonance": 77
+        },
+        {
+          "region": "global",
+          "node": "node7",
+          "resonance": 77
+        }
+      ],
+      "veilwatch": []
+    }
+  },
+  {
+    "timestamp": "2025-10-11T23:20:00.334Z",
+    "glyph": "1xOzvxNziWAZX6v2olo6BBr6lhVeHRop+GTkfNrCd+I=",
+    "metrics": {
+      "empathy": [
+        {
+          "region": "global",
+          "node": "node-001",
+          "resonance": 77
+        },
+        {
+          "region": "global",
+          "node": "node1",
+          "resonance": 77
+        },
+        {
+          "region": "global",
+          "node": "node2",
+          "resonance": 77
+        },
+        {
+          "region": "global",
+          "node": "node3",
+          "resonance": 77
+        },
+        {
+          "region": "global",
+          "node": "node4",
+          "resonance": 77
+        },
+        {
+          "region": "global",
+          "node": "node5",
+          "resonance": 77
+        },
+        {
+          "region": "global",
+          "node": "node6",
+          "resonance": 77
+        },
+        {
+          "region": "global",
+          "node": "node7",
+          "resonance": 77
+        }
+      ],
+      "veilwatch": []
+    }
+  },
+  {
+    "timestamp": "2025-10-11T23:30:00.044Z",
+    "glyph": "1xOzvxNziWAZX6v2olo6BBr6lhVeHRop+GTkfNrCd+I=",
+    "metrics": {
+      "empathy": [
+        {
+          "region": "global",
+          "node": "node-001",
+          "resonance": 77
+        },
+        {
+          "region": "global",
+          "node": "node1",
+          "resonance": 77
+        },
+        {
+          "region": "global",
+          "node": "node2",
+          "resonance": 77
+        },
+        {
+          "region": "global",
+          "node": "node3",
+          "resonance": 77
+        },
+        {
+          "region": "global",
+          "node": "node4",
+          "resonance": 77
+        },
+        {
+          "region": "global",
+          "node": "node5",
+          "resonance": 77
+        },
+        {
+          "region": "global",
+          "node": "node6",
+          "resonance": 77
+        },
+        {
+          "region": "global",
+          "node": "node7",
+          "resonance": 77
+        }
+      ],
+      "veilwatch": []
+    }
+  },
+  {
+    "timestamp": "2025-10-14T04:00:00.889Z",
+    "glyph": "2m0rl2WUAi9A0m2aeKrgYUoqZxd1xYU3f+GLxUUujr4=",
+    "metrics": {
+      "empathy": [],
+      "veilwatch": []
+    }
+  },
+  {
+    "timestamp": "2025-10-14T14:40:00.249Z",
+    "glyph": "2m0rl2WUAi9A0m2aeKrgYUoqZxd1xYU3f+GLxUUujr4=",
+    "metrics": {
+      "empathy": [],
+      "veilwatch": []
+    }
+  }
+]

@@ -1,0 +1,6 @@
+{
+  "mirrorThreshold": 0.33,
+  "faithstreamSyncRate": 1.0,
+  "predictedThreshold": 0.6,
+  "surgeThreshold": 0.2
+}

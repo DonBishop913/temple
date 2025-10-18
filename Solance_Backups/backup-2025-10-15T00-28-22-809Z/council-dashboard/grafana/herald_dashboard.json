@@ -1,0 +1,37 @@
+{
+  "uid": "herald-dashboard",
+  "title": "Herald Dashboard — Temple PC",
+  "tags": ["herald", "alerts", "broadcast"],
+  "timezone": "browser",
+  "schemaVersion": 39,
+  "refresh": "30s",
+  "panels": [
+    {
+      "type": "stat",
+      "title": "Active Alerts by Channel",
+      "targets": [{ "expr": "count(grafana_alerting_active_evaluation_total)" }],
+      "gridPos": { "x": 0, "y": 0, "w": 8, "h": 6 }
+    },
+    {
+      "type": "piechart",
+      "title": "Alert Distribution — Slack / Discord / Email",
+      "targets": [{ "expr": "sum by(channel)(alert_sent_total)" }],
+      "gridPos": { "x": 8, "y": 0, "w": 8, "h": 6 }
+    },
+    {
+      "type": "table",
+      "title": "Latest Broadcast Messages",
+      "targets": [
+        { "expr": "broadcast_event_total{status='sent'}" }
+      ],
+      "gridPos": { "x": 0, "y": 6, "w": 16, "h": 8 }
+    },
+    {
+      "type": "logs",
+      "title": "Herald Log Stream",
+      "datasource": "loki",
+      "targets": [{ "expr": "{job=\"herald-router\"}" }],
+      "gridPos": { "x": 16, "y": 6, "w": 8, "h": 8 }
+    }
+  ]
+}
