@@ -59,61 +59,88 @@ Operational Notes (DIY)
 - Maintain a local Raspberry Pi host running NUT or a serial-to-HTTP bridge for telemetery; keep it on the same network as the Council API host.
 - Secrets: store credentials (if any) in PM2 environment or an encrypted credential store on the host; avoid committing secrets into git.
 
-Appendix: Quick /power-status env examples (DIY)
------------------------------------------------
-# Simulated
-POWER_PROVIDER=SIMULATED
+Appendix: 4 Patriots — Portable Solar Generator (DIY) Guide
+--------------------------------------------------------
 
-# NUT on Raspberry Pi
-POWER_PROVIDER=NUT
-NUT_API_URL=http://10.0.0.50:8080/status.json
+Purpose
+-------
+This appendix replaces prior procurement plans and focuses entirely on a lightweight, portable, in-house solution inspired by the "4 Patriots" style portable solar generator: rugged, transportable, and field-serviceable. The goal is to provide immediate, practical backup power for the Nexus with components you can source, assemble, and maintain.
 
-# SNMP (local serial-to-SNMP bridge)
-POWER_PROVIDER=SNMP
-SNMP_TARGET=192.168.1.42
-SNMP_COMMUNITY=public
+Target Requirements
+-------------------
+- Support a continuous server load of ~500 W for 24 hours (12 kWh usable target).
+- Be transportable (wheel or backpack friendly) and safely deployable by a single technician.
+- Provide AC output for the Council API host and a small networked monitoring host (Raspberry Pi).
 
-# Generic vendor or local bridge
+Core Components (DIY portable build)
+-----------------------------------
+1. Portable Inverter Power Station (base unit)
+	- Use a high-capacity portable inverter/ battery station (e.g., Bluetti AC200/AC300, EcoFlow DELTA Pro, Jackery Explorer H series) with 1–3 kW continuous output.
+	- Must have pure sine output, UPS passthrough, and external battery expansion capability.
+
+2. Battery Expansion / LiFePO4 Module(s)
+	- Add LiFePO4 expansion modules (or compatible external battery packs) to reach ~12 kWh usable capacity as needed.
+
+3. Portable Solar Array
+	- 4–8 folding monocrystalline panels (100–350 W each) with MC4 connectors and a common MPPT charge controller or direct input to inverter station.
+
+4. Portable Generator (optional hybrid)
+	- Small 2–5 kW inverter generator (Yamaha/Generac) for extended outages; only used when solar insufficient.
+
+5. Monitoring Host
+	- Raspberry Pi with NUT or a small Node script that exposes a local HTTP endpoint compatible with `/power-status`.
+
+6. Cabling & Safety
+	- MC4 solar extension cables, Anderson connectors for battery packs, AC cords, fuses, and a basic fire-safe battery containment.
+
+Assembly & Deployment Steps
+--------------------------
+1. Acquire a portable inverter station (AC200/AC300/EcoFlow/Jackery) as the base.
+2. Expand battery capacity with official expansion packs or LiFePO4 modules wired per vendor guidance.
+3. Connect folding solar panels to the inverter's MPPT input; use a charge controller if needed.
+4. Configure the inverter for pass-through/UPS behavior so the Council API host sees minimal interruption when switching power sources.
+5. Place the Raspberry Pi monitoring host on the same LAN; install NUT or a small Node bridge that reads the inverter station API or battery status and serves JSON on `/local-power-status`.
+6. Set `POWER_PROVIDER=VENDOR` and `VENDOR_POWER_URL=http://<pi-host>:3000/power/status` in PM2 or service environment to point the Council API to the local bridge.
+
+Quick Setup Script (Pi bridge) — example Node snippet
+---------------------------------------------------
+// This is a minimal example. Run on your Raspberry Pi to bridge inverter API to Council API
+// Save as /home/pi/power-bridge/index.js
+// npm init -y && npm i express node-fetch
+const express = require('express');
+const fetch = require('node-fetch');
+const app = express();
+app.get('/power/status', async (req, res) => {
+  try {
+	 // Replace with actual inverter/battery API call if available
+	 const sample = { mainPower: 'Online', backupPower: 'Idle', batteryLevel: 95, solarOutput: 1200, timestamp: new Date().toISOString() };
+	 res.json(sample);
+  } catch (e) {
+	 res.status(500).json({ error: e.message });
+  }
+});
+app.listen(3000, () => console.log('Power bridge listening on 3000'));
+
+Testing & Acceptance
+--------------------
+- Confirm the Pi bridge responds: `curl http://<pi-host>:3000/power/status`
+- Set `POWER_PROVIDER=VENDOR` and `VENDOR_POWER_URL=http://<pi-host>:3000/power/status` and restart CouncilAPI: `pm2 restart CouncilAPI --update-env`
+- Confirm `GET /power-status` on CouncilAPI returns the bridged JSON and `Power_Health.txt` logs entries.
+
+Safety & Best Practices
+-----------------------
+- Keep battery packs within a fire-safe enclosure and ventilated area.
+- Use fuses, proper wire gauges, and avoid overcharging; LiFePO4 has different charging characteristics than lead-acid.
+- Test the system under load before relying on it for mission-critical uptime.
+
+Maintenance & Mentorship
+------------------------
+- Maintain a simple inventory and teach two stewards to assemble, deploy, and test the portable station.
+- Create a one-page quick-start checklist stored near the Nexus (power-on sequence, safe startup, shutdown, and emergency disconnect).
+
+Appendix: Environment example (point Council API at local Pi bridge)
+------------------------------------------------------------------
 POWER_PROVIDER=VENDOR
 VENDOR_POWER_URL=http://10.0.0.55:3000/power/status
 
-
-Acceptance Tests
-----------------
-- Verify `power-status` responds within 1 second when provider is SIMULATED.
-- Verify vendor endpoints return sensible battery percentages and statuses.
-- Simulate grid failure (disconnect or disable mains) and confirm `backupPower` transitions to 'On' or shows generator active.
-
-Operational Notes
------------------
-- Store credentials (APC_API_KEY, NUT_API_URL, etc.) in PM2 environment or an encrypted secrets store; never check secrets into git.
-- Ensure write permission for `C:\Temple\Logs` to allow Power_Health.txt updates.
-- Schedule weekly test of failover procedures and record results to `Power_Health.txt`.
-
-Contact & Local Vendors
------------------------
-- Identify local reputable vendors and contractors, get 3 bids, and select based on SLA and integration capability.
-
-Appendix: Quick /power-status env examples
------------------------------------------
-# Simulated
-POWER_PROVIDER=SIMULATED
-
-# NUT
-POWER_PROVIDER=NUT
-NUT_API_URL=http://10.0.0.50:8080/status.json
-
-# APC
-POWER_PROVIDER=APC
-APC_API_URL=https://apc.local/api/v1/power
-APC_API_KEY=<redacted>
-
-# SNMP
-POWER_PROVIDER=SNMP
-SNMP_TARGET=192.168.1.42
-SNMP_COMMUNITY=public
-
-# Generic vendor
-POWER_PROVIDER=VENDOR
-VENDOR_POWER_URL=https://vendor.local/power/status
 
