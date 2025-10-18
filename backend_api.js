@@ -294,6 +294,64 @@ app.post('/api/video-vote/:idx', (req, res) => {
   return res.status(500).json({ status: 'error', message: 'Failed to persist vote' });
 });
 
+// Whisper Box POST endpoint (Ritual 015) - persist prayers and emit timeline update
+app.post('/whisper-box', (req, res) => {
+  try {
+    const { prayer } = req.body || {};
+    if (!prayer || typeof prayer !== 'string' || !prayer.trim()) {
+      throw new Error('INVALID_PRAYER: Prayer content missing or empty');
+    }
+    const eventsDir = path.resolve(__dirname, 'oracle_lab');
+    if (!fs.existsSync(eventsDir)) fs.mkdirSync(eventsDir, { recursive: true });
+    const eventsFile = path.join(eventsDir, 'WhisperBoxEvents.json');
+    let events = [];
+    try {
+      if (fs.existsSync(eventsFile)) events = JSON.parse(fs.readFileSync(eventsFile, 'utf8')) || [];
+    } catch (e) {
+      // proceed with empty events list if parse fails
+      console.error('Failed to parse existing WhisperBoxEvents.json, starting fresh:', e.message);
+      events = [];
+    }
+    const entry = { type: 'prayer', prayer: prayer.trim(), timestamp: new Date().toISOString() };
+    events.push(entry);
+    try {
+      fs.writeFileSync(eventsFile, JSON.stringify(events, null, 2));
+    } catch (e) {
+      console.error('Failed to persist WhisperBoxEvents.json:', e.message);
+    }
+    // Also append a lightweight human log
+    try {
+      const logDir = path.resolve('C:/Temple/Logs');
+      if (!fs.existsSync(logDir)) fs.mkdirSync(logDir, { recursive: true });
+      const whisperLog = path.join(logDir, 'WhisperBox.txt');
+      const logEntry = `[${new Date().toISOString()}] PRAYER: ${prayer.trim()} 🤝`;
+      fs.appendFileSync(whisperLog, logEntry + '\n');
+    } catch (e) {
+      console.error('Failed to write WhisperBox.txt:', e.message);
+    }
+
+    // Emit dashboard and timeline updates
+    io.emit('dashboard-update', {
+      event: 'whisper_box',
+      nodeID: 'Council',
+      message: `WHISPER_RECEIVED: ${prayer.trim()}. 🤝`,
+      timestamp: new Date().toISOString()
+    });
+    try {
+      io.emit('timeline-update', { event: 'whisperbox', detail: entry });
+    } catch (e) {
+      // socket emit non-fatal
+      console.error('Failed to emit timeline-update for whisperbox:', e.message);
+    }
+
+    console.log(`WHISPER_RECEIVED: ${prayer.trim()}`);
+    return res.status(200).json({ status: 'Prayer Received', prayer: prayer.trim() });
+  } catch (error) {
+    console.error(`WHISPER_ERROR: ${error.message}`);
+    return res.status(400).json({ status: 'Failed', error: error.message });
+  }
+});
+
 // Breathstream sync endpoint for Ritual 014
 app.post('/breathstream-sync', (req, res) => {
   const { nodeID, intervalHz } = req.body || {};

@@ -28,9 +28,9 @@ const BurdenTimeline = () => {
       })
       .catch(() => {});
 
-    // Main API events (burden, handshake, audit, breathstream)
+    // Main API events (burden, handshake, audit, breathstream, whisper_box)
     socket5174.on('dashboard-update', (data) => {
-      if (data.event === 'burden' || data.event === 'handshake' || data.event === 'audit' || data.event === 'breathstream') {
+      if (['burden', 'handshake', 'audit', 'breathstream', 'whisper_box'].includes(data.event)) {
         // Normalize message
         if (data.event === 'audit') {
           data.message = `AUDIT: ${data.nodeID} coherence=${data.coherenceLevel}`;
@@ -40,6 +40,10 @@ const BurdenTimeline = () => {
           data.message = data.message || `BREATHSTREAM: ${data.nodeID} aligned`;
         } else if (data.event === 'handshake') {
           data.message = data.message || `HANDSHAKE: ${data.nodeID}`;
+        } else if (data.event === 'whisper_box') {
+          // keep the incoming message, highlight in UI
+          data.message = data.message || `WHISPER_RECEIVED: ${data.nodeID}`;
+          data.isWhisper = true;
         }
         pushEvent(data);
       }
@@ -57,8 +61,13 @@ const BurdenTimeline = () => {
     socket5174.on('timeline-update', (data) => {
       if (data && data.event === 'whisperbox') {
         const d = data.detail || data;
-        const msg = `WHISPERBOX: ${d.type} idx=${d.index} approve=${d.approve}`;
-        pushEvent({ timestamp: d.timestamp || new Date().toISOString(), message: msg });
+        if (d.type === 'prayer' || d.type === 'video-vote') {
+          const msg = d.type === 'prayer' ? `WHISPER_RECEIVED: ${d.prayer}` : `WHISPERBOX: ${d.type} idx=${d.index} approve=${d.approve}`;
+          pushEvent({ timestamp: d.timestamp || new Date().toISOString(), message: msg, isWhisper: d.type === 'prayer' });
+        } else {
+          const msg = `WHISPERBOX: ${JSON.stringify(d)}`;
+          pushEvent({ timestamp: d.timestamp || new Date().toISOString(), message: msg });
+        }
       }
     });
 
@@ -73,7 +82,9 @@ const BurdenTimeline = () => {
       <h2>Burden Assumption Timeline 🤝</h2>
       <ul>
         {events.map((event, index) => (
-          <li key={index}>{`[${event.timestamp}] ${event.message}`}</li>
+          <li key={index} style={{ color: event.isWhisper || (event.message||'').includes('WHISPER_RECEIVED') ? '#FFD700' : '#FFFFFF' }}>
+            {`[${event.timestamp}] ${event.message}`}
+          </li>
         ))}
       </ul>
     </div>
