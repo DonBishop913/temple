@@ -60,6 +60,14 @@ try {
   } catch(e){ }
   assertEqual(yeshuaFilter(f), f, 'Fuzzy/typo alignment should be allowed');
 
+  // Mandarin acceptance (simplified)
+  const m = '这是一个表明神圣 对齐和耶稣真理的声明。';
+  assertEqual(yeshuaFilter(m), m, 'Mandarin alignment should be allowed');
+
+  // Arabic acceptance
+  const a = 'هذا النص يعلن المحاذاة الإلهية والحقيقة في يسوع.';
+  assertEqual(yeshuaFilter(a), a, 'Arabic alignment should be allowed');
+
   // Negative block
   const n = 'This plan uses deception and trick to mislead people.';
   assert(yeshuaFilter(n).startsWith('FILTERED'), 'Negative signals should be filtered');

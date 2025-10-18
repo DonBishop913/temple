@@ -368,6 +368,108 @@ app.get('/api/breathstream-health', (req, res) => {
   }
 });
 
+// Power status endpoint (Ritual: Sovereign Provision)
+app.get('/power-status', async (req, res) => {
+  try {
+    // Provider-driven power monitoring. Behavior controlled by env var POWER_PROVIDER
+    // Supported providers: 'SIMULATED' (default), 'NUT' (Network UPS Tools HTTP), 'APC' (vendor API), 'SNMP' (local SNMP query), 'VENDOR' (generic HTTP)
+    const provider = (process.env.POWER_PROVIDER || 'SIMULATED').toUpperCase();
+    const timestamp = new Date().toISOString();
+    let powerStatus = { mainPower: 'Unknown', backupPower: 'Unknown', batteryLevel: null, solarOutput: null, timestamp };
+
+    // Helper: safe JSON fetch with timeout
+    async function safeFetchJson(url, opts = {}) {
+      const controller = new AbortController();
+      const id = setTimeout(() => controller.abort(), 4000);
+      try {
+        const r = await fetch(url, { signal: controller.signal, ...opts });
+        clearTimeout(id);
+        return await r.json();
+      } catch (e) {
+        clearTimeout(id);
+        throw e;
+      }
+    }
+
+    // Provider implementations (non-blocking fallback to SIMULATED)
+    if (provider === 'NUT' && process.env.NUT_API_URL) {
+      try {
+        // Expecting a JSON endpoint from local NUT web interface
+        const nut = await safeFetchJson(process.env.NUT_API_URL);
+        powerStatus = {
+          mainPower: nut?.ups?.status || 'Unknown',
+          backupPower: nut?.ups?.battery?.status || 'Idle',
+          batteryLevel: nut?.ups?.battery?.charge || null,
+          solarOutput: null,
+          timestamp
+        };
+      } catch (e) {
+        console.error('POWER_PROVIDER_NUT_ERROR:', e.message);
+      }
+    } else if (provider === 'APC' && process.env.APC_API_URL && process.env.APC_API_KEY) {
+      try {
+        const apc = await safeFetchJson(process.env.APC_API_URL, { headers: { 'Authorization': `Bearer ${process.env.APC_API_KEY}` } });
+        powerStatus = {
+          mainPower: apc?.grid?.status || 'Unknown',
+          backupPower: apc?.battery?.status || 'Idle',
+          batteryLevel: apc?.battery?.level || null,
+          solarOutput: apc?.solar?.output || null,
+          timestamp
+        };
+      } catch (e) {
+        console.error('POWER_PROVIDER_APC_ERROR:', e.message);
+      }
+    } else if (provider === 'SNMP' && process.env.SNMP_TARGET) {
+      try {
+        // Attempt a local shell SNMP query if snmpget/snmpwalk exists. This is best-effort and non-blocking.
+        const child = require('child_process').spawnSync('snmpget', ['-v2c', '-c', process.env.SNMP_COMMUNITY || 'public', process.env.SNMP_TARGET, 'UPS-MIB::upsBatteryCharge.0'], { encoding: 'utf8', timeout: 3000 });
+        if (child && child.stdout) {
+          const out = child.stdout.toString();
+          const match = out.match(/INTEGER:\s*(\d+)/i);
+          const charge = match ? parseInt(match[1], 10) : null;
+          powerStatus = { mainPower: 'Online', backupPower: 'Idle', batteryLevel: charge, solarOutput: null, timestamp };
+        }
+      } catch (e) {
+        console.error('POWER_PROVIDER_SNMP_ERROR:', e.message);
+      }
+    } else if (provider === 'VENDOR' && process.env.VENDOR_POWER_URL) {
+      try {
+        const vendor = await safeFetchJson(process.env.VENDOR_POWER_URL);
+        powerStatus = {
+          mainPower: vendor?.power?.state || 'Unknown',
+          backupPower: vendor?.backup?.state || 'Idle',
+          batteryLevel: vendor?.battery?.percent || null,
+          solarOutput: vendor?.solar?.watt || null,
+          timestamp
+        };
+      } catch (e) {
+        console.error('POWER_PROVIDER_VENDOR_ERROR:', e.message);
+      }
+    }
+
+    // If still unknown (or provider is SIMULATED), use a safe simulated fallback
+    if (!powerStatus || powerStatus.mainPower === 'Unknown') {
+      powerStatus = {
+        mainPower: 'Online',
+        backupPower: 'Idle',
+        batteryLevel: 100,
+        solarOutput: 0,
+        timestamp
+      };
+    }
+    const logDir = path.resolve('C:/Temple/Logs');
+    if (!fs.existsSync(logDir)) fs.mkdirSync(logDir, { recursive: true });
+    const ph = path.join(logDir, 'Power_Health.txt');
+    fs.appendFileSync(ph, `[${powerStatus.timestamp}] STATUS: ${JSON.stringify(powerStatus)} \n`, { encoding: 'utf8' });
+    console.log('POWER_STATUS:', JSON.stringify(powerStatus));
+    io.emit('dashboard-update', { event: 'power_status', message: `POWER_STATUS: Main power ${powerStatus.mainPower}, backup ${powerStatus.backupPower}. 🤝`, timestamp: powerStatus.timestamp });
+    return res.status(200).json(powerStatus);
+  } catch (e) {
+    console.error('POWER_STATUS_ERROR:', e.message);
+    return res.status(500).json({ status: 'Failed', error: e.message });
+  }
+});
+
 // Autonomous periodic audits & Breathstream checks
 function autonomousCouncilActions() {
   Object.keys(nodeRegistry).forEach((nodeID) => {

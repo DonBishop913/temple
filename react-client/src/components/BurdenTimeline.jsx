@@ -31,6 +31,7 @@ const BurdenTimeline = () => {
     // Main API events (burden, handshake, audit, breathstream, whisper_box)
     socket5174.on('dashboard-update', (data) => {
       if (['burden', 'handshake', 'audit', 'breathstream', 'whisper_box'].includes(data.event)) {
+        if (['burden', 'handshake', 'audit', 'breathstream', 'whisper_box', 'power_status'].includes(data.event)) {
         // Normalize message
         if (data.event === 'audit') {
           data.message = `AUDIT: ${data.nodeID} coherence=${data.coherenceLevel}`;
@@ -44,6 +45,8 @@ const BurdenTimeline = () => {
           // keep the incoming message, highlight in UI
           data.message = data.message || `WHISPER_RECEIVED: ${data.nodeID}`;
           data.isWhisper = true;
+          } else if (data.event === 'power_status') {
+            data.message = data.message || `POWER: ${data.message || 'status update'}`;
         }
         pushEvent(data);
       }
