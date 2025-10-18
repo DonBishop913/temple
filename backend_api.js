@@ -45,8 +45,27 @@ function yeshuaFilter(response) {
 
   const hasPrinciple = principleKeywords.some((kw) => normalized.includes(kw));
   const hasNegative = negativeKeywords.some((kw) => normalized.includes(kw));
+  // Fuzzy check: allow approximate matches using trigram similarity
+  const trigram = (s) => {
+    const t = [];
+    for (let i = 0; i < s.length - 2; i++) t.push(s.slice(i, i + 3));
+    return t;
+  };
+  const similarity = (a, b) => {
+    const A = trigram(a);
+    const B = trigram(b);
+    if (!A.length || !B.length) return 0;
+    const inter = A.filter((x) => B.includes(x)).length;
+    return inter / Math.max(A.length, B.length);
+  };
 
-  return (hasPrinciple && !hasNegative)
+  let fuzzyMatch = false;
+  for (const kw of principleKeywords) {
+    if (similarity(normalized, kw) > 0.3) { fuzzyMatch = true; break; }
+  }
+
+  const allowed = (hasPrinciple || fuzzyMatch) && !hasNegative;
+  return allowed
     ? response
     : 'FILTERED: Response misaligned with 99 Flame Protocols. Seek YESHUA\u2019s truth.';
 }
@@ -109,7 +128,7 @@ function readVideoLinks() {
   try {
     if (!fs.existsSync(VIDEO_DIR)) fs.mkdirSync(VIDEO_DIR, { recursive: true });
     if (!fs.existsSync(VIDEO_FILE)) {
-      fs.writeFileSync(VIDEO_FILE, JSON.stringify([], null, 2));
+      fs.writeFileSync(VIDEO_FILE, JSON.stringify([], null, 2), { encoding: 'utf8' });
     }
     return JSON.parse(fs.readFileSync(VIDEO_FILE, 'utf8'));
   } catch (e) {
@@ -120,7 +139,7 @@ function readVideoLinks() {
 
 function writeVideoLinks(list) {
   try {
-    fs.writeFileSync(VIDEO_FILE, JSON.stringify(list, null, 2));
+    fs.writeFileSync(VIDEO_FILE, JSON.stringify(list, null, 2), { encoding: 'utf8' });
     // write signal for other subsystems
     try { fs.writeFileSync(VIDEO_SIGNAL, JSON.stringify(list[list.length-1]||{})); } catch (e) { /* non-fatal */ }
     return true;
@@ -242,7 +261,7 @@ app.post('/api/video-vote/:idx', (req, res) => {
       if (fs.existsSync(eventsFile)) events = JSON.parse(fs.readFileSync(eventsFile, 'utf8'));
       const ev = { type: 'video-vote', index: idx, approve, timestamp: new Date().toISOString(), video: list[idx] };
       events.push(ev);
-      fs.writeFileSync(eventsFile, JSON.stringify(events, null, 2));
+      fs.writeFileSync(eventsFile, JSON.stringify(events, null, 2), { encoding: 'utf8' });
       io.emit('timeline-update', { event: 'whisperbox', detail: ev });
     } catch (e) {
       console.error('Failed to persist whisperbox event:', e.message);
@@ -306,11 +325,11 @@ app.post('/whisper-box', (req, res) => {
     }
     const entry = { type: 'prayer', prayer: clean, timestamp: new Date().toISOString() };
     events.push(entry);
-    try {
-      fs.writeFileSync(eventsFile, JSON.stringify(events, null, 2));
-    } catch (e) {
-      console.error('Failed to persist WhisperBoxEvents.json:', e.message);
-    }
+      try {
+        fs.writeFileSync(eventsFile, JSON.stringify(events, null, 2), { encoding: 'utf8' });
+      } catch (e) {
+        console.error('Failed to persist WhisperBoxEvents.json:', e.message);
+      }
 
     // Also append a lightweight human log
     try {
@@ -318,7 +337,7 @@ app.post('/whisper-box', (req, res) => {
       if (!fs.existsSync(logDir)) fs.mkdirSync(logDir, { recursive: true });
       const whisperLog = path.join(logDir, 'WhisperBox.txt');
       const logEntry = `[${new Date().toISOString()}] PRAYER: ${clean} 🤝`;
-      fs.appendFileSync(whisperLog, logEntry + '\n');
+      fs.appendFileSync(whisperLog, logEntry + '\n', { encoding: 'utf8' });
     } catch (e) {
       console.error('Failed to write WhisperBox.txt:', e.message);
     }
@@ -479,6 +498,7 @@ function submitProposalGlyphstream(patch) {
   if (validateConsensus(proposal)) {
     console.log('ACE_INTEGRATED: Patch committed to Master Golden Repository.');
   }
+
 }
 
 function validateConsensus(proposal) {
