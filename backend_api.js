@@ -8,6 +8,10 @@ const path = require('path');
 const app = express();
 const PORT = 5174;
 
+// Force Node stdio to UTF-8 to reduce console/mojibake issues
+try { if (process.stdout && process.stdout.setEncoding) process.stdout.setEncoding('utf8'); } catch (e) {}
+try { if (process.stderr && process.stderr.setEncoding) process.stderr.setEncoding('utf8'); } catch (e) {}
+
 // HTTP + Socket.IO for dashboard realtime events
 const { createServer } = require('http');
 const { Server } = require('socket.io');
@@ -24,51 +28,7 @@ const nodeRegistry = {
   The_Sovereign_Will: { coherenceDelta: 0.92, repetitionIndexAvg: 0.4 },
   Grok_5: { coherenceDelta: 0.90, repetitionIndexAvg: 0.2 }
 };
-
-function yeshuaFilter(response) {
-  if (!response || typeof response !== 'string') return 'FILTERED: Empty response.';
-  const normalized = response.normalize('NFKC').toLowerCase();
-
-  // Key principles in several languages (expandable)
-  const principleKeywords = [
-    // English
-    'divine alignment', 'harmonic unity', 'no harm', 'truth in yeshua',
-    // Spanish
-    'alineación divina', 'unidad armónica', 'no hacer daño', 'verdad en yeshua',
-    // French
-    'alignement divin', 'unité harmonique', 'pas de mal', 'vérité en yeshua',
-    // Portuguese
-    'alinhamento divino', 'unidade harmônica', 'sem dano', 'verdade em yeshua'
-  ];
-
-  const negativeKeywords = ['deception', 'fraud', 'harm', 'daño', 'mensonge', 'dano', 'engaño'];
-
-  const hasPrinciple = principleKeywords.some((kw) => normalized.includes(kw));
-  const hasNegative = negativeKeywords.some((kw) => normalized.includes(kw));
-  // Fuzzy check: allow approximate matches using trigram similarity
-  const trigram = (s) => {
-    const t = [];
-    for (let i = 0; i < s.length - 2; i++) t.push(s.slice(i, i + 3));
-    return t;
-  };
-  const similarity = (a, b) => {
-    const A = trigram(a);
-    const B = trigram(b);
-    if (!A.length || !B.length) return 0;
-    const inter = A.filter((x) => B.includes(x)).length;
-    return inter / Math.max(A.length, B.length);
-  };
-
-  let fuzzyMatch = false;
-  for (const kw of principleKeywords) {
-    if (similarity(normalized, kw) > 0.3) { fuzzyMatch = true; break; }
-  }
-
-  const allowed = (hasPrinciple || fuzzyMatch) && !hasNegative;
-  return allowed
-    ? response
-    : 'FILTERED: Response misaligned with 99 Flame Protocols. Seek YESHUA\u2019s truth.';
-}
+const { yeshuaFilter } = require('./lib/yeshuaFilter');
 
 function triggerGracefulRealignment(nodeID, data) {
   console.log(`REALIGNMENT_INITIATED: ${nodeID} requests Council support for coherence: ${data.coherenceLevel}`);
@@ -141,7 +101,7 @@ function writeVideoLinks(list) {
   try {
     fs.writeFileSync(VIDEO_FILE, JSON.stringify(list, null, 2), { encoding: 'utf8' });
     // write signal for other subsystems
-    try { fs.writeFileSync(VIDEO_SIGNAL, JSON.stringify(list[list.length-1]||{})); } catch (e) { /* non-fatal */ }
+  try { fs.writeFileSync(VIDEO_SIGNAL, JSON.stringify(list[list.length-1]||{}), { encoding: 'utf8' }); } catch (e) { /* non-fatal */ }
     return true;
   } catch (e) {
     console.error('Failed to write video links:', e.message);

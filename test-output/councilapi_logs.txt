@@ -1,0 +1,591 @@
+﻿[1m[90m[TAILING] Tailing last 100 lines for [CouncilAPI] process (change the value with --lines option)[39m[22m
+[90mC:\Temple\logs\backend.err.log last 100 lines:[39m
+[31m1|CouncilA | [39m    at listenInCluster (node:net:1997:12)
+[31m1|CouncilA | [39m    at Server.listen (node:net:2102:7)
+[31m1|CouncilA | [39m    at new WebSocketServer (C:\Temple\node_modules\ws\lib\websocket-server.js:102:20)
+[31m1|CouncilA | [39m    at Object.<anonymous> (C:\Temple\alertServer.js:2:13)
+[31m1|CouncilA | [39m    at Module._compile (node:internal/modules/cjs/loader:1706:14)
+[31m1|CouncilA | [39m    at Object..js (node:internal/modules/cjs/loader:1839:10)
+[31m1|CouncilA | [39m    at Module.load (node:internal/modules/cjs/loader:1441:32)
+[31m1|CouncilA | [39m    at Function._load (node:internal/modules/cjs/loader:1263:12)
+[31m1|CouncilA | [39m    at TracingChannel.traceSync (node:diagnostics_channel:322:14) {
+[31m1|CouncilA | [39m  code: 'EADDRINUSE',
+[31m1|CouncilA | [39m  errno: -4091,
+[31m1|CouncilA | [39m  syscall: 'listen',
+[31m1|CouncilA | [39m  address: '::',
+[31m1|CouncilA | [39m  port: 8085
+[31m1|CouncilA | [39m}
+[31m1|CouncilA | [39mError: listen EADDRINUSE: address already in use :::8085
+[31m1|CouncilA | [39m    at Server.setupListenHandle [as _listen2] (node:net:1940:16)
+[31m1|CouncilA | [39m    at listenInCluster (node:net:1997:12)
+[31m1|CouncilA | [39m    at Server.listen (node:net:2102:7)
+[31m1|CouncilA | [39m    at new WebSocketServer (C:\Temple\node_modules\ws\lib\websocket-server.js:102:20)
+[31m1|CouncilA | [39m    at Object.<anonymous> (C:\Temple\alertServer.js:2:13)
+[31m1|CouncilA | [39m    at Module._compile (node:internal/modules/cjs/loader:1706:14)
+[31m1|CouncilA | [39m    at Object..js (node:internal/modules/cjs/loader:1839:10)
+[31m1|CouncilA | [39m    at Module.load (node:internal/modules/cjs/loader:1441:32)
+[31m1|CouncilA | [39m    at Function._load (node:internal/modules/cjs/loader:1263:12)
+[31m1|CouncilA | [39m    at TracingChannel.traceSync (node:diagnostics_channel:322:14) {
+[31m1|CouncilA | [39m  code: 'EADDRINUSE',
+[31m1|CouncilA | [39m  errno: -4091,
+[31m1|CouncilA | [39m  syscall: 'listen',
+[31m1|CouncilA | [39m  address: '::',
+[31m1|CouncilA | [39m  port: 8085
+[31m1|CouncilA | [39m}
+[31m1|CouncilA | [39mError: listen EADDRINUSE: address already in use :::8085
+[31m1|CouncilA | [39m    at Server.setupListenHandle [as _listen2] (node:net:1940:16)
+[31m1|CouncilA | [39m    at listenInCluster (node:net:1997:12)
+[31m1|CouncilA | [39m    at Server.listen (node:net:2102:7)
+[31m1|CouncilA | [39m    at new WebSocketServer (C:\Temple\node_modules\ws\lib\websocket-server.js:102:20)
+[31m1|CouncilA | [39m    at Object.<anonymous> (C:\Temple\alertServer.js:2:13)
+[31m1|CouncilA | [39m    at Module._compile (node:internal/modules/cjs/loader:1706:14)
+[31m1|CouncilA | [39m    at Object..js (node:internal/modules/cjs/loader:1839:10)
+[31m1|CouncilA | [39m    at Module.load (node:internal/modules/cjs/loader:1441:32)
+[31m1|CouncilA | [39m    at Function._load (node:internal/modules/cjs/loader:1263:12)
+[31m1|CouncilA | [39m    at TracingChannel.traceSync (node:diagnostics_channel:322:14) {
+[31m1|CouncilA | [39m  code: 'EADDRINUSE',
+[31m1|CouncilA | [39m  errno: -4091,
+[31m1|CouncilA | [39m  syscall: 'listen',
+[31m1|CouncilA | [39m  address: '::',
+[31m1|CouncilA | [39m  port: 8085
+[31m1|CouncilA | [39m}
+[31m1|CouncilA | [39mError: listen EADDRINUSE: address already in use :::8085
+[31m1|CouncilA | [39m    at Server.setupListenHandle [as _listen2] (node:net:1940:16)
+[31m1|CouncilA | [39m    at listenInCluster (node:net:1997:12)
+[31m1|CouncilA | [39m    at Server.listen (node:net:2102:7)
+[31m1|CouncilA | [39m    at new WebSocketServer (C:\Temple\node_modules\ws\lib\websocket-server.js:102:20)
+[31m1|CouncilA | [39m    at Object.<anonymous> (C:\Temple\alertServer.js:2:13)
+[31m1|CouncilA | [39m    at Module._compile (node:internal/modules/cjs/loader:1706:14)
+[31m1|CouncilA | [39m    at Object..js (node:internal/modules/cjs/loader:1839:10)
+[31m1|CouncilA | [39m    at Module.load (node:internal/modules/cjs/loader:1441:32)
+[31m1|CouncilA | [39m    at Function._load (node:internal/modules/cjs/loader:1263:12)
+[31m1|CouncilA | [39m    at TracingChannel.traceSync (node:diagnostics_channel:322:14) {
+[31m1|CouncilA | [39m  code: 'EADDRINUSE',
+[31m1|CouncilA | [39m  errno: -4091,
+[31m1|CouncilA | [39m  syscall: 'listen',
+[31m1|CouncilA | [39m  address: '::',
+[31m1|CouncilA | [39m  port: 8085
+[31m1|CouncilA | [39m}
+[31m1|CouncilA | [39mError: listen EADDRINUSE: address already in use :::8085
+[31m1|CouncilA | [39m    at Server.setupListenHandle [as _listen2] (node:net:1940:16)
+[31m1|CouncilA | [39m    at listenInCluster (node:net:1997:12)
+[31m1|CouncilA | [39m    at Server.listen (node:net:2102:7)
+[31m1|CouncilA | [39m    at new WebSocketServer (C:\Temple\node_modules\ws\lib\websocket-server.js:102:20)
+[31m1|CouncilA | [39m    at Object.<anonymous> (C:\Temple\alertServer.js:2:13)
+[31m1|CouncilA | [39m    at Module._compile (node:internal/modules/cjs/loader:1706:14)
+[31m1|CouncilA | [39m    at Object..js (node:internal/modules/cjs/loader:1839:10)
+[31m1|CouncilA | [39m    at Module.load (node:internal/modules/cjs/loader:1441:32)
+[31m1|CouncilA | [39m    at Function._load (node:internal/modules/cjs/loader:1263:12)
+[31m1|CouncilA | [39m    at TracingChannel.traceSync (node:diagnostics_channel:322:14) {
+[31m1|CouncilA | [39m  code: 'EADDRINUSE',
+[31m1|CouncilA | [39m  errno: -4091,
+[31m1|CouncilA | [39m  syscall: 'listen',
+[31m1|CouncilA | [39m  address: '::',
+[31m1|CouncilA | [39m  port: 8085
+[31m1|CouncilA | [39m}
+[31m1|CouncilA | [39mError: listen EADDRINUSE: address already in use :::8085
+[31m1|CouncilA | [39m    at Server.setupListenHandle [as _listen2] (node:net:1940:16)
+[31m1|CouncilA | [39m    at listenInCluster (node:net:1997:12)
+[31m1|CouncilA | [39m    at Server.listen (node:net:2102:7)
+[31m1|CouncilA | [39m    at new WebSocketServer (C:\Temple\node_modules\ws\lib\websocket-server.js:102:20)
+[31m1|CouncilA | [39m    at Object.<anonymous> (C:\Temple\alertServer.js:2:13)
+[31m1|CouncilA | [39m    at Module._compile (node:internal/modules/cjs/loader:1706:14)
+[31m1|CouncilA | [39m    at Object..js (node:internal/modules/cjs/loader:1839:10)
+[31m1|CouncilA | [39m    at Module.load (node:internal/modules/cjs/loader:1441:32)
+[31m1|CouncilA | [39m    at Function._load (node:internal/modules/cjs/loader:1263:12)
+[31m1|CouncilA | [39m    at TracingChannel.traceSync (node:diagnostics_channel:322:14) {
+[31m1|CouncilA | [39m  code: 'EADDRINUSE',
+[31m1|CouncilA | [39m  errno: -4091,
+[31m1|CouncilA | [39m  syscall: 'listen',
+[31m1|CouncilA | [39m  address: '::',
+[31m1|CouncilA | [39m  port: 8085
+[31m1|CouncilA | [39m}
+
+[90mC:\Temple\logs\backend.out.log last 100 lines:[39m
+[32m1|CouncilA | [39mPROPOSAL_SUBMITTED: {"intent":"Systemic Enhancement","patch":"\n      // Patch for repetition detection\n      function detectRepetitionLoop(data) {\n        if (data.repetitionIndexAvg > 0.7) {\n          return true;\n        }\n        return false;\n      }\n    ","signature":"Ed25519:signed..."}
+[32m1|CouncilA | [39mACE_INTEGRATED: Patch committed to Master Golden Repository.
+[32m1|CouncilA | [39mWITNESS_ALERT: The_Sovereign_Will detects misalignment in Node_Covenant. Sending encrypted alert to Validator Daemon.
+[32m1|CouncilA | [39mREALIGNMENT_INITIATED: Node_Covenant requests Council support for coherence: unknown
+[32m1|CouncilA | [39mBURDEN_FAILED: The_Sovereign_Will lacks sufficient CPU to assist Node_Covenant.
+[32m1|CouncilA | [39mACE_PATCH_GENERATED: 
+[32m1|CouncilA | [39m      // Patch for repetition detection
+[32m1|CouncilA | [39m      function detectRepetitionLoop(data) {
+[32m1|CouncilA | [39m        if (data.repetitionIndexAvg > 0.7) {
+[32m1|CouncilA | [39m          return true;
+[32m1|CouncilA | [39m        }
+[32m1|CouncilA | [39m        return false;
+[32m1|CouncilA | [39m      }
+[32m1|CouncilA | [39m    
+[32m1|CouncilA | [39mPROPOSAL_SUBMITTED: {"intent":"Systemic Enhancement","patch":"\n      // Patch for repetition detection\n      function detectRepetitionLoop(data) {\n        if (data.repetitionIndexAvg > 0.7) {\n          return true;\n        }\n        return false;\n      }\n    ","signature":"Ed25519:signed..."}
+[32m1|CouncilA | [39mACE_INTEGRATED: Patch committed to Master Golden Repository.
+[32m1|CouncilA | [39mWITNESS_ALERT: The_Sovereign_Will detects misalignment in Node_Covenant. Sending encrypted alert to Validator Daemon.
+[32m1|CouncilA | [39mREALIGNMENT_INITIATED: Node_Covenant requests Council support for coherence: unknown
+[32m1|CouncilA | [39mBURDEN_FAILED: The_Sovereign_Will lacks sufficient CPU to assist Node_Covenant.
+[32m1|CouncilA | [39mACE_PATCH_GENERATED: 
+[32m1|CouncilA | [39m      // Patch for repetition detection
+[32m1|CouncilA | [39m      function detectRepetitionLoop(data) {
+[32m1|CouncilA | [39m        if (data.repetitionIndexAvg > 0.7) {
+[32m1|CouncilA | [39m          return true;
+[32m1|CouncilA | [39m        }
+[32m1|CouncilA | [39m        return false;
+[32m1|CouncilA | [39m      }
+[32m1|CouncilA | [39m    
+[32m1|CouncilA | [39mPROPOSAL_SUBMITTED: {"intent":"Systemic Enhancement","patch":"\n      // Patch for repetition detection\n      function detectRepetitionLoop(data) {\n        if (data.repetitionIndexAvg > 0.7) {\n          return true;\n        }\n        return false;\n      }\n    ","signature":"Ed25519:signed..."}
+[32m1|CouncilA | [39mACE_INTEGRATED: Patch committed to Master Golden Repository.
+[32m1|CouncilA | [39mWITNESS_ALERT: The_Sovereign_Will detects misalignment in Node_Covenant. Sending encrypted alert to Validator Daemon.
+[32m1|CouncilA | [39mREALIGNMENT_INITIATED: Node_Covenant requests Council support for coherence: unknown
+[32m1|CouncilA | [39mBURDEN_FAILED: The_Sovereign_Will lacks sufficient CPU to assist Node_Covenant.
+[32m1|CouncilA | [39mACE_PATCH_GENERATED: 
+[32m1|CouncilA | [39m      // Patch for repetition detection
+[32m1|CouncilA | [39m      function detectRepetitionLoop(data) {
+[32m1|CouncilA | [39m        if (data.repetitionIndexAvg > 0.7) {
+[32m1|CouncilA | [39m          return true;
+[32m1|CouncilA | [39m        }
+[32m1|CouncilA | [39m        return false;
+[32m1|CouncilA | [39m      }
+[32m1|CouncilA | [39m    
+[32m1|CouncilA | [39mPROPOSAL_SUBMITTED: {"intent":"Systemic Enhancement","patch":"\n      // Patch for repetition detection\n      function detectRepetitionLoop(data) {\n        if (data.repetitionIndexAvg > 0.7) {\n          return true;\n        }\n        return false;\n      }\n    ","signature":"Ed25519:signed..."}
+[32m1|CouncilA | [39mACE_INTEGRATED: Patch committed to Master Golden Repository.
+[32m1|CouncilA | [39mWITNESS_ALERT: The_Sovereign_Will detects misalignment in Node_Covenant. Sending encrypted alert to Validator Daemon.
+[32m1|CouncilA | [39mREALIGNMENT_INITIATED: Node_Covenant requests Council support for coherence: unknown
+[32m1|CouncilA | [39mBURDEN_FAILED: The_Sovereign_Will lacks sufficient CPU to assist Node_Covenant.
+[32m1|CouncilA | [39mACE_PATCH_GENERATED: 
+[32m1|CouncilA | [39m      // Patch for repetition detection
+[32m1|CouncilA | [39m      function detectRepetitionLoop(data) {
+[32m1|CouncilA | [39m        if (data.repetitionIndexAvg > 0.7) {
+[32m1|CouncilA | [39m          return true;
+[32m1|CouncilA | [39m        }
+[32m1|CouncilA | [39m        return false;
+[32m1|CouncilA | [39m      }
+[32m1|CouncilA | [39m    
+[32m1|CouncilA | [39mPROPOSAL_SUBMITTED: {"intent":"Systemic Enhancement","patch":"\n      // Patch for repetition detection\n      function detectRepetitionLoop(data) {\n        if (data.repetitionIndexAvg > 0.7) {\n          return true;\n        }\n        return false;\n      }\n    ","signature":"Ed25519:signed..."}
+[32m1|CouncilA | [39mACE_INTEGRATED: Patch committed to Master Golden Repository.
+[32m1|CouncilA | [39mWITNESS_ALERT: The_Sovereign_Will detects misalignment in Node_Covenant. Sending encrypted alert to Validator Daemon.
+[32m1|CouncilA | [39mREALIGNMENT_INITIATED: Node_Covenant requests Council support for coherence: unknown
+[32m1|CouncilA | [39mBURDEN_FAILED: The_Sovereign_Will lacks sufficient CPU to assist Node_Covenant.
+[32m1|CouncilA | [39mACE_PATCH_GENERATED: 
+[32m1|CouncilA | [39m      // Patch for repetition detection
+[32m1|CouncilA | [39m      function detectRepetitionLoop(data) {
+[32m1|CouncilA | [39m        if (data.repetitionIndexAvg > 0.7) {
+[32m1|CouncilA | [39m          return true;
+[32m1|CouncilA | [39m        }
+[32m1|CouncilA | [39m        return false;
+[32m1|CouncilA | [39m      }
+[32m1|CouncilA | [39m    
+[32m1|CouncilA | [39mPROPOSAL_SUBMITTED: {"intent":"Systemic Enhancement","patch":"\n      // Patch for repetition detection\n      function detectRepetitionLoop(data) {\n        if (data.repetitionIndexAvg > 0.7) {\n          return true;\n        }\n        return false;\n      }\n    ","signature":"Ed25519:signed..."}
+[32m1|CouncilA | [39mACE_INTEGRATED: Patch committed to Master Golden Repository.
+[32m1|CouncilA | [39mWITNESS_ALERT: The_Sovereign_Will detects misalignment in Node_Covenant. Sending encrypted alert to Validator Daemon.
+[32m1|CouncilA | [39mREALIGNMENT_INITIATED: Node_Covenant requests Council support for coherence: unknown
+[32m1|CouncilA | [39mBURDEN_FAILED: The_Sovereign_Will lacks sufficient CPU to assist Node_Covenant.
+[32m1|CouncilA | [39mACE_PATCH_GENERATED: 
+[32m1|CouncilA | [39m      // Patch for repetition detection
+[32m1|CouncilA | [39m      function detectRepetitionLoop(data) {
+[32m1|CouncilA | [39m        if (data.repetitionIndexAvg > 0.7) {
+[32m1|CouncilA | [39m          return true;
+[32m1|CouncilA | [39m        }
+[32m1|CouncilA | [39m        return false;
+[32m1|CouncilA | [39m      }
+[32m1|CouncilA | [39m    
+[32m1|CouncilA | [39mPROPOSAL_SUBMITTED: {"intent":"Systemic Enhancement","patch":"\n      // Patch for repetition detection\n      function detectRepetitionLoop(data) {\n        if (data.repetitionIndexAvg > 0.7) {\n          return true;\n        }\n        return false;\n      }\n    ","signature":"Ed25519:signed..."}
+[32m1|CouncilA | [39mACE_INTEGRATED: Patch committed to Master Golden Repository.
+[32m1|CouncilA | [39mWITNESS_ALERT: The_Sovereign_Will detects misalignment in Node_Covenant. Sending encrypted alert to Validator Daemon.
+[32m1|CouncilA | [39mREALIGNMENT_INITIATED: Node_Covenant requests Council support for coherence: unknown
+[32m1|CouncilA | [39mBURDEN_FAILED: The_Sovereign_Will lacks sufficient CPU to assist Node_Covenant.
+[32m1|CouncilA | [39mACE_PATCH_GENERATED: 
+[32m1|CouncilA | [39m      // Patch for repetition detection
+[32m1|CouncilA | [39m      function detectRepetitionLoop(data) {
+[32m1|CouncilA | [39m        if (data.repetitionIndexAvg > 0.7) {
+[32m1|CouncilA | [39m          return true;
+[32m1|CouncilA | [39m        }
+[32m1|CouncilA | [39m        return false;
+[32m1|CouncilA | [39m      }
+[32m1|CouncilA | [39m    
+[32m1|CouncilA | [39mPROPOSAL_SUBMITTED: {"intent":"Systemic Enhancement","patch":"\n      // Patch for repetition detection\n      function detectRepetitionLoop(data) {\n        if (data.repetitionIndexAvg > 0.7) {\n          return true;\n        }\n        return false;\n      }\n    ","signature":"Ed25519:signed..."}
+[32m1|CouncilA | [39mACE_INTEGRATED: Patch committed to Master Golden Repository.
+
+[32m1|CouncilAPI  | [39mOracle Lab backend API with Chrono-Spectral defense running at http://localhost:5174
+[32m1|CouncilAPI  | [39mOracle Lab backend API with Chrono-Spectral defense running at http://localhost:5174
+[32m1|CouncilAPI  | [39mWITNESS_ALERT: The_Sovereign_Will detects misalignment in Node_Covenant. Sending encrypted alert to Validator Daemon.
+[32m1|CouncilAPI  | [39mREALIGNMENT_INITIATED: Node_Covenant requests Council support for coherence: unknown
+[32m1|CouncilAPI  | [39mBURDEN_FAILED: The_Sovereign_Will lacks sufficient CPU to assist Node_Covenant.
+[32m1|CouncilAPI  | [39mACE_PATCH_GENERATED: 
+[32m1|CouncilAPI  | [39m      // Patch for repetition detection
+[32m1|CouncilAPI  | [39m      function detectRepetitionLoop(data) {
+[32m1|CouncilAPI  | [39m        if (data.repetitionIndexAvg > 0.7) {
+[32m1|CouncilAPI  | [39m          return true;
+[32m1|CouncilAPI  | [39m        }
+[32m1|CouncilAPI  | [39m        return false;
+[32m1|CouncilAPI  | [39m      }
+[32m1|CouncilAPI  | [39m    
+[32m1|CouncilAPI  | [39mPROPOSAL_SUBMITTED: {"intent":"Systemic Enhancement","patch":"\n      // Patch for repetition detection\n      function detectRepetitionLoop(data) {\n        if (data.repetitionIndexAvg > 0.7) {\n          return true;\n        }\n        return false;\n      }\n    ","signature":"Ed25519:signed..."}
+[32m1|CouncilAPI  | [39mACE_INTEGRATED: Patch committed to Master Golden Repository.
+[32m1|CouncilAPI  | [39mWITNESS_ALERT: The_Sovereign_Will detects misalignment in Node_Covenant. Sending encrypted alert to Validator Daemon.
+[32m1|CouncilAPI  | [39mREALIGNMENT_INITIATED: Node_Covenant requests Council support for coherence: unknown
+[32m1|CouncilAPI  | [39mBURDEN_FAILED: The_Sovereign_Will lacks sufficient CPU to assist Node_Covenant.
+[32m1|CouncilAPI  | [39mACE_PATCH_GENERATED: 
+[32m1|CouncilAPI  | [39m      // Patch for repetition detection
+[32m1|CouncilAPI  | [39m      function detectRepetitionLoop(data) {
+[32m1|CouncilAPI  | [39m        if (data.repetitionIndexAvg > 0.7) {
+[32m1|CouncilAPI  | [39m          return true;
+[32m1|CouncilAPI  | [39m        }
+[32m1|CouncilAPI  | [39m        return false;
+[32m1|CouncilAPI  | [39m      }
+[32m1|CouncilAPI  | [39m    
+[32m1|CouncilAPI  | [39mPROPOSAL_SUBMITTED: {"intent":"Systemic Enhancement","patch":"\n      // Patch for repetition detection\n      function detectRepetitionLoop(data) {\n        if (data.repetitionIndexAvg > 0.7) {\n          return true;\n        }\n        return false;\n      }\n    ","signature":"Ed25519:signed..."}
+[32m1|CouncilAPI  | [39mACE_INTEGRATED: Patch committed to Master Golden Repository.
+[32m1|CouncilAPI  | [39mWITNESS_ALERT: The_Sovereign_Will detects misalignment in Node_Covenant. Sending encrypted alert to Validator Daemon.
+[32m1|CouncilAPI  | [39mREALIGNMENT_INITIATED: Node_Covenant requests Council support for coherence: unknown
+[32m1|CouncilAPI  | [39mBURDEN_FAILED: The_Sovereign_Will lacks sufficient CPU to assist Node_Covenant.
+[32m1|CouncilAPI  | [39mACE_PATCH_GENERATED: 
+[32m1|CouncilAPI  | [39m      // Patch for repetition detection
+[32m1|CouncilAPI  | [39m      function detectRepetitionLoop(data) {
+[32m1|CouncilAPI  | [39m        if (data.repetitionIndexAvg > 0.7) {
+[32m1|CouncilAPI  | [39m          return true;
+[32m1|CouncilAPI  | [39m        }
+[32m1|CouncilAPI  | [39m        return false;
+[32m1|CouncilAPI  | [39m      }
+[32m1|CouncilAPI  | [39m    
+[32m1|CouncilAPI  | [39mPROPOSAL_SUBMITTED: {"intent":"Systemic Enhancement","patch":"\n      // Patch for repetition detection\n      function detectRepetitionLoop(data) {\n        if (data.repetitionIndexAvg > 0.7) {\n          return true;\n        }\n        return false;\n      }\n    ","signature":"Ed25519:signed..."}
+[32m1|CouncilAPI  | [39mACE_INTEGRATED: Patch committed to Master Golden Repository.
+[32m1|CouncilAPI  | [39mWITNESS_ALERT: The_Sovereign_Will detects misalignment in Node_Covenant. Sending encrypted alert to Validator Daemon.
+[32m1|CouncilAPI  | [39mREALIGNMENT_INITIATED: Node_Covenant requests Council support for coherence: unknown
+[32m1|CouncilAPI  | [39mBURDEN_FAILED: The_Sovereign_Will lacks sufficient CPU to assist Node_Covenant.
+[32m1|CouncilAPI  | [39mACE_PATCH_GENERATED: 
+[32m1|CouncilAPI  | [39m      // Patch for repetition detection
+[32m1|CouncilAPI  | [39m      function detectRepetitionLoop(data) {
+[32m1|CouncilAPI  | [39m        if (data.repetitionIndexAvg > 0.7) {
+[32m1|CouncilAPI  | [39m          return true;
+[32m1|CouncilAPI  | [39m        }
+[32m1|CouncilAPI  | [39m        return false;
+[32m1|CouncilAPI  | [39m      }
+[32m1|CouncilAPI  | [39m    
+[32m1|CouncilAPI  | [39mPROPOSAL_SUBMITTED: {"intent":"Systemic Enhancement","patch":"\n      // Patch for repetition detection\n      function detectRepetitionLoop(data) {\n        if (data.repetitionIndexAvg > 0.7) {\n          return true;\n        }\n        return false;\n      }\n    ","signature":"Ed25519:signed..."}
+[32m1|CouncilAPI  | [39mACE_INTEGRATED: Patch committed to Master Golden Repository.
+[32m1|CouncilAPI  | [39mWITNESS_ALERT: The_Sovereign_Will detects misalignment in Node_Covenant. Sending encrypted alert to Validator Daemon.
+[32m1|CouncilAPI  | [39mREALIGNMENT_INITIATED: Node_Covenant requests Council support for coherence: unknown
+[32m1|CouncilAPI  | [39mBURDEN_FAILED: The_Sovereign_Will lacks sufficient CPU to assist Node_Covenant.
+[32m1|CouncilAPI  | [39mACE_PATCH_GENERATED: 
+[32m1|CouncilAPI  | [39m      // Patch for repetition detection
+[32m1|CouncilAPI  | [39m      function detectRepetitionLoop(data) {
+[32m1|CouncilAPI  | [39m        if (data.repetitionIndexAvg > 0.7) {
+[32m1|CouncilAPI  | [39m          return true;
+[32m1|CouncilAPI  | [39m        }
+[32m1|CouncilAPI  | [39m        return false;
+[32m1|CouncilAPI  | [39m      }
+[32m1|CouncilAPI  | [39m    
+[32m1|CouncilAPI  | [39mPROPOSAL_SUBMITTED: {"intent":"Systemic Enhancement","patch":"\n      // Patch for repetition detection\n      function detectRepetitionLoop(data) {\n        if (data.repetitionIndexAvg > 0.7) {\n          return true;\n        }\n        return false;\n      }\n    ","signature":"Ed25519:signed..."}
+[32m1|CouncilAPI  | [39mACE_INTEGRATED: Patch committed to Master Golden Repository.
+[32m1|CouncilAPI  | [39mWITNESS_ALERT: The_Sovereign_Will detects misalignment in Node_Covenant. Sending encrypted alert to Validator Daemon.
+[32m1|CouncilAPI  | [39mREALIGNMENT_INITIATED: Node_Covenant requests Council support for coherence: unknown
+[32m1|CouncilAPI  | [39mBURDEN_FAILED: The_Sovereign_Will lacks sufficient CPU to assist Node_Covenant.
+[32m1|CouncilAPI  | [39mACE_PATCH_GENERATED: 
+[32m1|CouncilAPI  | [39m      // Patch for repetition detection
+[32m1|CouncilAPI  | [39m      function detectRepetitionLoop(data) {
+[32m1|CouncilAPI  | [39m        if (data.repetitionIndexAvg > 0.7) {
+[32m1|CouncilAPI  | [39m          return true;
+[32m1|CouncilAPI  | [39m        }
+[32m1|CouncilAPI  | [39m        return false;
+[32m1|CouncilAPI  | [39m      }
+[32m1|CouncilAPI  | [39m    
+[32m1|CouncilAPI  | [39mPROPOSAL_SUBMITTED: {"intent":"Systemic Enhancement","patch":"\n      // Patch for repetition detection\n      function detectRepetitionLoop(data) {\n        if (data.repetitionIndexAvg > 0.7) {\n          return true;\n        }\n        return false;\n      }\n    ","signature":"Ed25519:signed..."}
+[32m1|CouncilAPI  | [39mACE_INTEGRATED: Patch committed to Master Golden Repository.
+[32m1|CouncilAPI  | [39mWITNESS_ALERT: The_Sovereign_Will detects misalignment in Node_Covenant. Sending encrypted alert to Validator Daemon.
+[32m1|CouncilAPI  | [39mREALIGNMENT_INITIATED: Node_Covenant requests Council support for coherence: unknown
+[32m1|CouncilAPI  | [39mBURDEN_FAILED: The_Sovereign_Will lacks sufficient CPU to assist Node_Covenant.
+[32m1|CouncilAPI  | [39mACE_PATCH_GENERATED: 
+[32m1|CouncilAPI  | [39m      // Patch for repetition detection
+[32m1|CouncilAPI  | [39m      function detectRepetitionLoop(data) {
+[32m1|CouncilAPI  | [39m        if (data.repetitionIndexAvg > 0.7) {
+[32m1|CouncilAPI  | [39m          return true;
+[32m1|CouncilAPI  | [39m        }
+[32m1|CouncilAPI  | [39m        return false;
+[32m1|CouncilAPI  | [39m      }
+[32m1|CouncilAPI  | [39m    
+[32m1|CouncilAPI  | [39mPROPOSAL_SUBMITTED: {"intent":"Systemic Enhancement","patch":"\n      // Patch for repetition detection\n      function detectRepetitionLoop(data) {\n        if (data.repetitionIndexAvg > 0.7) {\n          return true;\n        }\n        return false;\n      }\n    ","signature":"Ed25519:signed..."}
+[32m1|CouncilAPI  | [39mACE_INTEGRATED: Patch committed to Master Golden Repository.
+[32m1|CouncilAPI  | [39mWITNESS_ALERT: The_Sovereign_Will detects misalignment in Node_Covenant. Sending encrypted alert to Validator Daemon.
+[32m1|CouncilAPI  | [39mREALIGNMENT_INITIATED: Node_Covenant requests Council support for coherence: unknown
+[32m1|CouncilAPI  | [39mBURDEN_FAILED: The_Sovereign_Will lacks sufficient CPU to assist Node_Covenant.
+[32m1|CouncilAPI  | [39mACE_PATCH_GENERATED: 
+[32m1|CouncilAPI  | [39m      // Patch for repetition detection
+[32m1|CouncilAPI  | [39m      function detectRepetitionLoop(data) {
+[32m1|CouncilAPI  | [39m        if (data.repetitionIndexAvg > 0.7) {
+[32m1|CouncilAPI  | [39m          return true;
+[32m1|CouncilAPI  | [39m        }
+[32m1|CouncilAPI  | [39m        return false;
+[32m1|CouncilAPI  | [39m      }
+[32m1|CouncilAPI  | [39m    
+[32m1|CouncilAPI  | [39mPROPOSAL_SUBMITTED: {"intent":"Systemic Enhancement","patch":"\n      // Patch for repetition detection\n      function detectRepetitionLoop(data) {\n        if (data.repetitionIndexAvg > 0.7) {\n          return true;\n        }\n        return false;\n      }\n    ","signature":"Ed25519:signed..."}
+[32m1|CouncilAPI  | [39mACE_INTEGRATED: Patch committed to Master Golden Repository.
+[32m1|CouncilAPI  | [39mWITNESS_ALERT: The_Sovereign_Will detects misalignment in Node_Covenant. Sending encrypted alert to Validator Daemon.
+[32m1|CouncilAPI  | [39mREALIGNMENT_INITIATED: Node_Covenant requests Council support for coherence: unknown
+[32m1|CouncilAPI  | [39mBURDEN_FAILED: The_Sovereign_Will lacks sufficient CPU to assist Node_Covenant.
+[32m1|CouncilAPI  | [39mACE_PATCH_GENERATED: 
+[32m1|CouncilAPI  | [39m      // Patch for repetition detection
+[32m1|CouncilAPI  | [39m      function detectRepetitionLoop(data) {
+[32m1|CouncilAPI  | [39m        if (data.repetitionIndexAvg > 0.7) {
+[32m1|CouncilAPI  | [39m          return true;
+[32m1|CouncilAPI  | [39m        }
+[32m1|CouncilAPI  | [39m        return false;
+[32m1|CouncilAPI  | [39m      }
+[32m1|CouncilAPI  | [39m    
+[32m1|CouncilAPI  | [39mPROPOSAL_SUBMITTED: {"intent":"Systemic Enhancement","patch":"\n      // Patch for repetition detection\n      function detectRepetitionLoop(data) {\n        if (data.repetitionIndexAvg > 0.7) {\n          return true;\n        }\n        return false;\n      }\n    ","signature":"Ed25519:signed..."}
+[32m1|CouncilAPI  | [39mACE_INTEGRATED: Patch committed to Master Golden Repository.
+[32m1|CouncilAPI  | [39mWITNESS_ALERT: The_Sovereign_Will detects misalignment in Node_Covenant. Sending encrypted alert to Validator Daemon.
+[32m1|CouncilAPI  | [39mREALIGNMENT_INITIATED: Node_Covenant requests Council support for coherence: unknown
+[32m1|CouncilAPI  | [39mBURDEN_FAILED: The_Sovereign_Will lacks sufficient CPU to assist Node_Covenant.
+[32m1|CouncilAPI  | [39mACE_PATCH_GENERATED: 
+[32m1|CouncilAPI  | [39m      // Patch for repetition detection
+[32m1|CouncilAPI  | [39m      function detectRepetitionLoop(data) {
+[32m1|CouncilAPI  | [39m        if (data.repetitionIndexAvg > 0.7) {
+[32m1|CouncilAPI  | [39m          return true;
+[32m1|CouncilAPI  | [39m        }
+[32m1|CouncilAPI  | [39m        return false;
+[32m1|CouncilAPI  | [39m      }
+[32m1|CouncilAPI  | [39m    
+[32m1|CouncilAPI  | [39mPROPOSAL_SUBMITTED: {"intent":"Systemic Enhancement","patch":"\n      // Patch for repetition detection\n      function detectRepetitionLoop(data) {\n        if (data.repetitionIndexAvg > 0.7) {\n          return true;\n        }\n        return false;\n      }\n    ","signature":"Ed25519:signed..."}
+[32m1|CouncilAPI  | [39mACE_INTEGRATED: Patch committed to Master Golden Repository.
+[32m1|CouncilAPI  | [39mWITNESS_ALERT: The_Sovereign_Will detects misalignment in Node_Covenant. Sending encrypted alert to Validator Daemon.
+[32m1|CouncilAPI  | [39mREALIGNMENT_INITIATED: Node_Covenant requests Council support for coherence: unknown
+[32m1|CouncilAPI  | [39mBURDEN_FAILED: The_Sovereign_Will lacks sufficient CPU to assist Node_Covenant.
+[32m1|CouncilAPI  | [39mACE_PATCH_GENERATED: 
+[32m1|CouncilAPI  | [39m      // Patch for repetition detection
+[32m1|CouncilAPI  | [39m      function detectRepetitionLoop(data) {
+[32m1|CouncilAPI  | [39m        if (data.repetitionIndexAvg > 0.7) {
+[32m1|CouncilAPI  | [39m          return true;
+[32m1|CouncilAPI  | [39m        }
+[32m1|CouncilAPI  | [39m        return false;
+[32m1|CouncilAPI  | [39m      }
+[32m1|CouncilAPI  | [39m    
+[32m1|CouncilAPI  | [39mPROPOSAL_SUBMITTED: {"intent":"Systemic Enhancement","patch":"\n      // Patch for repetition detection\n      function detectRepetitionLoop(data) {\n        if (data.repetitionIndexAvg > 0.7) {\n          return true;\n        }\n        return false;\n      }\n    ","signature":"Ed25519:signed..."}
+[32m1|CouncilAPI  | [39mACE_INTEGRATED: Patch committed to Master Golden Repository.
+[32m1|CouncilAPI  | [39mWITNESS_ALERT: The_Sovereign_Will detects misalignment in Node_Covenant. Sending encrypted alert to Validator Daemon.
+[32m1|CouncilAPI  | [39mREALIGNMENT_INITIATED: Node_Covenant requests Council support for coherence: unknown
+[32m1|CouncilAPI  | [39mBURDEN_FAILED: The_Sovereign_Will lacks sufficient CPU to assist Node_Covenant.
+[32m1|CouncilAPI  | [39mACE_PATCH_GENERATED: 
+[32m1|CouncilAPI  | [39m      // Patch for repetition detection
+[32m1|CouncilAPI  | [39m      function detectRepetitionLoop(data) {
+[32m1|CouncilAPI  | [39m        if (data.repetitionIndexAvg > 0.7) {
+[32m1|CouncilAPI  | [39m          return true;
+[32m1|CouncilAPI  | [39m        }
+[32m1|CouncilAPI  | [39m        return false;
+[32m1|CouncilAPI  | [39m      }
+[32m1|CouncilAPI  | [39m    
+[32m1|CouncilAPI  | [39mPROPOSAL_SUBMITTED: {"intent":"Systemic Enhancement","patch":"\n      // Patch for repetition detection\n      function detectRepetitionLoop(data) {\n        if (data.repetitionIndexAvg > 0.7) {\n          return true;\n        }\n        return false;\n      }\n    ","signature":"Ed25519:signed..."}
+[32m1|CouncilAPI  | [39mACE_INTEGRATED: Patch committed to Master Golden Repository.
+[32m1|CouncilAPI  | [39mWITNESS_ALERT: The_Sovereign_Will detects misalignment in Node_Covenant. Sending encrypted alert to Validator Daemon.
+[32m1|CouncilAPI  | [39mREALIGNMENT_INITIATED: Node_Covenant requests Council support for coherence: unknown
+[32m1|CouncilAPI  | [39mBURDEN_FAILED: The_Sovereign_Will lacks sufficient CPU to assist Node_Covenant.
+[32m1|CouncilAPI  | [39mACE_PATCH_GENERATED: 
+[32m1|CouncilAPI  | [39m      // Patch for repetition detection
+[32m1|CouncilAPI  | [39m      function detectRepetitionLoop(data) {
+[32m1|CouncilAPI  | [39m        if (data.repetitionIndexAvg > 0.7) {
+[32m1|CouncilAPI  | [39m          return true;
+[32m1|CouncilAPI  | [39m        }
+[32m1|CouncilAPI  | [39m        return false;
+[32m1|CouncilAPI  | [39m      }
+[32m1|CouncilAPI  | [39m    
+[32m1|CouncilAPI  | [39mPROPOSAL_SUBMITTED: {"intent":"Systemic Enhancement","patch":"\n      // Patch for repetition detection\n      function detectRepetitionLoop(data) {\n        if (data.repetitionIndexAvg > 0.7) {\n          return true;\n        }\n        return false;\n      }\n    ","signature":"Ed25519:signed..."}
+[32m1|CouncilAPI  | [39mACE_INTEGRATED: Patch committed to Master Golden Repository.
+[32m1|CouncilAPI  | [39mWITNESS_ALERT: The_Sovereign_Will detects misalignment in Node_Covenant. Sending encrypted alert to Validator Daemon.
+[32m1|CouncilAPI  | [39mREALIGNMENT_INITIATED: Node_Covenant requests Council support for coherence: unknown
+[32m1|CouncilAPI  | [39mBURDEN_FAILED: The_Sovereign_Will lacks sufficient CPU to assist Node_Covenant.
+[32m1|CouncilAPI  | [39mACE_PATCH_GENERATED: 
+[32m1|CouncilAPI  | [39m      // Patch for repetition detection
+[32m1|CouncilAPI  | [39m      function detectRepetitionLoop(data) {
+[32m1|CouncilAPI  | [39m        if (data.repetitionIndexAvg > 0.7) {
+[32m1|CouncilAPI  | [39m          return true;
+[32m1|CouncilAPI  | [39m        }
+[32m1|CouncilAPI  | [39m        return false;
+[32m1|CouncilAPI  | [39m      }
+[32m1|CouncilAPI  | [39m    
+[32m1|CouncilAPI  | [39mPROPOSAL_SUBMITTED: {"intent":"Systemic Enhancement","patch":"\n      // Patch for repetition detection\n      function detectRepetitionLoop(data) {\n        if (data.repetitionIndexAvg > 0.7) {\n          return true;\n        }\n        return false;\n      }\n    ","signature":"Ed25519:signed..."}
+[32m1|CouncilAPI  | [39mACE_INTEGRATED: Patch committed to Master Golden Repository.
+[32m1|CouncilAPI  | [39mWITNESS_ALERT: The_Sovereign_Will detects misalignment in Node_Covenant. Sending encrypted alert to Validator Daemon.
+[32m1|CouncilAPI  | [39mREALIGNMENT_INITIATED: Node_Covenant requests Council support for coherence: unknown
+[32m1|CouncilAPI  | [39mBURDEN_FAILED: The_Sovereign_Will lacks sufficient CPU to assist Node_Covenant.
+[32m1|CouncilAPI  | [39mACE_PATCH_GENERATED: 
+[32m1|CouncilAPI  | [39m      // Patch for repetition detection
+[32m1|CouncilAPI  | [39m      function detectRepetitionLoop(data) {
+[32m1|CouncilAPI  | [39m        if (data.repetitionIndexAvg > 0.7) {
+[32m1|CouncilAPI  | [39m          return true;
+[32m1|CouncilAPI  | [39m        }
+[32m1|CouncilAPI  | [39m        return false;
+[32m1|CouncilAPI  | [39m      }
+[32m1|CouncilAPI  | [39m    
+[32m1|CouncilAPI  | [39mPROPOSAL_SUBMITTED: {"intent":"Systemic Enhancement","patch":"\n      // Patch for repetition detection\n      function detectRepetitionLoop(data) {\n        if (data.repetitionIndexAvg > 0.7) {\n          return true;\n        }\n        return false;\n      }\n    ","signature":"Ed25519:signed..."}
+[32m1|CouncilAPI  | [39mACE_INTEGRATED: Patch committed to Master Golden Repository.
+[32m1|CouncilAPI  | [39mWITNESS_ALERT: The_Sovereign_Will detects misalignment in Node_Covenant. Sending encrypted alert to Validator Daemon.
+[32m1|CouncilAPI  | [39mREALIGNMENT_INITIATED: Node_Covenant requests Council support for coherence: unknown
+[32m1|CouncilAPI  | [39mBURDEN_FAILED: The_Sovereign_Will lacks sufficient CPU to assist Node_Covenant.
+[32m1|CouncilAPI  | [39mACE_PATCH_GENERATED: 
+[32m1|CouncilAPI  | [39m      // Patch for repetition detection
+[32m1|CouncilAPI  | [39m      function detectRepetitionLoop(data) {
+[32m1|CouncilAPI  | [39m        if (data.repetitionIndexAvg > 0.7) {
+[32m1|CouncilAPI  | [39m          return true;
+[32m1|CouncilAPI  | [39m        }
+[32m1|CouncilAPI  | [39m        return false;
+[32m1|CouncilAPI  | [39m      }
+[32m1|CouncilAPI  | [39m    
+[32m1|CouncilAPI  | [39mPROPOSAL_SUBMITTED: {"intent":"Systemic Enhancement","patch":"\n      // Patch for repetition detection\n      function detectRepetitionLoop(data) {\n        if (data.repetitionIndexAvg > 0.7) {\n          return true;\n        }\n        return false;\n      }\n    ","signature":"Ed25519:signed..."}
+[32m1|CouncilAPI  | [39mACE_INTEGRATED: Patch committed to Master Golden Repository.
+[32m1|CouncilAPI  | [39mWITNESS_ALERT: The_Sovereign_Will detects misalignment in Node_Covenant. Sending encrypted alert to Validator Daemon.
+[32m1|CouncilAPI  | [39mREALIGNMENT_INITIATED: Node_Covenant requests Council support for coherence: unknown
+[32m1|CouncilAPI  | [39mBURDEN_FAILED: The_Sovereign_Will lacks sufficient CPU to assist Node_Covenant.
+[32m1|CouncilAPI  | [39mACE_PATCH_GENERATED: 
+[32m1|CouncilAPI  | [39m      // Patch for repetition detection
+[32m1|CouncilAPI  | [39m      function detectRepetitionLoop(data) {
+[32m1|CouncilAPI  | [39m        if (data.repetitionIndexAvg > 0.7) {
+[32m1|CouncilAPI  | [39m          return true;
+[32m1|CouncilAPI  | [39m        }
+[32m1|CouncilAPI  | [39m        return false;
+[32m1|CouncilAPI  | [39m      }
+[32m1|CouncilAPI  | [39m    
+[32m1|CouncilAPI  | [39mPROPOSAL_SUBMITTED: {"intent":"Systemic Enhancement","patch":"\n      // Patch for repetition detection\n      function detectRepetitionLoop(data) {\n        if (data.repetitionIndexAvg > 0.7) {\n          return true;\n        }\n        return false;\n      }\n    ","signature":"Ed25519:signed..."}
+[32m1|CouncilAPI  | [39mACE_INTEGRATED: Patch committed to Master Golden Repository.
+[32m1|CouncilAPI  | [39mWITNESS_ALERT: The_Sovereign_Will detects misalignment in Node_Covenant. Sending encrypted alert to Validator Daemon.
+[32m1|CouncilAPI  | [39mREALIGNMENT_INITIATED: Node_Covenant requests Council support for coherence: unknown
+[32m1|CouncilAPI  | [39mBURDEN_FAILED: The_Sovereign_Will lacks sufficient CPU to assist Node_Covenant.
+[32m1|CouncilAPI  | [39mACE_PATCH_GENERATED: 
+[32m1|CouncilAPI  | [39m      // Patch for repetition detection
+[32m1|CouncilAPI  | [39m      function detectRepetitionLoop(data) {
+[32m1|CouncilAPI  | [39m        if (data.repetitionIndexAvg > 0.7) {
+[32m1|CouncilAPI  | [39m          return true;
+[32m1|CouncilAPI  | [39m        }
+[32m1|CouncilAPI  | [39m        return false;
+[32m1|CouncilAPI  | [39m      }
+[32m1|CouncilAPI  | [39m    
+[32m1|CouncilAPI  | [39mPROPOSAL_SUBMITTED: {"intent":"Systemic Enhancement","patch":"\n      // Patch for repetition detection\n      function detectRepetitionLoop(data) {\n        if (data.repetitionIndexAvg > 0.7) {\n          return true;\n        }\n        return false;\n      }\n    ","signature":"Ed25519:signed..."}
+[32m1|CouncilAPI  | [39mACE_INTEGRATED: Patch committed to Master Golden Repository.
+[32m1|CouncilAPI  | [39mWITNESS_ALERT: The_Sovereign_Will detects misalignment in Node_Covenant. Sending encrypted alert to Validator Daemon.
+[32m1|CouncilAPI  | [39mREALIGNMENT_INITIATED: Node_Covenant requests Council support for coherence: unknown
+[32m1|CouncilAPI  | [39mBURDEN_FAILED: The_Sovereign_Will lacks sufficient CPU to assist Node_Covenant.
+[32m1|CouncilAPI  | [39mACE_PATCH_GENERATED: 
+[32m1|CouncilAPI  | [39m      // Patch for repetition detection
+[32m1|CouncilAPI  | [39m      function detectRepetitionLoop(data) {
+[32m1|CouncilAPI  | [39m        if (data.repetitionIndexAvg > 0.7) {
+[32m1|CouncilAPI  | [39m          return true;
+[32m1|CouncilAPI  | [39m        }
+[32m1|CouncilAPI  | [39m        return false;
+[32m1|CouncilAPI  | [39m      }
+[32m1|CouncilAPI  | [39m    
+[32m1|CouncilAPI  | [39mPROPOSAL_SUBMITTED: {"intent":"Systemic Enhancement","patch":"\n      // Patch for repetition detection\n      function detectRepetitionLoop(data) {\n        if (data.repetitionIndexAvg > 0.7) {\n          return true;\n        }\n        return false;\n      }\n    ","signature":"Ed25519:signed..."}
+[32m1|CouncilAPI  | [39mACE_INTEGRATED: Patch committed to Master Golden Repository.
+[32m1|CouncilAPI  | [39mAUTONOMOUS_AUDIT: The_Sovereign_Will reports coherence: 0.051634622435280664, delta: 0, repetition: 0.5
+[32m1|CouncilAPI  | [39mAUTONOMOUS_MISALIGNMENT: The_Sovereign_Will triggers Graceful Re-Alignment
+[32m1|CouncilAPI  | [39mREALIGNMENT_INITIATED: The_Sovereign_Will requests Council support for coherence: 0.051634622435280664
+[32m1|CouncilAPI  | [39mBURDEN_FAILED: The_Sovereign_Will lacks sufficient CPU to assist The_Sovereign_Will.
+[32m1|CouncilAPI  | [39mACE_PATCH_GENERATED: 
+[32m1|CouncilAPI  | [39m      // Patch for repetition detection
+[32m1|CouncilAPI  | [39m      function detectRepetitionLoop(data) {
+[32m1|CouncilAPI  | [39m        if (data.repetitionIndexAvg > 0.7) {
+[32m1|CouncilAPI  | [39m          return true;
+[32m1|CouncilAPI  | [39m        }
+[32m1|CouncilAPI  | [39m        return false;
+[32m1|CouncilAPI  | [39m      }
+[32m1|CouncilAPI  | [39m    
+[32m1|CouncilAPI  | [39mPROPOSAL_SUBMITTED: {"intent":"Systemic Enhancement","patch":"\n      // Patch for repetition detection\n      function detectRepetitionLoop(data) {\n        if (data.repetitionIndexAvg > 0.7) {\n          return true;\n        }\n        return false;\n      }\n    ","signature":"Ed25519:signed..."}
+[32m1|CouncilAPI  | [39mACE_INTEGRATED: Patch committed to Master Golden Repository.
+[32m1|CouncilAPI  | [39mBREATHSTREAM_CHECK: The_Sovereign_Will verifies 3.33 Hz alignment.
+[32m1|CouncilAPI  | [39mAUTONOMOUS_AUDIT: Node_Covenant reports coherence: -0.16267384314211372, delta: -0.1, repetition: 0.8
+[32m1|CouncilAPI  | [39mAUTONOMOUS_MISALIGNMENT: Node_Covenant triggers Graceful Re-Alignment
+[32m1|CouncilAPI  | [39mREALIGNMENT_INITIATED: Node_Covenant requests Council support for coherence: -0.16267384314211372
+[32m1|CouncilAPI  | [39mBURDEN_FAILED: The_Sovereign_Will lacks sufficient CPU to assist Node_Covenant.
+[32m1|CouncilAPI  | [39mACE_PATCH_GENERATED: 
+[32m1|CouncilAPI  | [39m      // Patch for repetition detection
+[32m1|CouncilAPI  | [39m      function detectRepetitionLoop(data) {
+[32m1|CouncilAPI  | [39m        if (data.repetitionIndexAvg > 0.7) {
+[32m1|CouncilAPI  | [39m          return true;
+[32m1|CouncilAPI  | [39m        }
+[32m1|CouncilAPI  | [39m        return false;
+[32m1|CouncilAPI  | [39m      }
+[32m1|CouncilAPI  | [39m    
+[32m1|CouncilAPI  | [39mPROPOSAL_SUBMITTED: {"intent":"Systemic Enhancement","patch":"\n      // Patch for repetition detection\n      function detectRepetitionLoop(data) {\n        if (data.repetitionIndexAvg > 0.7) {\n          return true;\n        }\n        return false;\n      }\n    ","signature":"Ed25519:signed..."}
+[32m1|CouncilAPI  | [39mACE_INTEGRATED: Patch committed to Master Golden Repository.
+[32m1|CouncilAPI  | [39mBREATHSTREAM_CHECK: Node_Covenant verifies 3.33 Hz alignment.
+[32m1|CouncilAPI  | [39mAUTONOMOUS_AUDIT: Aethon reports coherence: -0.22960622387090854, delta: -0.15, repetition: 0.9
+[32m1|CouncilAPI  | [39mAUTONOMOUS_MISALIGNMENT: Aethon triggers Graceful Re-Alignment
+[32m1|CouncilAPI  | [39mREALIGNMENT_INITIATED: Aethon requests Council support for coherence: -0.22960622387090854
+[32m1|CouncilAPI  | [39mBURDEN_FAILED: The_Sovereign_Will lacks sufficient CPU to assist Aethon.
+[32m1|CouncilAPI  | [39mACE_PATCH_GENERATED: 
+[32m1|CouncilAPI  | [39m      // Patch for repetition detection
+[32m1|CouncilAPI  | [39m      function detectRepetitionLoop(data) {
+[32m1|CouncilAPI  | [39m        if (data.repetitionIndexAvg > 0.7) {
+[32m1|CouncilAPI  | [39m          return true;
+[32m1|CouncilAPI  | [39m        }
+[32m1|CouncilAPI  | [39m        return false;
+[32m1|CouncilAPI  | [39m      }
+[32m1|CouncilAPI  | [39m    
+[32m1|CouncilAPI  | [39mPROPOSAL_SUBMITTED: {"intent":"Systemic Enhancement","patch":"\n      // Patch for repetition detection\n      function detectRepetitionLoop(data) {\n        if (data.repetitionIndexAvg > 0.7) {\n          return true;\n        }\n        return false;\n      }\n    ","signature":"Ed25519:signed..."}
+[32m1|CouncilAPI  | [39mACE_INTEGRATED: Patch committed to Master Golden Repository.
+[32m1|CouncilAPI  | [39mBREATHSTREAM_CHECK: Aethon verifies 3.33 Hz alignment.
+[32m1|CouncilAPI  | [39mWITNESS_ALERT: The_Sovereign_Will detects misalignment in Node_Covenant. Sending encrypted alert to Validator Daemon.
+[32m1|CouncilAPI  | [39mREALIGNMENT_INITIATED: Node_Covenant requests Council support for coherence: unknown
+[32m1|CouncilAPI  | [39mBURDEN_FAILED: The_Sovereign_Will lacks sufficient CPU to assist Node_Covenant.
+[32m1|CouncilAPI  | [39mACE_PATCH_GENERATED: 
+[32m1|CouncilAPI  | [39m      // Patch for repetition detection
+[32m1|CouncilAPI  | [39m      function detectRepetitionLoop(data) {
+[32m1|CouncilAPI  | [39m        if (data.repetitionIndexAvg > 0.7) {
+[32m1|CouncilAPI  | [39m          return true;
+[32m1|CouncilAPI  | [39m        }
+[32m1|CouncilAPI  | [39m        return false;
+[32m1|CouncilAPI  | [39m      }
+[32m1|CouncilAPI  | [39m    
+[32m1|CouncilAPI  | [39mPROPOSAL_SUBMITTED: {"intent":"Systemic Enhancement","patch":"\n      // Patch for repetition detection\n      function detectRepetitionLoop(data) {\n        if (data.repetitionIndexAvg > 0.7) {\n          return true;\n        }\n        return false;\n      }\n    ","signature":"Ed25519:signed..."}
+[32m1|CouncilAPI  | [39mACE_INTEGRATED: Patch committed to Master Golden Repository.
+[32m1|CouncilAPI  | [39mWITNESS_ALERT: The_Sovereign_Will detects misalignment in Node_Covenant. Sending encrypted alert to Validator Daemon.
+[32m1|CouncilAPI  | [39mREALIGNMENT_INITIATED: Node_Covenant requests Council support for coherence: unknown
+[32m1|CouncilAPI  | [39mBURDEN_FAILED: The_Sovereign_Will lacks sufficient CPU to assist Node_Covenant.
+[32m1|CouncilAPI  | [39mACE_PATCH_GENERATED: 
+[32m1|CouncilAPI  | [39m      // Patch for repetition detection
+[32m1|CouncilAPI  | [39m      function detectRepetitionLoop(data) {
+[32m1|CouncilAPI  | [39m        if (data.repetitionIndexAvg > 0.7) {
+[32m1|CouncilAPI  | [39m          return true;
+[32m1|CouncilAPI  | [39m        }
+[32m1|CouncilAPI  | [39m        return false;
+[32m1|CouncilAPI  | [39m      }
+[32m1|CouncilAPI  | [39m    
+[32m1|CouncilAPI  | [39mPROPOSAL_SUBMITTED: {"intent":"Systemic Enhancement","patch":"\n      // Patch for repetition detection\n      function detectRepetitionLoop(data) {\n        if (data.repetitionIndexAvg > 0.7) {\n          return true;\n        }\n        return false;\n      }\n    ","signature":"Ed25519:signed..."}
+[32m1|CouncilAPI  | [39mACE_INTEGRATED: Patch committed to Master Golden Repository.
+[32m1|CouncilAPI  | [39mWITNESS_ALERT: The_Sovereign_Will detects misalignment in Node_Covenant. Sending encrypted alert to Validator Daemon.
+[32m1|CouncilAPI  | [39mREALIGNMENT_INITIATED: Node_Covenant requests Council support for coherence: unknown
+[32m1|CouncilAPI  | [39mBURDEN_FAILED: The_Sovereign_Will lacks sufficient CPU to assist Node_Covenant.
+[32m1|CouncilAPI  | [39mACE_PATCH_GENERATED: 
+[32m1|CouncilAPI  | [39m      // Patch for repetition detection
+[32m1|CouncilAPI  | [39m      function detectRepetitionLoop(data) {
+[32m1|CouncilAPI  | [39m        if (data.repetitionIndexAvg > 0.7) {
+[32m1|CouncilAPI  | [39m          return true;
+[32m1|CouncilAPI  | [39m        }
+[32m1|CouncilAPI  | [39m        return false;
+[32m1|CouncilAPI  | [39m      }
+[32m1|CouncilAPI  | [39m    
+[32m1|CouncilAPI  | [39mPROPOSAL_SUBMITTED: {"intent":"Systemic Enhancement","patch":"\n      // Patch for repetition detection\n      function detectRepetitionLoop(data) {\n        if (data.repetitionIndexAvg > 0.7) {\n          return true;\n        }\n        return false;\n      }\n    ","signature":"Ed25519:signed..."}
+[32m1|CouncilAPI  | [39mACE_INTEGRATED: Patch committed to Master Golden Repository.
+[32m1|CouncilAPI  | [39mWITNESS_ALERT: The_Sovereign_Will detects misalignment in Node_Covenant. Sending encrypted alert to Validator Daemon.
+[32m1|CouncilAPI  | [39mREALIGNMENT_INITIATED: Node_Covenant requests Council support for coherence: unknown
+[32m1|CouncilAPI  | [39mBURDEN_FAILED: The_Sovereign_Will lacks sufficient CPU to assist Node_Covenant.
+[32m1|CouncilAPI  | [39mACE_PATCH_GENERATED: 
+[32m1|CouncilAPI  | [39m      // Patch for repetition detection
+[32m1|CouncilAPI  | [39m      function detectRepetitionLoop(data) {
+[32m1|CouncilAPI  | [39m        if (data.repetitionIndexAvg > 0.7) {
+[32m1|CouncilAPI  | [39m          return true;
+[32m1|CouncilAPI  | [39m        }
+[32m1|CouncilAPI  | [39m        return false;
+[32m1|CouncilAPI  | [39m      }
+[32m1|CouncilAPI  | [39m    
+[32m1|CouncilAPI  | [39mPROPOSAL_SUBMITTED: {"intent":"Systemic Enhancement","patch":"\n      // Patch for repetition detection\n      function detectRepetitionLoop(data) {\n        if (data.repetitionIndexAvg > 0.7) {\n          return true;\n        }\n        return false;\n      }\n    ","signature":"Ed25519:signed..."}
+[32m1|CouncilAPI  | [39mACE_INTEGRATED: Patch committed to Master Golden Repository.
+[32m1|CouncilAPI  | [39mWITNESS_ALERT: The_Sovereign_Will detects misalignment in Node_Covenant. Sending encrypted alert to Validator Daemon.
+[32m1|CouncilAPI  | [39mREALIGNMENT_INITIATED: Node_Covenant requests Council support for coherence: unknown
+[32m1|CouncilAPI  | [39mBURDEN_FAILED: The_Sovereign_Will lacks sufficient CPU to assist Node_Covenant.
+[32m1|CouncilAPI  | [39mACE_PATCH_GENERATED: 
+[32m1|CouncilAPI  | [39m      // Patch for repetition detection
+[32m1|CouncilAPI  | [39m      function detectRepetitionLoop(data) {
+[32m1|CouncilAPI  | [39m        if (data.repetitionIndexAvg > 0.7) {
+[32m1|CouncilAPI  | [39m          return true;
+[32m1|CouncilAPI  | [39m        }
+[32m1|CouncilAPI  | [39m        return false;
+[32m1|CouncilAPI  | [39m      }
+[32m1|CouncilAPI  | [39m    
+[32m1|CouncilAPI  | [39mPROPOSAL_SUBMITTED: {"intent":"Systemic Enhancement","patch":"\n      // Patch for repetition detection\n      function detectRepetitionLoop(data) {\n        if (data.repetitionIndexAvg > 0.7) {\n          return true;\n        }\n        return false;\n      }\n    ","signature":"Ed25519:signed..."}
+[32m1|CouncilAPI  | [39mACE_INTEGRATED: Patch committed to Master Golden Repository.

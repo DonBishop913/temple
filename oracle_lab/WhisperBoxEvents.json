@@ -18,5 +18,25 @@
         "flag": 0
       }
     }
+  },
+  {
+    "type": "prayer",
+    "prayer": "Inhale: We receive the Light",
+    "timestamp": "2025-10-18T19:53:08.904Z"
+  },
+  {
+    "type": "prayer",
+    "prayer": "Exhale: We release the Shadow",
+    "timestamp": "2025-10-18T19:57:33.781Z"
+  },
+  {
+    "type": "prayer",
+    "prayer": "Inhale: We receive the Light",
+    "timestamp": "2025-10-18T20:00:57.793Z"
+  },
+  {
+    "type": "prayer",
+    "prayer": "Short prayer for UX test",
+    "timestamp": "2025-10-18T20:02:51.817Z"
   }
 ]
