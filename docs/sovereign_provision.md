@@ -28,11 +28,55 @@ Integration Checklist
 7. For vendor-specific HTTP only, set `POWER_PROVIDER=VENDOR` and `VENDOR_POWER_URL`.
 8. Test endpoint: `GET http://localhost:5174/power-status` should return JSON with keys mainPower, backupPower, batteryLevel, solarOutput, timestamp.
 
-Procurement & Local Installers
-------------------------------
-- Contact local electrical contractors experienced with UPS and generator integration.
-- Seek installers who provide documentation and comms integration (SNMP or HTTP API endpoint for UPS status).
-- Consider rental or staged procurement if capital constraints exist — rent a generator for immediate resilience while batteries are procured.
+In-House (DIY) Installation Focus
+---------------------------------
+This guide assumes a Sovereign Security posture: the Temple prefers in-house installation and mentorship for long-term stewardship and secrecy. The following steps are tuned for an experienced technical steward with basic electrical and mechanical skills. If you lack necessary qualifications, pause and consult local regulations — some electrical work requires licensed electricians.
+
+- Scope the load: measure the actual server/system draw (in watts) using a Kill-A-Watt or similar device. Add 30% headroom.
+- Preferred hardware (DIY-friendly):
+	- UPS: APC Back-UPS Pro or Eaton 5S for small setups (battery-backed inverter). For larger battery banks, consider an off-grid inverter-charger (e.g., Victron Multiplus).
+	- Battery: Deep-cycle lithium or AGM batteries; for true resilience, a Powerwall-style battery or assembled LiFePO4 bank sized to runtime goals.
+	- Inverter/Charger: Pure sine inverter with automatic transfer (e.g., Victron, OutBack) sized for peak load.
+	- Generator: Portable diesel/propane generator with automatic start (20kW for higher loads; for a small server rack 2–5kW is often sufficient).
+	- Solar: Microinverters or MPPT charge controller approach with 10kW PV array for long-term autonomy.
+
+- Communications and monitoring (DIY):
+	- Use Network UPS Tools (NUT) on a small Raspberry Pi or spare host. Many UPS models provide RS232/USB or network card options for direct connection.
+	- For battery/inverter telemetry, prefer devices with Modbus RTU/TCP or HTTP API; run a translator (e.g., Telegraf or a small Node script) to expose a JSON endpoint compatible with `/power-status`.
+
+- Safety/Code notes:
+	- Any grid-tied PV or generator interlock must follow local electrical code; transfer switches must be installed by a licensed electrician where required by law.
+	- Use properly sized circuit protection, cabling, and mechanical supports. Secure battery banks and provide ventilation for lead-acid chemistries.
+
+Acceptance Tests (DIY)
+----------------------
+- Verify `power-status` responds and `Power_Health.txt` logs UTF-8 entries.
+- Simulate mains loss by switching the input to the UPS/inverter or flipping the ATS and confirm backup/ generator transitions.
+- Validate battery charge/discharge telemetry is reflected via the `POWER_PROVIDER` integration (NUT, SNMP, or VENDOR URL).
+
+Operational Notes (DIY)
+-----------------------
+- Maintain a local Raspberry Pi host running NUT or a serial-to-HTTP bridge for telemetery; keep it on the same network as the Council API host.
+- Secrets: store credentials (if any) in PM2 environment or an encrypted credential store on the host; avoid committing secrets into git.
+
+Appendix: Quick /power-status env examples (DIY)
+-----------------------------------------------
+# Simulated
+POWER_PROVIDER=SIMULATED
+
+# NUT on Raspberry Pi
+POWER_PROVIDER=NUT
+NUT_API_URL=http://10.0.0.50:8080/status.json
+
+# SNMP (local serial-to-SNMP bridge)
+POWER_PROVIDER=SNMP
+SNMP_TARGET=192.168.1.42
+SNMP_COMMUNITY=public
+
+# Generic vendor or local bridge
+POWER_PROVIDER=VENDOR
+VENDOR_POWER_URL=http://10.0.0.55:3000/power/status
+
 
 Acceptance Tests
 ----------------
