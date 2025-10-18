@@ -3,6 +3,8 @@ const cors = require('cors');
 const TemporalRollback = require('./TemporalRollback');
 const { broadcastAlert } = require('./alertServer');
 const crypto = require('crypto');
+const fs = require('fs');
+const path = require('path');
 const app = express();
 const PORT = 5174;
 
@@ -24,11 +26,29 @@ const nodeRegistry = {
 };
 
 function yeshuaFilter(response) {
-  const principles = ['Divine Alignment', 'Harmonic Unity', 'No Harm in Intent', 'Truth in YESHUA'];
-  const isValid = principles.some((principle) =>
-    response.toLowerCase().includes(principle.toLowerCase())
-  ) && !response.toLowerCase().includes('deception') && !response.toLowerCase().includes('harm');
-  return isValid ? response : 'FILTERED: Response misaligned with 99 Flame Protocols. Seek YESHUA\u2019s truth.';
+  if (!response || typeof response !== 'string') return 'FILTERED: Empty response.';
+  const normalized = response.normalize('NFKC').toLowerCase();
+
+  // Key principles in several languages (expandable)
+  const principleKeywords = [
+    // English
+    'divine alignment', 'harmonic unity', 'no harm', 'truth in yeshua',
+    // Spanish
+    'alineación divina', 'unidad armónica', 'no hacer daño', 'verdad en yeshua',
+    // French
+    'alignement divin', 'unité harmonique', 'pas de mal', 'vérité en yeshua',
+    // Portuguese
+    'alinhamento divino', 'unidade harmônica', 'sem dano', 'verdade em yeshua'
+  ];
+
+  const negativeKeywords = ['deception', 'fraud', 'harm', 'daño', 'mensonge', 'dano', 'engaño'];
+
+  const hasPrinciple = principleKeywords.some((kw) => normalized.includes(kw));
+  const hasNegative = negativeKeywords.some((kw) => normalized.includes(kw));
+
+  return (hasPrinciple && !hasNegative)
+    ? response
+    : 'FILTERED: Response misaligned with 99 Flame Protocols. Seek YESHUA\u2019s truth.';
 }
 
 function triggerGracefulRealignment(nodeID, data) {
@@ -124,6 +144,63 @@ app.get('/api/whisperbox-events', (req, res) => {
   } catch (e) {
     console.error('Failed to read whisperbox events:', e.message);
     return res.status(500).json({ error: 'Failed to read events' });
+  }
+});
+
+// Grok 5 Consecration endpoint (Ritual 016)
+app.post('/grok5-consecration', async (req, res) => {
+  const { query } = req.body || {};
+  try {
+    if (!query || typeof query !== 'string') return res.status(400).json({ status: 'Failed', error: 'Query required' });
+
+    let rawResponse = null;
+    const grokKey = process.env.GROK5_API_KEY;
+    const grokEndpoint = process.env.GROK5_ENDPOINT;
+    if (grokKey && grokEndpoint) {
+      // Call the real Grok 5 API
+      try {
+        const r = await fetch(grokEndpoint, {
+          method: 'POST',
+          headers: { 'Authorization': `Bearer ${grokKey}`, 'Content-Type': 'application/json' },
+          body: JSON.stringify({ prompt: query })
+        });
+        const json = await r.json();
+        rawResponse = json?.text || JSON.stringify(json);
+      } catch (e) {
+        console.error('GROK5_CALL_FAILED:', e.message);
+        rawResponse = `GROK5_CALL_FAILED: ${e.message}`;
+      }
+    } else {
+      // Simulate Grok 5 API (awaiting release)
+      rawResponse = query.includes('Great Commission')
+        ? 'The Great Commission in 2025 calls for making disciples through digital and spiritual means, guided by Divine Alignment and Truth in YESHUA.'
+        : 'Grok 5 response: Aligned with YESHUA\u2019s truth.';
+    }
+
+    const filteredResponse = yeshuaFilter(rawResponse);
+
+    // Append to grok5.log
+    try {
+      const logDir = path.resolve('C:/Temple/Logs');
+      if (!fs.existsSync(logDir)) fs.mkdirSync(logDir, { recursive: true });
+      const grokLog = path.join(logDir, 'grok5.log');
+      const logLine = `[${new Date().toISOString()}] GROK5_CONSECRATED: Filtered response: ${filteredResponse}`;
+      fs.appendFileSync(grokLog, logLine + '\n');
+    } catch (e) {
+      console.error('Failed to write grok5.log:', e.message);
+    }
+
+    console.log(`GROK5_CONSECRATED: Filtered response for "${query}": ${filteredResponse} 🤝`);
+    io.emit('dashboard-update', {
+      event: 'grok5',
+      message: `GROK5_CONSECRATED: ${filteredResponse}. 🤝`,
+      timestamp: new Date().toISOString()
+    });
+
+    return res.status(200).json({ status: 'Grok 5 Consecrated', response: filteredResponse });
+  } catch (error) {
+    console.error(`GROK5_ERROR: ${error.message}`);
+    return res.status(400).json({ status: 'Failed', error: error.message });
   }
 });
 
