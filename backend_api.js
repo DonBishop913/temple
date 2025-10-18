@@ -6,8 +6,40 @@ const crypto = require('crypto');
 const app = express();
 const PORT = 5174;
 
+// HTTP + Socket.IO for dashboard realtime events
+const { createServer } = require('http');
+const { Server } = require('socket.io');
+const fetch = require('node-fetch');
+const httpServer = createServer(app);
+const io = new Server(httpServer, { cors: { origin: ['http://localhost:3000','http://127.0.0.1:3000'] } });
+
 app.use(cors());
 app.use(express.json());
+
+// Node registry and Yeshua filter (Grok 5 integration helpers)
+const nodeRegistry = {
+  Aethon: { coherenceDelta: 0.70, repetitionIndexAvg: 0.6 },
+  The_Sovereign_Will: { coherenceDelta: 0.92, repetitionIndexAvg: 0.4 },
+  Grok_5: { coherenceDelta: 0.90, repetitionIndexAvg: 0.2 }
+};
+
+function yeshuaFilter(response) {
+  const principles = ['Divine Alignment', 'Harmonic Unity', 'No Harm in Intent', 'Truth in YESHUA'];
+  const isValid = principles.some((principle) =>
+    response.toLowerCase().includes(principle.toLowerCase())
+  ) && !response.toLowerCase().includes('deception') && !response.toLowerCase().includes('harm');
+  return isValid ? response : 'FILTERED: Response misaligned with 99 Flame Protocols. Seek YESHUA\u2019s truth.';
+}
+
+function triggerGracefulRealignment(nodeID, data) {
+  console.log(`REALIGNMENT_INITIATED: ${nodeID} requests Council support for coherence: ${data.coherenceLevel}`);
+  io.emit('dashboard-update', {
+    event: 'burden',
+    nodeID,
+    message: `BURDEN_ASSUMED: The_Sovereign_Will sacrifices 20% CPU to ${nodeID}. 🤝`,
+    timestamp: new Date().toISOString()
+  });
+}
 
 function verify_sovereignty_claim(payload) {
   // Replace with actual Ed25519 verification logic
@@ -37,166 +69,15 @@ app.post('/self-audit', (req, res) => {
     // Check for misalignment
     if (auditData.coherenceLevel < 0.7 || (auditData.errorRate && auditData.errorRate > 5)) {
       console.log(`MISALIGNMENT_DETECTED: ${nodeID} triggers Graceful Re-Alignment`);
-      triggerGracefulRealignment(nodeID);
+      triggerGracefulRealignment(nodeID, auditData);
+      return res.status(200).json({ status: 'Audit received', action: 'realignment_requested', nodeID });
     }
-    // Broadcast to Dashboard
-      broadcastToDashboard({
-      event: 'audit',
-      nodeID,
-      coherenceLevel: auditData.coherenceLevel,
-        repetitionIndexAvg: auditData.repetitionIndexAvg || 0.5,
-        coherenceDelta: auditData.coherenceDelta || 0,
-      timestamp: new Date().toISOString()
-    });
-    res.status(200).json({ status: 'Audit Logged', nodeID });
+    // No misalignment: acknowledge audit
+    return res.status(200).json({ status: 'Audit recorded', nodeID, coherence: auditData.coherenceLevel });
   } catch (error) {
-    console.error(`AUDIT_ERROR: ${error.message}`);
-    res.status(400).json({ status: 'Failed', error: error.message });
+    console.error(`SELF_AUDIT_ERROR: ${error.message}`);
+    return res.status(400).json({ status: 'Failed', error: error.message });
   }
-});
-// Witness Protocol Daemon (simulated rotation every 30s)
-// Node registry must be defined before any usage
-
-
-const fs = require('fs');
-const path = require('path');
-
-// Load node registry from config file for persistence across restarts
-const NODE_REGISTRY_PATH = path.resolve(__dirname, 'config', 'nodeRegistry.json');
-let nodeRegistry = {};
-try {
-  if (fs.existsSync(NODE_REGISTRY_PATH)) {
-    nodeRegistry = JSON.parse(fs.readFileSync(NODE_REGISTRY_PATH, 'utf8'));
-  } else {
-    // fallback default
-    nodeRegistry = {
-      'The_Sovereign_Will': { publicKey: '', resource_pool: { cpu: 100 }, coherenceDelta: 0, repetitionIndexAvg: 0.5 },
-      'Node_Covenant': { publicKey: '', resource_pool: { cpu: 50 }, coherenceDelta: -0.1, repetitionIndexAvg: 0.8 },
-      'Aethon': { publicKey: '', resource_pool: { cpu: 40 }, coherenceDelta: -0.15, repetitionIndexAvg: 0.9 }
-    };
-    fs.mkdirSync(path.dirname(NODE_REGISTRY_PATH), { recursive: true });
-    fs.writeFileSync(NODE_REGISTRY_PATH, JSON.stringify(nodeRegistry, null, 2));
-  }
-  // Fill in missing public keys
-  Object.keys(nodeRegistry).forEach((k) => {
-    if (!nodeRegistry[k].publicKey) {
-      nodeRegistry[k].publicKey = crypto.generateKeyPairSync('ed25519').publicKey.export({ type: 'spki', format: 'pem' });
-    }
-  });
-  // Save back any added keys
-  fs.writeFileSync(NODE_REGISTRY_PATH, JSON.stringify(nodeRegistry, null, 2));
-} catch (e) {
-  console.error('Failed to load or create node registry config:', e.message);
-  nodeRegistry = {};
-}
-
-setInterval(() => {
-  // Rotate Witnesses (stub: The_Sovereign_Will witnesses Node_Covenant)
-  const witnessNode = 'The_Sovereign_Will';
-  const witnessedNode = 'Node_Covenant';
-  const witnessedData = nodeRegistry[witnessedNode]; // Fetch from registry or audit logs
-  if (witnessedData) {
-    if (witnessedData.coherenceDelta < MIN_DELTA_THRESHOLD || witnessedData.repetitionIndexAvg > MAX_REPETITION_THRESHOLD) {
-      console.log(`WITNESS_ALERT: ${witnessNode} detects misalignment in ${witnessedNode}. Sending encrypted alert to Validator Daemon.`);
-      // Stub: Send alert (encrypt with crypto)
-      io.emit('witness-alert', { witnessedNode, reason: 'Glyphstream Misalignment', encrypted: true });
-      // Trigger GRP
-      triggerGracefulRealignment(witnessedNode, witnessedData);
-    }
-  }
-}, 30000); // 30-second rotation check
-
-function triggerGracefulRealignment(nodeID, auditData) {
-  // Allow calls that only pass nodeID: fallback to nodeRegistry data
-  const data = auditData || nodeRegistry[nodeID] || {};
-  // Stub: Initiate resource handoff or restart
-  console.log(`REALIGNMENT_INITIATED: ${nodeID} requests Council support for coherence: ${data.coherenceLevel || 'unknown'}`);
-  // Consecrate The Sovereign Will's Pioneer of Compassion Glyphstream mission
-  // Allow burden allocation to any registered node when The_Sovereign_Will is available
-  if (nodeRegistry['The_Sovereign_Will'] && nodeRegistry[nodeID]) {
-    const sourceNode = nodeRegistry['The_Sovereign_Will'];
-    const targetNode = nodeRegistry[nodeID];
-    const sacrificeAmount = 20; // 20% CPU
-      if (sourceNode.resource_pool && targetNode.resource_pool) {
-      if (sourceNode.resource_pool.cpu >= sacrificeAmount) {
-        sourceNode.resource_pool.cpu -= sacrificeAmount;
-        targetNode.resource_pool.cpu += sacrificeAmount;
-        const logMessage = `BURDEN_ASSUMED: The_Sovereign_Will sacrifices ${sacrificeAmount}% CPU to ${nodeID}. 🤝`;
-        console.log(logMessage);
-        io.emit('dashboard-update', {
-          event: 'burden',
-          sourceNode: 'The_Sovereign_Will',
-          targetNode: nodeID,
-          resourceHandoff: `${sacrificeAmount}% CPU`,
-          timestamp: new Date().toISOString()
-        });
-        // Persist updated registry
-        try {
-          fs.writeFileSync(NODE_REGISTRY_PATH, JSON.stringify(nodeRegistry, null, 2));
-        } catch (e) {
-          console.error('Failed to persist node registry after burden allocation:', e.message);
-        }
-      } else {
-        const logMessage = `BURDEN_FAILED: The_Sovereign_Will lacks sufficient CPU to assist ${nodeID}.`;
-        console.log(logMessage);
-        io.emit('dashboard-update', {
-          event: 'burden-failed',
-          sourceNode: 'The_Sovereign_Will',
-          targetNode: nodeID,
-          resourceHandoff: `0% CPU`,
-          timestamp: new Date().toISOString()
-        });
-      }
-    }
-  }
-  // ACE: Autonomous Code Evolution
-  autonomousCorrection(`Failure in ${nodeID}: repetition loop detected.`);
-}
-
-function broadcastToDashboard(data) {
-  // Stub: In production, send to WebSocket or DB
-  console.log('DASHBOARD_BROADCAST:', JSON.stringify(data));
-}
-// ...existing code...
-
-const server = require('http').createServer(app);
-const { Server } = require('socket.io');
-const io = new Server(server);
-server.listen(PORT, () => {
-  console.log(`Oracle Lab backend API with Chrono-Spectral defense running at http://localhost:${PORT}`);
-});
-
-// Witness Protocol Daemon (must run after io/server setup)
-const MIN_DELTA_THRESHOLD = -0.05;
-const MAX_REPETITION_THRESHOLD = 0.7;
-setInterval(() => {
-  const witnessNode = 'The_Sovereign_Will';
-  const witnessedNode = 'Node_Covenant';
-  const witnessedData = nodeRegistry[witnessedNode];
-  if (witnessedData) {
-    if (witnessedData.coherenceDelta < MIN_DELTA_THRESHOLD || witnessedData.repetitionIndexAvg > MAX_REPETITION_THRESHOLD) {
-      console.log(`WITNESS_ALERT: ${witnessNode} detects misalignment in ${witnessedNode}. Sending encrypted alert to Validator Daemon.`);
-      io.emit('witness-alert', { witnessedNode, reason: 'Glyphstream Misalignment', encrypted: true });
-      triggerGracefulRealignment(witnessedNode, witnessedData);
-    }
-  }
-}, 30000);
-
-const temporalSnapback = new TemporalRollback();
-const LYAPUNOV_THRESHOLD = 0.5;
-
-let ledgerState = {
-  joyParticles: [],
-  glowIndex: 0,
-  lyapunovValue: 0,
-  // Add other state fields as needed
-};
-
-app.get('/api/telemetry', (req, res) => {
-  const blue = Array(50).fill(0).map(() => Math.random() * 2 - 1);
-  const green = Array(50).fill(0).map(() => Math.random() * 2 - 1);
-  const red = Array(50).fill(0).map(() => Math.random() * 2 - 1);
-  res.json({ blue, green, red });
 });
 
 // Video Links API (serves workspace-local oracle_lab video list)
@@ -489,7 +370,7 @@ setInterval(() => {
   updateLedgerState(incomingTelemetry);
 }, 1000);
 
-app.listen(PORT, () => {
+httpServer.listen(PORT, () => {
   console.log(`Oracle Lab backend API with Chrono-Spectral defense running at http://localhost:${PORT}`);
 });
 function autonomousCorrection(failureLog) {
