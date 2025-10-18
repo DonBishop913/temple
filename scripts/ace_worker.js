@@ -50,8 +50,26 @@ function checkJSON(file) {
 
 function checkJS(file) {
   try {
-    // Use node --check to verify syntax without executing
-    execSync(`node --check "${file.replace(/"/g, '\\"')}"`, { stdio: 'ignore' });
+    const ext = path.extname(file).toLowerCase();
+    // Handle JSX/TSX by attempting a Babel parse when available
+    if (ext === '.jsx' || ext === '.tsx') {
+      try {
+        // dynamic require so dependency is optional
+        const parser = require('@babel/parser');
+        const src = fs.readFileSync(file, 'utf8');
+        parser.parse(src, { sourceType: 'module', plugins: ['jsx', 'typescript', 'classProperties', 'decorators-legacy'] });
+        return { ok: true };
+      } catch (e) {
+        // If @babel/parser isn't installed, mark as skipped to avoid false positives
+        if (e.code === 'MODULE_NOT_FOUND') {
+          return { ok: false, message: 'skipped: @babel/parser not installed' };
+        }
+        return { ok: false, message: e.message };
+      }
+    }
+
+    // Use node --check to verify syntax without executing for plain JS files
+    execSync(`node --check "${file.replace(/\"/g, '\\\"')}"`, { stdio: 'ignore' });
     return { ok: true };
   } catch (e) {
     return { ok: false, message: e.message };
@@ -59,14 +77,45 @@ function checkJS(file) {
 }
 
 function findTodos(file) {
+  // Avoid scanning the worker's own source to prevent self-matching artifacts
+  if (path.basename(file) === 'ace_worker.js') return [];
+
   const txt = fs.readFileSync(file, 'utf8');
-  const regex = /(?:TODO|FIXME)[:]?\s*(.*)/gi;
-  const matches = [];
-  let m;
-  while ((m = regex.exec(txt)) !== null) {
-    matches.push(m[1] ? m[1].trim() : '');
+  const lines = txt.split(/\r?\n/);
+  const todos = [];
+
+  // Match common comment patterns and extract TODO/FIXME only when inside comments
+  const inlineCommentRe = /\/\/\s*(?:TODO|FIXME)[:\s-]?(.*)/i;
+  const blockStartRe = /\/\*/;
+  const blockEndRe = /\*\//;
+  const blockTodoRe = /(?:TODO|FIXME)[:\s-]?(.*)/i;
+
+  let inBlock = false;
+  for (const line of lines) {
+    // Check for inline // comments
+    const inlineMatch = line.match(inlineCommentRe);
+    if (inlineMatch) {
+      todos.push(inlineMatch[1] ? inlineMatch[1].trim() : '');
+      continue;
+    }
+
+    // Block comment handling
+    if (!inBlock && blockStartRe.test(line)) {
+      inBlock = true;
+      const todoMatch = line.match(blockTodoRe);
+      if (todoMatch) todos.push(todoMatch[1] ? todoMatch[1].trim() : '');
+      if (blockEndRe.test(line)) inBlock = false;
+      continue;
+    }
+
+    if (inBlock) {
+      const todoMatch = line.match(blockTodoRe);
+      if (todoMatch) todos.push(todoMatch[1] ? todoMatch[1].trim() : '');
+      if (blockEndRe.test(line)) inBlock = false;
+    }
   }
-  return matches;
+
+  return todos;
 }
 
 function run() {
