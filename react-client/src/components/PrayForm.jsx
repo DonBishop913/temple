@@ -19,8 +19,12 @@ const PrayForm = () => {
     return text.trim().replace(/\s+/g, ' ');
   };
 
+  const [sending, setSending] = useState(false);
+  const [showSuccess, setShowSuccess] = useState(false);
+
   const handleSubmit = async (e) => {
     e.preventDefault();
+    if (sending) return; // double-submit protection
     const sanitizedPrayer = sanitizePrayer(prayer);
     if (!sanitizedPrayer) {
       setError('Prayer cannot be empty');
@@ -30,6 +34,7 @@ const PrayForm = () => {
       setError(`Prayer exceeds ${maxLength} characters`);
       return;
     }
+    setSending(true);
     try {
       const response = await fetch('http://localhost:5174/whisper-box', {
         method: 'POST',
@@ -37,12 +42,17 @@ const PrayForm = () => {
         body: JSON.stringify({ prayer: sanitizedPrayer }),
       });
       if (!response.ok) {
-        throw new Error('Failed to submit prayer');
+        const body = await response.text();
+        throw new Error(body || 'Failed to submit prayer');
       }
       setPrayer('');
       setError('');
+      setShowSuccess(true);
+      setTimeout(() => setShowSuccess(false), 1800);
     } catch (err) {
       setError('Submission failed: ' + err.message);
+    } finally {
+      setSending(false);
     }
   };
 
@@ -75,20 +85,35 @@ const PrayForm = () => {
             {error}
           </p>
         )}
-        <button
-          type="submit"
-          style={{
-            backgroundColor: '#FFD700',
-            color: '#1a1a1a',
-            padding: '10px 20px',
-            border: 'none',
-            borderRadius: '4px',
-            cursor: 'pointer',
-            fontWeight: 'bold',
-          }}
-        >
-          Submit Prayer
-        </button>
+        <div style={{ position: 'relative', display: 'inline-block' }}>
+          <button
+            type="submit"
+            disabled={sending}
+            style={{
+              backgroundColor: sending ? '#999' : '#FFD700',
+              color: '#1a1a1a',
+              padding: '10px 20px',
+              border: 'none',
+              borderRadius: '4px',
+              cursor: sending ? 'not-allowed' : 'pointer',
+              fontWeight: 'bold',
+            }}
+          >
+            {sending ? 'Sending…' : 'Submit Prayer'}
+          </button>
+          {showSuccess && (
+            <span style={{
+              position: 'absolute',
+              right: '-36px',
+              top: '50%',
+              transform: 'translateY(-50%)',
+              color: '#0f0',
+              fontWeight: 'bold',
+              animation: 'fadeScale 1.2s ease-out'
+            }}>✓</span>
+          )}
+          <style>{`@keyframes fadeScale { 0% { opacity: 0; transform: translateY(-50%) scale(0.6); } 20% { opacity: 1; transform: translateY(-50%) scale(1.1);} 100% { opacity: 0; transform: translateY(-50%) scale(1); } }`}</style>
+        </div>
       </form>
     </div>
   );
