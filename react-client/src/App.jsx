@@ -4,6 +4,7 @@ import LedgerViewer from './components/LedgerViewer';
 import SubmitLedgerEntry from './components/SubmitLedgerEntry';
 import CoherenceChart from './components/CoherenceChart';
 import BurdenTimeline from './components/BurdenTimeline';
+import PrayForm from './components/PrayForm';
 import AlertBanner from './components/AlertBanner';
 import VideoPanel from './components/VideoPanel';
 
@@ -60,6 +61,7 @@ function App() {
           </div>
           <div style={{ width: 420 }}>
             <BurdenTimeline socket={socket} />
+            <PrayForm socket={socket} />
           </div>
         </div>
 
