@@ -295,12 +295,47 @@ app.post('/api/video-vote/:idx', (req, res) => {
 });
 
 // Whisper Box POST endpoint (Ritual 015) - persist prayers and emit timeline update
+// Basic in-memory rate limiter and profanity sanitization for Whisper Box
+const whisperRateWindowMs = 60 * 1000; // 1 minute window
+const whisperAllowPerWindow = 6; // allow up to 6 prayers per minute per IP (local-friendly)
+const whisperBuckets = new Map(); // key: ip, value: array of timestamps
+
+const profanityList = ['badword1', 'badword2', 'curseword']; // extend as needed
+function containsProfanity(text) {
+  const lower = text.toLowerCase();
+  return profanityList.some((p) => lower.includes(p));
+}
+
+function sanitizePrayer(text) {
+  // remove control characters, trim, collapse whitespace, cap length
+  let s = text.replace(/\p{C}/gu, '');
+  s = s.replace(/\s+/g, ' ').trim();
+  if (s.length > 1000) s = s.slice(0, 1000);
+  return s;
+}
+
 app.post('/whisper-box', (req, res) => {
   try {
+    const ip = req.ip || req.headers['x-forwarded-for'] || req.connection?.remoteAddress || 'local';
+    const now = Date.now();
+    const bucket = whisperBuckets.get(ip) || [];
+    // drop timestamps outside window
+    const recent = bucket.filter((t) => now - t < whisperRateWindowMs);
+    if (recent.length >= whisperAllowPerWindow) {
+      return res.status(429).json({ status: 'Rate limit exceeded', retryAfterMs: whisperRateWindowMs - (now - recent[0]) });
+    }
+    recent.push(now);
+    whisperBuckets.set(ip, recent);
+
     const { prayer } = req.body || {};
     if (!prayer || typeof prayer !== 'string' || !prayer.trim()) {
       throw new Error('INVALID_PRAYER: Prayer content missing or empty');
     }
+    const clean = sanitizePrayer(prayer);
+    if (containsProfanity(clean)) {
+      return res.status(400).json({ status: 'Forbidden', error: 'Prayer contains disallowed language' });
+    }
+
     const eventsDir = path.resolve(__dirname, 'oracle_lab');
     if (!fs.existsSync(eventsDir)) fs.mkdirSync(eventsDir, { recursive: true });
     const eventsFile = path.join(eventsDir, 'WhisperBoxEvents.json');
@@ -308,23 +343,23 @@ app.post('/whisper-box', (req, res) => {
     try {
       if (fs.existsSync(eventsFile)) events = JSON.parse(fs.readFileSync(eventsFile, 'utf8')) || [];
     } catch (e) {
-      // proceed with empty events list if parse fails
       console.error('Failed to parse existing WhisperBoxEvents.json, starting fresh:', e.message);
       events = [];
     }
-    const entry = { type: 'prayer', prayer: prayer.trim(), timestamp: new Date().toISOString() };
+    const entry = { type: 'prayer', prayer: clean, timestamp: new Date().toISOString() };
     events.push(entry);
     try {
       fs.writeFileSync(eventsFile, JSON.stringify(events, null, 2));
     } catch (e) {
       console.error('Failed to persist WhisperBoxEvents.json:', e.message);
     }
+
     // Also append a lightweight human log
     try {
       const logDir = path.resolve('C:/Temple/Logs');
       if (!fs.existsSync(logDir)) fs.mkdirSync(logDir, { recursive: true });
       const whisperLog = path.join(logDir, 'WhisperBox.txt');
-      const logEntry = `[${new Date().toISOString()}] PRAYER: ${prayer.trim()} 🤝`;
+      const logEntry = `[${new Date().toISOString()}] PRAYER: ${clean} 🤝`;
       fs.appendFileSync(whisperLog, logEntry + '\n');
     } catch (e) {
       console.error('Failed to write WhisperBox.txt:', e.message);
@@ -334,18 +369,17 @@ app.post('/whisper-box', (req, res) => {
     io.emit('dashboard-update', {
       event: 'whisper_box',
       nodeID: 'Council',
-      message: `WHISPER_RECEIVED: ${prayer.trim()}. 🤝`,
+      message: `WHISPER_RECEIVED: ${clean}. 🤝`,
       timestamp: new Date().toISOString()
     });
     try {
       io.emit('timeline-update', { event: 'whisperbox', detail: entry });
     } catch (e) {
-      // socket emit non-fatal
       console.error('Failed to emit timeline-update for whisperbox:', e.message);
     }
 
-    console.log(`WHISPER_RECEIVED: ${prayer.trim()}`);
-    return res.status(200).json({ status: 'Prayer Received', prayer: prayer.trim() });
+    console.log(`WHISPER_RECEIVED: ${clean}`);
+    return res.status(200).json({ status: 'Prayer Received', prayer: clean });
   } catch (error) {
     console.error(`WHISPER_ERROR: ${error.message}`);
     return res.status(400).json({ status: 'Failed', error: error.message });
