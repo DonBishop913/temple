@@ -231,6 +231,52 @@ app.post('/api/video-vote/:idx', (req, res) => {
   return res.status(500).json({ status: 'error', message: 'Failed to persist vote' });
 });
 
+// Financial logging endpoints (Ethical Money Strategy)
+app.post('/financial-log', (req, res) => {
+  try {
+    const { source = 'unknown', amount = 0, currency = 'USD', purpose = '', donor = null, timestamp = new Date().toISOString() } = req.body || {};
+    if (typeof amount !== 'number') return res.status(400).json({ status: 'error', message: 'Amount must be a number' });
+    const ledgerDir = path.resolve(__dirname, 'data');
+    if (!fs.existsSync(ledgerDir)) fs.mkdirSync(ledgerDir, { recursive: true });
+    const ledgerFile = path.join(ledgerDir, 'financial_ledger.json');
+    let ledger = [];
+    try { ledger = fs.existsSync(ledgerFile) ? JSON.parse(fs.readFileSync(ledgerFile, 'utf8')) : []; } catch (e) { ledger = []; }
+    const entry = { source, amount, currency, purpose, donor, timestamp };
+    ledger.push(entry);
+    fs.writeFileSync(ledgerFile, JSON.stringify(ledger, null, 2), { encoding: 'utf8' });
+
+    // Append human readable financial health log
+    try {
+      const logDir = path.resolve('C:/Temple/Logs');
+      if (!fs.existsSync(logDir)) fs.mkdirSync(logDir, { recursive: true });
+      const fh = path.join(logDir, 'Financial_Health.txt');
+      const line = `[${timestamp}] FINANCIAL_LOG: ${source} ${donor ? '('+donor+')' : ''} ${amount} ${currency} purpose="${purpose}"`;
+      fs.appendFileSync(fh, line + '\n', { encoding: 'utf8' });
+    } catch (e) {
+      console.error('Failed to append Financial_Health.txt:', e.message);
+    }
+
+    io.emit('dashboard-update', { event: 'financial', entry, timestamp });
+    return res.status(201).json({ status: 'ok', entry });
+  } catch (e) {
+    console.error('FINANCIAL_LOG_ERROR:', e.message);
+    return res.status(500).json({ status: 'error', error: e.message });
+  }
+});
+
+app.get('/financial-health', (req, res) => {
+  try {
+    const ledgerFile = path.resolve(__dirname, 'data', 'financial_ledger.json');
+    if (!fs.existsSync(ledgerFile)) return res.json({ total: 0, currency: 'USD', entries: [] });
+    const ledger = JSON.parse(fs.readFileSync(ledgerFile, 'utf8')) || [];
+    const total = ledger.reduce((s, e) => s + (Number(e.amount) || 0), 0);
+    return res.json({ total, currency: (ledger[0] && ledger[0].currency) || 'USD', entries: ledger.slice(-200) });
+  } catch (e) {
+    console.error('FINANCIAL_HEALTH_ERROR:', e.message);
+    return res.status(500).json({ status: 'error', error: e.message });
+  }
+});
+
 // Whisper Box POST endpoint (Ritual 015) - persist prayers and emit timeline update
 // Basic in-memory rate limiter and profanity sanitization for Whisper Box
 const whisperRateWindowMs = 60 * 1000; // 1 minute window
