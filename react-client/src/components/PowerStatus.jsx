@@ -41,8 +41,8 @@ const PowerStatus = ({ pollInterval = 30000 }) => {
   );
 };
 
-export default PowerStatus;
-
 PowerStatus.propTypes = {
   pollInterval: PropTypes.number,
 };
+
+export default PowerStatus;
