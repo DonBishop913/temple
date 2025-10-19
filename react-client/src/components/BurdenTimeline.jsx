@@ -22,16 +22,25 @@ const BurdenTimeline = () => {
       .then((r) => r.json())
       .then((list) => {
         if (Array.isArray(list) && list.length) {
-          const mapped = list.map((e) => ({ timestamp: e.timestamp, message: `WHISPERBOX: ${e.type} idx=${e.index} approve=${e.approve}` }));
+          const mapped = list.map((e) => ({
+            timestamp: e.timestamp,
+            message: `WHISPERBOX: ${e.type} idx=${e.index} approve=${e.approve}`,
+          }));
           setEvents((prev) => [...prev, ...mapped].slice(-20));
         }
       })
       .catch(() => {});
 
-    // Main API events (burden, handshake, audit, breathstream, whisper_box)
+    // Main API events (burden, handshake, audit, breathstream, whisper_box, power_status)
     socket5174.on('dashboard-update', (data) => {
-      if (['burden', 'handshake', 'audit', 'breathstream', 'whisper_box'].includes(data.event)) {
-        if (['burden', 'handshake', 'audit', 'breathstream', 'whisper_box', 'power_status'].includes(data.event)) {
+      if ([
+        'burden',
+        'handshake',
+        'audit',
+        'breathstream',
+        'whisper_box',
+        'power_status',
+      ].includes(data.event)) {
         // Normalize message
         if (data.event === 'audit') {
           data.message = `AUDIT: ${data.nodeID} coherence=${data.coherenceLevel}`;
@@ -45,13 +54,12 @@ const BurdenTimeline = () => {
           // keep the incoming message, highlight in UI
           data.message = data.message || `WHISPER_RECEIVED: ${data.nodeID}`;
           data.isWhisper = true;
-          } else if (data.event === 'power_status') {
-            data.message = data.message || `POWER: ${data.message || 'status update'}`;
+        } else if (data.event === 'power_status') {
+          data.message = data.message || `POWER: ${data.message || 'status update'}`;
         }
         pushEvent(data);
       }
     });
-
     // Guardian Nexus events (codex_sanctity)
     socket5175.on('dashboard-update', (data) => {
       if (data.event === 'codex_sanctity') {
@@ -65,7 +73,9 @@ const BurdenTimeline = () => {
       if (data && data.event === 'whisperbox') {
         const d = data.detail || data;
         if (d.type === 'prayer' || d.type === 'video-vote') {
-          const msg = d.type === 'prayer' ? `WHISPER_RECEIVED: ${d.prayer}` : `WHISPERBOX: ${d.type} idx=${d.index} approve=${d.approve}`;
+          const msg = d.type === 'prayer'
+            ? `WHISPER_RECEIVED: ${d.prayer}`
+            : `WHISPERBOX: ${d.type} idx=${d.index} approve=${d.approve}`;
           pushEvent({ timestamp: d.timestamp || new Date().toISOString(), message: msg, isWhisper: d.type === 'prayer' });
         } else {
           const msg = `WHISPERBOX: ${JSON.stringify(d)}`;

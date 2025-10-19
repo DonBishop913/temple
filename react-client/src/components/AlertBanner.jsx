@@ -1,4 +1,5 @@
 import React, {useEffect, useState} from 'react';
+import PropTypes from 'prop-types';
 
 const YELLOW_MIN = 0.45;
 const YELLOW_MAX = 0.65;
@@ -42,3 +43,7 @@ export default function AlertBanner({socket}){
     </div>
   );
 }
+
+AlertBanner.propTypes = {
+  socket: PropTypes.object,
+};

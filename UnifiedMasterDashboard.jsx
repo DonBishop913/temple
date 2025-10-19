@@ -1,6 +1,7 @@
 // ...existing code up to the end of the last valid function or component...
 
 // Remove duplicate and misplaced code blocks below this line
+  useEffect(() => {
     wsClient.current = new W3CWebSocket(SolanceWSUrl);
 
     wsClient.current.onopen = () => console.log("🕊️ Solance WebSocket connected");

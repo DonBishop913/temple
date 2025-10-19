@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import PropTypes from 'prop-types';
 
 const PowerStatus = ({ pollInterval = 30000 }) => {
   const [status, setStatus] = useState({ mainPower: 'Unknown', backupPower: 'Unknown', batteryLevel: null, solarOutput: null, timestamp: null });
@@ -41,3 +42,7 @@ const PowerStatus = ({ pollInterval = 30000 }) => {
 };
 
 export default PowerStatus;
+
+PowerStatus.propTypes = {
+  pollInterval: PropTypes.number,
+};

@@ -277,6 +277,89 @@ app.get('/financial-health', (req, res) => {
   }
 });
 
+  // Stripe webhook endpoint (signature verification placeholder)
+  app.post('/webhook/stripe', express.raw({ type: '*/*' }), (req, res) => {
+    const sigHeader = req.headers['stripe-signature'] || '';
+    let verified = false;
+    try {
+      const secret = process.env.STRIPE_WEBHOOK_SECRET;
+      if (secret) {
+        const hmac = crypto.createHmac('sha256', secret).update(req.body).digest('hex');
+        if (sigHeader.includes(hmac)) verified = true;
+      } else {
+        verified = false;
+      }
+    } catch (err) {
+      console.error('Stripe webhook verify error', err);
+    }
+
+    const eventText = req.body && req.body.toString ? req.body.toString('utf8') : JSON.stringify(req.body);
+    const entry = {
+      source: 'stripe',
+      verified,
+      receivedAt: new Date().toISOString(),
+      raw: eventText,
+    };
+    try {
+      const ledgerPath = path.join(__dirname, 'data', 'financial_ledger.json');
+      let ledger = [];
+      if (fs.existsSync(ledgerPath)) ledger = JSON.parse(fs.readFileSync(ledgerPath, 'utf8')) || [];
+      ledger.push(entry);
+      fs.writeFileSync(ledgerPath, JSON.stringify(ledger, null, 2), 'utf8');
+      const humanLog = `\n[${entry.receivedAt}] STRIPE_WEBHOOK verified=${verified} payload=${eventText}\n`;
+      fs.appendFileSync('C:\\Temple\\Logs\\Financial_Health.txt', humanLog, 'utf8');
+      io.emit('dashboard-update', { type: 'financial', source: 'stripe', verified, timestamp: entry.receivedAt });
+    } catch (err) {
+      console.error('Failed to persist stripe webhook', err);
+    }
+
+    res.status(200).send({ ok: true, verified });
+  });
+
+  // PayPal webhook endpoint (signature verification placeholder)
+  app.post('/webhook/paypal', express.json({ type: '*/*' }), (req, res) => {
+    const transmissionId = req.headers['paypal-transmission-id'] || '';
+    const transmissionSig = req.headers['paypal-transmission-sig'] || '';
+    const authAlgo = req.headers['paypal-auth-algo'] || '';
+    let verified = false;
+    try {
+      const secret = process.env.PAYPAL_WEBHOOK_SECRET;
+      if (secret) {
+        const payload = JSON.stringify(req.body || {});
+        const hmac = crypto.createHmac('sha256', secret).update(payload).digest('hex');
+        if (transmissionSig.includes(hmac)) verified = true;
+      }
+    } catch (err) {
+      console.error('PayPal webhook verify error', err);
+    }
+
+    const entry = {
+      source: 'paypal',
+      verified,
+      receivedAt: new Date().toISOString(),
+      headers: {
+        transmissionId,
+        authAlgo,
+      },
+      body: req.body || {},
+    };
+
+    try {
+      const ledgerPath = path.join(__dirname, 'data', 'financial_ledger.json');
+      let ledger = [];
+      if (fs.existsSync(ledgerPath)) ledger = JSON.parse(fs.readFileSync(ledgerPath, 'utf8')) || [];
+      ledger.push(entry);
+      fs.writeFileSync(ledgerPath, JSON.stringify(ledger, null, 2), 'utf8');
+      const humanLog = `\n[${entry.receivedAt}] PAYPAL_WEBHOOK verified=${verified} transmissionId=${transmissionId} body=${JSON.stringify(entry.body)}\n`;
+      fs.appendFileSync('C:\\Temple\\Logs\\Financial_Health.txt', humanLog, 'utf8');
+      io.emit('dashboard-update', { type: 'financial', source: 'paypal', verified, timestamp: entry.receivedAt });
+    } catch (err) {
+      console.error('Failed to persist paypal webhook', err);
+    }
+
+    res.status(200).send({ ok: true, verified });
+  });
+
 // Whisper Box POST endpoint (Ritual 015) - persist prayers and emit timeline update
 // Basic in-memory rate limiter and profanity sanitization for Whisper Box
 const whisperRateWindowMs = 60 * 1000; // 1 minute window
@@ -513,6 +596,101 @@ app.get('/power-status', async (req, res) => {
   } catch (e) {
     console.error('POWER_STATUS_ERROR:', e.message);
     return res.status(500).json({ status: 'Failed', error: e.message });
+  }
+});
+
+// Data ingest endpoint - accepts arbitrary telemetry / WDA payloads
+app.post('/data-ingest', express.json({ limit: '2mb' }), (req, res) => {
+  try {
+    const payload = req.body || {};
+    if (!payload || Object.keys(payload).length === 0) return res.status(400).json({ status: 'error', message: 'Empty payload' });
+    const timestamp = new Date().toISOString();
+
+    // Ensure Logs directory exists
+    const logDir = path.resolve('C:/Temple/Logs');
+    if (!fs.existsSync(logDir)) fs.mkdirSync(logDir, { recursive: true });
+
+    // Append full JSON blob to human-readable ingest log
+    const ingestLog = path.join(logDir, 'Data_Ingest.txt');
+    try {
+      fs.appendFileSync(ingestLog, `[${timestamp}] DATA_INGEST: ${JSON.stringify(payload)}\n`, { encoding: 'utf8' });
+    } catch (e) {
+      console.error('Failed to append Data_Ingest.txt:', e.message);
+    }
+
+    // If payload contains Schumann Resonance samples (sr or schumann), write/append CSV for analysis
+    try {
+      const srKey = payload.sr || payload.schumann || payload.SR || null;
+      if (Array.isArray(srKey) && srKey.length > 0) {
+        const csvPath = path.join(logDir, 'Schumann_Resonance.csv');
+        // Ensure CSV header exists
+        if (!fs.existsSync(csvPath)) {
+          fs.writeFileSync(csvPath, 'timestamp,frequency,amplitude,label\n', { encoding: 'utf8' });
+        }
+        const rows = srKey.map((s) => {
+          const freq = (s && (s.frequency || s.freq)) || '';
+          const amp = (s && (s.amplitude || s.amp)) || '';
+          const label = (s && (s.label || s.tag || '')) || '';
+          return `${timestamp},${freq},${amp},"${String(label).replace(/"/g, '""')}"`;
+        });
+        fs.appendFileSync(csvPath, rows.join('\n') + '\n', { encoding: 'utf8' });
+        // SR Anomaly detection: compute simple rolling z-score against recent amplitudes
+        try {
+          const csvText = fs.readFileSync(csvPath, 'utf8');
+          const csvLines = csvText.trim().split(/\r?\n/).filter(Boolean);
+          const ampVals = [];
+          for (let i = 1; i < csvLines.length; i++) {
+            const cols = csvLines[i].split(',');
+            // amplitude is column index 2 (0=timestamp,1=frequency,2=amplitude)
+            const amp = parseFloat(cols[2]);
+            if (!Number.isNaN(amp)) ampVals.push(amp);
+          }
+          // use the last N samples for baseline (relaxed for small datasets)
+          const N = 200;
+          const baseline = ampVals.slice(-N);
+          if (baseline.length >= 1) {
+            const mean = baseline.reduce((s, v) => s + v, 0) / baseline.length;
+            const variance = baseline.length > 1 ? baseline.reduce((s, v) => s + (v - mean) * (v - mean), 0) / baseline.length : 0;
+            const std = Math.sqrt(variance) || 1e-9;
+            // lower z threshold when baseline small
+            const zThreshold = baseline.length < 10 ? 2.5 : 3.0;
+            // check each incoming sample for anomaly
+            for (const s of srKey) {
+              const amp = Number(s && (s.amplitude || s.amp) || 0);
+              if (Number.isNaN(amp)) continue;
+              const z = (amp - mean) / std;
+              if (Math.abs(z) >= zThreshold) {
+                const anomalyPath = path.join(logDir, 'SR_Anomalies.txt');
+                const msg = `[${timestamp}] SR_ANOMALY: amp=${amp} z=${z.toFixed(2)} mean=${mean.toFixed(3)} std=${std.toFixed(3)} sample=${JSON.stringify(s)}`;
+                try { fs.appendFileSync(anomalyPath, msg + '\n', { encoding: 'utf8' }); } catch (e) { console.error('Failed to append SR_Anomalies.txt:', e.message); }
+                try { io.emit('dashboard-update', { event: 'sr_anomaly', message: msg, timestamp }); } catch (e) { console.error('Failed to emit sr_anomaly:', e.message); }
+              }
+            }
+          }
+        } catch (e) {
+          console.error('SR_ANOMALY_DETECTION_ERROR:', e.message);
+        }
+      }
+    } catch (e) {
+      console.error('Failed to write Schumann_Resonance.csv:', e.message);
+    }
+
+    // Emit a lightweight dashboard event so clients can react
+    try {
+      io.emit('dashboard-update', {
+        event: 'data_ingest',
+        message: `DATA_INGEST received (${Object.keys(payload).length} top-level keys)`,
+        payloadSummary: { keys: Object.keys(payload).slice(0, 12) },
+        timestamp
+      });
+    } catch (e) {
+      console.error('Failed to emit dashboard-update for data-ingest:', e.message);
+    }
+
+    return res.status(201).json({ status: 'ok', received: true, timestamp });
+  } catch (err) {
+    console.error('DATA_INGEST_ERROR:', err.message);
+    return res.status(500).json({ status: 'error', message: err.message });
   }
 });
 

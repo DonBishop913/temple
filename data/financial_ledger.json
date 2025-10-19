@@ -1,0 +1,27 @@
+[
+  {
+    "source": "stripe",
+    "verified": false,
+    "receivedAt": "2025-10-19T02:13:23.603Z",
+    "raw": "[object Object]"
+  },
+  {
+    "source": "paypal",
+    "verified": false,
+    "receivedAt": "2025-10-19T02:13:23.612Z",
+    "headers": {
+      "transmissionId": "testtrans",
+      "authAlgo": ""
+    },
+    "body": {
+      "id": "WH-TEST-123",
+      "event_type": "PAYMENT.SALE.COMPLETED",
+      "resource": {
+        "amount": {
+          "total": "50.00",
+          "currency": "USD"
+        }
+      }
+    }
+  }
+]
