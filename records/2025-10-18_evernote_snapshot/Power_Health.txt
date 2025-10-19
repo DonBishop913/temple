@@ -1,0 +1,1 @@
+[2025-10-18T17:35:00Z] STATUS: {"mainPower":"Online","backupPower":"Idle","batteryLevel":100,"solarOutput":0,"timestamp":"2025-10-18T17:35:00Z"} 🤝
