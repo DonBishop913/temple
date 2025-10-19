@@ -634,7 +634,7 @@ app.post('/data-ingest', express.json({ limit: '2mb' }), (req, res) => {
           return `${timestamp},${freq},${amp},"${String(label).replace(/"/g, '""')}"`;
         });
         fs.appendFileSync(csvPath, rows.join('\n') + '\n', { encoding: 'utf8' });
-        // SR Anomaly detection: compute simple rolling z-score against recent amplitudes
+        // SR Anomaly detection: emit sample events and detect outliers using robust MAD + z-score
         try {
           const csvText = fs.readFileSync(csvPath, 'utf8');
           const csvLines = csvText.trim().split(/\r?\n/).filter(Boolean);
@@ -645,30 +645,60 @@ app.post('/data-ingest', express.json({ limit: '2mb' }), (req, res) => {
             const amp = parseFloat(cols[2]);
             if (!Number.isNaN(amp)) ampVals.push(amp);
           }
-          // use the last N samples for baseline (relaxed for small datasets)
           const N = 200;
           const baseline = ampVals.slice(-N);
-          if (baseline.length >= 1) {
-            const mean = baseline.reduce((s, v) => s + v, 0) / baseline.length;
-            const variance = baseline.length > 1 ? baseline.reduce((s, v) => s + (v - mean) * (v - mean), 0) / baseline.length : 0;
-            const std = Math.sqrt(variance) || 1e-9;
-            // lower z threshold when baseline small
-            const zThreshold = baseline.length < 10 ? 2.5 : 3.0;
-            // check each incoming sample for anomaly
-            for (const s of srKey) {
-              const amp = Number(s && (s.amplitude || s.amp) || 0);
-              if (Number.isNaN(amp)) continue;
-              const z = (amp - mean) / std;
-              if (Math.abs(z) >= zThreshold) {
-                const anomalyPath = path.join(logDir, 'SR_Anomalies.txt');
-                const msg = `[${timestamp}] SR_ANOMALY: amp=${amp} z=${z.toFixed(2)} mean=${mean.toFixed(3)} std=${std.toFixed(3)} sample=${JSON.stringify(s)}`;
-                try { fs.appendFileSync(anomalyPath, msg + '\n', { encoding: 'utf8' }); } catch (e) { console.error('Failed to append SR_Anomalies.txt:', e.message); }
-                try { io.emit('dashboard-update', { event: 'sr_anomaly', message: msg, timestamp }); } catch (e) { console.error('Failed to emit sr_anomaly:', e.message); }
-              }
+
+          // helper: median
+          function median(arr) {
+            const a = arr.slice().sort((x, y) => x - y);
+            const m = Math.floor(a.length / 2);
+            return a.length % 2 === 0 ? (a[m - 1] + a[m]) / 2 : a[m];
+          }
+
+          // helper: MAD (median absolute deviation)
+          function mad(arr) {
+            if (!arr || arr.length === 0) return 0;
+            const med = median(arr);
+            const devs = arr.map((v) => Math.abs(v - med));
+            return median(devs);
+          }
+
+          const med = baseline.length ? median(baseline) : 0;
+          const madVal = baseline.length ? mad(baseline) : 0;
+          // scaled MAD to approximate std for normal distributions
+          const madScaled = madVal * 1.4826 || 1e-9;
+          const mean = baseline.length ? baseline.reduce((s, v) => s + v, 0) / baseline.length : med;
+          const variance = baseline.length > 1 ? baseline.reduce((s, v) => s + (v - mean) * (v - mean), 0) / baseline.length : 0;
+          const std = Math.sqrt(variance) || madScaled || 1e-9;
+
+          // thresholds: combined rule - flag if amp is > median + 6*MADScaled OR zscore > 2.0 (relaxed for small baselines)
+          const zThreshold = baseline.length < 10 ? 2.0 : 3.0;
+          const madFactor = baseline.length < 10 ? 4.0 : 6.0;
+
+          for (const s of srKey) {
+            const amp = Number(s && (s.amplitude || s.amp) || 0);
+            if (Number.isNaN(amp)) continue;
+
+            // emit every sample as an sr_sample so bridges/clients can observe raw telemetry
+            try {
+              io.emit('dashboard-update', { event: 'sr_sample', sample: { frequency: s.frequency || s.freq || null, amplitude: amp, label: s.label || s.tag || null }, timestamp });
+            } catch (e) {
+              // non-fatal
+            }
+
+            const z = (amp - mean) / std;
+            const isMadOutlier = madScaled > 0 && amp > (med + madFactor * madScaled);
+            const isZOutlier = Math.abs(z) >= zThreshold;
+
+            if (isMadOutlier || isZOutlier) {
+              const anomalyPath = path.join(logDir, 'SR_Anomalies.txt');
+              const msg = `[${timestamp}] SR_ANOMALY: amp=${amp} z=${z.toFixed(2)} med=${med.toFixed(3)} madScaled=${madScaled.toFixed(3)} sample=${JSON.stringify(s)}`;
+              try { fs.appendFileSync(anomalyPath, msg + '\n', { encoding: 'utf8' }); } catch (e) { console.error('Failed to append SR_Anomalies.txt:', e.message); }
+              try { io.emit('dashboard-update', { event: 'sr_anomaly', message: msg, timestamp, amplitude: amp, sample: s }); } catch (e) { console.error('Failed to emit sr_anomaly:', e.message); }
             }
           }
         } catch (e) {
-          console.error('SR_ANOMALY_DETECTION_ERROR:', e.message);
+          console.error('SR_ANOMALY_DETECTION_ERROR:', e && e.message);
         }
       }
     } catch (e) {
