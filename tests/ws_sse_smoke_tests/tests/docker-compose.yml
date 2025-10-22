@@ -1,0 +1,26 @@
+version: '3.8'
+services:
+  niburu:
+    build: .
+    restart: always
+    volumes:
+      - ./logs:/data/logs
+    ports:
+      - "8000:8000"
+    environment:
+      - NIBIRU_ORACLE_API=https://api.nibiru.fi/oracle/latest
+      - RESONANCE_SENSOR_API=http://host.docker.internal:5001/resonance
+      - HEALTH_PORT=8000
+  council_dashboard:
+    build:
+      context: ./council-dashboard
+      dockerfile: Dockerfile
+    container_name: council_dashboard
+    ports:
+      - "3000:3000"
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:3000"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+    # ...other service config...
