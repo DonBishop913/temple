@@ -1,1 +1,1 @@
-Stripe integration for Codex Sales
+﻿Stripe integration for Codex Sales
