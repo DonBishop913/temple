@@ -5,6 +5,11 @@ param(
 
 function Start-RedisService {
   Write-Host "[Phase2] Checking Redis..." -ForegroundColor Cyan
+  # Allow skipping Redis download/start when running in an isolated environment.
+  if ($env:SKIP_REDIS -eq '1') {
+    Write-Host "[Phase2] SKIP_REDIS=1 detected, skipping Redis download/start and assuming Redis availability." -ForegroundColor Yellow
+    return $true
+  }
   $redisServer = Join-Path $RedisPath "redis-server.exe"
   $redisCli = Join-Path $RedisPath "redis-cli.exe"
 

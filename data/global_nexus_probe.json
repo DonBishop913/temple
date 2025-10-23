@@ -466,5 +466,239 @@
       }
     ],
     "status": "pilot"
+  },
+  {
+    "timestamp": "2025-10-23T00:20:00.886Z",
+    "regions": [
+      {
+        "name": "Pacific",
+        "latencyMs": 24,
+        "lossPercent": 0.42
+      },
+      {
+        "name": "Americas",
+        "latencyMs": 22,
+        "lossPercent": 1.48
+      },
+      {
+        "name": "EMEA",
+        "latencyMs": 27,
+        "lossPercent": 1.65
+      },
+      {
+        "name": "APAC",
+        "latencyMs": 27,
+        "lossPercent": 0.38
+      }
+    ],
+    "status": "pilot"
+  },
+  {
+    "timestamp": "2025-10-23T00:30:00.689Z",
+    "regions": [
+      {
+        "name": "Pacific",
+        "latencyMs": 26,
+        "lossPercent": 1.24
+      },
+      {
+        "name": "Americas",
+        "latencyMs": 21,
+        "lossPercent": 0.47
+      },
+      {
+        "name": "EMEA",
+        "latencyMs": 32,
+        "lossPercent": 1.97
+      },
+      {
+        "name": "APAC",
+        "latencyMs": 36,
+        "lossPercent": 0.44
+      }
+    ],
+    "status": "pilot"
+  },
+  {
+    "timestamp": "2025-10-23T00:40:00.458Z",
+    "regions": [
+      {
+        "name": "Pacific",
+        "latencyMs": 27,
+        "lossPercent": 0.6
+      },
+      {
+        "name": "Americas",
+        "latencyMs": 23,
+        "lossPercent": 0.67
+      },
+      {
+        "name": "EMEA",
+        "latencyMs": 36,
+        "lossPercent": 1.32
+      },
+      {
+        "name": "APAC",
+        "latencyMs": 24,
+        "lossPercent": 0.31
+      }
+    ],
+    "status": "pilot"
+  },
+  {
+    "timestamp": "2025-10-23T00:50:00.539Z",
+    "regions": [
+      {
+        "name": "Pacific",
+        "latencyMs": 36,
+        "lossPercent": 1.36
+      },
+      {
+        "name": "Americas",
+        "latencyMs": 35,
+        "lossPercent": 0.03
+      },
+      {
+        "name": "EMEA",
+        "latencyMs": 43,
+        "lossPercent": 1.07
+      },
+      {
+        "name": "APAC",
+        "latencyMs": 31,
+        "lossPercent": 0.55
+      }
+    ],
+    "status": "pilot"
+  },
+  {
+    "timestamp": "2025-10-23T01:00:00.348Z",
+    "regions": [
+      {
+        "name": "Pacific",
+        "latencyMs": 30,
+        "lossPercent": 1.42
+      },
+      {
+        "name": "Americas",
+        "latencyMs": 38,
+        "lossPercent": 1.88
+      },
+      {
+        "name": "EMEA",
+        "latencyMs": 31,
+        "lossPercent": 1.21
+      },
+      {
+        "name": "APAC",
+        "latencyMs": 41,
+        "lossPercent": 1.45
+      }
+    ],
+    "status": "pilot"
+  },
+  {
+    "timestamp": "2025-10-23T01:10:00.003Z",
+    "regions": [
+      {
+        "name": "Pacific",
+        "latencyMs": 42,
+        "lossPercent": 0.72
+      },
+      {
+        "name": "Americas",
+        "latencyMs": 50,
+        "lossPercent": 0.24
+      },
+      {
+        "name": "EMEA",
+        "latencyMs": 26,
+        "lossPercent": 0.57
+      },
+      {
+        "name": "APAC",
+        "latencyMs": 49,
+        "lossPercent": 1.11
+      }
+    ],
+    "status": "pilot"
+  },
+  {
+    "timestamp": "2025-10-23T01:20:00.507Z",
+    "regions": [
+      {
+        "name": "Pacific",
+        "latencyMs": 47,
+        "lossPercent": 1.5
+      },
+      {
+        "name": "Americas",
+        "latencyMs": 40,
+        "lossPercent": 1.86
+      },
+      {
+        "name": "EMEA",
+        "latencyMs": 40,
+        "lossPercent": 1.14
+      },
+      {
+        "name": "APAC",
+        "latencyMs": 35,
+        "lossPercent": 0.05
+      }
+    ],
+    "status": "pilot"
+  },
+  {
+    "timestamp": "2025-10-23T01:30:00.121Z",
+    "regions": [
+      {
+        "name": "Pacific",
+        "latencyMs": 34,
+        "lossPercent": 1.96
+      },
+      {
+        "name": "Americas",
+        "latencyMs": 48,
+        "lossPercent": 0.54
+      },
+      {
+        "name": "EMEA",
+        "latencyMs": 25,
+        "lossPercent": 0.35
+      },
+      {
+        "name": "APAC",
+        "latencyMs": 20,
+        "lossPercent": 1.48
+      }
+    ],
+    "status": "pilot"
+  },
+  {
+    "timestamp": "2025-10-23T03:20:00.304Z",
+    "regions": [
+      {
+        "name": "Pacific",
+        "latencyMs": 23,
+        "lossPercent": 1.1
+      },
+      {
+        "name": "Americas",
+        "latencyMs": 33,
+        "lossPercent": 1.54
+      },
+      {
+        "name": "EMEA",
+        "latencyMs": 36,
+        "lossPercent": 1.26
+      },
+      {
+        "name": "APAC",
+        "latencyMs": 45,
+        "lossPercent": 1.13
+      }
+    ],
+    "status": "pilot"
   }
 ]
