@@ -241,9 +241,19 @@ app.post("/api/council_message", async (req, res) => {
     const config = JSON.parse(fs.readFileSync(configPath));
     if (token !== config.auth_token) return res.status(403).json({ error: "Unauthorized" });
 
-    const AI_Relay = require("./AI_Relay_External");
-    const ai_reply = AI_Relay.handleCouncilMessage(user, message);
-    res.json({ ai_reply, timestamp: new Date() });
+    // Proxy to AI Relay on port 3200
+    const relayResponse = await fetch('http://host.docker.internal:3200/api/council_message', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ user, message, token })
+    });
+
+    if (!relayResponse.ok) {
+      throw new Error(`Relay responded with ${relayResponse.status}`);
+    }
+
+    const relayData = await relayResponse.json();
+    res.json(relayData);
   } catch (e) {
     res.status(500).json({ error: "Message handling failed" });
   }

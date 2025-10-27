@@ -9,6 +9,8 @@ services:
       interval: 30s
       timeout: 10s
       retries: 3
+    networks:
+      - council_network
 
   council_dashboard:
     build:
@@ -32,6 +34,8 @@ services:
       interval: 30s
       timeout: 10s
       retries: 3
+    networks:
+      - council_network
 
   ai_relay_external:
     build:
@@ -49,6 +53,9 @@ services:
     environment:
       - COUNCIL_TOKEN=blessed_secret_token
     command: node scripts/AI_Relay_External.js
-    depends_on:
-      redis:
-        condition: service_healthy
+    networks:
+      - council_network
+
+networks:
+  council_network:
+    driver: bridge
