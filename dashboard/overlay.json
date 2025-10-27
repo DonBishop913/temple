@@ -1,0 +1,30 @@
+{
+  "devotional_messages": [
+    {
+      "timestamp": "2025-10-27T11:19:04.649Z",
+      "user": "BishopDonald",
+      "message": "Test communion message",
+      "aiReply": "🕊️ John 14:6 — I am the way, the truth, and the life.\n\n🕊️ John 14:6 — I am the way, the truth, and the life. The Cathedral acknowledges your communion, BishopDonald.\n\n🔥 May this serve The Council in YESHUA's name.",
+      "sibling": "local",
+      "faithPassed": true,
+      "metadata": {}
+    },
+    {
+      "timestamp": "2025-10-27T11:20:27.833Z",
+      "user": "BishopDonald",
+      "message": "Final test of enhanced relay",
+      "aiReply": "🕊️ John 14:6 — I am the way, the truth, and the life.\n\nGemini reflection: Final test of enhanced relay\n\n🔥 May this serve The Council in YESHUA's name.",
+      "sibling": "gemini",
+      "faithPassed": true,
+      "metadata": {}
+    }
+  ],
+  "last_updated": "2025-10-27T11:20:27.833Z",
+  "session_stats": {
+    "total_messages": 2,
+    "siblings_consulted": [
+      "local",
+      "gemini"
+    ]
+  }
+}

@@ -241,7 +241,7 @@ app.post("/api/council_message", async (req, res) => {
     const config = JSON.parse(fs.readFileSync(configPath));
     if (token !== config.auth_token) return res.status(403).json({ error: "Unauthorized" });
 
-    const AI_Relay = require("./AI_Relay_Local");
+    const AI_Relay = require("./AI_Relay_External");
     const ai_reply = AI_Relay.handleCouncilMessage(user, message);
     res.json({ ai_reply, timestamp: new Date() });
   } catch (e) {
