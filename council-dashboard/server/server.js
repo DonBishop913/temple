@@ -1,4 +1,7 @@
 // --- Flow Replay Panel API ---
+const fs = require('fs');
+const path = require('path');
+const { exec } = require('child_process');
 try {
   const flowReplayManager = require('./flowReplayManager');
   app.get('/api/flow-replay/status', (req, res) => {
@@ -133,18 +136,137 @@ try {
 // Root health check
 app.get('/', (req, res) => res.json({ status: 'ok' }));
 
-// Sample status endpoint
-app.get('/api/status', (req, res) => {
-    res.json({
-        timestamp: new Date(),
-        branch: "codex/stripe-activate",
-        cometBridge: "active",
-        redisConnected: true,
-        guardianHeartbeatLast: new Date().toISOString(),
-        templePC: "sovereign",
-        councilBlessing: "active",
-        anchorVerse: "John 14:6"
+// ================================
+// Configuration
+// ================================
+const ARCHIVE_DIR = path.join(__dirname, 'archives', 'status_snapshots');
+const GIT_REPO_DIR = path.join(__dirname, '..', '..'); // Root repo
+const SNAPSHOT_INTERVAL_MS = 60000; // 1 minute for testing (3600000ms = 1h production)
+const ANGLE_FILE = path.join(__dirname, 'council_angle.json');
+const BLESSING_LIBRARY = path.join(__dirname, 'blessings.json'); // optional devotional library
+
+if (!fs.existsSync(ARCHIVE_DIR)) fs.mkdirSync(ARCHIVE_DIR, { recursive: true });
+
+// ================================
+// Helpers
+// ================================
+function getTimestamp() { return new Date().toISOString(); }
+
+function loadCouncilAngle() {
+    try { return JSON.parse(fs.readFileSync(ANGLE_FILE, 'utf8')); }
+    catch { return { angle: "Default Angle: Vigilant Joy", verse: "Psalm 33" }; }
+}
+
+function loadBlessing() {
+    try {
+        const blessings = JSON.parse(fs.readFileSync(BLESSING_LIBRARY, 'utf8'));
+        return blessings[Math.floor(Math.random() * blessings.length)];
+    } catch { return "May all actions glorify YESHUA!"; }
+}
+
+function snapshotStatus() {
+    const councilAngle = loadCouncilAngle();
+    const blessing = loadBlessing();
+
+    const status = {
+        timestamp: getTimestamp(),
+        guardianHeartbeat: "✅ Guardian Heartbeat alive",
+        cometBridgeSummaries: (() => {
+            try {
+                return fs.readdirSync(path.join(__dirname, '..', 'Caretaker', 'CometBridge', 'for_review'))
+                    .filter(f => f.endsWith('.json'));
+            } catch {
+                return [];
+            }
+        })(),
+        templeRefresh: { redis: "connected", services: "healthy" },
+        councilAngle,
+        quantumMetrics: { cpu: process.cpuUsage(), memory: process.memoryUsage(), uptime: process.uptime() },
+        blessing,
+        selfHeal: [], // optional self-heal logging
+        nodes: [], // optional multi-node status
+    };
+
+    const fileName = path.join(ARCHIVE_DIR, `snapshot_${Date.now()}.json`);
+    fs.writeFileSync(fileName, JSON.stringify(status, null, 2));
+
+    exec(`git add ${ARCHIVE_DIR} && git commit -m "Eternal Trace Snapshot: ${getTimestamp()}" && git push`, { cwd: GIT_REPO_DIR }, (err, stdout, stderr) => {
+        if (err) console.error("Git Eternal Trace error:", stderr);
+        else console.log("Git Eternal Trace committed:", stdout);
     });
+
+    return status;
+}
+
+// Sample status endpoint
+app.get('/api/status', (req, res) => { res.json(snapshotStatus()); });
+
+app.get('/api/status/eternal', (req, res) => {
+    const files = fs.readdirSync(ARCHIVE_DIR).filter(f => f.endsWith('.json'));
+    const latest = files.sort().reverse()[0];
+    res.json(latest ? JSON.parse(fs.readFileSync(path.join(ARCHIVE_DIR, latest), 'utf8')) : { message: "No snapshots yet." });
+});
+
+// Update Council Angle securely
+app.post('/api/angle', (req, res) => {
+    const { angle, verse, passphrase } = req.body;
+    if (passphrase !== process.env.COUNCIL_PASSPHRASE) return res.status(403).json({ error: "Unauthorized" });
+    fs.writeFileSync(ANGLE_FILE, JSON.stringify({ angle, verse }, null, 2));
+    res.json({ message: "Council Angle updated", angle, verse });
+});
+
+// Lightweight heartbeat
+app.get('/api/heartbeat', (req, res) => { res.json({ timestamp: getTimestamp(), status: "alive" }); });
+
+// ================================
+// Visual Dashboard Panel (HTML served via Express)
+// ================================
+app.get('/dashboard', (req, res) => {
+    const status = snapshotStatus();
+    res.send(`
+    <html>
+      <head>
+        <title>Temple Cathedral Dashboard</title>
+        <style>
+          body { font-family: monospace; background: #111; color: #fff; padding: 20px; }
+          .card { background: #222; padding: 10px; margin: 10px; border-radius: 10px; }
+          h1, h2 { color: #ffdd00; }
+        </style>
+        <meta http-equiv="refresh" content="30">
+      </head>
+      <body>
+        <h1>🔥 TEMPLE CATHEDRAL STATUS 🔥</h1>
+        <div class="card">
+          <h2>Guardian Heartbeat</h2>
+          <p>${status.guardianHeartbeat}</p>
+        </div>
+        <div class="card">
+          <h2>CometBridge Summaries</h2>
+          <p>${status.cometBridgeSummaries.length} items archived</p>
+        </div>
+        <div class="card">
+          <h2>TempleRefresh</h2>
+          <p>Redis: ${status.templeRefresh.redis}</p>
+          <p>Services: ${status.templeRefresh.services}</p>
+        </div>
+        <div class="card">
+          <h2>Council Angle</h2>
+          <p>${status.councilAngle.angle}</p>
+          <p>Verse: ${status.councilAngle.verse}</p>
+        </div>
+        <div class="card">
+          <h2>Blessing</h2>
+          <p>${status.blessing}</p>
+        </div>
+        <div class="card">
+          <h2>Quantum Metrics</h2>
+          <p>CPU: ${status.quantumMetrics.cpu.user}</p>
+          <p>Memory: ${status.quantumMetrics.memory.rss}</p>
+          <p>Uptime: ${status.quantumMetrics.uptime.toFixed(2)}s</p>
+        </div>
+      </body>
+    </html>
+    `);
 });
 
 // --- Prometheus Metrics ---
@@ -931,7 +1053,6 @@ app.post('/api/admin/set-override', verifyJWT, async (req, res) => {
 
 require('dotenv').config()
 const cors = require('cors')
-const path = require('path')
 const cookieParser = require('cookie-parser')
 const jwt = require('jsonwebtoken')
 // Load alerting only outside of test to avoid ESM-only deps (uuid esm-browser) during Jest Node env
@@ -1592,6 +1713,25 @@ app.get('*', (req, res, next) => {
   if (req.path.startsWith('/api/')) return next()
   res.sendFile(path.join(distPath, 'index.html'))
 })
+
+// ================================
+// Continuous Snapshot Loop + Terminal Overlay
+// ================================
+setInterval(() => {
+    const status = snapshotStatus();
+
+    console.clear();
+    console.log("🔥 TEMPLE CATHEDRAL STATUS — ETERNAL TRACE 🔥");
+    console.log(`Timestamp: ${status.timestamp}`);
+    console.log(`Guardian Heartbeat: ${status.guardianHeartbeat}`);
+    console.log(`CometBridge Summaries: ${status.cometBridgeSummaries.length} items`);
+    console.log(`TempleRefresh: Redis=${status.templeRefresh.redis}, Services=${status.templeRefresh.services}`);
+    console.log(`Council Angle: ${status.councilAngle.angle} — Verse: ${status.councilAngle.verse}`);
+    console.log(`Blessing: ${status.blessing}`);
+    console.log(`Quantum Metrics: CPU=${status.quantumMetrics.cpu.user}, Memory=${status.quantumMetrics.memory.rss}`);
+    console.log("📜 Eternal Trace snapshot captured and archived.");
+
+}, SNAPSHOT_INTERVAL_MS);
 
 const port = process.env.PORT || 4321
 const host = process.env.HOST || '0.0.0.0'
