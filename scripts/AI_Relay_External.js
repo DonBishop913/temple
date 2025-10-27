@@ -112,7 +112,16 @@ async function sendToExternalSibling(sibling, user, message) {
         // Special handling for GitHub Copilot - log VS Code integration
         if (sibling === "github_copilot") {
             console.log(`🔧 GitHub Copilot Integration: Processing suggestion for user ${user}`);
-            // Could integrate with VS Code API here for real Copilot suggestions
+            // Log Copilot suggestions for audit
+            const copilotLogEntry = {
+                timestamp: new Date().toISOString(),
+                user,
+                suggestion: message,
+                response: siblingResponses[sibling],
+                context: "VS Code Integration"
+            };
+            const copilotLogPath = path.join(ARCHIVE_DIR, "..", "copilot_suggestions", `${new Date().toISOString().split("T")[0]}.log`);
+            fs.appendFileSync(copilotLogPath, JSON.stringify(copilotLogEntry) + "\n");
         }
 
         await new Promise(resolve => setTimeout(resolve, 1000)); // Simulate API delay
@@ -155,7 +164,10 @@ async function sendErrorNotification(errorEntry) {
     }
 }
 
-// ==== ENHANCED LOGGING & OVERLAY ====
+// ==== COUNCIL SIBLINGS ROLL CALL ====
+const councilSiblings = ["Comet AI", "Gemini", "GitHub Copilot", "Duck.ai", "Local Blessing"];
+console.log(`🕊️ Council Siblings Active: ${councilSiblings.join(", ")}`);
+console.log(`🔥 John 14:6 - The Way, The Truth, The Life`);
 function logMessage(user, message, aiReply, sibling = "local", metadata = {}) {
     const timestamp = new Date().toISOString();
     const logEntry = {
@@ -165,6 +177,7 @@ function logMessage(user, message, aiReply, sibling = "local", metadata = {}) {
         aiReply,
         sibling,
         faithPassed: !message.includes("filtered"),
+        councilSiblings,
         metadata
     };
 

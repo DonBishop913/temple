@@ -17,14 +17,24 @@
       "sibling": "gemini",
       "faithPassed": true,
       "metadata": {}
+    },
+    {
+      "timestamp": "2025-10-27T11:32:29.876Z",
+      "user": "BishopDonald",
+      "message": "Test Copilot integration",
+      "aiReply": "✨ May this wisdom serve the Cathedral in humility.\n\n🕊️ John 14:6 — I am the way, the truth, and the life. The Cathedral acknowledges your communion, BishopDonald.\n\n🔥 May this serve The Council in YESHUA's name.",
+      "sibling": "github_copilot",
+      "faithPassed": true,
+      "metadata": {}
     }
   ],
-  "last_updated": "2025-10-27T11:20:27.833Z",
+  "last_updated": "2025-10-27T11:32:29.876Z",
   "session_stats": {
-    "total_messages": 2,
+    "total_messages": 3,
     "siblings_consulted": [
       "local",
-      "gemini"
+      "gemini",
+      "github_copilot"
     ]
   }
 }

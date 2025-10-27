@@ -118,7 +118,7 @@ while ($true) {
     Write-BlessingSummary
 
     # Council Git Integration - Eternal trace of all autonomous operations
-    Invoke-CouncilGitCommit -Message "Council autonomous cycle completed | Heartbeat, refresh, overlay, communion active | John 14:6"
+    & "$PSScriptRoot\Invoke-GitCommit.ps1" -Message "Council autonomous cycle: Heartbeat, refresh, overlay, communion active | John 14:6"
 
     # Sleep interval (e.g., 60 minutes) — adjust as desired
     Start-Sleep -Seconds 3600
