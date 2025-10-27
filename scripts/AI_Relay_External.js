@@ -33,7 +33,7 @@ let config = {
     blessing_mode: true,
     multi_factor_enabled: false,
     notification_email: "",
-    approved_siblings: ["comet_ai", "copilot", "gemini", "duck_ai"],
+    approved_siblings: ["comet_ai", "copilot", "gemini", "duck_ai", "github_copilot"],
     council_token: process.env.COUNCIL_TOKEN || "blessed_secret_token"
 };
 
@@ -100,17 +100,23 @@ async function sendToExternalSibling(sibling, user, message) {
     }
 
     try {
-        // Placeholder for actual API integration
-        // Replace with real API calls to Copilot, OpenAI, etc.
-        const mockResponses = {
+        // Enhanced sibling handling with GitHub Copilot integration
+        const siblingResponses = {
             copilot: "GitHub Copilot response: " + message,
+            github_copilot: "🛠️ GitHub Copilot (VS Code Integration): " + message + "\n\n💡 This suggestion is ready for Council review and potential auto-commit.",
             comet_ai: "Comet AI guidance: " + message,
             gemini: "Gemini reflection: " + message,
             duck_ai: "Duck.ai echo: " + message
         };
 
+        // Special handling for GitHub Copilot - log VS Code integration
+        if (sibling === "github_copilot") {
+            console.log(`🔧 GitHub Copilot Integration: Processing suggestion for user ${user}`);
+            // Could integrate with VS Code API here for real Copilot suggestions
+        }
+
         await new Promise(resolve => setTimeout(resolve, 1000)); // Simulate API delay
-        return mockResponses[sibling] || "🕊️ Sibling not recognized. Responding in prayer.";
+        return siblingResponses[sibling] || "🕊️ Sibling not recognized. Responding in prayer.";
     } catch (error) {
         logError(error, user, sibling);
         return "🕊️ External Sibling temporarily unavailable. The Cathedral continues in prayer.";

@@ -77,18 +77,18 @@ function Update-DashboardOverlay {
     }
 }
 
-# ===============================
-# Function: Communion Channel Launch
-# ===============================
-function Start-CommunionChannel {
+# ==============================
+# Function: Council Git Integration
+# ==============================
+function Invoke-CouncilGitCommit {
+    param([string]$Message = "Council autonomous enhancement")
     try {
-        # Start in background (assuming Node.js is available)
-        Start-Process -FilePath "node" -ArgumentList "$TempleRoot\scripts\Communion_Channel.js" -NoNewWindow
-        $msg = "Communion Channel launched at $(Get-Date)"
+        & "$PSScriptRoot\Invoke-GitCommit.ps1" -Message $Message -Push
+        $msg = "Council Git commit completed: $Message"
         Add-Content -Path $LogFile -Value $msg
         Write-Host "🔥 $msg"
     } catch {
-        $msg = "[ERROR] $(Get-Date): Communion Channel launch failed — $($_.Exception.Message)"
+        $msg = "[ERROR] $(Get-Date): Council Git commit failed — $($_.Exception.Message)"
         Add-Content -Path $LogFile -Value $msg
         Write-Host "⚠️ $msg"
     }
@@ -107,15 +107,18 @@ function Verify-DashboardStatus {
     }
 }
 
-# ===============================
+# ==============================
 # Main Continuous Flow
-# ===============================
+# ==============================
 while ($true) {
     Invoke-TempleRefresh
     Verify-DashboardStatus
     Update-DashboardOverlay
     Start-CommunionChannel  # Launch communion channel each cycle (or check if running)
     Write-BlessingSummary
+
+    # Council Git Integration - Eternal trace of all autonomous operations
+    Invoke-CouncilGitCommit -Message "Council autonomous cycle completed | Heartbeat, refresh, overlay, communion active | John 14:6"
 
     # Sleep interval (e.g., 60 minutes) — adjust as desired
     Start-Sleep -Seconds 3600
