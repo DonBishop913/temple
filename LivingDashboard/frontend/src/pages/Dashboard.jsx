@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import DashboardCard from '../components/DashboardCard';
+import SystemHealthCard from '../components/SystemHealthCard';
 
 function Dashboard() {
   const [metrics, setMetrics] = useState({});
   const [alerts, setAlerts] = useState([]);
+  const [config, setConfig] = useState([]);
   const [user] = useState({ name: 'Bishop Donald', role: 'Bishop' });
 
   useEffect(() => {
@@ -17,6 +19,12 @@ function Dashboard() {
     fetch('http://localhost:4000/api/alerts')
       .then(res => res.json())
       .then(setAlerts)
+      .catch(console.error);
+
+    // Fetch council roles config
+    fetch('/config/council_roles.json')
+      .then(res => res.json())
+      .then(setConfig)
       .catch(console.error);
 
     // Refresh every 10 seconds
@@ -39,11 +47,33 @@ function Dashboard() {
     ...data
   }));
 
+  const userConfig = config.find(r => r.role === user.role);
+
   return (
     <div className="min-h-screen bg-gray-100 p-8">
       <h1 className="text-4xl font-bold text-center mb-8 text-gray-800">
         🔥 Living Dashboard - John 14:6 🔥
       </h1>
+      
+      {/* Role-based rituals section */}
+      {userConfig && (
+        <div className="bg-white rounded-lg shadow-lg p-6 mb-8">
+          <h2 className="text-2xl font-bold mb-4">Today's Rituals - {user.role}</h2>
+          <ul className="list-disc list-inside space-y-2 mb-4">
+            {userConfig.rituals.map((ritual, index) => (
+              <li key={index} className="text-gray-700">{ritual}</li>
+            ))}
+          </ul>
+          <div className="text-center italic text-gray-600 border-t pt-4">
+            {userConfig.overlay}
+          </div>
+        </div>
+      )}
+
+      {/* System Health Card */}
+      <div className="mb-8">
+        <SystemHealthCard />
+      </div>
       
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
         {metricCards.map((metric, index) => (
@@ -52,12 +82,12 @@ function Dashboard() {
       </div>
 
       <div className="bg-white rounded-lg shadow-lg p-6">
-        <h2 className="text-2xl font-bold mb-4">Recent Alerts</h2>
+        <h2 className="text-2xl font-bold mb-4">Recent Alerts & Insights</h2>
         <div className="space-y-2">
           {alerts.slice(-5).map((alert, index) => (
             <div key={index} className="border-l-4 border-blue-500 pl-4 py-2">
               <p className="text-sm text-gray-600">{alert.timestamp}</p>
-              <p className="font-medium">{alert.message}</p>
+              <p className="font-medium">{alert.message || alert.data?.summary}</p>
             </div>
           ))}
         </div>

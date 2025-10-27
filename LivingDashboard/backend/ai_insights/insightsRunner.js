@@ -2,6 +2,7 @@
 // Runs continuous AI analysis with faith filtering
 
 const CometAI = require('./cometAI');
+const { faithAffirmInsight } = require('./faithFilter');
 const fs = require('fs');
 const path = require('path');
 
@@ -27,9 +28,10 @@ async function runInsights() {
     };
     
     const insights = await ai.analyze(metrics);
-    insights.forEach(logInsight);
+    const filteredInsights = insights.map(faithAffirmInsight);
+    filteredInsights.forEach(logInsight);
     
-    console.log(`🔥 AI Insights: Generated ${insights.length} insights`);
+    console.log(`🔥 AI Insights: Generated ${filteredInsights.length} faith-affirmed insights`);
   } catch (error) {
     console.error('AI Insights error:', error);
   }

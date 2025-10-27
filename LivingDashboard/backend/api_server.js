@@ -70,12 +70,54 @@ app.get('/api/alerts', (req, res) => {
   }
 });
 
+// Get audit trail
+app.get('/api/audit_trail', (req, res) => {
+  try {
+    const logs = fs.readFileSync(LOG_FILE, 'utf8')
+      .split('\n').filter(Boolean).map(JSON.parse);
+    res.json(logs.slice(-100)); // last 100 entries
+  } catch (error) {
+    res.json([]);
+  }
+});
+
+// Flag insight for council review
+app.post('/api/flag', (req, res) => {
+  const { id, reason, councilUser } = req.body;
+  const flagEntry = {
+    id,
+    reason,
+    councilUser,
+    timestamp: new Date().toISOString(),
+    type: 'flag'
+  };
+  fs.appendFileSync(path.join(__dirname, '..', 'logs', 'flagged_insights.log'), 
+    JSON.stringify(flagEntry) + '\n'
+  );
+  res.json({ success: true, flagged: id });
+});
+
 // Health check
 app.get('/api/health', (req, res) => {
   res.json({
     status: 'Living Dashboard API Online',
     timestamp: new Date().toISOString(),
     faith: 'John 14:6'
+  });
+});
+
+// System health endpoint
+app.get('/api/system_health', (req, res) => {
+  const uptime = process.uptime();
+  const errors = fs.readFileSync(path.join(__dirname, '..', 'logs', 'live_dashboard.log'), 'utf8')
+    .split('\n').filter(line => line.includes('"type":"error"')).length;
+  
+  res.json({
+    uptimeSeconds: uptime,
+    errorCount: errors,
+    status: '🔥 Healthy',
+    john14_6: true,
+    timestamp: new Date().toISOString()
   });
 });
 
