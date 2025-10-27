@@ -4,7 +4,7 @@ let redisInstance = null;
 
 export function getRedisClient() {
   if (redisInstance) return redisInstance;
-  const url = process.env.REDIS_URL || process.env.LOCAL_REDIS_URL || 'redis://localhost:6379';
+  const url = process.env.REDIS_URL || process.env.LOCAL_REDIS_URL || 'redis://redis:6379';
   redisInstance = new Redis(url);
   redisInstance.on('connect', () => {
     console.log(`[Redis] Connected: ${url}`);

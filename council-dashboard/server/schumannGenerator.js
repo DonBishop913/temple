@@ -2,7 +2,7 @@
 // Generates a compact spectral snapshot and writes to Redis periodically.
 
 const redis = require('redis');
-const REDIS_URL = process.env.REDIS_URL || 'redis://council_redis:6379';
+const REDIS_URL = process.env.REDIS_URL || 'redis://redis:6379';
 
 function now() { return Date.now(); }
 

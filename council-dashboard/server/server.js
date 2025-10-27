@@ -111,6 +111,8 @@ try {
 if (!process.env.REDIS_URL && !process.env.LOCAL_REDIS_URL) {
   process.env.REDIS_URL = 'redis://127.0.0.1:6379';
 }
+// Prefer explicit REDIS_URL; fall back to localhost for local dev when Docker service name isn't resolvable
+const REDIS_URL = process.env.REDIS_URL || process.env.LOCAL_REDIS_URL || 'redis://127.0.0.1:6379'
 // Ensure Express app is initialized before any route registration
 let app;
 try {
@@ -127,6 +129,23 @@ try {
   app = express();
   app.use(require('express').json());
 }
+
+// Root health check
+app.get('/', (req, res) => res.json({ status: 'ok' }));
+
+// Sample status endpoint
+app.get('/api/status', (req, res) => {
+    res.json({
+        timestamp: new Date(),
+        branch: "codex/stripe-activate",
+        cometBridge: "active",
+        redisConnected: true,
+        guardianHeartbeatLast: new Date().toISOString(),
+        templePC: "sovereign",
+        councilBlessing: "active",
+        anchorVerse: "John 14:6"
+    });
+});
 
 // --- Prometheus Metrics ---
 let promClient, promRegister;
@@ -928,8 +947,6 @@ app.get('/api/alerts/recent', (req, res) => {
 });
 const { evaluateFFT } = require('./anomalyDetector')
 const client = require('prom-client')
-// Prefer explicit REDIS_URL; fall back to localhost for local dev when Docker service name isn't resolvable
-const REDIS_URL = process.env.REDIS_URL || process.env.LOCAL_REDIS_URL || 'redis://127.0.0.1:6379'
 // Archival settings
 const FFT_ARCHIVE_KEY = process.env.FFT_ARCHIVE_KEY || 'fft_frames'
 const FFT_ARCHIVE_MAX = Number(process.env.FFT_ARCHIVE_MAX || 2000) // keep last N frames
