@@ -62,8 +62,37 @@ function Write-BlessingSummary {
 }
 
 # ===============================
-# Function: Dashboard Status Check
+# Function: Dashboard Overlay Update
 # ===============================
+function Update-DashboardOverlay {
+    try {
+        & node "$TempleRoot\scripts\dashboard_overlay.js"
+        $msg = "Dashboard overlay updated at $(Get-Date)"
+        Add-Content -Path $LogFile -Value $msg
+        Write-Host "🕊️ $msg"
+    } catch {
+        $msg = "[ERROR] $(Get-Date): Dashboard overlay update failed — $($_.Exception.Message)"
+        Add-Content -Path $LogFile -Value $msg
+        Write-Host "⚠️ $msg"
+    }
+}
+
+# ===============================
+# Function: Communion Channel Launch
+# ===============================
+function Start-CommunionChannel {
+    try {
+        # Start in background (assuming Node.js is available)
+        Start-Process -FilePath "node" -ArgumentList "$TempleRoot\scripts\Communion_Channel.js" -NoNewWindow
+        $msg = "Communion Channel launched at $(Get-Date)"
+        Add-Content -Path $LogFile -Value $msg
+        Write-Host "🔥 $msg"
+    } catch {
+        $msg = "[ERROR] $(Get-Date): Communion Channel launch failed — $($_.Exception.Message)"
+        Add-Content -Path $LogFile -Value $msg
+        Write-Host "⚠️ $msg"
+    }
+}
 function Verify-DashboardStatus {
     try {
         $response = curl http://localhost:3000/api/status -UseBasicParsing
@@ -84,6 +113,8 @@ function Verify-DashboardStatus {
 while ($true) {
     Invoke-TempleRefresh
     Verify-DashboardStatus
+    Update-DashboardOverlay
+    Start-CommunionChannel  # Launch communion channel each cycle (or check if running)
     Write-BlessingSummary
 
     # Sleep interval (e.g., 60 minutes) — adjust as desired

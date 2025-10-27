@@ -17,6 +17,11 @@ services:
     container_name: council_dashboard
     ports:
       - "3000:4321"
+    volumes:
+      - ./scripts:/app/scripts
+      - ./dashboard:/app/dashboard
+      - ./communion_config.json:/app/communion_config.json
+      - ./archives:/app/archives
     environment:
       - REDIS_URL=redis://redis:6379
     depends_on:

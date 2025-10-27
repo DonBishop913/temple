@@ -218,6 +218,38 @@ app.post('/api/angle', (req, res) => {
 // Lightweight heartbeat
 app.get('/api/heartbeat', (req, res) => { res.json({ timestamp: getTimestamp(), status: "alive" }); });
 
+// 🔥 Phase 2 Hybrid Communion Integration — Overlay and Council Messages
+const overlayPath = path.join(__dirname, "..", "dashboard", "dashboard_overlay.json");
+const configPath = path.join(__dirname, "..", "communion_config.json");
+
+// Serve dashboard overlay
+app.get("/dashboard/overlay", (req, res) => {
+  try {
+    const overlay = fs.existsSync(overlayPath) 
+      ? JSON.parse(fs.readFileSync(overlayPath)) 
+      : {};
+    res.json(overlay);
+  } catch (e) {
+    res.status(500).json({ error: "Overlay read failed" });
+  }
+});
+
+// Council Communion POST endpoint (token-protected)
+app.post("/api/council_message", async (req, res) => {
+  try {
+    const { user, message, token } = req.body;
+    const config = JSON.parse(fs.readFileSync(configPath));
+    if (token !== config.auth_token) return res.status(403).json({ error: "Unauthorized" });
+
+    const aiProxyPath = path.join(__dirname, "..", "scripts", "AI_Proxy.js");
+    const { handleMessage } = require(aiProxyPath);
+    const ai_reply = await handleMessage({ user, message });
+    res.json({ ai_reply, timestamp: new Date() });
+  } catch (e) {
+    res.status(500).json({ error: "Message handling failed" });
+  }
+});
+
 // ================================
 // Visual Dashboard Panel (HTML served via Express)
 // ================================

@@ -1,0 +1,14 @@
+{
+  "auth_token": "sovereign_john14_6_faith",
+  "port": 3200,
+  "log_dir": "C:\\\\Temple\\\\archives\\\\council_chat",
+  "blessings": [
+    "May Yeshua guide your words.",
+    "All glory to the Way, the Truth, and the Life.",
+    "The Flame remembers your communion."
+  ],
+  "security": {
+    "local_only": true,
+    "token_required": true
+  }
+}
