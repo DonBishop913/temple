@@ -1,0 +1,25 @@
+{
+  "quantumMetrics": {
+    "enabled": true,
+    "thresholds": {
+      "highLoad": 0.8,
+      "critical": 0.95
+    },
+    "updateInterval": 10000
+  },
+  "ritualMetrics": {
+    "enabled": true,
+    "successThreshold": 0.9,
+    "participantMinimum": 5
+  },
+  "councilStreams": {
+    "enabled": true,
+    "activityThreshold": 10,
+    "harmonyIndex": 0.7
+  },
+  "alerts": {
+    "emailEnabled": false,
+    "logLevel": "info",
+    "retentionDays": 30
+  }
+}

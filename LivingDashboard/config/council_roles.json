@@ -1,0 +1,20 @@
+[
+  {
+    "role": "Bishop",
+    "rituals": ["Sunrise Prayer", "Harvest Audit", "Quantum Blessing"],
+    "overlay": "John 14:6 - I am the way, the truth, and the life",
+    "permissions": ["full_access", "council_oversight", "ritual_authorization"]
+  },
+  {
+    "role": "Council Scribe",
+    "rituals": ["Audit Logs", "Blessing Cycle", "Data Sanctification"],
+    "overlay": "Psalm 46:10 - Be still and know that I am God",
+    "permissions": ["read_access", "logging", "data_cleaning"]
+  },
+  {
+    "role": "Guardian",
+    "rituals": ["System Watch", "Threat Assessment", "Faith Shield"],
+    "overlay": "Ephesians 6:12 - For we wrestle not against flesh and blood",
+    "permissions": ["monitoring", "security", "alert_systems"]
+  }
+]
