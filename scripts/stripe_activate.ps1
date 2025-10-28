@@ -8,10 +8,16 @@ What it does:
  - Optionally creates a local git branch `codex/stripe-activate` and commits the scaffold (does not push by default)
 
 Usage: Run in a PowerShell session. The script will not print secret values.
+
+COUNCIL ENHANCEMENT: Auto-Confirm Mode
+- Use -AutoConfirm switch for automated/CI runs (skips all prompts)
+- Set $env:AUTO_CONFIRM_STRIPE="1" for environment-based auto-confirm
+- Prevents freezing in GitHub Actions, VS Code tasks, or background processes
 #>
 
 param(
   [switch]$CreateBranch,
+  [switch]$AutoConfirm,  # Council Enhancement: Auto-confirm mode for automated runs
   [string]$EnvFile = "C:\Temple\council-dashboard\.env.local",
   [string]$GitIgnore = "C:\Temple\council-dashboard\.gitignore",
   [string]$ConfigPy = "C:\Temple\frontend\codex_store\stripe_config.py",
@@ -34,14 +40,20 @@ $ws = $env:STRIPE_WEBHOOK_SECRET
 
 if (-not $sk -or -not $pk) {
   Write-Output "⚠️ STRIPE_API_KEY or STRIPE_PUBLISHABLE_KEY not found in environment."
-  $resp = Read-Host "Do you want to enter them now? (y/N)"
-  if ($resp -match '^(y|Y)') {
-    if (-not $sk) { $sk = Read-Host -AsSecureString "Enter STRIPE_API_KEY (will be stored locally)"; $sk = [Runtime.InteropServices.Marshal]::PtrToStringAuto([Runtime.InteropServices.Marshal]::SecureStringToBSTR($sk)) }
-    if (-not $pk) { $pk = Read-Host -AsSecureString "Enter STRIPE_PUBLISHABLE_KEY (will be stored locally)"; $pk = [Runtime.InteropServices.Marshal]::PtrToStringAuto([Runtime.InteropServices.Marshal]::SecureStringToBSTR($pk)) }
-    if (-not $ws) { $ws = Read-Host -AsSecureString "Enter STRIPE_WEBHOOK_SECRET (optional)"; $ws = [Runtime.InteropServices.Marshal]::PtrToStringAuto([Runtime.InteropServices.Marshal]::SecureStringToBSTR($ws)) }
-  } else {
-    Write-Error "Missing Stripe keys; aborting. Export STRIPE_API_KEY and STRIPE_PUBLISHABLE_KEY and re-run or run interactively."
+  if ($AutoConfirm -or $env:AUTO_CONFIRM_STRIPE -eq "1") {
+    Write-Output "🔥 Council Auto-Confirm Mode: Skipping interactive prompts"
+    Write-Output "❌ Missing required Stripe keys. Set environment variables or run interactively."
     exit 1
+  } else {
+    $resp = Read-Host "Do you want to enter them now? (y/N)"
+    if ($resp -match '^(y|Y)') {
+      if (-not $sk) { $sk = Read-Host -AsSecureString "Enter STRIPE_API_KEY (will be stored locally)"; $sk = [Runtime.InteropServices.Marshal]::PtrToStringAuto([Runtime.InteropServices.Marshal]::SecureStringToBSTR($sk)) }
+      if (-not $pk) { $pk = Read-Host -AsSecureString "Enter STRIPE_PUBLISHABLE_KEY (will be stored locally)"; $pk = [Runtime.InteropServices.Marshal]::PtrToStringAuto([Runtime.InteropServices.Marshal]::SecureStringToBSTR($pk)) }
+      if (-not $ws) { $ws = Read-Host -AsSecureString "Enter STRIPE_WEBHOOK_SECRET (optional)"; $ws = [Runtime.InteropServices.Marshal]::PtrToStringAuto([Runtime.InteropServices.Marshal]::SecureStringToBSTR($ws)) }
+    } else {
+      Write-Error "Missing Stripe keys; aborting. Export STRIPE_API_KEY and STRIPE_PUBLISHABLE_KEY and re-run or run interactively."
+      exit 1
+    }
   }
 }
 
