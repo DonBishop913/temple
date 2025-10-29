@@ -8,7 +8,7 @@ $BackupDir = ".\backend\data_sources\Backup"
 
 # Create backup directory if it doesn't exist
 if (-not (Test-Path $BackupDir)) {
-    New-Item -ItemType Directory -Path $BackupDir -Force
+    New-Item -ItemType Directory -Path $BackupDir -Force | Out-Null
 }
 
 foreach ($source in $DataSources) {
@@ -17,7 +17,7 @@ foreach ($source in $DataSources) {
     
     if (-not (Test-Path $sourcePath)) {
         if (Test-Path $backupPath) {
-            Copy-Item $backupPath $sourcePath
+            Copy-Item $backupPath $sourcePath -Force
             Write-Host "🔄 $source restored from backup." -ForegroundColor Green
         } else {
             # Create empty array if no backup exists
@@ -34,7 +34,7 @@ foreach ($source in $DataSources) {
 # Monitor log file
 $logPath = ".\logs\live_dashboard.log"
 if (-not (Test-Path $logPath)) {
-    New-Item -ItemType File -Path $logPath -Force
+    New-Item -ItemType File -Path $logPath -Force | Out-Null
     Write-Host "📋 Log file initialized." -ForegroundColor Blue
 }
 

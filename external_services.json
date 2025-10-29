@@ -1,0 +1,45 @@
+{
+  "services": [
+    {
+      "name": "CouncilRelay",
+      "endpoint": "https://api.councilrelay.john146.org/sync",
+      "auth_token": "sovereign_council_token_2024",
+      "sync_interval": 300000,
+      "enabled": true,
+      "description": "Council member synchronization and status updates"
+    },
+    {
+      "name": "QuantumOracle",
+      "endpoint": "https://oracle.quantum.john146.org/insights",
+      "auth_token": "quantum_prophecy_token_2024",
+      "sync_interval": 600000,
+      "enabled": true,
+      "description": "Quantum prophecy and pattern analysis feed"
+    },
+    {
+      "name": "FaithLedger",
+      "endpoint": "https://ledger.faith.john146.org/transactions",
+      "auth_token": "faith_ledger_token_2024",
+      "sync_interval": 900000,
+      "enabled": true,
+      "description": "Faith-affirmed transaction ledger and audit trails"
+    },
+    {
+      "name": "RitualMetrics",
+      "endpoint": "https://metrics.ritual.john146.org/data",
+      "auth_token": "ritual_metrics_token_2024",
+      "sync_interval": 1800000,
+      "enabled": true,
+      "description": "Real-time ritual performance and outcome metrics"
+    }
+  ],
+  "sovereignty_config": {
+    "faith_filter_enabled": true,
+    "audit_trail_required": true,
+    "john_146_affirmation": "All glory to Yeshua - John 14:6",
+    "emergency_protocols": {
+      "auto_isolate_on_failure": true,
+      "sovereign_fallback_mode": true
+    }
+  }
+}

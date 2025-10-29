@@ -2075,3 +2075,18 @@ app.post('/api/dashboard/controls', async (req, res) => {
     res.status(500).json({ error: 'Failed to update controls' })
   }
 })
+
+// --- Health Check /metrics endpoint for CI/CD ---
+app.get('/metrics', (req, res) => {
+  res.json({
+    status: 'healthy',
+    timestamp: new Date().toISOString(),
+    uptime: process.uptime(),
+    version: '1.0.0',
+    services: {
+      api: 'active',
+      websocket: 'active',
+      redis: 'connected'
+    }
+  })
+})

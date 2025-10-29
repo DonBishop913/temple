@@ -1,0 +1,53 @@
+{
+  "services": [
+    {
+      "name": "CouncilRelay",
+      "enabled": true,
+      "endpoint": "https://api.council-relay.sovereign.systems/status",
+      "headers": {
+        "Authorization": "Bearer sovereign_john14_6_faith",
+        "Content-Type": "application/json"
+      },
+      "timeout": 10000,
+      "syncInterval": 30000
+    },
+    {
+      "name": "QuantumOracle",
+      "enabled": true,
+      "endpoint": "https://quantum-oracle.john14-6.systems/readings",
+      "headers": {
+        "X-API-Key": "sovereign_john14_6_faith",
+        "Accept": "application/json"
+      },
+      "timeout": 15000,
+      "syncInterval": 60000
+    },
+    {
+      "name": "RitualRegistry",
+      "enabled": true,
+      "endpoint": "https://ritual-registry.council.cathedral/metrics",
+      "headers": {
+        "Authorization": "Token sovereign_john14_6_faith",
+        "User-Agent": "LivingDashboard/1.0"
+      },
+      "timeout": 8000,
+      "syncInterval": 45000
+    },
+    {
+      "name": "FaithMetrics",
+      "enabled": false,
+      "endpoint": "https://faith-metrics.sovereign.systems/api/v1/metrics",
+      "headers": {
+        "X-Auth-Token": "sovereign_john14_6_faith"
+      },
+      "timeout": 12000,
+      "syncInterval": 90000
+    }
+  ],
+  "globalConfig": {
+    "retryAttempts": 3,
+    "retryDelay": 5000,
+    "faithAffirmation": true,
+    "sovereignMode": true
+  }
+}

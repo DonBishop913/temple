@@ -19,6 +19,18 @@ const fetch = require('node-fetch');
 const httpServer = createServer(app);
 const io = new Server(httpServer, { cors: { origin: ['http://localhost:3000','http://127.0.0.1:3000'] } });
 
+// Initialize ledger state for autonomous operations
+let ledgerState = {
+  joyParticles: [],
+  lyapunovValue: 0
+};
+
+// Initialize temporal snapback system
+const temporalSnapback = new TemporalRollback();
+
+// Lyapunov threshold for system stability monitoring
+const LYAPUNOV_THRESHOLD = 1.5;
+
 app.use(cors());
 app.use(express.json());
 

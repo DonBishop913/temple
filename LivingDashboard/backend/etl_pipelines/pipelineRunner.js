@@ -1,5 +1,5 @@
-# ETL Pipeline Runner
-# Manages data extraction, transformation, and loading
+// ETL Pipeline Runner
+// Manages data extraction, transformation, and loading
 
 const fs = require('fs');
 const path = require('path');
