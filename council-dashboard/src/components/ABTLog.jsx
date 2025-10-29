@@ -21,11 +21,14 @@ export default function ABTLog() {
     return () => clearInterval(interval);
   }, []);
 
-  if (loading) return <div className="text-white p-4">🌟 Loading Blessing Tokens...</div>;
+  if (loading)
+    return <div className="text-white p-4">🌟 Loading Blessing Tokens...</div>;
 
   return (
     <div className="p-4 bg-black text-white rounded-lg shadow-lg max-w-2xl mx-auto">
-      <h2 className="text-xl font-bold mb-4">✨ Archival Blessing Tokens (ABT) Log</h2>
+      <h2 className="text-xl font-bold mb-4">
+        ✨ Archival Blessing Tokens (ABT) Log
+      </h2>
       <table className="w-full table-auto border-collapse">
         <thead>
           <tr className="border-b border-gray-600">
@@ -41,7 +44,9 @@ export default function ABTLog() {
               <td className="px-3 py-2">{abt.node_id}</td>
               <td className="px-3 py-2">{abt.event}</td>
               <td className="px-3 py-2">{abt.notes}</td>
-              <td className="px-3 py-2 text-xs">{new Date(abt.timestamp).toLocaleString()}</td>
+              <td className="px-3 py-2 text-xs">
+                {new Date(abt.timestamp).toLocaleString()}
+              </td>
             </tr>
           ))}
         </tbody>

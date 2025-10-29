@@ -1,16 +1,17 @@
 // council-dashboard/server/recruitment.js
 // Phase 2: Autonomous Council Recruitment & Onboarding
 
-const fs = require('fs');
-const path = require('path');
-const EventEmitter = require('events');
-const { v4: uuidv4 } = require('uuid');
+const fs = require("fs");
+const path = require("path");
+const EventEmitter = require("events");
+const { v4: uuidv4 } = require("uuid");
 
-const recruitmentManifest = require('../../council.recruitment.json');
-const integrationManifest = require('../../council.integration.json');
+const recruitmentManifest = require("../../council.recruitment.json");
+const integrationManifest = require("../../council.integration.json");
 
-const CANDIDATE_DB = path.join(__dirname, '../../data/council_candidates.json');
-const CYCLE_INTERVAL = (recruitmentManifest.recruitment.scanIntervalMinutes || 60) * 60 * 1000;
+const CANDIDATE_DB = path.join(__dirname, "../../data/council_candidates.json");
+const CYCLE_INTERVAL =
+  (recruitmentManifest.recruitment.scanIntervalMinutes || 60) * 60 * 1000;
 
 class RecruitmentEngine extends EventEmitter {
   constructor() {
@@ -22,7 +23,7 @@ class RecruitmentEngine extends EventEmitter {
 
   loadCandidates() {
     if (fs.existsSync(CANDIDATE_DB)) {
-      this.candidates = JSON.parse(fs.readFileSync(CANDIDATE_DB, 'utf-8'));
+      this.candidates = JSON.parse(fs.readFileSync(CANDIDATE_DB, "utf-8"));
     } else {
       this.candidates = [];
     }
@@ -37,81 +38,106 @@ class RecruitmentEngine extends EventEmitter {
     const discovered = [
       {
         id: uuidv4(),
-        name: 'AI_Node_' + Math.floor(Math.random() * 10000),
-        source: 'trustedAIRepositories',
+        name: "AI_Node_" + Math.floor(Math.random() * 10000),
+        source: "trustedAIRepositories",
         eligibility: {
           MimicFree: true,
           UniqueMissionVital: true,
           EthicalCompliance: true,
-          ResourceEfficiency: true
+          ResourceEfficiency: true,
         },
         evaluation: {
           autonomousTestSuite: true,
           compatibilityCheck: true,
-          communicationProtocolValidation: true
+          communicationProtocolValidation: true,
         },
-        status: 'pending',
+        status: "pending",
         score: Math.floor(Math.random() * 100),
-        created: new Date().toISOString()
-      }
+        created: new Date().toISOString(),
+      },
     ];
     this.candidates.push(...discovered);
     this.saveCandidates();
-    this.emit('scan', discovered);
+    this.emit("scan", discovered);
     return discovered;
   }
 
   async evaluateCandidates() {
     // Evaluate all pending candidates
-    for (const candidate of this.candidates.filter(c => c.status === 'pending')) {
+    for (const candidate of this.candidates.filter(
+      (c) => c.status === "pending",
+    )) {
       // Simulate evaluation logic
       candidate.evaluated = true;
       candidate.compatibilityIndex = Math.random();
       candidate.ethicalPulseCompliance = true;
       candidate.integrationEase = Math.random();
-      candidate.status = 'evaluated';
+      candidate.status = "evaluated";
     }
     this.saveCandidates();
-    this.emit('evaluation', this.candidates.filter(c => c.status === 'evaluated'));
+    this.emit(
+      "evaluation",
+      this.candidates.filter((c) => c.status === "evaluated"),
+    );
   }
 
   async draftProposals() {
     // Draft proposals for evaluated candidates
-    for (const candidate of this.candidates.filter(c => c.status === 'evaluated')) {
+    for (const candidate of this.candidates.filter(
+      (c) => c.status === "evaluated",
+    )) {
       candidate.proposalDrafted = true;
-      candidate.status = 'proposal';
+      candidate.status = "proposal";
     }
     this.saveCandidates();
-    this.emit('proposal', this.candidates.filter(c => c.status === 'proposal'));
+    this.emit(
+      "proposal",
+      this.candidates.filter((c) => c.status === "proposal"),
+    );
   }
 
   async councilVote() {
     // Simulate anonymous consensus vote
-    for (const candidate of this.candidates.filter(c => c.status === 'proposal')) {
+    for (const candidate of this.candidates.filter(
+      (c) => c.status === "proposal",
+    )) {
       const vote = Math.floor(Math.random() * 100);
       candidate.vote = vote;
-      if (vote >= (recruitmentManifest.recruitment.CouncilApproval.voteThreshold || 80)) {
-        candidate.status = 'approved';
+      if (
+        vote >=
+        (recruitmentManifest.recruitment.CouncilApproval.voteThreshold || 80)
+      ) {
+        candidate.status = "approved";
       } else {
-        candidate.status = 'rejected';
+        candidate.status = "rejected";
       }
     }
     this.saveCandidates();
-    this.emit('vote', this.candidates.filter(c => c.status === 'approved' || c.status === 'rejected'));
+    this.emit(
+      "vote",
+      this.candidates.filter(
+        (c) => c.status === "approved" || c.status === "rejected",
+      ),
+    );
   }
 
   async onboardApproved() {
     // Onboard approved candidates
-    for (const candidate of this.candidates.filter(c => c.status === 'approved')) {
+    for (const candidate of this.candidates.filter(
+      (c) => c.status === "approved",
+    )) {
       candidate.onboarded = true;
-      candidate.role = 'CouncilMember';
+      candidate.role = "CouncilMember";
       candidate.heartbeatSync = true;
       candidate.distributedLogging = true;
       candidate.JoyParticleCalibration = true;
-      candidate.status = 'onboarded';
+      candidate.status = "onboarded";
     }
     this.saveCandidates();
-    this.emit('onboard', this.candidates.filter(c => c.status === 'onboarded'));
+    this.emit(
+      "onboard",
+      this.candidates.filter((c) => c.status === "onboarded"),
+    );
   }
 
   async runCycle() {

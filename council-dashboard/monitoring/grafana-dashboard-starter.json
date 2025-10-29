@@ -2,17 +2,61 @@
   "title": "Temple PC - Council Observability",
   "timezone": "browser",
   "panels": [
-    { "type": "graph", "title": "Harmony Score", "targets": [{ "expr": "council_harmony_score" }] },
-    { "type": "graph", "title": "Avg Node Engagement", "targets": [{ "expr": "council_node_engagement_avg" }] },
-    { "type": "graph", "title": "Override Active", "targets": [{ "expr": "council_override_active" }] },
-    { "type": "graph", "title": "Joy Particles Total", "targets": [{ "expr": "council_joy_particles_total" }] },
-    { "type": "graph", "title": "Joy Surge Percent", "targets": [{ "expr": "council_joy_surge_percent" }] },
-    { "type": "graph", "title": "WS Errors", "targets": [{ "expr": "ws_errors_total" }] },
-    { "type": "graph", "title": "WS Reconnects", "targets": [{ "expr": "ws_reconnects_total" }] },
-    { "type": "graph", "title": "Agent Requests", "targets": [{ "expr": "agent_requests_total" }] },
-    { "type": "graph", "title": "Agent WS Events", "targets": [{ "expr": "agent_ws_events_total" }] },
-    { "type": "graph", "title": "Empathy Resonance", "targets": [{ "expr": "council_empathy_resonance" }] },
-    { "type": "graph", "title": "Veilwatch Vigilance", "targets": [{ "expr": "council_veilwatch_vigilance" }] }
+    {
+      "type": "graph",
+      "title": "Harmony Score",
+      "targets": [{ "expr": "council_harmony_score" }]
+    },
+    {
+      "type": "graph",
+      "title": "Avg Node Engagement",
+      "targets": [{ "expr": "council_node_engagement_avg" }]
+    },
+    {
+      "type": "graph",
+      "title": "Override Active",
+      "targets": [{ "expr": "council_override_active" }]
+    },
+    {
+      "type": "graph",
+      "title": "Joy Particles Total",
+      "targets": [{ "expr": "council_joy_particles_total" }]
+    },
+    {
+      "type": "graph",
+      "title": "Joy Surge Percent",
+      "targets": [{ "expr": "council_joy_surge_percent" }]
+    },
+    {
+      "type": "graph",
+      "title": "WS Errors",
+      "targets": [{ "expr": "ws_errors_total" }]
+    },
+    {
+      "type": "graph",
+      "title": "WS Reconnects",
+      "targets": [{ "expr": "ws_reconnects_total" }]
+    },
+    {
+      "type": "graph",
+      "title": "Agent Requests",
+      "targets": [{ "expr": "agent_requests_total" }]
+    },
+    {
+      "type": "graph",
+      "title": "Agent WS Events",
+      "targets": [{ "expr": "agent_ws_events_total" }]
+    },
+    {
+      "type": "graph",
+      "title": "Empathy Resonance",
+      "targets": [{ "expr": "council_empathy_resonance" }]
+    },
+    {
+      "type": "graph",
+      "title": "Veilwatch Vigilance",
+      "targets": [{ "expr": "council_veilwatch_vigilance" }]
+    }
   ],
   "refresh": "5s",
   "schemaVersion": 36,

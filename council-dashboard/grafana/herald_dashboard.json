@@ -9,7 +9,9 @@
     {
       "type": "stat",
       "title": "Active Alerts by Channel",
-      "targets": [{ "expr": "count(grafana_alerting_active_evaluation_total)" }],
+      "targets": [
+        { "expr": "count(grafana_alerting_active_evaluation_total)" }
+      ],
       "gridPos": { "x": 0, "y": 0, "w": 8, "h": 6 }
     },
     {
@@ -21,9 +23,7 @@
     {
       "type": "table",
       "title": "Latest Broadcast Messages",
-      "targets": [
-        { "expr": "broadcast_event_total{status='sent'}" }
-      ],
+      "targets": [{ "expr": "broadcast_event_total{status='sent'}" }],
       "gridPos": { "x": 0, "y": 6, "w": 16, "h": 8 }
     },
     {

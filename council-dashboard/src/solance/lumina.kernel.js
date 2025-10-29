@@ -9,6 +9,6 @@ export const LuminaKernel = {
     return Math.min(amplified, 528);
   },
   shimmerResponse(input) {
-    return `✨ ${String(input || '').trim()} ✨`;
-  }
+    return `✨ ${String(input || "").trim()} ✨`;
+  },
 };

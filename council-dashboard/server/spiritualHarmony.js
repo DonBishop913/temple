@@ -1,8 +1,16 @@
 // Discernment Gate and Spiritual Harmony Logic
-const redis = require('redis');
-const { MissionTask, SpiritualPulse, DiscernmentGate, CrowningStatus } = require('./spiritualSchemas');
+const redis = require("redis");
+const {
+  MissionTask,
+  SpiritualPulse,
+  DiscernmentGate,
+  CrowningStatus,
+} = require("./spiritualSchemas");
 
-const REDIS_URL = process.env.REDIS_URL || process.env.LOCAL_REDIS_URL || 'redis://127.0.0.1:6379';
+const REDIS_URL =
+  process.env.REDIS_URL ||
+  process.env.LOCAL_REDIS_URL ||
+  "redis://127.0.0.1:6379";
 const redisClient = redis.createClient({ url: REDIS_URL });
 redisClient.connect().catch(() => {});
 
@@ -22,11 +30,22 @@ async function getSpiritualPulse(task_id) {
 // Discernment gate logic
 async function discernment_gate(task_id) {
   const pulse = await getSpiritualPulse(task_id);
-  if (!pulse) return { gate_status: 'Pending', reason: 'No spiritual pulse submitted' };
+  if (!pulse)
+    return { gate_status: "Pending", reason: "No spiritual pulse submitted" };
   if (pulse.peace_index >= 80 && pulse.ethical_pulse >= 90) {
-    return { gate_status: 'Approved', reviewer: pulse.reviewer || '', timestamp: new Date().toISOString(), comments: pulse.notes || '' };
+    return {
+      gate_status: "Approved",
+      reviewer: pulse.reviewer || "",
+      timestamp: new Date().toISOString(),
+      comments: pulse.notes || "",
+    };
   } else {
-    return { gate_status: 'Hold', reviewer: pulse.reviewer || '', timestamp: new Date().toISOString(), comments: pulse.notes || '' };
+    return {
+      gate_status: "Hold",
+      reviewer: pulse.reviewer || "",
+      timestamp: new Date().toISOString(),
+      comments: pulse.notes || "",
+    };
   }
 }
 
@@ -43,5 +62,5 @@ module.exports = {
   recordSpiritualPulse,
   getSpiritualPulse,
   discernment_gate,
-  checkCrowning
+  checkCrowning,
 };

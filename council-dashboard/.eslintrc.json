@@ -27,6 +27,20 @@
         "no-undef": "off",
         "no-empty": "warn"
       }
+    },
+    {
+      "files": ["server/**/*.js", "tools/**/*.js", "utils/**/*.js", "*.js"],
+      "env": { "node": true },
+      "rules": {
+        "no-undef": "off",
+        "no-empty": "warn"
+      }
+    },
+    {
+      "files": ["dist/**", "node_modules/**"],
+      "rules": {
+        "no-undef": "off"
+      }
     }
   ]
 }

@@ -1,7 +1,10 @@
-const fs = require('fs');
-const path = require('path');
+const fs = require("fs");
+const path = require("path");
 
-const luminalConfigPath = path.join(__dirname, '../Temple/controls/luminal.json');
+const luminalConfigPath = path.join(
+  __dirname,
+  "../Temple/controls/luminal.json",
+);
 
 function getLuminalConfig() {
   const raw = fs.readFileSync(luminalConfigPath);

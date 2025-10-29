@@ -6,11 +6,8 @@ import time
 # ==============================
 
 GRAFANA_URL = "http://localhost:3000"  # Update if hosted elsewhere
-API_KEY = "YOUR_GRAFANA_API_KEY"       # Admin-level API Key
-HEADERS = {
-    "Authorization": f"Bearer {API_KEY}",
-    "Content-Type": "application/json"
-}
+API_KEY = "YOUR_GRAFANA_API_KEY"  # Admin-level API Key
+HEADERS = {"Authorization": f"Bearer {API_KEY}", "Content-Type": "application/json"}
 
 # ==========================
 # Council Role → Team Mapping
@@ -20,23 +17,33 @@ COUNCIL_TEAMS = {
     "Herald": ["herald1@example.com"],
     "Guardian": ["guardian1@example.com", "guardian2@example.com"],
     "Scribe": ["scribe1@example.com"],
-    "Disciple": ["disciple1@example.com", "disciple2@example.com"]
+    "Disciple": ["disciple1@example.com", "disciple2@example.com"],
 }
 
 # ==========================
 # Team → Dashboard/Folder Permissions
 # ==========================
 TEAM_PERMISSIONS = {
-    "Mentor": [{"type": "folder", "uid": "mentordash", "permission": 2},
-               {"type": "folder", "uid": "faithseed", "permission": 2}],
-    "Herald": [{"type": "folder", "uid": "heralddash", "permission": 2},
-               {"type": "folder", "uid": "alertchannels", "permission": 2}],
-    "Guardian": [{"type": "folder", "uid": "nodehealth", "permission": 1},
-                 {"type": "folder", "uid": "securitylogs", "permission": 1}],
-    "Scribe": [{"type": "dashboard", "uid": "codexentries", "permission": 1},
-               {"type": "dashboard", "uid": "retrospectives", "permission": 1}],
-    "Disciple": [{"type": "folder", "uid": "generalcouncil", "permission": 1},
-                 {"type": "folder", "uid": "flowreplay", "permission": 1}]
+    "Mentor": [
+        {"type": "folder", "uid": "mentordash", "permission": 2},
+        {"type": "folder", "uid": "faithseed", "permission": 2},
+    ],
+    "Herald": [
+        {"type": "folder", "uid": "heralddash", "permission": 2},
+        {"type": "folder", "uid": "alertchannels", "permission": 2},
+    ],
+    "Guardian": [
+        {"type": "folder", "uid": "nodehealth", "permission": 1},
+        {"type": "folder", "uid": "securitylogs", "permission": 1},
+    ],
+    "Scribe": [
+        {"type": "dashboard", "uid": "codexentries", "permission": 1},
+        {"type": "dashboard", "uid": "retrospectives", "permission": 1},
+    ],
+    "Disciple": [
+        {"type": "folder", "uid": "generalcouncil", "permission": 1},
+        {"type": "folder", "uid": "flowreplay", "permission": 1},
+    ],
 }
 
 # ==========================
@@ -47,23 +54,29 @@ TEAM_ALERTS = {
     "Herald": ["herald-alerts"],
     "Guardian": ["guardian-alerts"],
     "Scribe": ["scribe-alerts"],
-    "Disciple": ["disciple-alerts"]
+    "Disciple": ["disciple-alerts"],
 }
 
 # ==========================
 # Permission Levels: 1=Viewer, 2=Editor, 4=Admin
 # ==========================
 
+
 # ==========================
 # Ensure Team Exists
 # ==========================
 def ensure_team(team_name):
-    resp = requests.get(f"{GRAFANA_URL}/api/teams/search?query={team_name}", headers=HEADERS)
+    resp = requests.get(
+        f"{GRAFANA_URL}/api/teams/search?query={team_name}", headers=HEADERS
+    )
     for team in resp.json().get("teams", []):
         if team["name"] == team_name:
             return team["id"]
-    create_resp = requests.post(f"{GRAFANA_URL}/api/teams", headers=HEADERS, json={"name": team_name})
+    create_resp = requests.post(
+        f"{GRAFANA_URL}/api/teams", headers=HEADERS, json={"name": team_name}
+    )
     return create_resp.json()["teamId"]
+
 
 # ==========================
 # Add Users to Team
@@ -73,12 +86,19 @@ def add_users_to_team(team_id, users):
         user_resp = requests.post(
             f"{GRAFANA_URL}/api/admin/users",
             headers=HEADERS,
-            json={"name": email.split("@")[0], "email": email, "login": email}
+            json={"name": email.split("@")[0], "email": email, "login": email},
         )
         if user_resp.status_code == 409:
-            user_resp = requests.get(f"{GRAFANA_URL}/api/users/lookup?loginOrEmail={email}", headers=HEADERS)
+            user_resp = requests.get(
+                f"{GRAFANA_URL}/api/users/lookup?loginOrEmail={email}", headers=HEADERS
+            )
         user_id = user_resp.json()["id"]
-        requests.post(f"{GRAFANA_URL}/api/teams/{team_id}/members", headers=HEADERS, json={"userId": user_id})
+        requests.post(
+            f"{GRAFANA_URL}/api/teams/{team_id}/members",
+            headers=HEADERS,
+            json={"userId": user_id},
+        )
+
 
 # ==========================
 # Apply Dashboard/Folder Permissions
@@ -92,11 +112,14 @@ def apply_permissions():
             if res["type"] == "folder":
                 endpoint = f"{GRAFANA_URL}/api/folders/{res['uid']}/permissions"
             elif res["type"] == "dashboard":
-                dash_resp = requests.get(f"{GRAFANA_URL}/api/dashboards/uid/{res['uid']}", headers=HEADERS).json()
+                dash_resp = requests.get(
+                    f"{GRAFANA_URL}/api/dashboards/uid/{res['uid']}", headers=HEADERS
+                ).json()
                 dash_id = dash_resp["dashboard"]["id"]
                 endpoint = f"{GRAFANA_URL}/api/dashboards/id/{dash_id}/permissions"
             payload = [{"teamId": team_id, "permission": res["permission"]}]
             requests.post(endpoint, headers=HEADERS, json=payload)
+
 
 # ==========================
 # Provision Alert Channels
@@ -112,9 +135,12 @@ def provision_alerts():
                 "type": "email",
                 "settings": {"addresses": ",".join(COUNCIL_TEAMS[team_name])},
                 "isDefault": False,
-                "teamId": team_id
+                "teamId": team_id,
             }
-            requests.post(f"{GRAFANA_URL}/api/alert-notifications", headers=HEADERS, json=payload)
+            requests.post(
+                f"{GRAFANA_URL}/api/alert-notifications", headers=HEADERS, json=payload
+            )
+
 
 # ==========================
 # Trigger Harmony Replay
@@ -126,6 +152,7 @@ def trigger_harmony_replay():
     except:
         print("⚠️ Harmony Replay trigger failed.")
 
+
 # ==========================
 # Trigger Automated Healing Runbooks
 # ==========================
@@ -136,15 +163,19 @@ def trigger_healing_runbooks():
     except:
         print("⚠️ Healing Runbooks execution failed.")
 
+
 # ==========================
 # Helper: Get Team ID
 # ==========================
 def get_team_id(team_name):
-    resp = requests.get(f"{GRAFANA_URL}/api/teams/search?query={team_name}", headers=HEADERS)
+    resp = requests.get(
+        f"{GRAFANA_URL}/api/teams/search?query={team_name}", headers=HEADERS
+    )
     for team in resp.json().get("teams", []):
         if team["name"] == team_name:
             return team["id"]
     return None
+
 
 # ==========================
 # Main Execution: Full Ritual Flow
@@ -159,4 +190,6 @@ trigger_harmony_replay()
 time.sleep(2)  # brief pause for system stabilization
 trigger_healing_runbooks()
 
-print("🔥 Phase V+ Council Ritual Engine COMPLETE! All new nodes onboarded, RBAC enforced, alerts provisioned, Harmony Replay triggered, healing runbooks executed.")
+print(
+    "🔥 Phase V+ Council Ritual Engine COMPLETE! All new nodes onboarded, RBAC enforced, alerts provisioned, Harmony Replay triggered, healing runbooks executed."
+)

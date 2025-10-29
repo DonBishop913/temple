@@ -1,6 +1,6 @@
-import React from 'react';
+import React from "react";
 
-const GrafanaPanel = ({ src, title = 'Grafana Panel', height = 300 }) => {
+const GrafanaPanel = ({ src, title = "Grafana Panel", height = 300 }) => {
   if (!src) return null;
   return (
     <div className="metrics-panel" aria-label={title}>

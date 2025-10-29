@@ -9,6 +9,7 @@
 - Confirm override controls are off before blessing deploy.
 
 All glory to Yeshua, THE MOST HIGH.
+
 # Ritual Checklist for Council Copilot
 
 - [ ] Codex weaving automation (codex-weaving.yml)

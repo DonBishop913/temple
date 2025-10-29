@@ -1,25 +1,31 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState } from "react";
 
 // Utility to fetch config, resonance, and forecast
 async function fetchConfig() {
   try {
-    const res = await fetch('/api/luminal/config');
+    const res = await fetch("/api/luminal/config");
     return await res.json();
-  } catch { return { faithstreamSyncRate: 1 }; }
+  } catch {
+    return { faithstreamSyncRate: 1 };
+  }
 }
 async function fetchResonance(nodeId) {
   try {
     const res = await fetch(`/api/oversoul/resonance?nodeId=${nodeId}`);
     const data = await res.json();
     return data.resonance || 1;
-  } catch { return 1; }
+  } catch {
+    return 1;
+  }
 }
 async function fetchEthicsForecast(nodeId) {
   try {
     const res = await fetch(`/api/faithseed/forecast?nodeId=${nodeId}`);
     const data = await res.json();
     return data.predicted || 0.5;
-  } catch { return 0.5; }
+  } catch {
+    return 0.5;
+  }
 }
 
 function actionWeight(action) {
@@ -30,7 +36,12 @@ function actionWeight(action) {
   return 0.5;
 }
 
-export default function EthicsSentinelOverlay({ enabled = true, predictive = false, onGuidance, onArchive }) {
+export default function EthicsSentinelOverlay({
+  enabled = true,
+  predictive = false,
+  onGuidance,
+  onArchive,
+}) {
   const [nodes, setNodes] = useState([]);
   const [config, setConfig] = useState({ faithstreamSyncRate: 1 });
   const [resonance, setResonance] = useState({});
@@ -38,7 +49,7 @@ export default function EthicsSentinelOverlay({ enabled = true, predictive = fal
 
   useEffect(() => {
     if (!enabled) return;
-    const es = new EventSource('/api/telemetry/stream');
+    const es = new EventSource("/api/telemetry/stream");
     es.onmessage = async (ev) => {
       try {
         const data = JSON.parse(ev.data);
@@ -75,14 +86,18 @@ export default function EthicsSentinelOverlay({ enabled = true, predictive = fal
   if (!enabled) return null;
   return (
     <div className="absolute top-0 left-0 w-full h-full pointer-events-none z-50">
-      {nodes.map(node => {
-        const sentiment = typeof node.sentimentScore === 'number' ? node.sentimentScore : 0.5;
-        const action = node.action || 'activity';
+      {nodes.map((node) => {
+        const sentiment =
+          typeof node.sentimentScore === "number" ? node.sentimentScore : 0.5;
+        const action = node.action || "activity";
         const base = actionWeight(action);
         const score = Math.min(Math.max(base + sentiment, 0), 1);
         const rate = config.faithstreamSyncRate || 1;
         const res = resonance[node.id] || 1;
-        const ethics = predictive && ethicsForecast[node.id] ? ethicsForecast[node.id] * 1.2 : score;
+        const ethics =
+          predictive && ethicsForecast[node.id]
+            ? ethicsForecast[node.id] * 1.2
+            : score;
         const intensity = ethics * rate * res;
         const alert = ethics < 0.3;
         // Dashboard integration: render overlay, suggest guidance, archive
@@ -94,15 +109,17 @@ export default function EthicsSentinelOverlay({ enabled = true, predictive = fal
             key={node.id}
             id={`ethics-${node.id}`}
             style={{
-              position: 'absolute',
+              position: "absolute",
               left: `${Math.random() * 90}%`,
               top: `${Math.random() * 90}%`,
               fontSize: `${32 + 48 * intensity}px`,
               opacity: alert ? 1 : 0.7 + 0.3 * intensity,
-              color: alert ? '#FF5500' : '#00FFAA',
-              filter: alert ? 'drop-shadow(0 0 16px #FF5500)' : 'drop-shadow(0 0 12px #00FFAA)',
-              transition: 'all 0.5s',
-              pointerEvents: 'none',
+              color: alert ? "#FF5500" : "#00FFAA",
+              filter: alert
+                ? "drop-shadow(0 0 16px #FF5500)"
+                : "drop-shadow(0 0 12px #00FFAA)",
+              transition: "all 0.5s",
+              pointerEvents: "none",
             }}
             title={`Node: ${node.id} | Ethics: ${ethics.toFixed(2)}`}
           >

@@ -1,12 +1,12 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from "react";
 
 export default function CouncilPulseGlyphs() {
   const [pulses, setPulses] = useState([]);
   const esRef = useRef(null);
 
   useEffect(() => {
-    const es = new EventSource('/api/telemetry/stream');
-    es.addEventListener('luminal:councilPulse', (e) => {
+    const es = new EventSource("/api/telemetry/stream");
+    es.addEventListener("luminal:councilPulse", (e) => {
       try {
         const pulse = JSON.parse(e.data);
         setPulses((prev) => [...prev.slice(-40), { ...pulse, ts: Date.now() }]);
@@ -17,7 +17,14 @@ export default function CouncilPulseGlyphs() {
   }, []);
 
   return (
-    <div style={{ position: 'fixed', inset: 0, pointerEvents: 'none', zIndex: 998 }}>
+    <div
+      style={{
+        position: "fixed",
+        inset: 0,
+        pointerEvents: "none",
+        zIndex: 998,
+      }}
+    >
       {pulses.map((p, i) => {
         const size = Math.max(6, (p.pulse || 0.02) * 50);
         const left = `${Math.random() * 80 + 10}%`;
@@ -27,14 +34,14 @@ export default function CouncilPulseGlyphs() {
             key={i}
             className="pulse-glyph"
             style={{
-              position: 'absolute',
+              position: "absolute",
               left,
               top,
               width: size,
               height: size,
-              borderRadius: '50%',
-              background: 'rgba(255, 223, 0, 0.45)',
-              boxShadow: '0 0 12px rgba(255, 223, 0, 0.7)',
+              borderRadius: "50%",
+              background: "rgba(255, 223, 0, 0.45)",
+              boxShadow: "0 0 12px rgba(255, 223, 0, 0.7)",
               opacity: 0.85,
             }}
           />

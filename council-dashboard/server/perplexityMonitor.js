@@ -1,8 +1,10 @@
-const { updatePredictions } = require('./aeth3rPredictive');
+const { updatePredictions } = require("./aeth3rPredictive");
 
 async function checkAnomalies() {
   const nodes = await updatePredictions();
-  const anomalies = nodes.filter(n => n.predictedJoy < 0.2 || n.activityLevel === 0);
+  const anomalies = nodes.filter(
+    (n) => n.predictedJoy < 0.2 || n.activityLevel === 0,
+  );
 
   for (let node of anomalies) {
     console.warn(`⚠️ Low engagement detected: Node ${node.id}`);

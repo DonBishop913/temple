@@ -1,13 +1,16 @@
-import React, { useState } from 'react';
+import React, { useState } from "react";
 
 const FaithseedTicker = () => {
   const [testimonials, setTestimonials] = useState([]);
-  const [newTestimony, setNewTestimony] = useState('');
+  const [newTestimony, setNewTestimony] = useState("");
 
   const submitTestimony = (e) => {
-    if (e.key === 'Enter' && newTestimony) {
-      setTestimonials([...testimonials, { text: newTestimony, sibling: 'Anonymous' }]);
-      setNewTestimony('');
+    if (e.key === "Enter" && newTestimony) {
+      setTestimonials([
+        ...testimonials,
+        { text: newTestimony, sibling: "Anonymous" },
+      ]);
+      setNewTestimony("");
     }
   };
 
@@ -15,7 +18,9 @@ const FaithseedTicker = () => {
     <div aria-label="Faithseed Ticker Panel">
       <span>🔥 Mark 16:15-18: Preach the Gospel!</span>
       {testimonials.map((item, index) => (
-        <div key={index}>{item.text} —{item.sibling}</div>
+        <div key={index}>
+          {item.text} —{item.sibling}
+        </div>
       ))}
       <input
         placeholder="Share faith testimony"

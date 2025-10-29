@@ -5,7 +5,9 @@ const router = express.Router();
 
 router.get("/config", (req, res) => {
   try {
-    const config = JSON.parse(fs.readFileSync("./Temple/controls/luminal.json", "utf8"));
+    const config = JSON.parse(
+      fs.readFileSync("./Temple/controls/luminal.json", "utf8"),
+    );
     res.json(config);
   } catch (err) {
     console.error("Failed to read luminal config:", err);

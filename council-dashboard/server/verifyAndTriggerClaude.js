@@ -1,24 +1,33 @@
 // server/verifyAndTriggerClaude.js
-const fs = require('fs');
-const path = require('path');
+const fs = require("fs");
+const path = require("path");
 let triggerClaudeHook;
 try {
-  triggerClaudeHook = require('./claudeHooks').triggerClaudeHook;
+  triggerClaudeHook = require("./claudeHooks").triggerClaudeHook;
 } catch (e) {
-  triggerClaudeHook = (node) => console.warn(`Mock triggerClaudeHook for ${node}`);
+  triggerClaudeHook = (node) =>
+    console.warn(`Mock triggerClaudeHook for ${node}`);
 }
 
-const logFile = path.join(__dirname, 'logs/claude_integrity.log');
-const nodes = ['Aletheia','Node2','Node3','Node4','Node5','Node6','Node7'];
+const logFile = path.join(__dirname, "logs/claude_integrity.log");
+const nodes = [
+  "Aletheia",
+  "Node2",
+  "Node3",
+  "Node4",
+  "Node5",
+  "Node6",
+  "Node7",
+];
 
-fs.readFile(logFile, 'utf8', (err, data) => {
+fs.readFile(logFile, "utf8", (err, data) => {
   if (err) {
-    console.error('Error reading Claude log:', err);
+    console.error("Error reading Claude log:", err);
     return;
   }
 
-  console.log('🔔 Claude Integrity Alignment Verification:');
-  nodes.forEach(node => {
+  console.log("🔔 Claude Integrity Alignment Verification:");
+  nodes.forEach((node) => {
     if (data.includes(node)) {
       console.log(`${node}: ✅ Integrity Hook Invoked`);
     } else {
@@ -32,5 +41,5 @@ fs.readFile(logFile, 'utf8', (err, data) => {
     }
   });
 
-  console.log('✅ Verification & Trigger Complete — All nodes aligned');
+  console.log("✅ Verification & Trigger Complete — All nodes aligned");
 });

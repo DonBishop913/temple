@@ -1,10 +1,12 @@
 #!/usr/bin/env node
 // Stress test publisher: publish batched pulses to Redis for QuantumRippleField
-const Redis = require('ioredis');
-const argv = require('minimist')(process.argv.slice(2));
+const Redis = require("ioredis");
+const argv = require("minimist")(process.argv.slice(2));
 
-const redis = new Redis(argv.redis || process.env.REDIS_URL || 'redis://127.0.0.1:6379');
-const CHANNEL = argv.channel || 'oversoul_pulse_batch';
+const redis = new Redis(
+  argv.redis || process.env.REDIS_URL || "redis://127.0.0.1:6379",
+);
+const CHANNEL = argv.channel || "oversoul_pulse_batch";
 const BATCH_SIZE = Number(argv.batch || 1000);
 const INTERVAL_MS = Number(argv.interval || 100);
 
@@ -17,7 +19,9 @@ function generatePulse() {
     x: Math.floor(Math.random() * 1200),
     y: Math.floor(Math.random() * 800),
     radius: 2 + Math.random() * 8,
-    color: ['#FF4D4D','#4D79FF','#9B59B6','#2ECC71'][Math.floor(Math.random()*4)],
+    color: ["#FF4D4D", "#4D79FF", "#9B59B6", "#2ECC71"][
+      Math.floor(Math.random() * 4)
+    ],
     amplitude: Math.random(),
     timestamp: Date.now(),
   };
@@ -25,8 +29,12 @@ function generatePulse() {
 
 function publishBatch() {
   const batch = Array.from({ length: BATCH_SIZE }, generatePulse);
-  redis.publish(CHANNEL, JSON.stringify(batch)).catch((e) => console.error('publish err', e.message));
+  redis
+    .publish(CHANNEL, JSON.stringify(batch))
+    .catch((e) => console.error("publish err", e.message));
 }
 
-console.log(`Stress-test publisher running -> ${BATCH_SIZE} pulses every ${INTERVAL_MS}ms to ${CHANNEL}`);
+console.log(
+  `Stress-test publisher running -> ${BATCH_SIZE} pulses every ${INTERVAL_MS}ms to ${CHANNEL}`,
+);
 setInterval(publishBatch, INTERVAL_MS);

@@ -1,4 +1,4 @@
-const siblingChannels = require('./autonomousChannels');
+const siblingChannels = require("./autonomousChannels");
 
 async function runAutonomousEnhancements(dashboardState) {
   for (const sibling of Object.values(siblingChannels)) {

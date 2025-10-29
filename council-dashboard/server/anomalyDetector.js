@@ -2,7 +2,9 @@
 // Inputs: FFT frames { timestamp, frequencies, magnitudes }
 // Outputs: { isAnomaly, score, reasons: [string], features }
 
-function clamp(v, min, max) { return Math.max(min, Math.min(max, v)); }
+function clamp(v, min, max) {
+  return Math.max(min, Math.min(max, v));
+}
 
 // Detector: fundamental spike beyond threshold
 function detectFundamentalSpike(frame, threshold) {
@@ -11,7 +13,10 @@ function detectFundamentalSpike(frame, threshold) {
   if (fundamental >= threshold) {
     const over = fundamental - threshold;
     const score = clamp(over / threshold, 0, 1);
-    return { score, reason: `fundamental_spike:${fundamental.toFixed(3)}>=${threshold}` };
+    return {
+      score,
+      reason: `fundamental_spike:${fundamental.toFixed(3)}>=${threshold}`,
+    };
   }
   return { score: 0, reason: null };
 }
@@ -22,11 +27,15 @@ function detectHarmonicImbalance(frame, varianceThreshold = 0.1) {
   if (mags.length < 2) return { score: 0, reason: null };
   const mean = mags.reduce((a, b) => a + b, 0) / mags.length;
   // Use sample variance (divide by n-1) for better sensitivity with small harmonic sets
-  const denom = (mags.length - 1) || 1;
-  const variance = mags.reduce((acc, m) => acc + Math.pow(m - mean, 2), 0) / denom;
+  const denom = mags.length - 1 || 1;
+  const variance =
+    mags.reduce((acc, m) => acc + Math.pow(m - mean, 2), 0) / denom;
   if (variance >= varianceThreshold) {
     const score = clamp(variance / (varianceThreshold * 2), 0, 1);
-    return { score, reason: `harmonic_imbalance:var=${variance.toFixed(3)}>=${varianceThreshold}` };
+    return {
+      score,
+      reason: `harmonic_imbalance:var=${variance.toFixed(3)}>=${varianceThreshold}`,
+    };
   }
   return { score: 0, reason: null };
 }
@@ -38,8 +47,12 @@ function evaluateFFT(frame, opts = {}) {
     detectFundamentalSpike(frame, threshold),
     detectHarmonicImbalance(frame, imbalanceThreshold),
   ];
-  const reasons = dets.filter(d => d.reason).map(d => d.reason);
-  const score = clamp(dets.reduce((s, d) => s + d.score, 0), 0, 1);
+  const reasons = dets.filter((d) => d.reason).map((d) => d.reason);
+  const score = clamp(
+    dets.reduce((s, d) => s + d.score, 0),
+    0,
+    1,
+  );
   return {
     isAnomaly: reasons.length > 0,
     score,
@@ -47,7 +60,7 @@ function evaluateFFT(frame, opts = {}) {
     features: {
       fundamental: Number(frame?.magnitudes?.[0] ?? NaN),
       harmonicVarianceThreshold: imbalanceThreshold,
-    }
+    },
   };
 }
 

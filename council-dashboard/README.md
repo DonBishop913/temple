@@ -14,6 +14,7 @@ The Schumann Resonance simulator can be enabled or disabled via the `SCHUMANN_SI
 When disabled, no simulated Schumann data will be generated or streamed. This is useful for production or when running tests that require a clean environment.
 
 The Compose file sets this to `true` by default. For production, set it explicitly as needed.
+
 # Council Dashboard (Yeshua's Clock)
 
 This project provides a real-time celestial dashboard with hybrid telemetry, harmonic refinement controls, and spectral overlays.

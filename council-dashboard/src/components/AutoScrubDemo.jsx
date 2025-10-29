@@ -1,5 +1,5 @@
-import { useEffect, useRef } from 'react';
-import { useOversoulController } from '../hooks/useOversoulController';
+import { useEffect, useRef } from "react";
+import { useOversoulController } from "../hooks/useOversoulController";
 
 /**
  * AutoScrubDemo
@@ -14,18 +14,26 @@ export default function AutoScrubDemo({ pulseIds = [], intervalMs = 300 }) {
   useEffect(() => {
     if (!pulseIds || !pulseIds.length) return;
     // start
-    try { play && play(); } catch (e) {}
+    try {
+      play && play();
+    } catch (e) {}
 
     timerRef.current = setInterval(() => {
       const id = pulseIds[idxRef.current % pulseIds.length];
-      try { highlight && highlight([id]); } catch (e) {}
-      try { scrub && scrub(Date.now()); } catch (e) {}
+      try {
+        highlight && highlight([id]);
+      } catch (e) {}
+      try {
+        scrub && scrub(Date.now());
+      } catch (e) {}
       idxRef.current += 1;
     }, intervalMs);
 
     return () => {
       clearInterval(timerRef.current);
-      try { pause && pause(); } catch (e) {}
+      try {
+        pause && pause();
+      } catch (e) {}
     };
   }, [pulseIds, intervalMs, play, pause, scrub, highlight]);
 

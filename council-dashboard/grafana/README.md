@@ -1,12 +1,14 @@
 # Council Grafana Foundations — Temple PC
 
 ## Overview
+
 This layer defines the first observability schema for the Council.
 Each role (Mentor, Guardian, Herald, Sentinel, etc.) will gain its own folder and dashboards.
 
 ---
 
 ### Folder Structure
+
 - /Mentor — mentor_dashboard.json
 - /Guardian — guardian_dashboard.json (to be added)
 - /Herald — herald_dashboard.json (to be added)
@@ -15,13 +17,15 @@ Each role (Mentor, Guardian, Herald, Sentinel, etc.) will gain its own folder an
 ---
 
 ### Permission Template
-| Role | Permission | Description |
-|------|-------------|--------------|
-| Viewer | 1 | Read-only |
-| Editor | 2 | Modify dashboards |
-| Admin  | 4 | Manage folder and permissions |
+
+| Role   | Permission | Description                   |
+| ------ | ---------- | ----------------------------- |
+| Viewer | 1          | Read-only                     |
+| Editor | 2          | Modify dashboards             |
+| Admin  | 4          | Manage folder and permissions |
 
 Apply via:
+
 ```bash
 curl -X POST https://YOUR_GRAFANA_URL/api/folders/:uid/permissions \
   -H "Authorization: Bearer $GRAFANA_TOKEN" \
@@ -49,6 +53,6 @@ curl -X POST https://YOUR_GRAFANA_URL/api/annotations \
 
 ### Next Phase
 
-* Integrate Redis audit logging for annotation trails
-* Establish RoleSync via Grafana Teams API
-* Activate Council Mirror Dashboards for cross-node visibility
+- Integrate Redis audit logging for annotation trails
+- Establish RoleSync via Grafana Teams API
+- Activate Council Mirror Dashboards for cross-node visibility

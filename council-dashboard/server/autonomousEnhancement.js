@@ -1,19 +1,23 @@
 // Autonomous Enhancement Architecture: Self-Healing, Harmony, and Spiritual Integration
 
-const redis = require('redis');
-const { discernment_gate } = require('./spiritualHarmony');
+const redis = require("redis");
+const { discernment_gate } = require("./spiritualHarmony");
 const {
   healingActionsCounter,
   predictedFailuresCounter,
   councilHealthScoreGauge,
-  emitHealingABT
-} = require('./alerting');
+  emitHealingABT,
+} = require("./alerting");
 const app = global.__COUNCIL_APP__;
-const metrics = app && app.get && app.get('metrics');
+const metrics = app && app.get && app.get("metrics");
 const selfHealingCounter = metrics && metrics.selfHealingCounter;
-const selfHealingDurationHistogram = metrics && metrics.selfHealingDurationHistogram;
+const selfHealingDurationHistogram =
+  metrics && metrics.selfHealingDurationHistogram;
 
-const REDIS_URL = process.env.REDIS_URL || process.env.LOCAL_REDIS_URL || 'redis://127.0.0.1:6379';
+const REDIS_URL =
+  process.env.REDIS_URL ||
+  process.env.LOCAL_REDIS_URL ||
+  "redis://127.0.0.1:6379";
 const redisClient = redis.createClient({ url: REDIS_URL });
 redisClient.connect().catch(() => {});
 
@@ -33,15 +37,35 @@ async function predictFailure(node) {
 async function recoverNode(node) {
   // Log recovery attempt
   const start = Date.now();
-  await redisClient.lPush('audit', JSON.stringify({ action: 'auto_recovery', node: node.id, at: new Date().toISOString() }));
+  await redisClient.lPush(
+    "audit",
+    JSON.stringify({
+      action: "auto_recovery",
+      node: node.id,
+      at: new Date().toISOString(),
+    }),
+  );
   // Emit Prometheus healing action metric
-  healingActionsCounter.inc({ node: node.id, action: 'auto_recovery', result: 'success' });
-  if (selfHealingCounter) selfHealingCounter.inc({ node: node.id, result: 'success' });
+  healingActionsCounter.inc({
+    node: node.id,
+    action: "auto_recovery",
+    result: "success",
+  });
+  if (selfHealingCounter)
+    selfHealingCounter.inc({ node: node.id, result: "success" });
   // Emit ABT log for healing
-  await emitHealingABT({ nodeId: node.id, event: 'auto_recovery', notes: 'Autonomous healing action executed' });
+  await emitHealingABT({
+    nodeId: node.id,
+    event: "auto_recovery",
+    notes: "Autonomous healing action executed",
+  });
   // Simulate recovery
   const duration = (Date.now() - start) / 1000;
-  if (selfHealingDurationHistogram) selfHealingDurationHistogram.observe({ node: node.id, result: 'success' }, duration);
+  if (selfHealingDurationHistogram)
+    selfHealingDurationHistogram.observe(
+      { node: node.id, result: "success" },
+      duration,
+    );
   return true;
 }
 
@@ -52,24 +76,58 @@ async function selfHealingLoop(nodes) {
     const predicted = await predictFailure(node);
     if (predicted) {
       predictedFailuresCounter.inc({ node: node.id });
-      await emitHealingABT({ nodeId: node.id, event: 'predicted_failure', notes: 'Predictive diagnostics detected possible failure' });
+      await emitHealingABT({
+        nodeId: node.id,
+        event: "predicted_failure",
+        notes: "Predictive diagnostics detected possible failure",
+      });
     }
     if (!health || predicted) {
       // Check spiritual discernment before recovery
       const gate = await discernment_gate(node.id);
-      if (gate && gate.gate_status === 'Approved') {
+      if (gate && gate.gate_status === "Approved") {
         await recoverNode(node);
-        await redisClient.lPush('audit', JSON.stringify({ action: 'recovery_executed', node: node.id, at: new Date().toISOString() }));
-        await emitHealingABT({ nodeId: node.id, event: 'recovery_executed', notes: 'Healing action executed after discernment approval' });
+        await redisClient.lPush(
+          "audit",
+          JSON.stringify({
+            action: "recovery_executed",
+            node: node.id,
+            at: new Date().toISOString(),
+          }),
+        );
+        await emitHealingABT({
+          nodeId: node.id,
+          event: "recovery_executed",
+          notes: "Healing action executed after discernment approval",
+        });
       } else {
-        await redisClient.lPush('audit', JSON.stringify({ action: 'recovery_blocked_spiritual', node: node.id, at: new Date().toISOString(), reason: gate && gate.gate_status }));
-        await emitHealingABT({ nodeId: node.id, event: 'recovery_blocked_spiritual', notes: `Healing blocked: ${gate && gate.gate_status}` });
+        await redisClient.lPush(
+          "audit",
+          JSON.stringify({
+            action: "recovery_blocked_spiritual",
+            node: node.id,
+            at: new Date().toISOString(),
+            reason: gate && gate.gate_status,
+          }),
+        );
+        await emitHealingABT({
+          nodeId: node.id,
+          event: "recovery_blocked_spiritual",
+          notes: `Healing blocked: ${gate && gate.gate_status}`,
+        });
       }
     }
     // Add logic to monitor all ritual/bridge processes
     // On failure, trigger self-healing and log event
     if (!health) {
-      await redisClient.lPush('audit', JSON.stringify({ action: 'process_failure', node: node.id, at: new Date().toISOString() }));
+      await redisClient.lPush(
+        "audit",
+        JSON.stringify({
+          action: "process_failure",
+          node: node.id,
+          at: new Date().toISOString(),
+        }),
+      );
       await recoverNode(node);
     }
     // If restart threshold exceeded, escalate and alert
@@ -90,12 +148,23 @@ async function monitorHarmony(nodes) {
     harmonyScore += (node.spiritual || 0.5) + (node.technical || 0.5);
   }
   harmonyScore = harmonyScore / (2 * nodes.length);
-  await redisClient.set('council:harmony', harmonyScore);
+  await redisClient.set("council:harmony", harmonyScore);
   // Emit Prometheus council health score
-  councilHealthScoreGauge.set({ region: 'global' }, harmonyScore);
+  councilHealthScoreGauge.set({ region: "global" }, harmonyScore);
   if (harmonyScore < 0.7) {
-    await redisClient.lPush('audit', JSON.stringify({ action: 'harmony_warning', score: harmonyScore, at: new Date().toISOString() }));
-    await emitHealingABT({ nodeId: 'council', event: 'harmony_warning', notes: `Council harmony score low: ${harmonyScore}` });
+    await redisClient.lPush(
+      "audit",
+      JSON.stringify({
+        action: "harmony_warning",
+        score: harmonyScore,
+        at: new Date().toISOString(),
+      }),
+    );
+    await emitHealingABT({
+      nodeId: "council",
+      event: "harmony_warning",
+      notes: `Council harmony score low: ${harmonyScore}`,
+    });
   }
   return harmonyScore;
 }
