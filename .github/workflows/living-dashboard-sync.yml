@@ -1,0 +1,28 @@
+name: Living Dashboard Sync
+
+on:
+  workflow_run:
+    workflows: ["Scheduled WS Health Probe"]
+    types:
+      - completed
+
+jobs:
+  sync-to-dashboard:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Send workflow status to Living Dashboard
+        run: |
+          curl -X POST "${{ secrets.LIVING_DASHBOARD_URL }}/api/solance/webhook" \
+            -H "Content-Type: application/json" \
+            -H "X-API-Token: ${{ secrets.LIVING_DASHBOARD_TOKEN }}" \
+            -d '{
+              "event": "workflow_completed",
+              "repository": "${{ github.repository }}",
+              "workflow": "${{ github.event.workflow_run.name }}",
+              "status": "${{ github.event.workflow_run.conclusion }}",
+              "run_id": "${{ github.event.workflow_run.id }}",
+              "timestamp": "'$(date -Iseconds)'"
+            }'
