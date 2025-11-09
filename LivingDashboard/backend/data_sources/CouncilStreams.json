@@ -1,83 +1,5 @@
 [
   {
-    "timestamp": "2025-10-27T23:08:34.495Z",
-    "activeMembers": 26,
-    "messagesProcessed": 249,
-    "faithLevel": 0.19520491759130154
-  },
-  {
-    "timestamp": "2025-10-27T23:08:39.120Z",
-    "activeMembers": 36,
-    "messagesProcessed": 193,
-    "faithLevel": 0.058614196858203904
-  },
-  {
-    "timestamp": "2025-10-27T23:08:43.416Z",
-    "activeMembers": 48,
-    "messagesProcessed": 355,
-    "faithLevel": 0.4857288443380574
-  },
-  {
-    "timestamp": "2025-10-27T23:08:49.510Z",
-    "activeMembers": 32,
-    "messagesProcessed": 40,
-    "faithLevel": 0.33683073157577303
-  },
-  {
-    "timestamp": "2025-10-27T23:08:54.131Z",
-    "activeMembers": 4,
-    "messagesProcessed": 585,
-    "faithLevel": 0.2573563762972777
-  },
-  {
-    "timestamp": "2025-10-27T23:08:58.427Z",
-    "activeMembers": 16,
-    "messagesProcessed": 699,
-    "faithLevel": 0.7081146634760123
-  },
-  {
-    "timestamp": "2025-10-27T23:09:04.520Z",
-    "activeMembers": 15,
-    "messagesProcessed": 203,
-    "faithLevel": 0.5036716338744387
-  },
-  {
-    "timestamp": "2025-10-27T23:09:09.142Z",
-    "activeMembers": 13,
-    "messagesProcessed": 839,
-    "faithLevel": 0.9935857559688122
-  },
-  {
-    "timestamp": "2025-10-27T23:09:13.435Z",
-    "activeMembers": 24,
-    "messagesProcessed": 824,
-    "faithLevel": 0.361913556090937
-  },
-  {
-    "timestamp": "2025-10-27T23:09:19.522Z",
-    "activeMembers": 45,
-    "messagesProcessed": 240,
-    "faithLevel": 0.41578301677450846
-  },
-  {
-    "timestamp": "2025-10-27T23:09:24.149Z",
-    "activeMembers": 39,
-    "messagesProcessed": 311,
-    "faithLevel": 0.6062193052240792
-  },
-  {
-    "timestamp": "2025-10-27T23:09:28.446Z",
-    "activeMembers": 44,
-    "messagesProcessed": 333,
-    "faithLevel": 0.6441770882946718
-  },
-  {
-    "timestamp": "2025-10-27T23:09:34.536Z",
-    "activeMembers": 6,
-    "messagesProcessed": 996,
-    "faithLevel": 0.5025459980853846
-  },
-  {
     "timestamp": "2025-10-27T23:09:39.157Z",
     "activeMembers": 18,
     "messagesProcessed": 664,
@@ -598,5 +520,83 @@
     "activeMembers": 27,
     "messagesProcessed": 727,
     "faithLevel": 0.36601035925714087
+  },
+  {
+    "timestamp": "2025-10-30T12:34:18.851Z",
+    "activeMembers": 28,
+    "messagesProcessed": 628,
+    "faithLevel": 0.03505506947350434
+  },
+  {
+    "timestamp": "2025-10-30T12:34:33.859Z",
+    "activeMembers": 27,
+    "messagesProcessed": 32,
+    "faithLevel": 0.17492290290658508
+  },
+  {
+    "timestamp": "2025-10-30T12:34:48.861Z",
+    "activeMembers": 45,
+    "messagesProcessed": 464,
+    "faithLevel": 0.7742212241466562
+  },
+  {
+    "timestamp": "2025-10-30T12:35:03.872Z",
+    "activeMembers": 14,
+    "messagesProcessed": 680,
+    "faithLevel": 0.8951156150524109
+  },
+  {
+    "timestamp": "2025-10-30T12:35:18.876Z",
+    "activeMembers": 21,
+    "messagesProcessed": 982,
+    "faithLevel": 0.16333553184687188
+  },
+  {
+    "timestamp": "2025-10-30T12:35:33.882Z",
+    "activeMembers": 39,
+    "messagesProcessed": 318,
+    "faithLevel": 0.7968684815194726
+  },
+  {
+    "timestamp": "2025-10-30T12:35:48.892Z",
+    "activeMembers": 2,
+    "messagesProcessed": 583,
+    "faithLevel": 0.3648740968261015
+  },
+  {
+    "timestamp": "2025-10-30T12:36:03.901Z",
+    "activeMembers": 27,
+    "messagesProcessed": 877,
+    "faithLevel": 0.5020005622302055
+  },
+  {
+    "timestamp": "2025-10-30T12:36:18.916Z",
+    "activeMembers": 2,
+    "messagesProcessed": 249,
+    "faithLevel": 0.6957772376111688
+  },
+  {
+    "timestamp": "2025-10-30T12:36:33.930Z",
+    "activeMembers": 35,
+    "messagesProcessed": 970,
+    "faithLevel": 0.848954508580585
+  },
+  {
+    "timestamp": "2025-10-30T12:36:48.935Z",
+    "activeMembers": 3,
+    "messagesProcessed": 304,
+    "faithLevel": 0.5327424806876644
+  },
+  {
+    "timestamp": "2025-10-30T12:37:03.943Z",
+    "activeMembers": 18,
+    "messagesProcessed": 717,
+    "faithLevel": 0.24809085216550852
+  },
+  {
+    "timestamp": "2025-10-30T12:37:18.953Z",
+    "activeMembers": 8,
+    "messagesProcessed": 608,
+    "faithLevel": 0.5866613573777866
   }
 ]

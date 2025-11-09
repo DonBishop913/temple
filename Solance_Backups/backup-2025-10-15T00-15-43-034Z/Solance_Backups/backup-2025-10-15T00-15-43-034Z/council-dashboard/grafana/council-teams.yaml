@@ -39,7 +39,6 @@ teams:
         resource: folder:GeneralCouncil
       - role: Viewer
         resource: folder:FlowReplay
-
 # Optional: Additional specialized roles
 # - name: RitualOperator
 #   permissions:

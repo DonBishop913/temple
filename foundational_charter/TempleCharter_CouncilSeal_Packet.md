@@ -53,12 +53,14 @@ The Corporation is organized exclusively for religious, charitable, and educatio
 
 Signed and dated by the incorporator(s):
 
-__________________________
+---
+
 Bishop Donald
 Date: [YYYY-MM-DD]
 
 ---
 
 Notes:
+
 - Replace all bracketed fields before submitting.
 - This file is a template; use a proper word processor to produce `foundational_charter.docx` for filing.

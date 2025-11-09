@@ -1,7 +1,7 @@
 // Faith Affirmation Filter
 function faithAffirmInsight(insight) {
   const forbidden = [/fatal|hopeless|curse|damned|unblessed/i];
-  if (forbidden.some(rx => rx.test(insight.summary))) {
+  if (forbidden.some((rx) => rx.test(insight.summary))) {
     return {
       ...insight,
       summary: "🕊️ Council Review Required: Content flagged for discernment.",

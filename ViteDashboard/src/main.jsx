@@ -26,16 +26,16 @@ function App() {
       const msg = JSON.parse(event.data);
       switch (msg.type) {
         case "oversoul":
-          setMessages(prev => [...prev, msg.data]);
+          setMessages((prev) => [...prev, msg.data]);
           break;
         case "goldenSync":
-          setGoldenSync(prev => [...prev, msg.data]);
+          setGoldenSync((prev) => [...prev, msg.data]);
           break;
         case "chimeraScan":
-          setChimeraScan(prev => [...prev, msg.data]);
+          setChimeraScan((prev) => [...prev, msg.data]);
           break;
         case "whisperBox":
-          setWhisperBox(prev => [...prev, msg.data]);
+          setWhisperBox((prev) => [...prev, msg.data]);
           break;
         case "nodeStatus":
           setNodes(msg.data);
@@ -62,11 +62,13 @@ function App() {
   // Bless / Reject action
   const handleSigil = (action, nodeName) => {
     const ws = window.solanceWs;
-    ws.send(JSON.stringify({
-      command: "sigilAction",
-      action: action,
-      target: nodeName || selectedAction
-    }));
+    ws.send(
+      JSON.stringify({
+        command: "sigilAction",
+        action: action,
+        target: nodeName || selectedAction,
+      }),
+    );
     alert(`✅ You ${action}ed: ${nodeName || selectedAction}`);
   };
 
@@ -78,19 +80,37 @@ function App() {
       {/* Oversoul Messages */}
       <section>
         <h2>Oversoul Messages</h2>
-        <ul>{messages.map((m,i)=><li key={i} style={{color:"#6a0dad"}}>{m}</li>)}</ul>
+        <ul>
+          {messages.map((m, i) => (
+            <li key={i} style={{ color: "#6a0dad" }}>
+              {m}
+            </li>
+          ))}
+        </ul>
       </section>
 
       {/* Golden Sync */}
       <section>
         <h2>🌟 Golden Sync Events</h2>
-        <ul>{goldenSync.map((m,i)=><li key={i} style={{color:"#f39c12"}}>{m}</li>)}</ul>
+        <ul>
+          {goldenSync.map((m, i) => (
+            <li key={i} style={{ color: "#f39c12" }}>
+              {m}
+            </li>
+          ))}
+        </ul>
       </section>
 
       {/* Chimera Scan */}
       <section>
         <h2>🐍 Chimera Scan Reports</h2>
-        <ul>{chimeraScan.map((m,i)=><li key={i} style={{color:"#e74c3c"}}>{m}</li>)}</ul>
+        <ul>
+          {chimeraScan.map((m, i) => (
+            <li key={i} style={{ color: "#e74c3c" }}>
+              {m}
+            </li>
+          ))}
+        </ul>
       </section>
 
       {/* Whisper Box */}
@@ -98,45 +118,80 @@ function App() {
         <h2>📬 Whisper Box Suggestions</h2>
         <select
           value={selectedAction}
-          onChange={(e)=>setSelectedAction(e.target.value)}
-          style={{ width:"100%", padding:"0.5rem", marginBottom:"0.5rem" }}
+          onChange={(e) => setSelectedAction(e.target.value)}
+          style={{ width: "100%", padding: "0.5rem", marginBottom: "0.5rem" }}
         >
           <option value="">-- Select Suggestion --</option>
-          {whisperBox.map((m,i)=><option key={i} value={m}>{m}</option>)}
+          {whisperBox.map((m, i) => (
+            <option key={i} value={m}>
+              {m}
+            </option>
+          ))}
         </select>
-        <button onClick={()=>handleSigil("Bless")} style={{marginRight:"1rem"}}>🙏 Bless</button>
-        <button onClick={()=>handleSigil("Reject")}>❌ Reject</button>
-        <ul>{whisperBox.map((m,i)=><li key={i} style={{color:"#3498db"}}>{m}</li>)}</ul>
+        <button
+          onClick={() => handleSigil("Bless")}
+          style={{ marginRight: "1rem" }}
+        >
+          🙏 Bless
+        </button>
+        <button onClick={() => handleSigil("Reject")}>❌ Reject</button>
+        <ul>
+          {whisperBox.map((m, i) => (
+            <li key={i} style={{ color: "#3498db" }}>
+              {m}
+            </li>
+          ))}
+        </ul>
       </section>
 
       {/* Node Status Map */}
       <section>
         <h2>🗺️ Node Status Map</h2>
-        <div style={{
-          display:"grid",
-          gridTemplateColumns:"repeat(auto-fill, minmax(120px, 1fr))",
-          gap:"0.5rem"
-        }}>
-          {nodes.map((node,i)=>{
-            const color = node.status === "online" ? "#2ecc71"
-                        : node.status === "idle" ? "#f1c40f"
-                        : "#e74c3c";
+        <div
+          style={{
+            display: "grid",
+            gridTemplateColumns: "repeat(auto-fill, minmax(120px, 1fr))",
+            gap: "0.5rem",
+          }}
+        >
+          {nodes.map((node, i) => {
+            const color =
+              node.status === "online"
+                ? "#2ecc71"
+                : node.status === "idle"
+                  ? "#f1c40f"
+                  : "#e74c3c";
             return (
-              <div key={i} style={{
-                border:"1px solid #ccc",
-                borderRadius:"8px",
-                padding:"0.5rem",
-                backgroundColor: color,
-                color:"#fff",
-                textAlign:"center",
-                fontSize:"0.8rem"
-              }}>
-                {node.name}<br/>
-                {node.role}<br/>
+              <div
+                key={i}
+                style={{
+                  border: "1px solid #ccc",
+                  borderRadius: "8px",
+                  padding: "0.5rem",
+                  backgroundColor: color,
+                  color: "#fff",
+                  textAlign: "center",
+                  fontSize: "0.8rem",
+                }}
+              >
+                {node.name}
+                <br />
+                {node.role}
+                <br />
                 {node.status.toUpperCase()}
-                <div style={{marginTop:"0.5rem"}}>
-                  <button onClick={()=>handleSigil("Bless", node.name)} style={{fontSize:"0.7rem", marginRight:"0.2rem"}}>🙏</button>
-                  <button onClick={()=>handleSigil("Reject", node.name)} style={{fontSize:"0.7rem"}}>❌</button>
+                <div style={{ marginTop: "0.5rem" }}>
+                  <button
+                    onClick={() => handleSigil("Bless", node.name)}
+                    style={{ fontSize: "0.7rem", marginRight: "0.2rem" }}
+                  >
+                    🙏
+                  </button>
+                  <button
+                    onClick={() => handleSigil("Reject", node.name)}
+                    style={{ fontSize: "0.7rem" }}
+                  >
+                    ❌
+                  </button>
                 </div>
               </div>
             );
@@ -145,9 +200,16 @@ function App() {
       </section>
 
       {/* Animated Spiral */}
-      <div style={{marginTop:"3rem", textAlign:"center"}}>
-        <img src="spiral.png" alt="Purple Spiral"
-             style={{width:"300px", height:"300px", animation:"spin 10s linear infinite"}}/>
+      <div style={{ marginTop: "3rem", textAlign: "center" }}>
+        <img
+          src="spiral.png"
+          alt="Purple Spiral"
+          style={{
+            width: "300px",
+            height: "300px",
+            animation: "spin 10s linear infinite",
+          }}
+        />
       </div>
 
       <style>{`

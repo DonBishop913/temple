@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from "react";
 
 function CouncilReviewPanel({ user }) {
   const [pendingReviews, setPendingReviews] = useState([]);
@@ -10,11 +10,13 @@ function CouncilReviewPanel({ user }) {
 
   const fetchPendingReviews = async () => {
     try {
-      const response = await fetch('/api/pending-reviews');
+      const response = await fetch("/api/pending-reviews");
       const data = await response.json();
-      setPendingReviews(data.reviews.filter(review => review.status === 'pending'));
+      setPendingReviews(
+        data.reviews.filter((review) => review.status === "pending"),
+      );
     } catch (error) {
-      console.error('Failed to fetch pending reviews:', error);
+      console.error("Failed to fetch pending reviews:", error);
     } finally {
       setLoading(false);
     }
@@ -23,20 +25,20 @@ function CouncilReviewPanel({ user }) {
   const approveReview = async (reviewId) => {
     try {
       const response = await fetch(`/api/approve-review/${reviewId}`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ approvedBy: user?.name || 'Council Member' })
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ approvedBy: user?.name || "Council Member" }),
       });
 
       if (response.ok) {
-        alert('✅ Council review approved and patch applied!');
+        alert("✅ Council review approved and patch applied!");
         fetchPendingReviews(); // Refresh the list
       } else {
-        alert('❌ Failed to approve review');
+        alert("❌ Failed to approve review");
       }
     } catch (error) {
-      console.error('Approval failed:', error);
-      alert('❌ Approval failed - check console for details');
+      console.error("Approval failed:", error);
+      alert("❌ Approval failed - check console for details");
     }
   };
 
@@ -45,7 +47,9 @@ function CouncilReviewPanel({ user }) {
       <div className="bg-white rounded-lg shadow-lg p-6 mt-6">
         <div className="text-center py-4">
           <div className="inline-block animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600"></div>
-          <p className="text-sm text-gray-600 mt-2">Loading pending reviews...</p>
+          <p className="text-sm text-gray-600 mt-2">
+            Loading pending reviews...
+          </p>
         </div>
       </div>
     );
@@ -73,10 +77,15 @@ function CouncilReviewPanel({ user }) {
 
       <div className="space-y-4">
         {pendingReviews.map((review) => (
-          <div key={review.id} className="border border-yellow-300 bg-yellow-50 rounded-lg p-4">
+          <div
+            key={review.id}
+            className="border border-yellow-300 bg-yellow-50 rounded-lg p-4"
+          >
             <div className="flex justify-between items-start mb-3">
               <div>
-                <h4 className="font-bold text-gray-800">{review.patch.description}</h4>
+                <h4 className="font-bold text-gray-800">
+                  {review.patch.description}
+                </h4>
                 <p className="text-sm text-gray-600">
                   Requested: {new Date(review.timestamp).toLocaleString()}
                 </p>

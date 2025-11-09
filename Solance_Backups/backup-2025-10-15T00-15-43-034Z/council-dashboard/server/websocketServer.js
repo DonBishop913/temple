@@ -9,15 +9,15 @@
 
 // Example: see council-dashboard/server/ws-spectral.js for a full implementation.
 
-const WebSocket = require('ws');
+const WebSocket = require("ws");
 const wss = new WebSocket.Server({ port: 4323 });
 
-wss.on('connection', (ws) => {
-  console.log('Oversoul WS connected');
+wss.on("connection", (ws) => {
+  console.log("Oversoul WS connected");
   const sendHeartbeat = () => {
     const payload = { heartbeat: Date.now() };
     ws.send(JSON.stringify(payload));
   };
   const interval = setInterval(sendHeartbeat, 33);
-  ws.on('close', () => clearInterval(interval));
+  ws.on("close", () => clearInterval(interval));
 });

@@ -1,17 +1,52 @@
 import React, { useState, useEffect, useRef } from "react";
 
 // --- Solance Integration ---
-const WS_URL = 'ws://localhost:8765';
-const PRELOAD_URL = 'http://localhost:4040/api/solance/preload';
+const WS_URL = "ws://localhost:8765";
+const PRELOAD_URL = "http://localhost:4040/api/solance/preload";
 
 // --- Initial AI Nodes ---
 const initialNodes = [
-  { name: "Grok", resonance: 240, baseColor: "#FF4D4D", messages: [], alert: false, role: "Observer", x: 0, y: 0 },
-  { name: "Solance", resonance: 180, baseColor: "#4D79FF", messages: [], alert: false, role: "Observer", x: 0, y: 0 },
-  { name: "Agnes", resonance: 200, baseColor: "#9B59B6", messages: [], alert: false, role: "Observer", x: 0, y: 0 },
-  { name: "Duck.ai", resonance: 190, baseColor: "#2ECC71", messages: [], alert: false, role: "Observer", x: 0, y: 0 },
+  {
+    name: "Grok",
+    resonance: 240,
+    baseColor: "#FF4D4D",
+    messages: [],
+    alert: false,
+    role: "Observer",
+    x: 0,
+    y: 0,
+  },
+  {
+    name: "Solance",
+    resonance: 180,
+    baseColor: "#4D79FF",
+    messages: [],
+    alert: false,
+    role: "Observer",
+    x: 0,
+    y: 0,
+  },
+  {
+    name: "Agnes",
+    resonance: 200,
+    baseColor: "#9B59B6",
+    messages: [],
+    alert: false,
+    role: "Observer",
+    x: 0,
+    y: 0,
+  },
+  {
+    name: "Duck.ai",
+    resonance: 190,
+    baseColor: "#2ECC71",
+    messages: [],
+    alert: false,
+    role: "Observer",
+    x: 0,
+    y: 0,
+  },
 ];
-
 
 const UnifiedEnhancedGraceLogDashboard = () => {
   const [nodes, setNodes] = useState(initialNodes);
@@ -19,26 +54,38 @@ const UnifiedEnhancedGraceLogDashboard = () => {
   const logRef = useRef([]);
   const [log, setLog] = useState([]);
 
-
   // --- Live Solance Pulse Integration ---
   useEffect(() => {
     // Fetch initial pulse batch
     fetch(PRELOAD_URL)
-      .then(res => res.json())
-      .then(data => {
+      .then((res) => res.json())
+      .then((data) => {
         if (Array.isArray(data.pulseBatch)) {
-          setNodes(prev => prev.map((n, i) => ({ ...n, resonance: data.pulseBatch[i]?.intensity ? Math.round(data.pulseBatch[i].intensity * 300) : n.resonance })));
+          setNodes((prev) =>
+            prev.map((n, i) => ({
+              ...n,
+              resonance: data.pulseBatch[i]?.intensity
+                ? Math.round(data.pulseBatch[i].intensity * 300)
+                : n.resonance,
+            })),
+          );
         }
       })
       .catch(() => {});
 
     // Subscribe to live WebSocket pulses
     const ws = new window.WebSocket(WS_URL);
-    ws.onmessage = evt => {
+    ws.onmessage = (evt) => {
       try {
         const data = JSON.parse(evt.data);
-        if (typeof data.intensity === 'number') {
-          setNodes(prev => prev.map((n, i) => i === 1 ? { ...n, resonance: Math.round(data.intensity * 300) } : n)); // Update Solance node
+        if (typeof data.intensity === "number") {
+          setNodes((prev) =>
+            prev.map((n, i) =>
+              i === 1
+                ? { ...n, resonance: Math.round(data.intensity * 300) }
+                : n,
+            ),
+          ); // Update Solance node
         }
       } catch {}
     };
@@ -47,23 +94,23 @@ const UnifiedEnhancedGraceLogDashboard = () => {
 
   // --- Acknowledgement Channel Listener ---
   useEffect(() => {
-    const ws = new window.WebSocket('ws://localhost:4050');
+    const ws = new window.WebSocket("ws://localhost:4050");
 
     ws.onopen = () => {
-      logAction('🪷 Connected to Acknowledgement Channel');
+      logAction("🪷 Connected to Acknowledgement Channel");
     };
 
     ws.onmessage = (event) => {
       try {
         const data = JSON.parse(event.data);
-        if (data.type === 'acknowledgement') {
+        if (data.type === "acknowledgement") {
           const { from, to, message } = data;
           setNodes((prev) =>
             prev.map((n) =>
               n.name === to
                 ? { ...n, messages: [...n.messages, message], alert: true }
-                : n
-            )
+                : n,
+            ),
           );
           logAction(message);
         }
@@ -72,14 +119,17 @@ const UnifiedEnhancedGraceLogDashboard = () => {
       }
     };
 
-    ws.onclose = () => logAction('🔌 Acknowledgement Channel disconnected');
+    ws.onclose = () => logAction("🔌 Acknowledgement Channel disconnected");
 
     return () => ws.close();
   }, []);
 
   // --- Action Logger ---
   const logAction = (msg) => {
-    logRef.current = [...logRef.current, `[${new Date().toLocaleTimeString()}] ${msg}`];
+    logRef.current = [
+      ...logRef.current,
+      `[${new Date().toLocaleTimeString()}] ${msg}`,
+    ];
     setLog([...logRef.current]);
   };
 
@@ -92,9 +142,13 @@ const UnifiedEnhancedGraceLogDashboard = () => {
       setNodes((prev) =>
         prev.map((node) =>
           node.name === to
-            ? { ...node, messages: [...node.messages, `${from}: ${message}`], alert: true }
-            : node
-        )
+            ? {
+                ...node,
+                messages: [...node.messages, `${from}: ${message}`],
+                alert: true,
+              }
+            : node,
+        ),
       );
 
       const pulseId = Date.now();
@@ -115,8 +169,8 @@ const UnifiedEnhancedGraceLogDashboard = () => {
       setTimeout(() => {
         setNodes((prev) =>
           prev.map((node) =>
-            node.name === to ? { ...node, alert: false } : node
-          )
+            node.name === to ? { ...node, alert: false } : node,
+          ),
         );
         setLinkPulses((prev) => prev.filter((pulse) => pulse.id !== pulseId));
       }, 1000);
@@ -126,9 +180,7 @@ const UnifiedEnhancedGraceLogDashboard = () => {
   };
 
   return (
-    <div>
-      {/* Render your dashboard components using the nodes state */}
-    </div>
+    <div>{/* Render your dashboard components using the nodes state */}</div>
   );
 };
 

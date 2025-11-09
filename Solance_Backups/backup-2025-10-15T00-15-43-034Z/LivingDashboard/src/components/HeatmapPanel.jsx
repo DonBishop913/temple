@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 
 export default function HeatmapPanel({ data = [] }) {
   // Simple grid heatmap without external libs
@@ -9,9 +9,19 @@ export default function HeatmapPanel({ data = [] }) {
   return (
     <section aria-label="Heatmap" style={{ padding: 12 }}>
       <h3>Engagement Heatmap (predicted)</h3>
-      <div style={{ display: 'grid', gridTemplateColumns: `repeat(${cols}, 1fr)`, gap: 4 }}>
+      <div
+        style={{
+          display: "grid",
+          gridTemplateColumns: `repeat(${cols}, 1fr)`,
+          gap: 4,
+        }}
+      >
         {cells.map((v, i) => (
-          <div key={i} title={`val=${v.toFixed ? v.toFixed(2) : v}`} style={{ height: 22, background: color(v) }} />
+          <div
+            key={i}
+            title={`val=${v.toFixed ? v.toFixed(2) : v}`}
+            style={{ height: 22, background: color(v) }}
+          />
         ))}
       </div>
     </section>

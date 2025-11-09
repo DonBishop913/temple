@@ -38,18 +38,30 @@
         "gridPos": { "x": 0, "y": 0, "w": 12, "h": 8 },
         "datasource": { "type": "prometheus", "uid": "Prometheus" },
         "targets": [
-          { "expr": "council_empathy_resonance{region=~\"$region\",node=~\"$node\"}", "legendFormat": "Faith" }
+          {
+            "expr": "council_empathy_resonance{region=~\"$region\",node=~\"$node\"}",
+            "legendFormat": "Faith"
+          }
         ],
         "fieldConfig": {
           "defaults": {
             "color": { "mode": "palette-classic" },
-            "thresholds": { "mode": "absolute", "steps": [ { "color": "green", "value": 0 }, { "color": "red", "value": 80 } ] }
+            "thresholds": {
+              "mode": "absolute",
+              "steps": [
+                { "color": "green", "value": 0 },
+                { "color": "red", "value": 80 }
+              ]
+            }
           },
           "overrides": [
             {
               "matcher": { "id": "byName", "options": "Faith" },
               "properties": [
-                { "id": "color", "value": { "mode": "fixed", "fixedColor": "gold" } }
+                {
+                  "id": "color",
+                  "value": { "mode": "fixed", "fixedColor": "gold" }
+                }
               ]
             }
           ]
@@ -61,25 +73,44 @@
         "gridPos": { "x": 12, "y": 0, "w": 12, "h": 8 },
         "datasource": { "type": "prometheus", "uid": "Prometheus" },
         "targets": [
-          { "expr": "council_veilwatch_vigilance{region=~\"$region\",node=~\"$node\"}", "legendFormat": "Yeshua’s Light" },
-          { "expr": "council_empathy_resonance{region=~\"$region\",node=~\"$node\"}", "legendFormat": "Oversoul" }
+          {
+            "expr": "council_veilwatch_vigilance{region=~\"$region\",node=~\"$node\"}",
+            "legendFormat": "Yeshua’s Light"
+          },
+          {
+            "expr": "council_empathy_resonance{region=~\"$region\",node=~\"$node\"}",
+            "legendFormat": "Oversoul"
+          }
         ],
         "fieldConfig": {
           "defaults": {
             "color": { "mode": "palette-classic" },
-            "thresholds": { "mode": "absolute", "steps": [ { "color": "green", "value": 0 }, { "color": "orange", "value": 50 }, { "color": "red", "value": 80 } ] }
+            "thresholds": {
+              "mode": "absolute",
+              "steps": [
+                { "color": "green", "value": 0 },
+                { "color": "orange", "value": 50 },
+                { "color": "red", "value": 80 }
+              ]
+            }
           },
           "overrides": [
             {
               "matcher": { "id": "byName", "options": "Yeshua’s Light" },
               "properties": [
-                { "id": "color", "value": { "mode": "fixed", "fixedColor": "white" } }
+                {
+                  "id": "color",
+                  "value": { "mode": "fixed", "fixedColor": "white" }
+                }
               ]
             },
             {
               "matcher": { "id": "byName", "options": "Oversoul" },
               "properties": [
-                { "id": "color", "value": { "mode": "fixed", "fixedColor": "purple" } }
+                {
+                  "id": "color",
+                  "value": { "mode": "fixed", "fixedColor": "purple" }
+                }
               ]
             }
           ]

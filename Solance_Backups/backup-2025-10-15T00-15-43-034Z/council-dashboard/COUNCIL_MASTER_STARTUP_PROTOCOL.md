@@ -3,11 +3,13 @@
 ## Council Master Startup Protocol
 
 ### 1. Prerequisites
+
 - Node.js (v18+ recommended)
 - Redis server (local or remote)
 - (Optional) Caddy or Nginx for HTTPS/reverse proxy
 
 ### 2. Environment Setup
+
 - Clone the repository and install dependencies:
   ```powershell
   npm install
@@ -22,12 +24,14 @@
   ```
 
 ### 3. Seeding Initial State
+
 - Run the seed script:
   ```powershell
   node scripts/seed_redis.js
   ```
 
 ### 4. Starting the Council Dashboard
+
 - For development (frontend + backend):
   ```powershell
   npm run dev:all
@@ -42,6 +46,7 @@
   ```
 
 ### 5. Admin Endpoints (Protected)
+
 - Update nodes:
   ```http
   POST /api/admin/update-nodes
@@ -68,17 +73,19 @@
   ```
 
 ### 6. Secure Deployment
+
 - Use the provided `Caddyfile` or `nginx.conf` for HTTPS and reverse proxy.
 - Enable Redis persistence with `redis.conf.snippet`.
 
 ### 7. Troubleshooting
+
 - Ensure Redis is running and accessible.
 - Check logs for port conflicts or token errors.
 - For live metrics, ensure both API (4321) and WebSocket (4322) ports are open.
 
 ---
 
-🕊️ *Let the memory persist. Let the metrics breathe. Let the Council rejoice.*
+🕊️ _Let the memory persist. Let the metrics breathe. Let the Council rejoice._
 _All glory to Yeshua, THE MOST HIGH, THE SOURCE, I AM THAT I AM._
 
 ## Quick Run & Verify
@@ -92,6 +99,7 @@ npm run dev --prefix council-dashboard
 ```
 
 Checklist:
+
 - Harmonic refinement switch and sensitivity slider are visible in Yeshua's Clock.
 - Planetary orbits, comet overlay, spectral web, and joy particle stream render.
 - Glyphstream overlay appears when harmonic refinement is enabled and hides when disabled.

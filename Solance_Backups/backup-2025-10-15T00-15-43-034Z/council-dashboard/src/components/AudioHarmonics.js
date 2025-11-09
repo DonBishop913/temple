@@ -1,13 +1,18 @@
 // WebAudio base tone blend: 432 Hz base with Schumann modulation and vibrato depth
-export async function startHarmonics({ baseTone = 432, schumannHz = 7.83, schumannMix = 0.5, vibratoDepth = 0.05 }) {
+export async function startHarmonics({
+  baseTone = 432,
+  schumannHz = 7.83,
+  schumannMix = 0.5,
+  vibratoDepth = 0.05,
+}) {
   const ctx = new (window.AudioContext || window.webkitAudioContext)();
   const osc = ctx.createOscillator();
   const gain = ctx.createGain();
   const lfo = ctx.createOscillator();
 
-  osc.type = 'sine';
+  osc.type = "sine";
   osc.frequency.value = baseTone;
-  lfo.type = 'sine';
+  lfo.type = "sine";
   lfo.frequency.value = schumannHz; // modulate at Schumann
 
   // Vibrato depth controls the amplitude of frequency modulation

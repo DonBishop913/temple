@@ -1,10 +1,10 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState } from "react";
 
 export default function FaithseedMap() {
   const [nodes, setNodes] = useState([]);
 
   useEffect(() => {
-    const evtSource = new EventSource('/api/faithseed/map');
+    const evtSource = new EventSource("/api/faithseed/map");
     evtSource.onmessage = (event) => {
       const data = JSON.parse(event.data);
       setNodes(data.nodes);

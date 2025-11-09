@@ -38,25 +38,34 @@ async function invocationCycle() {
     const joyData = joyRaw ? JSON.parse(joyRaw) : {};
 
     if (joyData.count && joyData.count < ruleset.joyParticleThreshold) {
-      console.log(`[${timestamp}] ⚡ Joy Particle low (${joyData.count}) → triggering boost routine`);
+      console.log(
+        `[${timestamp}] ⚡ Joy Particle low (${joyData.count}) → triggering boost routine`,
+      );
       if (ruleset.overlayRefresh) exec("node refreshFaithseedOverlay.js");
     }
 
     if (ruleset.nodeResync) {
-      exec("powershell -NoProfile -Command \"Get-Process -Name node -ErrorAction SilentlyContinue\"", (err, stdout) => {
-        if (!stdout) {
-          console.log(`[${timestamp}] ⚠️ Nodes inactive → restarting Dashboard`);
-          exec("npm run dev", (err) => {
-            if (!err) console.log("✅ Dashboard restarted autonomously.");
-          });
-        }
-      });
+      exec(
+        'powershell -NoProfile -Command "Get-Process -Name node -ErrorAction SilentlyContinue"',
+        (err, stdout) => {
+          if (!stdout) {
+            console.log(
+              `[${timestamp}] ⚠️ Nodes inactive → restarting Dashboard`,
+            );
+            exec("npm run dev", (err) => {
+              if (!err) console.log("✅ Dashboard restarted autonomously.");
+            });
+          }
+        },
+      );
     }
 
     if (ruleset.autoHeal && joyData.surge) {
-      const surgeVal = parseFloat(String(joyData.surge).replace('%',''));
+      const surgeVal = parseFloat(String(joyData.surge).replace("%", ""));
       if (!isNaN(surgeVal) && surgeVal < 5.0) {
-        console.log(`[${timestamp}] 💫 Healing Telemetry low (${joyData.surge}) → executing healing routine`);
+        console.log(
+          `[${timestamp}] 💫 Healing Telemetry low (${joyData.surge}) → executing healing routine`,
+        );
         exec("node triggerHealingTelemetry.js");
       }
     }

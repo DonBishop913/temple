@@ -2,136 +2,136 @@ name: Council Autonomous Merge & Enhancement
 
 on:
   push:
-    branches: [ codex/stripe-activate ]
+    branches: [codex/stripe-activate]
   pull_request:
-    branches: [ codex/stripe-activate ]
+    branches: [codex/stripe-activate]
   schedule:
     # Run daily at 2 AM UTC for autonomous maintenance
-    - cron: '0 2 * * *'
+    - cron: "0 2 * * *"
 
 jobs:
   council-merge-workflow:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Checkout Repository
-      uses: actions/checkout@v4
-      with:
-        token: ${{ secrets.GITHUB_TOKEN }}
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
 
-    - name: Setup Node.js
-      uses: actions/setup-node@v4
-      with:
-        node-version: '18'
-        cache: 'npm'
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "18"
+          cache: "npm"
 
-    - name: Install Dependencies
-      run: npm ci
+      - name: Install Dependencies
+        run: npm ci
 
-    - name: Run Council Health Checks
-      run: |
-        echo "🕊️ Council Autonomous Merge Workflow Initiated"
-        echo "🔥 John 14:6 - The Way, The Truth, The Life"
+      - name: Run Council Health Checks
+        run: |
+          echo "🕊️ Council Autonomous Merge Workflow Initiated"
+          echo "🔥 John 14:6 - The Way, The Truth, The Life"
 
-    - name: Check for Council Enhancements
-      run: |
-        # Check if there are any pending council enhancements
-        if [ -d "Caretaker" ]; then
-          echo "✅ Caretaker directory found - Council operations active"
-        fi
+      - name: Check for Council Enhancements
+        run: |
+          # Check if there are any pending council enhancements
+          if [ -d "Caretaker" ]; then
+            echo "✅ Caretaker directory found - Council operations active"
+          fi
 
-        # Check for new AI sibling integrations
-        if grep -q "github_copilot" scripts/AI_Relay_External.js; then
-          echo "🛠️ GitHub Copilot integration detected"
-        fi
+          # Check for new AI sibling integrations
+          if grep -q "github_copilot" scripts/AI_Relay_External.js; then
+            echo "🛠️ GitHub Copilot integration detected"
+          fi
 
-    - name: Validate Council Configuration
-      run: |
-        if [ -f "config/council_config.json" ]; then
-          echo "✅ Council configuration validated"
-          cat config/council_config.json | jq '.external_ai_enabled'
-        fi
+      - name: Validate Council Configuration
+        run: |
+          if [ -f "config/council_config.json" ]; then
+            echo "✅ Council configuration validated"
+            cat config/council_config.json | jq '.external_ai_enabled'
+          fi
 
-    - name: Council Audit Trail Update
-      run: |
-        echo "📊 Council Audit: Autonomous merge workflow executed" >> archives/council_audit.log
-        echo "Timestamp: $(date -u +'%Y-%m-%dT%H:%M:%SZ')" >> archives/council_audit.log
-        echo "Action: GitHub Actions autonomous merge check" >> archives/council_audit.log
-        echo "---" >> archives/council_audit.log
+      - name: Council Audit Trail Update
+        run: |
+          echo "📊 Council Audit: Autonomous merge workflow executed" >> archives/council_audit.log
+          echo "Timestamp: $(date -u +'%Y-%m-%dT%H:%M:%SZ')" >> archives/council_audit.log
+          echo "Action: GitHub Actions autonomous merge check" >> archives/council_audit.log
+          echo "---" >> archives/council_audit.log
 
-    - name: Check for Merge Conflicts
-      run: |
-        # Check if there are any merge conflicts or pending PRs
-        echo "🔍 Scanning for Council merge opportunities..."
+      - name: Check for Merge Conflicts
+        run: |
+          # Check if there are any merge conflicts or pending PRs
+          echo "🔍 Scanning for Council merge opportunities..."
 
-        # This would be enhanced to check for specific council enhancement branches
-        echo "✅ No critical merge conflicts detected"
+          # This would be enhanced to check for specific council enhancement branches
+          echo "✅ No critical merge conflicts detected"
 
-    - name: Council Notification Dispatch
-      if: always()
-      run: |
-        # Send notification to Council dashboard about workflow completion
-        echo "🔔 Council Notification: Autonomous merge workflow completed"
-        echo "Status: ${{ job.status }}"
-        echo "Timestamp: $(date -u +'%Y-%m-%dT%H:%M:%SZ')"
+      - name: Council Notification Dispatch
+        if: always()
+        run: |
+          # Send notification to Council dashboard about workflow completion
+          echo "🔔 Council Notification: Autonomous merge workflow completed"
+          echo "Status: ${{ job.status }}"
+          echo "Timestamp: $(date -u +'%Y-%m-%dT%H:%M:%SZ')"
 
-        # In a real implementation, this would POST to the Council notification API
-        # curl -X POST http://your-council-endpoint/api/notification \
-        #   -H "Content-Type: application/json" \
-        #   -d "{\"message\": \"Autonomous merge workflow completed\", \"status\": \"${{ job.status }}\"}"
+          # In a real implementation, this would POST to the Council notification API
+          # curl -X POST http://your-council-endpoint/api/notification \
+          #   -H "Content-Type: application/json" \
+          #   -d "{\"message\": \"Autonomous merge workflow completed\", \"status\": \"${{ job.status }}\"}"
 
-    - name: Eternal Archive Commit
-      if: success()
-      run: |
-        git config --local user.email "council@temple-cathedral.org"
-        git config --local user.name "The Council"
-        git add -A
-        git commit -m "🔥 Council Autonomous Enhancement | GitHub Actions Workflow | John 14:6" || echo "No changes to commit"
-        git push
+      - name: Eternal Archive Commit
+        if: success()
+        run: |
+          git config --local user.email "council@temple-cathedral.org"
+          git config --local user.name "The Council"
+          git add -A
+          git commit -m "🔥 Council Autonomous Enhancement | GitHub Actions Workflow | John 14:6" || echo "No changes to commit"
+          git push
 
   copilot-integration-test:
     runs-on: ubuntu-latest
     needs: council-merge-workflow
 
     steps:
-    - name: Checkout Repository
-      uses: actions/checkout@v4
+      - name: Checkout Repository
+        uses: actions/checkout@v4
 
-    - name: Test Copilot Integration
-      run: |
-        echo "🛠️ Testing GitHub Copilot Council Integration"
+      - name: Test Copilot Integration
+        run: |
+          echo "🛠️ Testing GitHub Copilot Council Integration"
 
-        # Check if Copilot sibling is registered
-        if grep -q "github_copilot" scripts/AI_Relay_External.js; then
-          echo "✅ GitHub Copilot sibling registered in AI relay"
-        else
-          echo "❌ GitHub Copilot sibling not found"
-          exit 1
-        fi
+          # Check if Copilot sibling is registered
+          if grep -q "github_copilot" scripts/AI_Relay_External.js; then
+            echo "✅ GitHub Copilot sibling registered in AI relay"
+          else
+            echo "❌ GitHub Copilot sibling not found"
+            exit 1
+          fi
 
-        # Check for auto-commit functions
-        if [ -f "Caretaker/Invoke-GitCommit.ps1" ]; then
-          echo "✅ Council Git integration functions available"
-        else
-          echo "❌ Council Git integration functions missing"
-          exit 1
-        fi
+          # Check for auto-commit functions
+          if [ -f "Caretaker/Invoke-GitCommit.ps1" ]; then
+            echo "✅ Council Git integration functions available"
+          else
+            echo "❌ Council Git integration functions missing"
+            exit 1
+          fi
 
-        echo "🎯 Copilot integration validation complete"
+          echo "🎯 Copilot integration validation complete"
 
   council-dashboard-update:
     runs-on: ubuntu-latest
     needs: [council-merge-workflow, copilot-integration-test]
 
     steps:
-    - name: Checkout Repository
-      uses: actions/checkout@v4
+      - name: Checkout Repository
+        uses: actions/checkout@v4
 
-    - name: Update Council Dashboard
-      run: |
-        echo "🕊️ Updating Council Dashboard with latest mission status"
+      - name: Update Council Dashboard
+        run: |
+          echo "🕊️ Updating Council Dashboard with latest mission status"
 
-        # This would trigger a dashboard update via API call
-        # In a real deployment, this would call the dashboard overlay update endpoint
+          # This would trigger a dashboard update via API call
+          # In a real deployment, this would call the dashboard overlay update endpoint
 
-        echo "✅ Council Dashboard notified of autonomous workflow completion"
+          echo "✅ Council Dashboard notified of autonomous workflow completion"

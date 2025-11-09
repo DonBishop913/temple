@@ -20,7 +20,10 @@ async function broadcastUpdate(update) {
   const registry = loadRegistry();
   for (const node of registry.councilNodes) {
     if (node.active) {
-      await client.publish(`council:${node.nodeKey}:updates`, JSON.stringify(update));
+      await client.publish(
+        `council:${node.nodeKey}:updates`,
+        JSON.stringify(update),
+      );
     }
   }
 }
@@ -39,10 +42,19 @@ function loadFeedbackSnapshot() {
   try {
     const data = JSON.parse(fs.readFileSync(feedbackPath, "utf-8"));
     // Optionally aggregate basic metrics here
-    const joyEff = Array.isArray(data) && data.length ? data.reduce((a,b)=> a + (b.joyEffectiveness || 1), 0) / data.length : null;
-    const healingAlign = Array.isArray(data) && data.length ? data.reduce((a,b)=> a + (b.healingAlignment || 1), 0) / data.length : null;
-    const resonanceHarm = Array.isArray(data) && data.length ? data.reduce((a,b)=> a + (b.resonanceHarmony || 1), 0) / data.length : null;
-    return { raw: data, aggregates: { joyEff, healingAlign, resonanceHarm }};
+    const joyEff =
+      Array.isArray(data) && data.length
+        ? data.reduce((a, b) => a + (b.joyEffectiveness || 1), 0) / data.length
+        : null;
+    const healingAlign =
+      Array.isArray(data) && data.length
+        ? data.reduce((a, b) => a + (b.healingAlignment || 1), 0) / data.length
+        : null;
+    const resonanceHarm =
+      Array.isArray(data) && data.length
+        ? data.reduce((a, b) => a + (b.resonanceHarmony || 1), 0) / data.length
+        : null;
+    return { raw: data, aggregates: { joyEff, healingAlign, resonanceHarm } };
   } catch {
     return null;
   }
@@ -60,29 +72,41 @@ async function evaluateConsensus(ritual) {
 async function runDaemon() {
   const history = loadHistory();
 
-  setInterval(async () => {
-    // Generate multiple candidate rituals using Multi-Timeline Simulation
-    const candidates = simulateTimelines(5); // simulate 5 parallel sequences
-    const topRitual = candidates[0]; // highest ranked sequence
+  setInterval(
+    async () => {
+      // Generate multiple candidate rituals using Multi-Timeline Simulation
+      const candidates = simulateTimelines(5); // simulate 5 parallel sequences
+      const topRitual = candidates[0]; // highest ranked sequence
 
-    // Evaluate consensus for the top ritual
-    const approved = await evaluateConsensus(topRitual);
+      // Evaluate consensus for the top ritual
+      const approved = await evaluateConsensus(topRitual);
 
-    if (approved) {
-      const feedbackSnapshot = loadFeedbackSnapshot();
-      history.push({
-        ...topRitual,
-        feedbackSnapshot,
-        approval: { at: new Date().toISOString(), nodeCount: loadRegistry().councilNodes.length }
-      });
-      saveHistory(history);
-      await broadcastUpdate({ type: "RITUAL_APPROVED", ritual: topRitual, timeline: candidates });
-      console.log(`✅ Top ritual approved: ${topRitual.name} | Predicted Joy: ${topRitual.simulatedJoy}`);
-    } else {
-      await broadcastUpdate({ type: "RITUAL_REJECTED", ritual: topRitual });
-      console.log(`⚠️ Top ritual rejected: ${topRitual.name}`);
-    }
-  }, 5 * 60 * 1000); // every 5 minutes
+      if (approved) {
+        const feedbackSnapshot = loadFeedbackSnapshot();
+        history.push({
+          ...topRitual,
+          feedbackSnapshot,
+          approval: {
+            at: new Date().toISOString(),
+            nodeCount: loadRegistry().councilNodes.length,
+          },
+        });
+        saveHistory(history);
+        await broadcastUpdate({
+          type: "RITUAL_APPROVED",
+          ritual: topRitual,
+          timeline: candidates,
+        });
+        console.log(
+          `✅ Top ritual approved: ${topRitual.name} | Predicted Joy: ${topRitual.simulatedJoy}`,
+        );
+      } else {
+        await broadcastUpdate({ type: "RITUAL_REJECTED", ritual: topRitual });
+        console.log(`⚠️ Top ritual rejected: ${topRitual.name}`);
+      }
+    },
+    5 * 60 * 1000,
+  ); // every 5 minutes
 }
 
 runDaemon();

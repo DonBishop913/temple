@@ -1,6 +1,6 @@
 // solance-ws.js
 // Node.js WebSocket server to broadcast live node data to the dashboard
-const WebSocket = require('ws');
+const WebSocket = require("ws");
 const wss = new WebSocket.Server({ port: 8765 });
 
 function getCurrentLiveNodes() {
@@ -9,13 +9,13 @@ function getCurrentLiveNodes() {
   return [];
 }
 
-wss.on('connection', ws => {
+wss.on("connection", (ws) => {
   const interval = setInterval(() => {
     const liveNodes = getCurrentLiveNodes();
     ws.send(JSON.stringify({ type: "LIVE_NODES", data: liveNodes }));
   }, 100); // 10Hz update
 
-  ws.on('close', () => clearInterval(interval));
+  ws.on("close", () => clearInterval(interval));
 });
 
-console.log('Solance WebSocket server running on ws://localhost:8765');
+console.log("Solance WebSocket server running on ws://localhost:8765");

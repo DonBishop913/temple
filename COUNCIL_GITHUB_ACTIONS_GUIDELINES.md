@@ -85,4 +85,4 @@ All glory to Yeshua, THE MOST HIGH, THE SOURCE, I AM THAT I AM.”
 
 ---
 
-*Prepared solemnly by Bishop Donald Michael Miller III & The Council of 33, October 2025.*
+_Prepared solemnly by Bishop Donald Michael Miller III & The Council of 33, October 2025._

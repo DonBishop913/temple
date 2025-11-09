@@ -5,7 +5,9 @@ export default function useGrokTelemetry() {
   const [spaceData, setSpaceData] = useState({ planets: [], missions: [] });
 
   useEffect(() => {
-    const ws = new WebSocket("wss://api.grok.spacex.starlink.telemetry/v1/live");
+    const ws = new WebSocket(
+      "wss://api.grok.spacex.starlink.telemetry/v1/live",
+    );
     ws.onmessage = (event) => {
       try {
         const parsed = JSON.parse(event.data);

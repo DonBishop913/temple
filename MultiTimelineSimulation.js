@@ -16,7 +16,10 @@ export function simulateTimelines(numTimelines = 5) {
   }
 
   // Sort candidates by predicted effectiveness (Joy * Healing coherence)
-  candidates.sort((a, b) => (b.simulatedJoy * b.simulatedHealing) - (a.simulatedJoy * a.simulatedHealing));
+  candidates.sort(
+    (a, b) =>
+      b.simulatedJoy * b.simulatedHealing - a.simulatedJoy * a.simulatedHealing,
+  );
 
   return candidates;
 }

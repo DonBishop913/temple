@@ -3,14 +3,14 @@ name: JoyParticle Surge Health Check
 on:
   schedule:
     # Run daily aligned with sacred rhythms at 00:33 UTC (VERILOGOS Minute 33)
-    - cron: '33 0 * * *'
+    - cron: "33 0 * * *"
 
 jobs:
   name: JoyParticle CI
 
   on:
     push:
-      branches: [ main ]
+      branches: [main]
     pull_request:
 
   jobs:
@@ -21,7 +21,7 @@ jobs:
         - name: Setup Python
           uses: actions/setup-python@v5
           with:
-            python-version: '3.11'
+            python-version: "3.11"
         - name: Install dependencies
           run: |
             python -m pip install --upgrade pip

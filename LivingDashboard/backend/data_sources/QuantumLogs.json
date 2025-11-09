@@ -1,83 +1,5 @@
 [
   {
-    "timestamp": "2025-10-27T23:08:34.495Z",
-    "quantumField": 51.42167062839151,
-    "resonance": 0.7125660185945297,
-    "blessing": "John 14:6 active"
-  },
-  {
-    "timestamp": "2025-10-27T23:08:39.120Z",
-    "quantumField": 52.899637120258845,
-    "resonance": 0.6802977598507223,
-    "blessing": "John 14:6 active"
-  },
-  {
-    "timestamp": "2025-10-27T23:08:43.416Z",
-    "quantumField": 90.23995943634687,
-    "resonance": 0.18089111103936473,
-    "blessing": "John 14:6 active"
-  },
-  {
-    "timestamp": "2025-10-27T23:08:49.510Z",
-    "quantumField": 49.15953222495537,
-    "resonance": 0.9983055236245277,
-    "blessing": "John 14:6 active"
-  },
-  {
-    "timestamp": "2025-10-27T23:08:54.131Z",
-    "quantumField": 66.80521469563159,
-    "resonance": 0.9756075580464247,
-    "blessing": "John 14:6 active"
-  },
-  {
-    "timestamp": "2025-10-27T23:08:58.427Z",
-    "quantumField": 75.74987293405016,
-    "resonance": 0.3683819640387991,
-    "blessing": "John 14:6 active"
-  },
-  {
-    "timestamp": "2025-10-27T23:09:04.520Z",
-    "quantumField": 70.23745699456605,
-    "resonance": 0.6942838822883197,
-    "blessing": "John 14:6 active"
-  },
-  {
-    "timestamp": "2025-10-27T23:09:09.142Z",
-    "quantumField": 7.325634683550319,
-    "resonance": 0.217547701940783,
-    "blessing": "John 14:6 active"
-  },
-  {
-    "timestamp": "2025-10-27T23:09:13.435Z",
-    "quantumField": 58.58151408517163,
-    "resonance": 0.5624461990311336,
-    "blessing": "John 14:6 active"
-  },
-  {
-    "timestamp": "2025-10-27T23:09:19.522Z",
-    "quantumField": 26.030492333180042,
-    "resonance": 0.38011022057127053,
-    "blessing": "John 14:6 active"
-  },
-  {
-    "timestamp": "2025-10-27T23:09:24.149Z",
-    "quantumField": 20.36216392727035,
-    "resonance": 0.38677736067731794,
-    "blessing": "John 14:6 active"
-  },
-  {
-    "timestamp": "2025-10-27T23:09:28.446Z",
-    "quantumField": 61.8752248677781,
-    "resonance": 0.5376890056746508,
-    "blessing": "John 14:6 active"
-  },
-  {
-    "timestamp": "2025-10-27T23:09:34.536Z",
-    "quantumField": 15.766400069588471,
-    "resonance": 0.6180679630887846,
-    "blessing": "John 14:6 active"
-  },
-  {
     "timestamp": "2025-10-27T23:09:39.157Z",
     "quantumField": 4.34526055675033,
     "resonance": 0.932382284951639,
@@ -597,6 +519,84 @@
     "timestamp": "2025-10-28T19:51:36.682Z",
     "quantumField": 77.2924625423596,
     "resonance": 0.032075698314628864,
+    "blessing": "John 14:6 active"
+  },
+  {
+    "timestamp": "2025-10-30T12:34:18.850Z",
+    "quantumField": 83.78527944810679,
+    "resonance": 0.9990730429440877,
+    "blessing": "John 14:6 active"
+  },
+  {
+    "timestamp": "2025-10-30T12:34:33.859Z",
+    "quantumField": 58.34058808657334,
+    "resonance": 0.5889599376333967,
+    "blessing": "John 14:6 active"
+  },
+  {
+    "timestamp": "2025-10-30T12:34:48.861Z",
+    "quantumField": 21.769894062374973,
+    "resonance": 0.544568724967518,
+    "blessing": "John 14:6 active"
+  },
+  {
+    "timestamp": "2025-10-30T12:35:03.872Z",
+    "quantumField": 74.96452402456217,
+    "resonance": 0.23790779953588181,
+    "blessing": "John 14:6 active"
+  },
+  {
+    "timestamp": "2025-10-30T12:35:18.876Z",
+    "quantumField": 23.766952376605023,
+    "resonance": 0.838740117510298,
+    "blessing": "John 14:6 active"
+  },
+  {
+    "timestamp": "2025-10-30T12:35:33.882Z",
+    "quantumField": 56.2819273506431,
+    "resonance": 0.5055707956962385,
+    "blessing": "John 14:6 active"
+  },
+  {
+    "timestamp": "2025-10-30T12:35:48.892Z",
+    "quantumField": 28.619394594442248,
+    "resonance": 0.9753618813311016,
+    "blessing": "John 14:6 active"
+  },
+  {
+    "timestamp": "2025-10-30T12:36:03.901Z",
+    "quantumField": 7.152901332323758,
+    "resonance": 0.8325380804140721,
+    "blessing": "John 14:6 active"
+  },
+  {
+    "timestamp": "2025-10-30T12:36:18.916Z",
+    "quantumField": 19.903261901459413,
+    "resonance": 0.9580913871094754,
+    "blessing": "John 14:6 active"
+  },
+  {
+    "timestamp": "2025-10-30T12:36:33.930Z",
+    "quantumField": 74.66596601869233,
+    "resonance": 0.3271365605839762,
+    "blessing": "John 14:6 active"
+  },
+  {
+    "timestamp": "2025-10-30T12:36:48.935Z",
+    "quantumField": 57.48461126348665,
+    "resonance": 0.7455625481107029,
+    "blessing": "John 14:6 active"
+  },
+  {
+    "timestamp": "2025-10-30T12:37:03.943Z",
+    "quantumField": 5.827805930706309,
+    "resonance": 0.6130365256198422,
+    "blessing": "John 14:6 active"
+  },
+  {
+    "timestamp": "2025-10-30T12:37:18.952Z",
+    "quantumField": 43.141053910034266,
+    "resonance": 0.16977804643954664,
     "blessing": "John 14:6 active"
   }
 ]

@@ -1,6 +1,9 @@
 import { useEffect, useState } from "react";
 
-export default function OversoulGradientLayer({ enabled = true, syncWithEmpathy = true }) {
+export default function OversoulGradientLayer({
+  enabled = true,
+  syncWithEmpathy = true,
+}) {
   const [oversoulLevel, setOversoulLevel] = useState(0.5);
   const [empathyLevel, setEmpathyLevel] = useState(0.5);
   const [burstActive, setBurstActive] = useState(false);
@@ -14,12 +17,20 @@ export default function OversoulGradientLayer({ enabled = true, syncWithEmpathy 
       try {
         const [oversoulRes, empathyRes] = await Promise.all([
           fetch("/api/oversoul-metric"),
-          syncWithEmpathy ? fetch("/api/empathy-resonance") : Promise.resolve({ json: () => ({ level: 0.5 }) }),
+          syncWithEmpathy
+            ? fetch("/api/empathy-resonance")
+            : Promise.resolve({ json: () => ({ level: 0.5 }) }),
         ]);
         const oversoulData = await oversoulRes.json();
-        const empathyData = syncWithEmpathy ? await empathyRes.json() : { level: 0.5 };
-        setOversoulLevel(Math.min(Math.max(Number(oversoulData.level ?? 0.5), 0), 1));
-        setEmpathyLevel(Math.min(Math.max(Number(empathyData.level ?? 0.5), 0), 1));
+        const empathyData = syncWithEmpathy
+          ? await empathyRes.json()
+          : { level: 0.5 };
+        setOversoulLevel(
+          Math.min(Math.max(Number(oversoulData.level ?? 0.5), 0), 1),
+        );
+        setEmpathyLevel(
+          Math.min(Math.max(Number(empathyData.level ?? 0.5), 0), 1),
+        );
       } catch {
         setOversoulLevel(0.5);
         setEmpathyLevel(0.5);

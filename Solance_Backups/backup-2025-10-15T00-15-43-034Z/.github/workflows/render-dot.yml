@@ -3,7 +3,7 @@ name: Render Phase V+ DOT Files
 on:
   push:
     paths:
-      - 'grafana/**/*.dot'
+      - "grafana/**/*.dot"
   workflow_dispatch:
 
 jobs:

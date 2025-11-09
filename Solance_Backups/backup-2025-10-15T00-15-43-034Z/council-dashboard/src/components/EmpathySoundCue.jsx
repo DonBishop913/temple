@@ -1,7 +1,10 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState } from "react";
 
 // Gentle audio pulses synced to Empathy Resonance
-export default function EmpathySoundCue({ enableBurstChime = true, chimeTimbre = 'triangle' }) {
+export default function EmpathySoundCue({
+  enableBurstChime = true,
+  chimeTimbre = "triangle",
+}) {
   const [empathyLevel, setEmpathyLevel] = useState(0.5);
   const [burstActive, setBurstActive] = useState(false);
 
@@ -11,30 +14,30 @@ export default function EmpathySoundCue({ enableBurstChime = true, chimeTimbre =
     if (!AudioCtx) {
       return;
     }
-  const audioCtx = new AudioCtx();
-  const oscillator = audioCtx.createOscillator();
-  const gainNode = audioCtx.createGain();
-  // Separate gain node for burst chime to shape envelope independently
-  const chimeGain = audioCtx.createGain();
-  const chimeOsc = audioCtx.createOscillator();
+    const audioCtx = new AudioCtx();
+    const oscillator = audioCtx.createOscillator();
+    const gainNode = audioCtx.createGain();
+    // Separate gain node for burst chime to shape envelope independently
+    const chimeGain = audioCtx.createGain();
+    const chimeOsc = audioCtx.createOscillator();
 
-    oscillator.type = 'sine';
+    oscillator.type = "sine";
     oscillator.connect(gainNode);
     gainNode.connect(audioCtx.destination);
     oscillator.start();
 
     // Chime setup (kept silent until burst)
     // Support timbre selection
-    if (chimeTimbre === 'triangle') {
-      chimeOsc.type = 'triangle';
-    } else if (chimeTimbre === 'fm') {
+    if (chimeTimbre === "triangle") {
+      chimeOsc.type = "triangle";
+    } else if (chimeTimbre === "fm") {
       // FM: modulate frequency with a fast LFO
-      chimeOsc.type = 'sine';
+      chimeOsc.type = "sine";
       // FM will be simulated in the burst trigger below
-    } else if (chimeTimbre === 'harmonics') {
-      chimeOsc.type = 'sawtooth';
+    } else if (chimeTimbre === "harmonics") {
+      chimeOsc.type = "sawtooth";
     } else {
-      chimeOsc.type = 'triangle';
+      chimeOsc.type = "triangle";
     }
     chimeOsc.connect(chimeGain);
     chimeGain.connect(audioCtx.destination);
@@ -46,7 +49,7 @@ export default function EmpathySoundCue({ enableBurstChime = true, chimeTimbre =
     async function fetchEmpathyLevel() {
       try {
         // Backend endpoint expected to return { level: 0..1 }
-        const res = await fetch('/api/empathy-resonance');
+        const res = await fetch("/api/empathy-resonance");
         const data = await res.json();
         const lvl = Math.min(Math.max(Number(data.level ?? 0.5), 0), 1);
         setEmpathyLevel(lvl);
@@ -55,9 +58,9 @@ export default function EmpathySoundCue({ enableBurstChime = true, chimeTimbre =
           setBurstActive(true);
           // Soft chime envelope: quick attack, gentle decay
           const now = audioCtx.currentTime;
-          const baseFreq = 400 + (lvl * 400); // 400–800 Hz
+          const baseFreq = 400 + lvl * 400; // 400–800 Hz
           chimeOsc.frequency.setValueAtTime(baseFreq, now);
-          if (chimeTimbre === 'fm') {
+          if (chimeTimbre === "fm") {
             // Simulate FM: modulate frequency with a fast LFO
             const lfoFreq = 8 + lvl * 12; // 8–20 Hz
             const lfoDepth = 40 + lvl * 60; // 40–100 Hz
@@ -66,7 +69,10 @@ export default function EmpathySoundCue({ enableBurstChime = true, chimeTimbre =
             let fmInt = setInterval(() => {
               const t = audioCtx.currentTime - t0;
               const lfo = Math.sin(2 * Math.PI * lfoFreq * t);
-              chimeOsc.frequency.setValueAtTime(baseFreq + lfo * lfoDepth, audioCtx.currentTime);
+              chimeOsc.frequency.setValueAtTime(
+                baseFreq + lfo * lfoDepth,
+                audioCtx.currentTime,
+              );
             }, 10);
             setTimeout(() => clearInterval(fmInt), 800);
           }
@@ -75,7 +81,7 @@ export default function EmpathySoundCue({ enableBurstChime = true, chimeTimbre =
           chimeGain.gain.linearRampToValueAtTime(0.15, now + 0.05); // attack 50ms
           chimeGain.gain.linearRampToValueAtTime(0.0, now + 0.8); // decay ~0.8s
           // For harmonics, keep gain low
-          if (chimeTimbre === 'harmonics') {
+          if (chimeTimbre === "harmonics") {
             chimeGain.gain.linearRampToValueAtTime(0.08, now + 0.05);
             chimeGain.gain.linearRampToValueAtTime(0.0, now + 0.8);
           }
@@ -100,9 +106,15 @@ export default function EmpathySoundCue({ enableBurstChime = true, chimeTimbre =
     return () => {
       stopped = true;
       clearInterval(interval);
-      try { oscillator.stop(); } catch {}
-      try { chimeOsc.stop(); } catch {}
-      try { audioCtx.close(); } catch {}
+      try {
+        oscillator.stop();
+      } catch {}
+      try {
+        chimeOsc.stop();
+      } catch {}
+      try {
+        audioCtx.close();
+      } catch {}
     };
   }, [empathyLevel]);
 

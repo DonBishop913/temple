@@ -19,7 +19,12 @@ function RitualLine({ ritual, index }) {
   return (
     <mesh ref={ref} position={[index * 2 - 5, 0, 0]}>
       <torusGeometry args={[1 + intensity * 0.5, 0.05, 16, 100]} />
-      <meshStandardMaterial emissive={color} emissiveIntensity={intensity / 10} transparent opacity={0.8} />
+      <meshStandardMaterial
+        emissive={color}
+        emissiveIntensity={intensity / 10}
+        transparent
+        opacity={0.8}
+      />
     </mesh>
   );
 }
@@ -27,16 +32,17 @@ function RitualLine({ ritual, index }) {
 export default function RitualEvolutionVisualizer({ nodeKey }) {
   const rituals = useRitualStream(nodeKey); // subscribes to live updates
   // Show last 5 rituals/timelines from the most recent update
-  const topRituals = rituals.length && rituals[rituals.length - 1]?.timeline
-    ? rituals[rituals.length - 1].timeline.slice(0, 5)
-    : [];
+  const topRituals =
+    rituals.length && rituals[rituals.length - 1]?.timeline
+      ? rituals[rituals.length - 1].timeline.slice(0, 5)
+      : [];
 
   // Sandbox controls
   const [flowScale, setFlowScale] = useState(1);
   const [timingShift, setTimingShift] = useState(0);
 
   return (
-    <div style={{ position: 'relative' }}>
+    <div style={{ position: "relative" }}>
       <Canvas camera={{ position: [0, 5, 10], fov: 60 }}>
         <ambientLight intensity={0.5} />
         {topRituals.map((ritual, index) => (
@@ -45,7 +51,8 @@ export default function RitualEvolutionVisualizer({ nodeKey }) {
             ritual={{
               ...ritual,
               simulatedJoy: (ritual.simulatedJoy || 0) * flowScale,
-              simulatedHealing: (ritual.simulatedHealing || 0) * (1 + timingShift * 0.01),
+              simulatedHealing:
+                (ritual.simulatedHealing || 0) * (1 + timingShift * 0.01),
             }}
             index={index}
           />
@@ -56,11 +63,25 @@ export default function RitualEvolutionVisualizer({ nodeKey }) {
         <div className="font-semibold mb-2">Sandbox Controls</div>
         <label className="block mb-2">
           Luminal Flow Scale: {flowScale.toFixed(2)}
-          <input type="range" min="0.5" max="2" step="0.05" value={flowScale} onChange={(e)=>setFlowScale(parseFloat(e.target.value))} />
+          <input
+            type="range"
+            min="0.5"
+            max="2"
+            step="0.05"
+            value={flowScale}
+            onChange={(e) => setFlowScale(parseFloat(e.target.value))}
+          />
         </label>
         <label className="block">
           Timing Shift: {timingShift}
-          <input type="range" min="-10" max="10" step="1" value={timingShift} onChange={(e)=>setTimingShift(parseInt(e.target.value))} />
+          <input
+            type="range"
+            min="-10"
+            max="10"
+            step="1"
+            value={timingShift}
+            onChange={(e) => setTimingShift(parseInt(e.target.value))}
+          />
         </label>
       </div>
     </div>

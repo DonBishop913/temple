@@ -1,9 +1,7 @@
 ﻿{
-    "generated_at":  "2025-10-27T06:16:09.8141601-07:00",
-    "host":  "DESKTOP-2N4TLG7",
-    "comet_log_files":  [
-
-                        ],
-    "disk_free_mb":  763356.19,
-    "recent_activity_count":  0
+  "generated_at": "2025-10-27T06:16:09.8141601-07:00",
+  "host": "DESKTOP-2N4TLG7",
+  "comet_log_files": [],
+  "disk_free_mb": 763356.19,
+  "recent_activity_count": 0
 }

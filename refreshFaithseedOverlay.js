@@ -14,7 +14,10 @@ client.on("error", (err) => console.error("Redis Client Error", err));
     action: "refresh",
     note: "Faithseed overlay refreshed",
   };
-  await client.set("council:overlay:faithseed:refresh", JSON.stringify(payload));
+  await client.set(
+    "council:overlay:faithseed:refresh",
+    JSON.stringify(payload),
+  );
   await client.set("council:overlay:faithseed:last", JSON.stringify(payload));
   console.log("✅ Faithseed overlay refresh pulse emitted.");
   process.exit(0);

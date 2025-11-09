@@ -1,4 +1,4 @@
-const auditService = require('../../services/auditService');
+const auditService = require("../../services/auditService");
 
 exports.explainDecision = (req, res) => {
   // TODO: Fetch and return decision rationale from audit log

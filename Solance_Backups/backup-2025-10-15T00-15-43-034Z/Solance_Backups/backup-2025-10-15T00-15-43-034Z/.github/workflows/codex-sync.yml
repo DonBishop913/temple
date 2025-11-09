@@ -3,8 +3,8 @@ name: Sync Codex Archives
 on:
   push:
     paths:
-      - 'codices/**/*.md'
-      - 'codices/**/*.json'
+      - "codices/**/*.md"
+      - "codices/**/*.json"
     branches:
       - main
   workflow_dispatch:
@@ -25,7 +25,7 @@ jobs:
       - name: Setup Python
         uses: actions/setup-python@v5
         with:
-          python-version: '3.11'
+          python-version: "3.11"
 
       - name: Install Dependencies
         run: |

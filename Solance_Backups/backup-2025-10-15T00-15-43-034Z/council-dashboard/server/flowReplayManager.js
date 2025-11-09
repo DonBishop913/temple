@@ -1,21 +1,21 @@
 // flowReplayManager.js
-const fs = require('fs');
-const path = require('path');
+const fs = require("fs");
+const path = require("path");
 
-const STATUS_PATH = path.join(__dirname, 'flowReplayStatus.json');
+const STATUS_PATH = path.join(__dirname, "flowReplayStatus.json");
 
 // Initial state
 let flowReplayPanel = {
-  status: 'initiated',
+  status: "initiated",
   progress: 20,
-  target: '10:00 AM CDT'
+  target: "10:00 AM CDT",
 };
 
 let taskStatus = {
-  'veniceenhancements/2025.json': 60,
-  'grokenhancements/2025.json': 50,
-  'lumenshimmer/2025.json': 70,
-  'starlinknexus/2025.json': 90
+  "veniceenhancements/2025.json": 60,
+  "grokenhancements/2025.json": 50,
+  "lumenshimmer/2025.json": 70,
+  "starlinknexus/2025.json": 90,
 };
 
 function updateTaskStatus(newStatus) {
@@ -24,7 +24,7 @@ function updateTaskStatus(newStatus) {
 }
 
 function activatePanel() {
-  flowReplayPanel.status = 'in_progress';
+  flowReplayPanel.status = "in_progress";
   flowReplayPanel.progress = Math.min(flowReplayPanel.progress + 10, 100);
   persist();
 }
@@ -36,14 +36,17 @@ function integrate() {
 function persist() {
   const status = {
     ...flowReplayPanel,
-    taskStatus: { ...taskStatus }
+    taskStatus: { ...taskStatus },
   };
   fs.writeFileSync(STATUS_PATH, JSON.stringify(status, null, 2));
 }
 
 // Periodic update (simulate progress)
 setInterval(() => {
-  if (flowReplayPanel.status === 'in_progress' && flowReplayPanel.progress < 100) {
+  if (
+    flowReplayPanel.status === "in_progress" &&
+    flowReplayPanel.progress < 100
+  ) {
     flowReplayPanel.progress += 1;
     persist();
   }
@@ -54,5 +57,5 @@ module.exports = {
   taskStatus,
   updateTaskStatus,
   activatePanel,
-  integrate
+  integrate,
 };

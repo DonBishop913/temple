@@ -63,10 +63,6 @@
   "last_updated": "2025-10-27T20:08:02.778Z",
   "session_stats": {
     "total_messages": 5,
-    "siblings_consulted": [
-      "local",
-      "gemini",
-      "github_copilot"
-    ]
+    "siblings_consulted": ["local", "gemini", "github_copilot"]
   }
 }

@@ -3,9 +3,9 @@ name: Compose WS Probe and Integration Tests
 on:
   workflow_dispatch:
   push:
-    branches: [ main ]
+    branches: [main]
   pull_request:
-    branches: [ main ]
+    branches: [main]
 
 jobs:
   ws-check-compose:

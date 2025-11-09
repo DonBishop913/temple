@@ -19,8 +19,8 @@
     "ws-oversoul": "node server/ws-oversoul.js",
     "oversoul-forwarder": "node server/oversoul_forwarder.js",
     "stress": "node tools/stressPublisher.js",
-  "oversoul-json-forwarder": "node tools/oversoul_forwarder_json.js",
-  "oversoul-smoke": "node tools/oversoulSmokeTest.js",
+    "oversoul-json-forwarder": "node tools/oversoul_forwarder_json.js",
+    "oversoul-smoke": "node tools/oversoulSmokeTest.js",
     "e2e": "node tools/e2e_smoke_test.js",
     "loadsweep": "node tools/load_sweep.js"
   },

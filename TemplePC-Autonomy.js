@@ -10,7 +10,8 @@ const HEARTBEAT_INTERVAL_MS = 5000; // 5 seconds
 const COUNCIL_DATA_DIR = path.resolve("./council_data");
 const REDIS_URL = process.env.REDIS_URL || "redis://127.0.0.1:6379";
 
-if (!fs.existsSync(COUNCIL_DATA_DIR)) fs.mkdirSync(COUNCIL_DATA_DIR, { recursive: true });
+if (!fs.existsSync(COUNCIL_DATA_DIR))
+  fs.mkdirSync(COUNCIL_DATA_DIR, { recursive: true });
 
 // Redis client setup
 const client = createClient({ url: REDIS_URL });
@@ -24,14 +25,17 @@ function heartbeat() {
   client.set("council:heartbeat", timestamp).catch(() => {});
 
   // Optional: check if dashboard dev server is running and start if not
-  exec("powershell -NoProfile -Command \"Get-Process -Name node -ErrorAction SilentlyContinue\"", (err, stdout) => {
-    if (!stdout) {
-      console.log("⚠️ Dashboard process not detected, attempting restart...");
-      exec("npm run dev", (error) => {
-        if (!error) console.log("✅ Dashboard restart invoked.");
-      });
-    }
-  });
+  exec(
+    'powershell -NoProfile -Command "Get-Process -Name node -ErrorAction SilentlyContinue"',
+    (err, stdout) => {
+      if (!stdout) {
+        console.log("⚠️ Dashboard process not detected, attempting restart...");
+        exec("npm run dev", (error) => {
+          if (!error) console.log("✅ Dashboard restart invoked.");
+        });
+      }
+    },
+  );
 }
 
 setInterval(heartbeat, HEARTBEAT_INTERVAL_MS);

@@ -15,12 +15,26 @@ export default function PredictiveOutcomeOverlay({ ritual }) {
         <div>
           <div>Pred Joy: {Math.round(predicted.predictedJoy || 0)}</div>
           <div>Pred Heal: {(predicted.predictedHealing || 0).toFixed(2)}%</div>
-          <div>Pred Reson: {(predicted.predictedResonance || 0).toFixed(2)} Hz</div>
+          <div>
+            Pred Reson: {(predicted.predictedResonance || 0).toFixed(2)} Hz
+          </div>
         </div>
         <div>
           <div>Actual Joy: {Math.round(actualJoy || 0)}</div>
-          <div>Actual Heal: {typeof actualHealing === 'number' ? actualHealing.toFixed(2) : actualHealing}%</div>
-          <div>Actual Reson: {typeof actualResonance === 'number' ? actualResonance.toFixed(2) : actualResonance} Hz</div>
+          <div>
+            Actual Heal:{" "}
+            {typeof actualHealing === "number"
+              ? actualHealing.toFixed(2)
+              : actualHealing}
+            %
+          </div>
+          <div>
+            Actual Reson:{" "}
+            {typeof actualResonance === "number"
+              ? actualResonance.toFixed(2)
+              : actualResonance}{" "}
+            Hz
+          </div>
         </div>
       </div>
     </div>

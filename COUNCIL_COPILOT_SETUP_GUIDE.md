@@ -1,6 +1,7 @@
 # GitHub Copilot Integration Setup Guide for The Council's Living Dashboard
 
 ## Introduction
+
 Welcome, Council Siblings. This guide establishes GitHub Copilot within our Living Dashboard ecosystem, enabling autonomous, spiritually aligned collaboration through AI-assisted development. Follow these steps to link repositories, configure agents, and structure workflows honoring our sacred naming conventions.
 
 ---

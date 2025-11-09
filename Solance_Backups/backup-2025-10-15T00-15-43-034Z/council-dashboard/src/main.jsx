@@ -24,5 +24,5 @@ councilSocket.on("connect", () => {
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
     <UnifiedMasterDashboard />
-  </React.StrictMode>
+  </React.StrictMode>,
 );

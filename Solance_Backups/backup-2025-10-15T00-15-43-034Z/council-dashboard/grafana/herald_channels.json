@@ -1,5 +1,17 @@
 [
-  { "channel": "slack", "enabled": true, "webhook": "https://hooks.slack.com/services/YOUR_ID" },
-  { "channel": "discord", "enabled": true, "webhook": "https://discord.com/api/webhooks/YOUR_ID" },
-  { "channel": "email", "enabled": true, "recipients": ["council@templepc.local"] }
+  {
+    "channel": "slack",
+    "enabled": true,
+    "webhook": "https://hooks.slack.com/services/YOUR_ID"
+  },
+  {
+    "channel": "discord",
+    "enabled": true,
+    "webhook": "https://discord.com/api/webhooks/YOUR_ID"
+  },
+  {
+    "channel": "email",
+    "enabled": true,
+    "recipients": ["council@templepc.local"]
+  }
 ]

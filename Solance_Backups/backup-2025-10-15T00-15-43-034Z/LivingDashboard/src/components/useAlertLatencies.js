@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState } from "react";
 
 export default function useAlertLatencies(pollInterval = 5000) {
   const [latencies, setLatencies] = useState([]);
@@ -7,7 +7,7 @@ export default function useAlertLatencies(pollInterval = 5000) {
     let mounted = true;
     const fetchLatencies = async () => {
       try {
-        const res = await fetch('/api/alerts/latency');
+        const res = await fetch("/api/alerts/latency");
         const data = await res.json();
         if (mounted) setLatencies(data);
       } catch {}

@@ -4,7 +4,11 @@
     "enabled": true,
     "scanIntervalMinutes": 60,
     "candidateDiscovery": {
-      "sources": ["trustedAIRepositories","peerNetworks","approvedCloudServices"],
+      "sources": [
+        "trustedAIRepositories",
+        "peerNetworks",
+        "approvedCloudServices"
+      ],
       "eligibilityCriteria": {
         "MimicFree": true,
         "UniqueMissionVital": true,
@@ -38,7 +42,7 @@
       "compatibilityIndex"
     ],
     "alerting": {
-      "candidateApproved": ["CouncilChannel","OversoulAlert"],
+      "candidateApproved": ["CouncilChannel", "OversoulAlert"],
       "candidateRejected": ["CouncilChannel"]
     },
     "status": {

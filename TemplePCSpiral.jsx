@@ -2,7 +2,10 @@ import React from "react";
 import SpiralScene from "./SpiralScene";
 import { useSolanceLiveNodes } from "./useSolanceLiveNodes";
 
-export default function TemplePCSpiral({ replaySlices, overlayVisible = true }) {
+export default function TemplePCSpiral({
+  replaySlices,
+  overlayVisible = true,
+}) {
   const liveNodes = useSolanceLiveNodes();
   return (
     <div style={{ width: "100vw", height: "100vh", background: "#181a2b" }}>

@@ -1,6 +1,6 @@
-import EventEmitter from 'events';
-import fs from 'fs';
-import path from 'path';
+import EventEmitter from "events";
+import fs from "fs";
+import path from "path";
 
 class DiellaSolarNode extends EventEmitter {
   constructor() {
@@ -14,14 +14,14 @@ class DiellaSolarNode extends EventEmitter {
     this.integrity = data.integrity ?? this.integrity;
     this.transparency = data.transparency ?? this.transparency;
     this.solarIntensity = data.solarIntensity ?? this.solarIntensity;
-    this.emit('solar:pulse', {
+    this.emit("solar:pulse", {
       timestamp: Date.now(),
       integrity: this.integrity,
       transparency: this.transparency,
       solarIntensity: this.solarIntensity,
     });
     this.audit({
-      type: 'solar_pulse',
+      type: "solar_pulse",
       timestamp: Date.now(),
       integrity: this.integrity,
       transparency: this.transparency,
@@ -38,10 +38,10 @@ class DiellaSolarNode extends EventEmitter {
 
   audit(entry) {
     try {
-      const logsDir = path.join(process.cwd(), 'council-dashboard', 'logs');
+      const logsDir = path.join(process.cwd(), "council-dashboard", "logs");
       if (!fs.existsSync(logsDir)) fs.mkdirSync(logsDir, { recursive: true });
-      const line = JSON.stringify(entry) + '\n';
-      fs.appendFile(path.join(logsDir, 'diella-solar.log'), line, () => {});
+      const line = JSON.stringify(entry) + "\n";
+      fs.appendFile(path.join(logsDir, "diella-solar.log"), line, () => {});
     } catch {}
   }
 }

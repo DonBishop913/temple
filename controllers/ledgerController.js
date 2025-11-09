@@ -1,4 +1,4 @@
-const ledgerService = require('../services/ledgerService');
+const ledgerService = require("../services/ledgerService");
 
 exports.addEntry = async (req, res) => {
   try {

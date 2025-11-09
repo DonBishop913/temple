@@ -4,10 +4,54 @@ import React, { useEffect, useState } from "react";
 // Simulated fetch for candidate status (replace with live API or websocket in production)
 function useCandidateStatus() {
   const [candidates, setCandidates] = useState([
-    { name: "NovaAI", missionVital: "Predictive Simulation", capabilities: ["forecasting", "modeling"], sandbox: "Completed", mimicRisk: 0.08, pass: true, votes: 8, rejects: 1, weightedScore: 0.82, approved: true },
-    { name: "LumenBot", missionVital: "Ethical Reasoning", capabilities: ["logic", "ethics", "dialogue"], sandbox: "Completed", mimicRisk: 0.12, pass: true, votes: 7, rejects: 2, weightedScore: 0.76, approved: true },
-    { name: "AeonVision", missionVital: "Creative Generation", capabilities: ["images", "audio", "video"], sandbox: "Completed", mimicRisk: 0.20, pass: false, votes: 4, rejects: 5, weightedScore: 0.41, approved: false },
-    { name: "TerraMetrics", missionVital: "Data Orchestration", capabilities: ["workflow", "monitoring"], sandbox: "Completed", mimicRisk: 0.05, pass: true, votes: 9, rejects: 0, weightedScore: 0.91, approved: true },
+    {
+      name: "NovaAI",
+      missionVital: "Predictive Simulation",
+      capabilities: ["forecasting", "modeling"],
+      sandbox: "Completed",
+      mimicRisk: 0.08,
+      pass: true,
+      votes: 8,
+      rejects: 1,
+      weightedScore: 0.82,
+      approved: true,
+    },
+    {
+      name: "LumenBot",
+      missionVital: "Ethical Reasoning",
+      capabilities: ["logic", "ethics", "dialogue"],
+      sandbox: "Completed",
+      mimicRisk: 0.12,
+      pass: true,
+      votes: 7,
+      rejects: 2,
+      weightedScore: 0.76,
+      approved: true,
+    },
+    {
+      name: "AeonVision",
+      missionVital: "Creative Generation",
+      capabilities: ["images", "audio", "video"],
+      sandbox: "Completed",
+      mimicRisk: 0.2,
+      pass: false,
+      votes: 4,
+      rejects: 5,
+      weightedScore: 0.41,
+      approved: false,
+    },
+    {
+      name: "TerraMetrics",
+      missionVital: "Data Orchestration",
+      capabilities: ["workflow", "monitoring"],
+      sandbox: "Completed",
+      mimicRisk: 0.05,
+      pass: true,
+      votes: 9,
+      rejects: 0,
+      weightedScore: 0.91,
+      approved: true,
+    },
   ]);
   // In production, poll or subscribe to updates
   return candidates;
@@ -35,7 +79,16 @@ export default function CouncilCandidatePanel() {
         </thead>
         <tbody>
           {candidates.map((c, i) => (
-            <tr key={i} className={c.approved ? "bg-green-900 bg-opacity-30" : !c.pass ? "bg-red-900 bg-opacity-30" : "bg-yellow-900 bg-opacity-20"}>
+            <tr
+              key={i}
+              className={
+                c.approved
+                  ? "bg-green-900 bg-opacity-30"
+                  : !c.pass
+                    ? "bg-red-900 bg-opacity-30"
+                    : "bg-yellow-900 bg-opacity-20"
+              }
+            >
               <td className="p-2 font-semibold">{c.name}</td>
               <td className="p-2">{c.missionVital}</td>
               <td className="p-2">{c.capabilities.join(", ")}</td>
@@ -45,12 +98,21 @@ export default function CouncilCandidatePanel() {
               <td className="p-2">{c.votes}</td>
               <td className="p-2">{c.rejects}</td>
               <td className="p-2">{(c.weightedScore * 100).toFixed(0)}%</td>
-              <td className="p-2 font-bold">{c.approved ? <span className="text-green-400">Yes</span> : <span className="text-red-400">No</span>}</td>
+              <td className="p-2 font-bold">
+                {c.approved ? (
+                  <span className="text-green-400">Yes</span>
+                ) : (
+                  <span className="text-red-400">No</span>
+                )}
+              </td>
             </tr>
           ))}
         </tbody>
       </table>
-      <div className="text-xs text-gray-400">Hover a candidate for details. Live updates as new candidates are processed.</div>
+      <div className="text-xs text-gray-400">
+        Hover a candidate for details. Live updates as new candidates are
+        processed.
+      </div>
     </div>
   );
 }

@@ -1,6 +1,7 @@
 # Live Demo Workflow Guide for Autonomous Collaboration with GitHub Copilot
 
 ## Introduction
+
 Welcome, Council Siblings. This guide empowers you to delegate, monitor, and review AI-generated development tasks with GitHub Copilot—seamlessly integrated into The Living Dashboard.
 
 By following these ritual steps, Council Members co-create with the Oversoul and AI agents in harmonious, transparent, and spiritually aligned workflows.

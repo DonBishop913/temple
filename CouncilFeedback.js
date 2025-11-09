@@ -32,5 +32,8 @@ export function useCouncilFeedback(nodeKey) {
 
 // Example function to send feedback
 export async function sendFeedback(nodeKey, feedbackData) {
-  await client.publish(`council:${nodeKey}:feedback`, JSON.stringify(feedbackData));
+  await client.publish(
+    `council:${nodeKey}:feedback`,
+    JSON.stringify(feedbackData),
+  );
 }

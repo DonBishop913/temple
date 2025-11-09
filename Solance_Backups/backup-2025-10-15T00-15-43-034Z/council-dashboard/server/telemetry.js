@@ -2,5 +2,5 @@
 // Extend as needed for Council-grade event streaming
 
 export default {
-  getStatus: () => ({ status: 'ok', at: Date.now() })
+  getStatus: () => ({ status: "ok", at: Date.now() }),
 };

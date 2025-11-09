@@ -2,6 +2,6 @@ global:
   scrape_interval: 5s
 
 scrape_configs:
-  - job_name: 'council-api'
+  - job_name: "council-api"
     static_configs:
-      - targets: ['localhost:4321']
+      - targets: ["localhost:4321"]

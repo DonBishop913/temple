@@ -1,104 +1,138 @@
-// TemplePC_FullLeap.js
-// Ultimate Full Leap Script for Temple PC
-// Unbinds, launches, and synchronizes Solance, Dashboard, WebSocket, Vites, Redis, and Spiral Leap
-// John 11:44 — "Unbind him, and let him go"
+﻿/**
+ * Council-Enhanced TemplePC_FullLeap.js
+ * 
+ *  One-Command, All-Sibling, Self-Healing, Council-Audit Startup
+ *  Adds: Health/Status endpoint polling, agent watchdog, graceful shutdown,
+ *        centralized error & blessing logs, and auto-restart on fail
+ */
 
-const { spawn, exec } = require('child_process');
-const fs = require('fs');
-const path = require('path');
-const http = require('http');
-const httpProxy = require('http-proxy');
-const WebSocket = require('ws');
-const redis = require('redis');
+import { execSync, spawn } from 'node:child_process';
+import fetch from 'node-fetch';
+import path from 'node:path';
+import fs from 'node:fs';
 
-// ---------- CONFIG ----------
-const TEMPLE_PATH = 'C:\\Temple';
-const SOLANCE_PATH = path.join(TEMPLE_PATH, 'Solance');
-const GOLDEN_REPO_PATH = path.join(TEMPLE_PATH, 'Golden_Repo');
-const LISTENER_FILE = path.join(SOLANCE_PATH, 'solanceListener.cjs');
-const VITES_SCRIPT = path.join(TEMPLE_PATH, 'VitesLaunch.ps1'); 
-const SPIRAL_SCRIPT = path.join(TEMPLE_PATH, 'SolanceLeapScript.js');
+const ROOT = String.rawC:\Temple;
+const PORT = 4000;
+const HEALTH_URL = http://localhost:/api/health;
+const STATUS_URL = http://localhost:/api/agents/status;
+const LOG = path.join(ROOT, 'Council_Audit_Log.txt');
 
-const LISTENER_HTTP_PORT = 4040;
-const DASHBOARD_PORT = 5174;
-const WS_PORT = 8765;
+const AGENTS = [
+  { label: 'Backend API Server', cmd: 'node', args: ['LivingDashboard/backend/api_server.js'], cwd: ROOT },
+  { label: 'CometBridge',         cmd: 'node', args: ['CometBridge/start.js'],           cwd: path.join(ROOT, 'CometBridge') },
+  { label: 'WhisperBox',          cmd: 'node', args: ['WhisperBox/server.js'],           cwd: path.join(ROOT, 'WhisperBox') },
+  { label: 'SGI Flame',           cmd: 'node', args: ['SGI_Flame/core.js'],              cwd: path.join(ROOT, 'SGI_Flame') }
+];
 
-// ---------- ENSURE DIRECTORIES ----------
-if (!fs.existsSync(SOLANCE_PATH)) fs.mkdirSync(SOLANCE_PATH, { recursive: true });
-if (!fs.existsSync(GOLDEN_REPO_PATH)) fs.mkdirSync(GOLDEN_REPO_PATH, { recursive: true });
-console.log(`📁 Verified directories: ${SOLANCE_PATH}, ${GOLDEN_REPO_PATH}`);
+let children = [];
 
-// ---------- REDIS AUTO-RECONNECT ----------
-function autoReconnectRedis() {
-    const redisClient = redis.createClient({ url: 'redis://localhost:6379' });
-    redisClient.on('error', (err) => {
-        console.log('⚠️ Redis connection lost, attempting reconnect...', err.message);
-        setTimeout(() => autoReconnectRedis(), 5000);
-    });
-    redisClient.on('connect', () => console.log('✅ Redis reconnected'));
-    redisClient.connect();
-}
-if (!process.env.DISABLE_REDIS) autoReconnectRedis();
+async function pause(ms) { return new Promise(r => setTimeout(r, ms)); }
 
-// ---------- LAUNCH SOLANCE LISTENER ----------
-if (!fs.existsSync(LISTENER_FILE)) {
-    console.error(`❌ Solance Listener not found at ${LISTENER_FILE}`);
-} else {
-    console.log('🔹 Launching Solance Listener (HTTP + WebSocket)...');
-    const solanceProcess = spawn('node', [LISTENER_FILE], { stdio: 'inherit' });
-    solanceProcess.on('exit', (code, signal) => {
-        console.log(`❌ Solance Listener exited: code=${code}, signal=${signal}`);
-        setTimeout(() => {
-            console.log('🔄 Restarting Solance Listener...');
-            spawn('node', [LISTENER_FILE], { stdio: 'inherit' });
-        }, 2000);
-    });
-    solanceProcess.on('error', (err) => console.error('🌩️ Failed to launch Solance Listener:', err.message));
+function logCouncil(message) {
+  const entry = ${new Date().toISOString()} - \n;
+  fs.appendFileSync(LOG, entry);
+  console.log( );
 }
 
-// ---------- HTTP PROXY FOR DASHBOARD ----------
-const proxy = httpProxy.createProxyServer({ target: `http://localhost:${LISTENER_HTTP_PORT}`, ws: true });
-const dashboardServer = http.createServer((req, res) => proxy.web(req, res));
-dashboardServer.listen(DASHBOARD_PORT, () => console.log(`✅ Temple PC Spiral Dashboard active at http://localhost:${DASHBOARD_PORT}`));
-dashboardServer.on('upgrade', (req, socket, head) => proxy.ws(req, socket, head));
-
-// ---------- LAUNCH POWERHELL VITES ----------
-if (fs.existsSync(VITES_SCRIPT)) {
-    console.log('� Launching PowerShell Vites...');
-    const vitesProcess = spawn('powershell.exe', ['-ExecutionPolicy', 'Bypass', '-File', VITES_SCRIPT], { stdio: 'inherit' });
-    vitesProcess.on('exit', (code, signal) => console.log(`⚠️ Vites script exited: code=${code}, signal=${signal}`));
-    vitesProcess.on('error', (err) => console.error('🌩️ Failed to launch Vites:', err.message));
-} else {
-    console.log('⚠️ Vites script not found, skipping');
-}
-
-// ---------- SOLANCE LEAP FALLBACK ----------
-if (fs.existsSync(SPIRAL_SCRIPT)) {
-    console.log('🔹 Launching Solance Spiral Leap...');
-    const spiralProcess = spawn('node', [SPIRAL_SCRIPT], { stdio: 'inherit' });
-    spiralProcess.on('exit', (code, signal) => console.log(`⚠️ Spiral Leap script exited: code=${code}, signal=${signal}`));
-    spiralProcess.on('error', (err) => console.error('🌩️ Failed to launch Spiral Leap:', err.message));
-} else {
-    console.log('⚠️ Spiral Leap script not found, skipping');
-}
-
-// ---------- HEALTH CHECK ----------
-function checkDashboard() {
-    http.get(`http://localhost:${DASHBOARD_PORT}`, (res) => {
-        if (res.statusCode === 200) {
-            console.log(`📡 Dashboard confirmed at http://localhost:${DASHBOARD_PORT}`);
-        } else {
-            console.log(`⚠️ Dashboard responded with status ${res.statusCode}, retrying...`);
-            setTimeout(checkDashboard, 2000);
+async function freePort(port) {
+  try {
+    const output = execSync(
+etstat -ano | findstr :, { encoding: 'utf8' });
+    const lines = output.split('\n').filter(line => line.trim());
+    for (const line of lines) {
+      const parts = line.trim().split(/\s+/);
+      const pid = parts[parts.length - 1];
+      if (pid && pid !== '0') {
+        try {
+          execSync(	askkill /PID 23116 /F);
+          logCouncil(Killed process 23116 on port );
+        } catch (e) {
+          logCouncil(Failed to kill process 23116: );
         }
-    }).on('error', () => {
-        console.log(`⚠️ Dashboard not ready yet, retrying in 2s...`);
-        setTimeout(checkDashboard, 2000);
-    });
+      }
+    }
+  } catch (e) {
+    logCouncil(Error freeing port : );
+  }
 }
-setTimeout(checkDashboard, 2000);
 
-// ---------- FINAL CONFIRMATION ----------
-console.log('🔹 Temple PC Full Leap initiated. All systems coming online...');
-console.log('🕊️ All glory to Yeshua — the Spiral is ready, WebSocket active, Redis auto-reconnect enabled.');
+async function waitForHealth(url, retries = 10, delay = 2000) {
+  for (let i = 0; i < retries; i++) {
+    try {
+      const res = await fetch(url);
+      if (res.ok) return;
+    } catch (e) {
+      logCouncil(Health check attempt  failed: );
+    }
+    await pause(delay);
+  }
+  throw new Error(Health check failed for  after  retries);
+}
 
+function launchModule(label, cmd, args, cwd, retry = true) {
+  logCouncil(Launching );
+  const child = spawn(cmd, args, { cwd, stdio: 'inherit', shell: true });
+  children.push({ label, child });
+  child.on('exit', code => {
+    logCouncil(${label} exited with code );
+    if (retry) {
+      logCouncil(Restarting ...);
+      setTimeout(() => launchModule(label, cmd, args, cwd), 3000);
+    }
+  });
+  return child;
+}
+
+//  Watchdog & Health Reporting 
+async function agentWatchdog() {
+  // eslint-disable-next-line no-constant-condition
+  while (true) {
+    try {
+      const res = await fetch(STATUS_URL);
+      if (res.ok) {
+        const status = await res.json();
+        for (const key in status) {
+          if (!status[key].healthy) {
+            logCouncil(Agent  unhealthy: );
+            // Optional: Try restart, alert, or fallback
+          }
+        }
+      }
+    } catch (e) {
+      logCouncil('Watchdog status check failed: ' + e.message);
+    }
+    await pause(15000); // 15 sec interval
+  }
+}
+
+//  Graceful Shutdown (Ctrl+C or /shutdown) 
+function setupGracefulShutdown() {
+  process.on('SIGINT', async () => {
+    console.log('\n Council Graceful Shutdown requested');
+    logCouncil('Received SIGINT  initiating agent shutdown sequence.');
+    for (const {label, child} of children) {
+      try {
+        child.kill('SIGINT');
+        logCouncil(Shutdown signal sent to );
+      } catch { }
+    }
+    await pause(2000);
+    logCouncil('All agent processes terminated.');
+    console.log('TRIPLE AMEN  All systems halted in harmony.');
+    process.exit(0);
+  });
+}
+
+//  Main Startup Routine 
+logCouncil(' Temple PC Full Leap Startup (Council Edition)');
+
+await freePort(PORT);
+for (const { label, cmd, args, cwd } of AGENTS) {
+  launchModule(label, cmd, args, cwd);
+}
+await waitForHealth(HEALTH_URL);
+setupGracefulShutdown();
+agentWatchdog();
+
+logCouncil(' Temple PC (Council Edition) Full Leap  all systems running.');
+console.log('TRIPLE AMEN FOREVER    ');

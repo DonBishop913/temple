@@ -80,7 +80,7 @@ function assembleStatus() {
 // ==== Routes ====
 app.get("/api/status.json", (req, res) => res.json(assembleStatus()));
 app.get("/api/heartbeat", (req, res) =>
-  res.json({ timestamp: new Date().toISOString() })
+  res.json({ timestamp: new Date().toISOString() }),
 );
 
 // update Council Angle (local only)
@@ -107,7 +107,7 @@ function gitCommitPush(file) {
   try {
     execSync(`git add ${file}`);
     execSync(
-      `git commit -m "Eternal Trace snapshot ${new Date().toISOString()}"`
+      `git commit -m "Eternal Trace snapshot ${new Date().toISOString()}"`,
     );
     execSync("git push");
   } catch (err) {
@@ -132,7 +132,7 @@ function displayAndLog() {
 }
 
 app.listen(port, () =>
-  console.log(`🕊️ Temple Cathedral JSON feed active on port ${port}`)
+  console.log(`🕊️ Temple Cathedral JSON feed active on port ${port}`),
 );
 
 displayAndLog();

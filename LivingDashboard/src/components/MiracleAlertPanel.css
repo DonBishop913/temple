@@ -2,7 +2,7 @@
   border: 2px solid #ffd700;
   border-radius: 12px;
   padding: 12px;
-  background: rgba(0,0,0,0.2);
+  background: rgba(0, 0, 0, 0.2);
   color: #fff;
   font-family: sans-serif;
   max-width: 100%;
@@ -13,7 +13,8 @@
   border-collapse: collapse;
 }
 
-.miracle-alert-panel th, .miracle-alert-panel td {
+.miracle-alert-panel th,
+.miracle-alert-panel td {
   padding: 6px 8px;
   text-align: left;
 }

@@ -8,15 +8,22 @@ export default function QuantumControls() {
 
   const handleScrub = () => scrub(Number(scrubTime));
   const handleHighlight = () => {
-    const ids = highlightIds.split(",").map((id) => id.trim()).filter(Boolean);
+    const ids = highlightIds
+      .split(",")
+      .map((id) => id.trim())
+      .filter(Boolean);
     highlight(ids);
   };
 
   return (
     <div style={{ padding: "1rem", background: "#111", color: "#fff" }}>
       <h3>Quantum Controls {connected ? "(Connected)" : "(Disconnected)"}</h3>
-      <button onClick={play} style={{ margin: "0.25rem" }}>Play</button>
-      <button onClick={pause} style={{ margin: "0.25rem" }}>Pause</button>
+      <button onClick={play} style={{ margin: "0.25rem" }}>
+        Play
+      </button>
+      <button onClick={pause} style={{ margin: "0.25rem" }}>
+        Pause
+      </button>
 
       <div style={{ marginTop: "0.5rem" }}>
         <input

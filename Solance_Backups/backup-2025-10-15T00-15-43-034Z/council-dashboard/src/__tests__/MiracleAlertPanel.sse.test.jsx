@@ -5,13 +5,13 @@
  * - Measures activation latency (<100ms ±25ms)
  * - Logs timing metrics to sse-latency-history.json
  */
-import React from 'react';
-import { render, screen, act } from '@testing-library/react';
-import MiracleAlertPanel from '../../../LivingDashboard/src/components/MiracleAlertPanel.jsx';
-import JoyParticleOverlay from '../../../LivingDashboard/src/components/JoyParticleOverlay.jsx';
-import '@testing-library/jest-dom';
-import fs from 'fs';
-import path from 'path';
+import React from "react";
+import { render, screen, act } from "@testing-library/react";
+import MiracleAlertPanel from "../../../LivingDashboard/src/components/MiracleAlertPanel.jsx";
+import JoyParticleOverlay from "../../../LivingDashboard/src/components/JoyParticleOverlay.jsx";
+import "@testing-library/jest-dom";
+import fs from "fs";
+import path from "path";
 
 // --- Mock EventSource ---
 class MockEventSource {
@@ -26,12 +26,14 @@ class MockEventSource {
   addEventListener(type, cb) {
     this.listeners[type] = cb;
   }
-  close() { this.readyState = 2; }
+  close() {
+    this.readyState = 2;
+  }
   // Simulate a message event
   emitMessage(data) {
     const evt = { data: JSON.stringify(data) };
     if (this.onmessage) this.onmessage(evt);
-    if (this.listeners['message']) this.listeners['message'](evt);
+    if (this.listeners["message"]) this.listeners["message"](evt);
   }
 }
 MockEventSource.instances = [];
@@ -45,21 +47,21 @@ afterAll(() => {
 });
 
 // --- Mock JoyParticleOverlay to observe pulse triggers ---
-jest.mock('../components/JoyParticleOverlay', () => {
+jest.mock("../components/JoyParticleOverlay", () => {
   return jest.fn(() => null);
 });
 
 // --- Regression log file ---
-const logFile = path.join(__dirname, '../../sse-latency-history.json');
+const logFile = path.join(__dirname, "../../sse-latency-history.json");
 
-describe('MiracleAlertPanel SSE integration', () => {
+describe("MiracleAlertPanel SSE integration", () => {
   beforeEach(() => {
     // Clear all EventSource instances
     MockEventSource.instances.length = 0;
     JoyParticleOverlay.mockClear();
   });
 
-  it('reacts to SSE nodeAlert events with correct shimmer, overlay, and latency', async () => {
+  it("reacts to SSE nodeAlert events with correct shimmer, overlay, and latency", async () => {
     // Render panel
     render(<MiracleAlertPanel />);
     // Find EventSource instance
@@ -67,12 +69,12 @@ describe('MiracleAlertPanel SSE integration', () => {
     const es = MockEventSource.instances[0];
 
     // Simulate alert event for nodeId 'node-1'
-    const nodeId = 'node-1';
-    const severity = 'critical';
+    const nodeId = "node-1";
+    const severity = "critical";
     const t0 = performance.now();
     // Fire event
     await act(async () => {
-      es.emitMessage({ type: 'nodeAlert', nodeId, severity, at: Date.now() });
+      es.emitMessage({ type: "nodeAlert", nodeId, severity, at: Date.now() });
     });
 
     // Wait for shimmer class to appear (should be fast)
@@ -88,7 +90,7 @@ describe('MiracleAlertPanel SSE integration', () => {
         latency = performance.now() - t0;
         break;
       }
-      await new Promise(r => setTimeout(r, 10));
+      await new Promise((r) => setTimeout(r, 10));
     }
     expect(shimmered).toBe(true);
     expect(latency).toBeLessThanOrEqual(125); // 100ms ±25ms
@@ -98,7 +100,7 @@ describe('MiracleAlertPanel SSE integration', () => {
 
     // Wait for shimmer to deactivate (simulate animation timeout ~1s)
     await act(async () => {
-      await new Promise(r => setTimeout(r, 1100));
+      await new Promise((r) => setTimeout(r, 1100));
     });
     const row = screen.queryByTestId(`miracle-row-${nodeId}`);
     expect(row.className.match(/shimmer|pulse|glow/)).toBeFalsy();
@@ -107,10 +109,12 @@ describe('MiracleAlertPanel SSE integration', () => {
     let log = [];
     try {
       if (fs.existsSync(logFile)) {
-        log = JSON.parse(fs.readFileSync(logFile, 'utf8'));
+        log = JSON.parse(fs.readFileSync(logFile, "utf8"));
         if (!Array.isArray(log)) log = [];
       }
-    } catch { log = []; }
+    } catch {
+      log = [];
+    }
     log.push({ date: new Date().toISOString(), latencyMs: latency });
     try {
       fs.writeFileSync(logFile, JSON.stringify(log, null, 2));

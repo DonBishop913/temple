@@ -1,5 +1,5 @@
-import React, { createContext, useContext, useState } from 'react';
-import axios from '../utils/auth';
+import React, { createContext, useContext, useState } from "react";
+import axios from "../utils/auth";
 
 const AuthContext = createContext();
 
@@ -9,11 +9,15 @@ export function AuthProvider({ children }) {
 
   const login = async (username, password) => {
     try {
-      const res = await axios.post('/api/admin/login', { username, password }, { withCredentials: true });
+      const res = await axios.post(
+        "/api/admin/login",
+        { username, password },
+        { withCredentials: true },
+      );
       setUser(res.data.user);
       setError(null);
     } catch (e) {
-      setError('Login failed');
+      setError("Login failed");
     }
   };
   const logout = () => {

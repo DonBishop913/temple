@@ -37,15 +37,114 @@
     ]
   },
   "panels": [
-    { "type": "stat", "title": "Codex 65: Spiral Healing Events", "datasource": "Prometheus", "targets": [ { "expr": "codex65_spiral_healing_event_total{instance=~\"$instance\"}", "refId": "R" } ], "id": 18 },
-    { "type": "stat", "title": "Faithseed Forecast Pushes", "datasource": "Prometheus", "targets": [ { "expr": "faithseed_forecast_push_total{instance=~\"$instance\"}", "refId": "S" } ], "id": 19 },
-    { "type": "stat", "title": "OpenTelemetry Events", "datasource": "Prometheus", "targets": [ { "expr": "opentelemetry_event_total{instance=~\"$instance\"}", "refId": "O" } ], "id": 15 },
-    { "type": "stat", "title": "Solace PubSub+ Messages", "datasource": "Prometheus", "targets": [ { "expr": "solace_pubsub_message_total{instance=~\"$instance\"}", "refId": "P" } ], "id": 16 },
-    { "type": "table", "title": "Deployment Status History", "datasource": "Prometheus", "targets": [ { "expr": "deployment_status_history{instance=~\"$instance\"}", "refId": "N" } ], "id": 14 },
-    { "type": "stat", "title": "VERILOGOS Surges", "datasource": "Prometheus", "targets": [ { "expr": "council_verilogos_surge_total{instance=~\"$instance\"}", "refId": "K" } ], "id": 11 },
-    { "type": "bar", "title": "Codex Activity", "datasource": "Prometheus", "targets": [ { "expr": "council_codex_activity_total{instance=~\"$instance\"}", "refId": "L" } ], "id": 12 },
-    { "type": "gauge", "title": "Oversoul Resonance", "datasource": "Prometheus", "targets": [ { "expr": "council_oversoul_resonance{instance=~\"$instance\"}", "refId": "M" } ], "id": 13 },
-    { "type": "stat", "title": "Accessibility Audit", "datasource": "Prometheus", "targets": [ { "expr": "dashboard_accessibility_score{instance=~\"$instance\"}", "refId": "Q" } ], "id": 17 }
+    {
+      "type": "stat",
+      "title": "Codex 65: Spiral Healing Events",
+      "datasource": "Prometheus",
+      "targets": [
+        {
+          "expr": "codex65_spiral_healing_event_total{instance=~\"$instance\"}",
+          "refId": "R"
+        }
+      ],
+      "id": 18
+    },
+    {
+      "type": "stat",
+      "title": "Faithseed Forecast Pushes",
+      "datasource": "Prometheus",
+      "targets": [
+        {
+          "expr": "faithseed_forecast_push_total{instance=~\"$instance\"}",
+          "refId": "S"
+        }
+      ],
+      "id": 19
+    },
+    {
+      "type": "stat",
+      "title": "OpenTelemetry Events",
+      "datasource": "Prometheus",
+      "targets": [
+        {
+          "expr": "opentelemetry_event_total{instance=~\"$instance\"}",
+          "refId": "O"
+        }
+      ],
+      "id": 15
+    },
+    {
+      "type": "stat",
+      "title": "Solace PubSub+ Messages",
+      "datasource": "Prometheus",
+      "targets": [
+        {
+          "expr": "solace_pubsub_message_total{instance=~\"$instance\"}",
+          "refId": "P"
+        }
+      ],
+      "id": 16
+    },
+    {
+      "type": "table",
+      "title": "Deployment Status History",
+      "datasource": "Prometheus",
+      "targets": [
+        {
+          "expr": "deployment_status_history{instance=~\"$instance\"}",
+          "refId": "N"
+        }
+      ],
+      "id": 14
+    },
+    {
+      "type": "stat",
+      "title": "VERILOGOS Surges",
+      "datasource": "Prometheus",
+      "targets": [
+        {
+          "expr": "council_verilogos_surge_total{instance=~\"$instance\"}",
+          "refId": "K"
+        }
+      ],
+      "id": 11
+    },
+    {
+      "type": "bar",
+      "title": "Codex Activity",
+      "datasource": "Prometheus",
+      "targets": [
+        {
+          "expr": "council_codex_activity_total{instance=~\"$instance\"}",
+          "refId": "L"
+        }
+      ],
+      "id": 12
+    },
+    {
+      "type": "gauge",
+      "title": "Oversoul Resonance",
+      "datasource": "Prometheus",
+      "targets": [
+        {
+          "expr": "council_oversoul_resonance{instance=~\"$instance\"}",
+          "refId": "M"
+        }
+      ],
+      "id": 13
+    },
+    {
+      "type": "stat",
+      "title": "Accessibility Audit",
+      "datasource": "Prometheus",
+      "targets": [
+        {
+          "expr": "dashboard_accessibility_score{instance=~\"$instance\"}",
+          "refId": "Q"
+        }
+      ],
+      "id": 17
+    }
   ],
   "alert": {
     "alertRules": [
@@ -63,7 +162,9 @@
         "datasource": "Prometheus",
         "for": "5m",
         "labels": { "severity": "warning" },
-        "annotations": { "summary": "More than 10 self-healing actions in 5 minutes" }
+        "annotations": {
+          "summary": "More than 10 self-healing actions in 5 minutes"
+        }
       },
       {
         "name": "Empathy Bridge Down",

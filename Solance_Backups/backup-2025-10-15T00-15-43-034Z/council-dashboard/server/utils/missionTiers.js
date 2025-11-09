@@ -1,8 +1,8 @@
 // Mission tiers and mappings for Council operations
 const TIERS = {
-  T1: 'critical',
-  T2: 'high',
-  T3: 'routine'
+  T1: "critical",
+  T2: "high",
+  T3: "routine",
 };
 
 // Default agent to tier assignment (can be adapted dynamically)
@@ -27,7 +27,7 @@ const opTierMap = {
   forecast_update: TIERS.T3,
   anomaly_scan: TIERS.T3,
   glyph_generation: TIERS.T3,
-  outreach_ping: TIERS.T3
+  outreach_ping: TIERS.T3,
 };
 
 module.exports = { TIERS, agentTierMap, opTierMap };

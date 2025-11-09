@@ -3,8 +3,8 @@
   "routing": {
     "slack": { "min_severity": "info" },
     "email": { "min_severity": "warning" },
-    "sms":   { "min_severity": "critical" },
-    "ui":    { "min_severity": "error" }
+    "sms": { "min_severity": "critical" },
+    "ui": { "min_severity": "error" }
   },
   "slack": {
     "enabled": true,

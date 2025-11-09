@@ -15,7 +15,7 @@ Better: use a PM2 ecosystem config (ecosystem.config.js) and set secrets on the 
 Power provider wiring
 
 - Environment variables used by the backend power-status endpoint:
-  - POWER_PROVIDER (SIMULATED|NUT|APC|SNMP|VENDOR)  (default SIMULATED)
+  - POWER_PROVIDER (SIMULATED|NUT|APC|SNMP|VENDOR) (default SIMULATED)
   - NUT_API_URL (if using NUT provider)
   - APC_API_URL and APC_API_KEY (if using APC vendor API)
   - SNMP_TARGET and SNMP_COMMUNITY (if using SNMP queries)

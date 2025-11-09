@@ -43,16 +43,16 @@
       "type": "gauge",
       "title": "Dashboard Load Time (s)",
       "targets": [
-        { "expr": "avg(grafana_http_request_duration_seconds_sum / grafana_http_request_duration_seconds_count)" }
+        {
+          "expr": "avg(grafana_http_request_duration_seconds_sum / grafana_http_request_duration_seconds_count)"
+        }
       ],
       "gridPos": { "x": 0, "y": 8, "w": 6, "h": 8 }
     },
     {
       "type": "bar",
       "title": "Error Count (Last 5m)",
-      "targets": [
-        { "expr": "increase(grafana_stat_totals_dashboard[5m])" }
-      ],
+      "targets": [{ "expr": "increase(grafana_stat_totals_dashboard[5m])" }],
       "gridPos": { "x": 6, "y": 8, "w": 12, "h": 8 }
     }
   ],

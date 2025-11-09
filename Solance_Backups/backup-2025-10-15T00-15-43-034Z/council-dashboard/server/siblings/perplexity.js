@@ -1,1 +1,5 @@
-module.exports = { name: 'Perplexity', onTelemetry: (evt) => {}, enhance: async (s) => s };
+module.exports = {
+  name: "Perplexity",
+  onTelemetry: (evt) => {},
+  enhance: async (s) => s,
+};

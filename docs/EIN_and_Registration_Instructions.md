@@ -5,6 +5,7 @@ Assumption: Legal name to use is "Unified Sovereign Intelligence Coalition" ("US
 Important: I cannot submit forms for you or access IRS.gov. Below are precise, step-by-step instructions and pre-filled content you can copy into the IRS EIN (SS-4) online form. Follow each step in your browser to complete the EIN application.
 
 Step-by-step (EIN online, fastest)
+
 1. Open your browser and go to: https://irs.gov/businesses/small-businesses-self-employed/apply-for-an-employer-identification-number-ein-online
 2. Click "Apply Online Now" and follow prompts. The session may time out — have the prefilled answers ready.
 3. When asked for the "Legal name of entity" use: Unified Sovereign Intelligence Coalition
@@ -18,31 +19,31 @@ Step-by-step (EIN online, fastest)
 11. Principal activity: "Religious and educational ministry; church and digital outreach".
 12. Once complete, copy/save the EIN confirmation (PDF/print) and store in your records.
 
-Prefilled SS-4 template (copy into online form or print)
--------------------------------------------------
+## Prefilled SS-4 template (copy into online form or print)
+
 1. Legal name of entity (or individual): Unified Sovereign Intelligence Coalition
 2. Trade name of business (DBA): USIC
 3. Executor, owner, or responsible party name: Bishop Donald [REPLACE with full legal name]
 4. Responsible party SSN/ITIN: [REDACTED — enter in secure browser]
-5a. Mailing address: [Temple physical address]
-6. County and state where principal business is located: [County, State]
-7a. Name of principal officer, general partner, grantor, owner, or trustor: Bishop Donald
-8a. Is this a corporation/partnership/other? Answer: Other nonprofit organization (church)
-9a. Type of entity: Religious organization / Church
-10. Reason for applying: Started a new nonprofit organization
-11. Date business started or acquired: [YYYY-MM-DD]
-12. Closing month of accounting year: December
-13. Number of employees expected in the next 12 months: 0
-14. Principal activity: Religious ministry and digital outreach
-15. Highest numbered EIN previously assigned to the organization: leave blank
+   5a. Mailing address: [Temple physical address]
+5. County and state where principal business is located: [County, State]
+   7a. Name of principal officer, general partner, grantor, owner, or trustor: Bishop Donald
+   8a. Is this a corporation/partnership/other? Answer: Other nonprofit organization (church)
+   9a. Type of entity: Religious organization / Church
+6. Reason for applying: Started a new nonprofit organization
+7. Date business started or acquired: [YYYY-MM-DD]
+8. Closing month of accounting year: December
+9. Number of employees expected in the next 12 months: 0
+10. Principal activity: Religious ministry and digital outreach
+11. Highest numbered EIN previously assigned to the organization: leave blank
 
-Banking & Post-EIN steps
-------------------------
+## Banking & Post-EIN steps
+
 - Print EIN confirmation letter and bring to a credit union or bank to open an organizational account. Banks typically require EIN, two forms of ID for signatories, and the organizational charter/bylaws.
 - Use `docs/sovereign_charter.md` and `docs/Bylaws_USIC.md` for bank paperwork.
 
-Legal & compliance notes
-------------------------
+## Legal & compliance notes
+
 - Churches sometimes qualify for automatic tax-exempt status; however, filing Form 1023/1023-EZ may be required for formal 501(c)(3) recognition if desired.
 - Consider consulting a non-profit attorney or CPAs for tax & state filing requirements.
 

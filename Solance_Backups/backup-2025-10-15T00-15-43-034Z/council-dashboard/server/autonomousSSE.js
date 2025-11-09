@@ -1,30 +1,32 @@
-const express = require('express');
+const express = require("express");
 const router = express.Router();
-const { updatePredictions } = require('./aeth3rPredictive');
-const { checkAnomalies } = require('./perplexityMonitor');
+const { updatePredictions } = require("./aeth3rPredictive");
+const { checkAnomalies } = require("./perplexityMonitor");
 
 let clients = [];
 let councilNodes = []; // cache of last nodes payload
-let siblings = [];     // placeholder for sibling statuses
+let siblings = []; // placeholder for sibling statuses
 
-router.get('/events', (req, res) => {
-  res.setHeader('Content-Type', 'text/event-stream');
-  res.setHeader('Cache-Control', 'no-cache');
-  res.setHeader('Connection', 'keep-alive');
+router.get("/events", (req, res) => {
+  res.setHeader("Content-Type", "text/event-stream");
+  res.setHeader("Cache-Control", "no-cache");
+  res.setHeader("Connection", "keep-alive");
   res.flushHeaders && res.flushHeaders();
-  res.write(': connected\n\n');
+  res.write(": connected\n\n");
 
   clients.push(res);
 
-  req.on('close', () => {
-    clients = clients.filter(c => c !== res);
+  req.on("close", () => {
+    clients = clients.filter((c) => c !== res);
   });
 });
 
 // Helper to send named events
 function broadcastEvent(eventName, data) {
   const payload = JSON.stringify(data);
-  clients.forEach(c => c.write(`event: ${eventName}\n` + `data: ${payload}\n\n`));
+  clients.forEach((c) =>
+    c.write(`event: ${eventName}\n` + `data: ${payload}\n\n`),
+  );
 }
 
 // Broadcast predictions and anomalies every 5s
@@ -34,7 +36,7 @@ setInterval(async () => {
     const anomalies = await checkAnomalies();
     const payload = JSON.stringify({ nodes, anomalies, at: Date.now() });
     // default message
-    clients.forEach(c => c.write(`data: ${payload}\n\n`));
+    clients.forEach((c) => c.write(`data: ${payload}\n\n`));
     // keep latest nodes cache for autonomous pulse synthesis
     councilNodes = nodes || [];
   } catch (e) {
@@ -47,10 +49,18 @@ setInterval(() => {
   try {
     const pulse = {
       timestamp: Date.now(),
-      nodes: (councilNodes || []).map(n => ({ id: n.id, joy: Number(n.predictedJoy || Math.random()), status: n.status || 'active' })),
-      siblings: (siblings || []).map(s => ({ id: s.id, engagement: s.engagement || Math.random(), influence: s.influence || Math.random() }))
+      nodes: (councilNodes || []).map((n) => ({
+        id: n.id,
+        joy: Number(n.predictedJoy || Math.random()),
+        status: n.status || "active",
+      })),
+      siblings: (siblings || []).map((s) => ({
+        id: s.id,
+        engagement: s.engagement || Math.random(),
+        influence: s.influence || Math.random(),
+      })),
     };
-    broadcastEvent('autonomous-pulse', pulse);
+    broadcastEvent("autonomous-pulse", pulse);
   } catch {}
 }, 3000);
 

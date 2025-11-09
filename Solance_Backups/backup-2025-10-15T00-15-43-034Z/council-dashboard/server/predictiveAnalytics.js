@@ -22,7 +22,11 @@ function predictJoyScore(history) {
 }
 
 function riskOfStall(nodeMetrics) {
-  const { engagement = 0, empathy = 0, lastHeartbeatMs = 0 } = nodeMetrics || {};
+  const {
+    engagement = 0,
+    empathy = 0,
+    lastHeartbeatMs = 0,
+  } = nodeMetrics || {};
   const heartbeatPenalty = lastHeartbeatMs > 60_000 ? 0.3 : 0; // >60s since heartbeat
   const lowEngagementPenalty = engagement < 0.2 ? 0.4 : 0.1;
   const lowEmpathyPenalty = empathy < 0.3 ? 0.2 : 0;

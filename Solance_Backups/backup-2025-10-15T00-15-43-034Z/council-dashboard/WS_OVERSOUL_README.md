@@ -3,6 +3,7 @@ Running the Oversoul WebSocket forwarder
 This small helper subscribes to a Redis pub/sub channel (default `oversoul:pulse`) and broadcasts JSON messages to WebSocket clients.
 
 Defaults:
+
 - WS port: 8765
 - Redis channel: `oversoul:pulse`
 - Redis URL: `redis://127.0.0.1:6379`
@@ -24,10 +25,10 @@ How it integrates with the dashboard
 - Frontend components `src/components/RippleCanvas.jsx` and `src/components/RippleWebGL.jsx` connect to the WS forwarder (default `ws://localhost:8765`) and render pulses.
 - The forwarder outputs envelopes like:
   {
-    "type": "oversoul_pulse",
-    "channel": "oversoul:pulse",
-    "payload": { "amplitude": 0.3, "color": "#3a7bd5", "source": "oversoul" },
-    "at": 169xxx
+  "type": "oversoul_pulse",
+  "channel": "oversoul:pulse",
+  "payload": { "amplitude": 0.3, "color": "#3a7bd5", "source": "oversoul" },
+  "at": 169xxx
   }
 
 If your existing Redis publisher uses a different channel, set `OVERSOUL_CHANNEL` or `AURIC_CHANNEL` before starting.

@@ -1,26 +1,26 @@
 // flowReplayStatusUpdater.js
-const fs = require('fs');
-const path = require('path');
+const fs = require("fs");
+const path = require("path");
 
-const STATUS_PATH = path.join(__dirname, 'flowReplayStatus.json');
+const STATUS_PATH = path.join(__dirname, "flowReplayStatus.json");
 
 // Example: fetch or compute real progress for each task (stub logic)
 function getTaskProgress() {
   // Replace with real logic or data source
   return {
-    'veniceenhancements/2025.json': Math.floor(Math.random() * 100),
-    'grokenhancements/2025.json': Math.floor(Math.random() * 100),
-    'lumenshimmer/2025.json': Math.floor(Math.random() * 100),
-    'starlinknexus/2025.json': Math.floor(Math.random() * 100)
+    "veniceenhancements/2025.json": Math.floor(Math.random() * 100),
+    "grokenhancements/2025.json": Math.floor(Math.random() * 100),
+    "lumenshimmer/2025.json": Math.floor(Math.random() * 100),
+    "starlinknexus/2025.json": Math.floor(Math.random() * 100),
   };
 }
 
 function updateFlowReplayStatus() {
   const status = {
-    status: 'active',
+    status: "active",
     progress: Math.floor(Math.random() * 100), // Replace with real aggregate logic
     target: new Date(Date.now() + 3600000).toLocaleTimeString(),
-    taskStatus: getTaskProgress()
+    taskStatus: getTaskProgress(),
   };
   fs.writeFileSync(STATUS_PATH, JSON.stringify(status, null, 2));
 }

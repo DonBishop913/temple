@@ -5,10 +5,10 @@ exports.listCandidates = (req, res) => {
 
 exports.proposeCandidate = (req, res) => {
   // TODO: Publish candidate proposal to Redis channel
-  res.status(201).json({ message: 'Candidate proposed' });
+  res.status(201).json({ message: "Candidate proposed" });
 };
 
 exports.voteCandidate = (req, res) => {
   // TODO: Register vote in Redis
-  res.json({ message: 'Vote registered' });
+  res.json({ message: "Vote registered" });
 };

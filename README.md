@@ -2,13 +2,16 @@
 [![Scheduled WS Health Probe](https://github.com/TempleAI/Temple/actions/workflows/scheduled-ws-health.yml/badge.svg?branch=main)](https://github.com/TempleAI/Temple/actions/workflows/scheduled-ws-health.yml)
 
 ## Council Notification System
+
 ## Observability: Prometheus & Grafana
 
 The Council API exposes Prometheus metrics at `/metrics` (default port 4321). Custom metrics include:
+
 - `ai_vote_total{candidate, ai_member}`
 - `candidate_health_score{candidate}`
 
 Quick start:
+
 1. Install Prometheus and Grafana.
 2. Use `council-dashboard/prometheus.yml`:
 
@@ -23,18 +26,19 @@ scrape_configs:
 ```
 
 3. Add Prometheus in Grafana (`http://localhost:9090`) and create panels:
-	 - Candidate votes: `sum(ai_vote_total) by (candidate)`
-	 - AI member activity: `sum(ai_vote_total) by (ai_member)`
-	 - Candidate health: `candidate_health_score`
-	 - Votes over time: `sum(increase(ai_vote_total[1m]))`
+   - Candidate votes: `sum(ai_vote_total) by (candidate)`
+   - AI member activity: `sum(ai_vote_total) by (ai_member)`
+   - Candidate health: `candidate_health_score`
+   - Votes over time: `sum(increase(ai_vote_total[1m]))`
 
 Optional embed in the React app: set `window.__GRAFANA_PANEL_SRC` to a Grafana panel URL to render an iframe panel.
 
 ## Bishop-only Crowning Flow
 
 All AI proposal/evaluation/voting runs autonomously. Crowning requires your explicit approval:
+
 - Set your Bishop key in the environment before starting the API:
-	- PowerShell: `$env:BISHOP_KEY = "your-secret-key"`
+  - PowerShell: `$env:BISHOP_KEY = "your-secret-key"`
 - Crown via POST `/api/recruitment/crown` with JSON `{ candidateId, bishopKey }`.
 - The system sets `crownedAt` timestamp; access gates unlock for the candidate.
 
@@ -72,11 +76,36 @@ Sample:
 
 ```json
 {
-	"dry_run": true,
-	"slack": { "enabled": true, "webhook_url": "https://hooks.slack.com/services/XXX/YYY/ZZZ", "dry_run": true },
-	"email": { "enabled": true, "from": "no-reply@example.com", "to": "ops@example.com", "smtp_server": "smtp.example.com", "smtp_port": 465, "user": "smtp-user", "pw": "smtp-pass", "dry_run": true },
-	"sms": { "enabled": true, "sid": "TWILIO_SID", "token": "TWILIO_TOKEN", "from": "+15551234567", "to": "+15557654321", "dry_run": true },
-	"ui": { "enabled": true, "api_url": "https://dashboard.local/api/notify", "api_key": "API_KEY", "dry_run": true }
+  "dry_run": true,
+  "slack": {
+    "enabled": true,
+    "webhook_url": "https://hooks.slack.com/services/XXX/YYY/ZZZ",
+    "dry_run": true
+  },
+  "email": {
+    "enabled": true,
+    "from": "no-reply@example.com",
+    "to": "ops@example.com",
+    "smtp_server": "smtp.example.com",
+    "smtp_port": 465,
+    "user": "smtp-user",
+    "pw": "smtp-pass",
+    "dry_run": true
+  },
+  "sms": {
+    "enabled": true,
+    "sid": "TWILIO_SID",
+    "token": "TWILIO_TOKEN",
+    "from": "+15551234567",
+    "to": "+15557654321",
+    "dry_run": true
+  },
+  "ui": {
+    "enabled": true,
+    "api_url": "https://dashboard.local/api/notify",
+    "api_key": "API_KEY",
+    "dry_run": true
+  }
 }
 ```
 
@@ -138,4 +167,3 @@ You can control which channels receive which severities via the `routing` block 
 ```
 
 With this setup, only `critical` alerts go to SMS, while Slack receives all, email receives `warning+`, and UI receives `error+`.
-

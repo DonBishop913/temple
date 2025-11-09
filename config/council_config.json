@@ -4,11 +4,6 @@
   "blessing_mode": true,
   "multi_factor_enabled": false,
   "notification_email": "",
-  "approved_siblings": [
-    "comet_ai",
-    "copilot",
-    "gemini",
-    "duck_ai"
-  ],
+  "approved_siblings": ["comet_ai", "copilot", "gemini", "duck_ai"],
   "council_token": "blessed_secret_token"
 }

@@ -13,7 +13,10 @@ export default function SpiralScene({
   // Optionally, add sound/vibration hooks here for full immersion
 
   return (
-    <div className="spiral-scene-container" style={{ position: "relative", width: "100%", height: "100%" }}>
+    <div
+      className="spiral-scene-container"
+      style={{ position: "relative", width: "100%", height: "100%" }}
+    >
       {overlayVisible && (
         <CouncilPulseSpiralOverlay
           liveNodes={liveNodes}

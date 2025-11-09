@@ -10,17 +10,13 @@
     {
       "type": "timeseries",
       "title": "Healing Telemetry — Active Anomalies",
-      "targets": [
-        { "expr": "anomaly_detection_score{layer='healing'}" }
-      ],
+      "targets": [{ "expr": "anomaly_detection_score{layer='healing'}" }],
       "gridPos": { "x": 0, "y": 0, "w": 12, "h": 8 }
     },
     {
       "type": "state-timeline",
       "title": "Self-Healing Events Timeline",
-      "targets": [
-        { "expr": "healing_sequence_trigger_total" }
-      ],
+      "targets": [{ "expr": "healing_sequence_trigger_total" }],
       "options": { "showValue": "auto" },
       "gridPos": { "x": 0, "y": 8, "w": 24, "h": 8 }
     },

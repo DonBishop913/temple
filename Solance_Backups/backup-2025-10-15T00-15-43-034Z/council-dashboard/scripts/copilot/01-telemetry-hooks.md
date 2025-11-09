@@ -3,6 +3,7 @@
 Goal: Create `useOversoulHeartbeat.js` combining SSE and WebSocket with backoff, merging messages into unified state.
 
 Prompt:
+
 - Create a React hook `useOversoulHeartbeat.js` that:
   - Accepts `sseUrl` and `wsUrl`.
   - Opens an EventSource to `sseUrl` and a WebSocket to `wsUrl` with exponential backoff reconnection.
@@ -14,5 +15,6 @@ Prompt:
 - Export the hook.
 
 Acceptance:
+
 - Unit-tested with mocked EventSource/WebSocket in Jest.
 - Handles reconnects without leaking listeners.

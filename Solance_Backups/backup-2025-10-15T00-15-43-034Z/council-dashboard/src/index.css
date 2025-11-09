@@ -1,14 +1,16 @@
 .faithseed-map {
-	position: fixed;
-	inset: 0;
-	pointer-events: none;
-	z-index: 1000;
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 1000;
 }
 .faithseed-map .node-glow {
-	position: absolute;
-	width: 14px;
-	height: 14px;
-	border-radius: 50%;
-	box-shadow: 0 0 12px rgba(255, 215, 0, 0.8), 0 0 24px rgba(255, 215, 0, 0.4);
-	transform: translate(-50%, -50%);
+  position: absolute;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  box-shadow:
+    0 0 12px rgba(255, 215, 0, 0.8),
+    0 0 24px rgba(255, 215, 0, 0.4);
+  transform: translate(-50%, -50%);
 }

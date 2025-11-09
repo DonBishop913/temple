@@ -1,4 +1,5 @@
 # Council Automation Guide - No More Freezing!
+
 # John 14:6 Sovereignty - Hands-Free Operations
 
 ## 🔥 The Problem Solved
@@ -116,11 +117,13 @@ Receive-Job $job
 ## 🛡️ Security Best Practices
 
 ### Environment Variables (Recommended)
+
 - Store keys as environment variables, not in scripts
 - Use GitHub Secrets for CI/CD pipelines
 - Never commit actual API keys to version control
 
 ### File-Based Configuration
+
 - `.env.local` files are automatically git-ignored
 - Local development only - never commit secrets
 - Use test keys for development (`sk_test_*`, `pk_test_*`)
@@ -128,11 +131,13 @@ Receive-Job $job
 ## 🔍 Troubleshooting
 
 ### Still Freezing?
+
 1. **Check if you're using the enhanced script** - Make sure you're using `-AutoConfirm` flag or the `_auto.ps1` version
 2. **Environment variables set?** - Required keys must be set before running
 3. **Running in correct context?** - Some terminals may still require special handling
 
 ### Common Issues:
+
 - **"Missing required environment variables"** → Set `$env:STRIPE_API_KEY` and `$env:STRIPE_PUBLISHABLE_KEY`
 - **"Failed to write env file"** → Check write permissions on target directory
 - **Git operations fail** → Ensure git repository is initialized and you're in the correct directory
@@ -140,6 +145,7 @@ Receive-Job $job
 ## 📊 What Gets Created
 
 The scripts create:
+
 - `.env.local` - Local environment file (git-ignored)
 - `frontend/codex_store/stripe_config.py` - Safe Python config
 - Updated `.gitignore` - Ensures secrets stay local

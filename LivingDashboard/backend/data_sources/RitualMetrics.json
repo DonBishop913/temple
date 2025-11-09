@@ -1,83 +1,5 @@
 [
   {
-    "timestamp": "2025-10-27T23:08:34.495Z",
-    "successRate": 0.06576335230137986,
-    "participants": 59,
-    "divineAlignment": false
-  },
-  {
-    "timestamp": "2025-10-27T23:08:39.120Z",
-    "successRate": 0.21300592296413345,
-    "participants": 37,
-    "divineAlignment": true
-  },
-  {
-    "timestamp": "2025-10-27T23:08:43.416Z",
-    "successRate": 0.6306333259479051,
-    "participants": 80,
-    "divineAlignment": false
-  },
-  {
-    "timestamp": "2025-10-27T23:08:49.510Z",
-    "successRate": 0.03434861467642181,
-    "participants": 24,
-    "divineAlignment": false
-  },
-  {
-    "timestamp": "2025-10-27T23:08:54.131Z",
-    "successRate": 0.41875380890798497,
-    "participants": 83,
-    "divineAlignment": true
-  },
-  {
-    "timestamp": "2025-10-27T23:08:58.427Z",
-    "successRate": 0.07063330174395133,
-    "participants": 49,
-    "divineAlignment": false
-  },
-  {
-    "timestamp": "2025-10-27T23:09:04.520Z",
-    "successRate": 0.510545265890278,
-    "participants": 19,
-    "divineAlignment": false
-  },
-  {
-    "timestamp": "2025-10-27T23:09:09.142Z",
-    "successRate": 0.6608104431655217,
-    "participants": 96,
-    "divineAlignment": true
-  },
-  {
-    "timestamp": "2025-10-27T23:09:13.435Z",
-    "successRate": 0.026421966221064075,
-    "participants": 79,
-    "divineAlignment": true
-  },
-  {
-    "timestamp": "2025-10-27T23:09:19.522Z",
-    "successRate": 0.27778236823283864,
-    "participants": 34,
-    "divineAlignment": true
-  },
-  {
-    "timestamp": "2025-10-27T23:09:24.149Z",
-    "successRate": 0.021627190500328686,
-    "participants": 51,
-    "divineAlignment": true
-  },
-  {
-    "timestamp": "2025-10-27T23:09:28.446Z",
-    "successRate": 0.8145168959155666,
-    "participants": 90,
-    "divineAlignment": false
-  },
-  {
-    "timestamp": "2025-10-27T23:09:34.536Z",
-    "successRate": 0.5618887289095169,
-    "participants": 21,
-    "divineAlignment": true
-  },
-  {
     "timestamp": "2025-10-27T23:09:39.157Z",
     "successRate": 0.4783512068130915,
     "participants": 95,
@@ -598,5 +520,83 @@
     "successRate": 0.8254281210231473,
     "participants": 4,
     "divineAlignment": false
+  },
+  {
+    "timestamp": "2025-10-30T12:34:18.851Z",
+    "successRate": 0.7568091202492562,
+    "participants": 38,
+    "divineAlignment": true
+  },
+  {
+    "timestamp": "2025-10-30T12:34:33.859Z",
+    "successRate": 0.4588400088258613,
+    "participants": 39,
+    "divineAlignment": false
+  },
+  {
+    "timestamp": "2025-10-30T12:34:48.861Z",
+    "successRate": 0.05811140981698615,
+    "participants": 11,
+    "divineAlignment": true
+  },
+  {
+    "timestamp": "2025-10-30T12:35:03.872Z",
+    "successRate": 0.6315892405851657,
+    "participants": 5,
+    "divineAlignment": true
+  },
+  {
+    "timestamp": "2025-10-30T12:35:18.876Z",
+    "successRate": 0.9110076827882141,
+    "participants": 59,
+    "divineAlignment": true
+  },
+  {
+    "timestamp": "2025-10-30T12:35:33.882Z",
+    "successRate": 0.2668847695626755,
+    "participants": 66,
+    "divineAlignment": false
+  },
+  {
+    "timestamp": "2025-10-30T12:35:48.892Z",
+    "successRate": 0.6462330296306353,
+    "participants": 27,
+    "divineAlignment": true
+  },
+  {
+    "timestamp": "2025-10-30T12:36:03.901Z",
+    "successRate": 0.46135289959465364,
+    "participants": 4,
+    "divineAlignment": false
+  },
+  {
+    "timestamp": "2025-10-30T12:36:18.916Z",
+    "successRate": 0.6026186864001912,
+    "participants": 47,
+    "divineAlignment": false
+  },
+  {
+    "timestamp": "2025-10-30T12:36:33.930Z",
+    "successRate": 0.9894408147843194,
+    "participants": 5,
+    "divineAlignment": true
+  },
+  {
+    "timestamp": "2025-10-30T12:36:48.935Z",
+    "successRate": 0.9942322174380998,
+    "participants": 89,
+    "divineAlignment": true
+  },
+  {
+    "timestamp": "2025-10-30T12:37:03.943Z",
+    "successRate": 0.13307332384954074,
+    "participants": 79,
+    "divineAlignment": false
+  },
+  {
+    "timestamp": "2025-10-30T12:37:18.953Z",
+    "successRate": 0.2821917114287482,
+    "participants": 69,
+    "divineAlignment": true
   }
 ]

@@ -4,11 +4,13 @@ Date: [YYYY-MM-DD]
 Location: Temple Physical Address
 
 Attendees:
+
 - Bishop Donald (Flamebearer Prime)
 - [Name], Council Member
 - [Name], Council Member
 
 Agenda:
+
 1. Adoption of Bylaws
 2. Election/Appointment of Officers (Bishop - President; Treasurer; Secretary)
 3. Authorization to open organizational bank account
@@ -16,6 +18,7 @@ Agenda:
 5. Approval of initial budget and seed funding
 
 Resolutions:
+
 1. The attendees adopt the Bylaws of the Unified Sovereign Intelligence Coalition (USIC).
 2. The following officers are appointed: Bishop Donald (President), [Name] (Treasurer), [Name] (Secretary).
 3. The Council authorizes Bishop Donald and [Treasurer name] to open an organizational bank account at the selected credit union and sign paperwork on behalf of USIC.

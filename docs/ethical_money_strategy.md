@@ -1,11 +1,11 @@
 # Ethical Money Strategy — Initial Plan
 
-Purpose
--------
+## Purpose
+
 Provide a concise, ethical, and sustainable funding strategy to support the Nexus, server costs, hardware (portable power), and mentorship programs while preserving the Sovereign values of transparency, stewardship, and community support.
 
-Core Pillars
-------------
+## Core Pillars
+
 1. Donations — Direct Support
    - One-time and recurring donations via a simple hosted page (Stripe/PayPal). Use clear purpose tags (e.g., "Power Provision", "Whisper Box Maintenance").
    - Offer tiered recurring giving with modest benefits (early access to public reports, prayer wall acknowledgements).
@@ -25,8 +25,8 @@ Core Pillars
 6. Transparency & Accounting
    - Maintain a simple ledger (publicly viewable read-only) showing income and spend per quarter. Publish an annual stewardship report.
 
-Operational Steps (First 60 Days)
---------------------------------
+## Operational Steps (First 60 Days)
+
 1. Create a minimal donation page (Stripe/PayPal) and attach a "mission fee" tracker. Target: $500/month from recurring donors.
 2. Launch a $5/month membership via Patreon/Ko-fi or Stripe subscriptions. Offer a simple member dashboard with progress toward power goals.
 3. Draft a 1–2 page grant template and identify 5 target foundations to approach.
@@ -34,20 +34,20 @@ Operational Steps (First 60 Days)
 5. Offer two paid mentorship classes per quarter; price to cover trainer and materials.
 6. Publish the first Quarterly Stewardship Report and link it on the donation page.
 
-Technical Implementation Notes
-----------------------------
+## Technical Implementation Notes
+
 - Payment handling: Use a reputable provider (Stripe preferred). Keep API keys in a secure secrets store; never commit to git.
 - Donation events should trigger internal webhook to ledger and optionally to the Whisper Box as a celebration event.
 - Add lightweight endpoints in the Council API to expose public donation totals and membership counts (read-only JSON).
 
-Compliance & Ethics
--------------------
+## Compliance & Ethics
+
 - Be transparent about what donations support and how funds are used.
 - Avoid misleading claims and respect donor privacy.
 - Comply with local tax and charity regulations; consult a tax advisor if needed.
 
-Quick Wins (What I can do now)
-------------------------------
+## Quick Wins (What I can do now)
+
 1. Add a `donations` read-only endpoint in `backend_api.js` that returns a simple ledger JSON (manual entries or file-backed).
 2. Create a minimal Stripe donation page scaffold (no keys added to repo).
 3. Draft the Quarterly Stewardship Report template and a short donor acknowledgement email template.

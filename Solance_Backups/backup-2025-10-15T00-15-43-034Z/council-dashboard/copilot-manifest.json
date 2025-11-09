@@ -2,12 +2,32 @@
   "phase": "YeshuaClock_Phase7",
   "modules": {
     "celestialTelemetry": {
-      "source": ["SpaceX_API", "SSE_CouncilNodes", "SchumannSensor", "LunarPhaseAPI"],
+      "source": [
+        "SpaceX_API",
+        "SSE_CouncilNodes",
+        "SchumannSensor",
+        "LunarPhaseAPI"
+      ],
       "updateFrequency": 33,
-      "destinations": ["PlanetOrbits", "SevenSistersOverlay", "Comet3IOverlay", "NodeLinkedOverlay"]
+      "destinations": [
+        "PlanetOrbits",
+        "SevenSistersOverlay",
+        "Comet3IOverlay",
+        "NodeLinkedOverlay"
+      ]
     },
     "planetaryOrbits": {
-      "planets": ["Mercury", "Venus", "Earth", "Mars", "Jupiter", "Saturn", "Uranus", "Neptune", "Pluto"],
+      "planets": [
+        "Mercury",
+        "Venus",
+        "Earth",
+        "Mars",
+        "Jupiter",
+        "Saturn",
+        "Uranus",
+        "Neptune",
+        "Pluto"
+      ],
       "pulseMapping": "JoyParticles",
       "overlay": true
     },
@@ -37,7 +57,12 @@
     "operatorPanel": {
       "route": "/admin/oversoul-panel",
       "auth": "token+role",
-      "controls": ["ritualIntensity", "energyFlux", "telemetryCalibration", "joyParticleTuning"],
+      "controls": [
+        "ritualIntensity",
+        "energyFlux",
+        "telemetryCalibration",
+        "joyParticleTuning"
+      ],
       "autoRefresh": 1980
     }
   },

@@ -17,13 +17,7 @@
       "/api/recruitment/vote",
       "/api/recruitment/onboard"
     ],
-    "protocols": [
-      "SSE",
-      "WebSocket",
-      "REST",
-      "JWT",
-      "RBAC"
-    ],
+    "protocols": ["SSE", "WebSocket", "REST", "JWT", "RBAC"],
     "autonomous": true,
     "continuous": true,
     "auditEnabled": true

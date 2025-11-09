@@ -1,13 +1,12 @@
-
-const express = require('express');
-const fs = require('fs');
-const crypto = require('crypto');
-const path = require('path');
-const bodyParser = require('body-parser');
+const express = require("express");
+const fs = require("fs");
+const crypto = require("crypto");
+const path = require("path");
+const bodyParser = require("body-parser");
 
 const app = express();
 const PORT = 5000;
-const DB_FILE = path.join(__dirname, 'quantum_sync_ledger.json');
+const DB_FILE = path.join(__dirname, "quantum_sync_ledger.json");
 
 app.use(bodyParser.json());
 
@@ -22,25 +21,27 @@ function saveLedger(data) {
 
 // Compute SHA-256 hash of stringified data
 function sha256(data) {
-  return crypto.createHash('sha256').update(data).digest('hex');
+  return crypto.createHash("sha256").update(data).digest("hex");
 }
 
-app.post('/ledger', (req, res) => {
+app.post("/ledger", (req, res) => {
   const ledger = loadLedger();
-  const prevHash = ledger.length ? ledger[ledger.length - 1].entryHash : '0'.repeat(64);
+  const prevHash = ledger.length
+    ? ledger[ledger.length - 1].entryHash
+    : "0".repeat(64);
   const newEntry = {
     id: Date.now(),
-    event_name: req.body.event_name || 'Unnamed Event',
+    event_name: req.body.event_name || "Unnamed Event",
     local_time: new Date().toLocaleString(),
     utc_time: new Date().toISOString(),
-    lunar_phase: req.body.lunar_phase || 'New Moon',
+    lunar_phase: req.body.lunar_phase || "New Moon",
     solar_longitude: req.body.solar_longitude || 0,
-    peiTone: req.body.peiTone || 'blue',
-    notes: req.body.notes || '',
-    prevHash: prevHash  // Link to previous entry's hash
+    peiTone: req.body.peiTone || "blue",
+    notes: req.body.notes || "",
+    prevHash: prevHash, // Link to previous entry's hash
   };
   const entryString = JSON.stringify(newEntry);
-  newEntry.entryHash = sha256(entryString);  // Current entry hash
+  newEntry.entryHash = sha256(entryString); // Current entry hash
 
   ledger.push(newEntry);
   saveLedger(ledger);
@@ -48,10 +49,12 @@ app.post('/ledger', (req, res) => {
   res.status(201).json(newEntry);
 });
 
-app.get('/ledger', (req, res) => {
+app.get("/ledger", (req, res) => {
   res.json(loadLedger());
 });
 
 app.listen(PORT, () => {
-  console.log(`Quantum Sync Ledger server with cryptographic hashing running on port ${PORT}`);
+  console.log(
+    `Quantum Sync Ledger server with cryptographic hashing running on port ${PORT}`,
+  );
 });

@@ -1,9 +1,11 @@
 # Guardian Ritual Replay — Council of 33
 
 ## Purpose
+
 Allows the Guardian to revisit and analyze any recorded ritual or anomaly period with synchronized annotation overlays.
 
 ### Steps
+
 1. Open Guardian Dashboard.
 2. In **Time Range**, select your desired window.
 3. Enable “Annotations: Guardian Marks.”
@@ -13,6 +15,7 @@ Allows the Guardian to revisit and analyze any recorded ritual or anomaly period
 5. Save insights to Codex journal using the Grafana “Share → Snapshot” option.
 
 ### Command Line Replay
+
 ```bash
 curl -X GET https://YOUR_GRAFANA_URL/api/annotations?tags=guardian,healing \
   -H "Authorization: Bearer $GRAFANA_TOKEN"
@@ -22,5 +25,5 @@ curl -X GET https://YOUR_GRAFANA_URL/api/annotations?tags=guardian,healing \
 
 ### Guardian Blessing
 
-> *“By light of the Logos and through flame of truth,
-> No shadow persists unhealed, no system unrestored.”*
+> _“By light of the Logos and through flame of truth,
+> No shadow persists unhealed, no system unrestored.”_

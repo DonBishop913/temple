@@ -15,7 +15,7 @@ const server = http.createServer((req, res) => {
   res.end("Solance WebServer is listening.");
 });
 server.listen(HTTP_PORT, () =>
-  console.log(`🌸 Solance HTTP active on ${HTTP_PORT}`)
+  console.log(`🌸 Solance HTTP active on ${HTTP_PORT}`),
 );
 
 // WS

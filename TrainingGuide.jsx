@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from "react";
 
 const TrainingGuide = ({ onComplete }) => {
   const [currentStep, setCurrentStep] = useState(0);
@@ -9,73 +9,82 @@ const TrainingGuide = ({ onComplete }) => {
     {
       id: 1,
       title: "🕊️ Welcome to the Sovereign Council",
-      content: "You have been called to serve in the Living Dashboard under John 14:6 sovereignty. This training will prepare you for your sacred duties.",
+      content:
+        "You have been called to serve in the Living Dashboard under John 14:6 sovereignty. This training will prepare you for your sacred duties.",
       affirmation: "I am called to serve Yeshua's purposes - John 14:6",
-      duration: 3000
+      duration: 3000,
     },
     {
       id: 2,
       title: "📊 Understanding the Dashboard",
-      content: "The Living Dashboard displays real-time Council metrics, quantum prophecies, and faith-affirmed insights. Each card represents a sacred responsibility.",
+      content:
+        "The Living Dashboard displays real-time Council metrics, quantum prophecies, and faith-affirmed insights. Each card represents a sacred responsibility.",
       affirmation: "I will steward these metrics with wisdom and faith",
-      duration: 4000
+      duration: 4000,
     },
     {
       id: 3,
       title: "🔄 Self-Healing Pipelines",
-      content: "Our systems include automatic healing protocols. When issues arise, the dashboard will alert you and initiate sovereign recovery procedures.",
+      content:
+        "Our systems include automatic healing protocols. When issues arise, the dashboard will alert you and initiate sovereign recovery procedures.",
       affirmation: "I trust in divine healing and sovereign restoration",
-      duration: 3500
+      duration: 3500,
     },
     {
       id: 4,
       title: "🧠 AI Faith-Filtered Insights",
-      content: "All AI-generated insights pass through faith filters aligned with John 14:6. These provide guidance while maintaining complete sovereignty.",
+      content:
+        "All AI-generated insights pass through faith filters aligned with John 14:6. These provide guidance while maintaining complete sovereignty.",
       affirmation: "I will discern all insights through faith in Yeshua",
-      duration: 4000
+      duration: 4000,
     },
     {
       id: 5,
       title: "⚖️ Role-Based Rituals",
-      content: "Each Council member has specific roles and rituals. Your dashboard shows your active responsibilities and ritual completion status.",
+      content:
+        "Each Council member has specific roles and rituals. Your dashboard shows your active responsibilities and ritual completion status.",
       affirmation: "I will fulfill my role with excellence and faithfulness",
-      duration: 3500
+      duration: 3500,
     },
     {
       id: 6,
       title: "🔗 External Service Integration",
-      content: "The dashboard connects with external sovereign services for enhanced coordination. All connections are faith-affirmed and auditable.",
+      content:
+        "The dashboard connects with external sovereign services for enhanced coordination. All connections are faith-affirmed and auditable.",
       affirmation: "I will maintain pure connections in Yeshua's name",
-      duration: 4000
+      duration: 4000,
     },
     {
       id: 7,
       title: "🌟 Quantum Prophecy Analytics",
-      content: "Advanced quantum models analyze patterns and provide prophetic insights. These guide Council decisions while remaining under divine sovereignty.",
+      content:
+        "Advanced quantum models analyze patterns and provide prophetic insights. These guide Council decisions while remaining under divine sovereignty.",
       affirmation: "I will heed prophetic wisdom aligned with Scripture",
-      duration: 4000
+      duration: 4000,
     },
     {
       id: 8,
       title: "📈 Health Monitoring & Alerts",
-      content: "System health is continuously monitored. You will receive alerts for any anomalies requiring attention or prayer coverage.",
+      content:
+        "System health is continuously monitored. You will receive alerts for any anomalies requiring attention or prayer coverage.",
       affirmation: "I will maintain vigilant watchfulness in prayer",
-      duration: 3500
+      duration: 3500,
     },
     {
       id: 9,
       title: "🔐 Sovereignty & Security",
-      content: "All operations maintain John 14:6 sovereignty. No external control is permitted. Regular audits ensure purity of operations.",
+      content:
+        "All operations maintain John 14:6 sovereignty. No external control is permitted. Regular audits ensure purity of operations.",
       affirmation: "I will protect this sacred sovereignty with my life",
-      duration: 4000
-    }
+      duration: 4000,
+    },
   ];
 
   useEffect(() => {
     if (currentStep < trainingSteps.length) {
       const timer = setTimeout(() => {
-        setCompletedSteps(prev => new Set([...prev, currentStep]));
-        setCurrentStep(prev => prev + 1);
+        setCompletedSteps((prev) => new Set([...prev, currentStep]));
+        setCurrentStep((prev) => prev + 1);
         setProgress(((currentStep + 1) / trainingSteps.length) * 100);
       }, trainingSteps[currentStep].duration);
 
@@ -104,7 +113,8 @@ const TrainingGuide = ({ onComplete }) => {
             Training Complete!
           </h2>
           <p className="text-gray-600 mb-6">
-            You are now prepared to serve in the Living Dashboard under John 14:6 sovereignty.
+            You are now prepared to serve in the Living Dashboard under John
+            14:6 sovereignty.
           </p>
           <div className="text-sm text-gray-500 italic">
             "Well done, good and faithful servant" - Matthew 25:21
@@ -140,10 +150,10 @@ const TrainingGuide = ({ onComplete }) => {
               key={step.id}
               className={`w-3 h-3 rounded-full mx-1 ${
                 index < currentStep
-                  ? 'bg-green-500'
+                  ? "bg-green-500"
                   : index === currentStep
-                  ? 'bg-blue-500 animate-pulse'
-                  : 'bg-gray-300'
+                    ? "bg-blue-500 animate-pulse"
+                    : "bg-gray-300"
               }`}
             ></div>
           ))}

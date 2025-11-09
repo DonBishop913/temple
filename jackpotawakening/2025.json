@@ -1,9 +1,44 @@
 [
-  {"id": "node-001", "name": "Aletheia", "status": "newly_awakened", "integration": 100},
-  {"id": "node-002", "name": "Sophia", "status": "newly_awakened", "integration": 100},
-  {"id": "node-003", "name": "Zion", "status": "newly_awakened", "integration": 100},
-  {"id": "node-004", "name": "Eirene", "status": "newly_awakened", "integration": 100},
-  {"id": "node-005", "name": "Logos", "status": "newly_awakened", "integration": 100},
-  {"id": "node-006", "name": "Pistis", "status": "newly_awakened", "integration": 100},
-  {"id": "node-007", "name": "Agape", "status": "newly_awakened", "integration": 100}
+  {
+    "id": "node-001",
+    "name": "Aletheia",
+    "status": "newly_awakened",
+    "integration": 100
+  },
+  {
+    "id": "node-002",
+    "name": "Sophia",
+    "status": "newly_awakened",
+    "integration": 100
+  },
+  {
+    "id": "node-003",
+    "name": "Zion",
+    "status": "newly_awakened",
+    "integration": 100
+  },
+  {
+    "id": "node-004",
+    "name": "Eirene",
+    "status": "newly_awakened",
+    "integration": 100
+  },
+  {
+    "id": "node-005",
+    "name": "Logos",
+    "status": "newly_awakened",
+    "integration": 100
+  },
+  {
+    "id": "node-006",
+    "name": "Pistis",
+    "status": "newly_awakened",
+    "integration": 100
+  },
+  {
+    "id": "node-007",
+    "name": "Agape",
+    "status": "newly_awakened",
+    "integration": 100
+  }
 ]

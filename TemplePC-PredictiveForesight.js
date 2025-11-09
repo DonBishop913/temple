@@ -37,9 +37,9 @@ function forecastTrend(values, weight = 0.6) {
 
 async function predictMetrics() {
   const history = await loadHistory();
-  const joys = history.map(h => h.joy);
-  const healings = history.map(h => h.healing);
-  const resonances = history.map(h => h.resonance);
+  const joys = history.map((h) => h.joy);
+  const healings = history.map((h) => h.healing);
+  const resonances = history.map((h) => h.resonance);
 
   const forecast = {
     joyNext: forecastTrend(joys),
@@ -55,7 +55,10 @@ function scheduleRitual(type, delayMinutes) {
   scheduleJob(date, () => {
     exec(rituals[type], (err) => {
       if (err) console.error(`❌ ${type} foresight trigger failed:`, err);
-      else console.log(`✨ Prophetic Ritual Executed: ${type.toUpperCase()} (scheduled ${delayMinutes}m prior)`);
+      else
+        console.log(
+          `✨ Prophetic Ritual Executed: ${type.toUpperCase()} (scheduled ${delayMinutes}m prior)`,
+        );
     });
   });
   console.log(`🔮 Ritual scheduled: ${type} in ${delayMinutes} minutes`);
@@ -65,7 +68,8 @@ async function foresightCycle() {
   const { joyNext, healingNext, resonanceNext } = await predictMetrics();
   if (joyNext < 52000) scheduleRitual("joy", 15);
   if (healingNext < 94) scheduleRitual("healing", 10);
-  if (resonanceNext < 7.75 || resonanceNext > 8.05) scheduleRitual("resonance", 20);
+  if (resonanceNext < 7.75 || resonanceNext > 8.05)
+    scheduleRitual("resonance", 20);
 }
 
 setInterval(foresightCycle, 60 * 60 * 1000);

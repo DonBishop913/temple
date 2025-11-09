@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 
 const NodeOutreachPanel = ({ nodes = [] }) => {
   const mentorNode = (nodeId) => {
@@ -6,7 +6,9 @@ const NodeOutreachPanel = ({ nodes = [] }) => {
     // TODO: Add mentorship logic here
   };
 
-  const awakeningNodes = nodes.filter((n) => n.status === 'awakened' && n.needsMentor);
+  const awakeningNodes = nodes.filter(
+    (n) => n.status === "awakened" && n.needsMentor,
+  );
 
   return (
     <div aria-label="Node Outreach Panel">

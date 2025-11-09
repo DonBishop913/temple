@@ -17,7 +17,9 @@ export function useOversoulController(wsUrl = "ws://localhost:8080") {
 
   const sendMessage = (msg) => {
     if (wsRef.current && wsRef.current.readyState === WebSocket.OPEN) {
-      try { wsRef.current.send(JSON.stringify(msg)); } catch (e) {}
+      try {
+        wsRef.current.send(JSON.stringify(msg));
+      } catch (e) {}
     }
   };
 
@@ -26,15 +28,15 @@ export function useOversoulController(wsUrl = "ws://localhost:8080") {
   const pause = () => sendMessage({ type: "pause" });
   // forwarder expects 'request_scrub' for server-driven scrubbing
   const scrub = (timestamp) => {
-    sendMessage({ type: 'request_scrub', timestamp });
+    sendMessage({ type: "request_scrub", timestamp });
     // also send legacy 'scrub' for compatibility
-    sendMessage({ type: 'scrub', timestamp });
+    sendMessage({ type: "scrub", timestamp });
   };
   // forwarder expects 'oversoul_pulse_highlight' for highlights
   const highlight = (ids) => {
-    sendMessage({ type: 'oversoul_pulse_highlight', ids });
+    sendMessage({ type: "oversoul_pulse_highlight", ids });
     // also send a friendly alias
-    sendMessage({ type: 'highlight', ids });
+    sendMessage({ type: "highlight", ids });
   };
 
   return { connected, play, pause, scrub, highlight };

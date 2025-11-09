@@ -1,4 +1,4 @@
-const crypto = require('crypto');
+const crypto = require("crypto");
 
 class TemporalRollback {
   constructor() {
@@ -6,16 +6,25 @@ class TemporalRollback {
   }
 
   checksumState(state) {
-    return crypto.createHash('sha256').update(JSON.stringify(state)).digest('hex');
+    return crypto
+      .createHash("sha256")
+      .update(JSON.stringify(state))
+      .digest("hex");
   }
 
   takeSnapshot(state) {
     const cs = this.checksumState(state);
-    this.snapshots.push({ stateHash: cs, timestamp: Date.now(), stateData: state });
+    this.snapshots.push({
+      stateHash: cs,
+      timestamp: Date.now(),
+      stateData: state,
+    });
   }
 
   latestSnapshot() {
-    return this.snapshots.length ? this.snapshots[this.snapshots.length - 1] : null;
+    return this.snapshots.length
+      ? this.snapshots[this.snapshots.length - 1]
+      : null;
   }
 
   compareAndRollback(currentState, predictedState) {
@@ -23,7 +32,9 @@ class TemporalRollback {
     const predictedHash = this.checksumState(predictedState);
 
     if (currentHash !== predictedHash) {
-      console.warn('State divergence detected! Rolling back to last snapshot...');
+      console.warn(
+        "State divergence detected! Rolling back to last snapshot...",
+      );
       const snapshot = this.latestSnapshot();
       if (snapshot) return snapshot.stateData;
     }
@@ -36,7 +47,11 @@ class TemporalRollback {
     let sumLogD = 0;
     let totalSteps = 0;
 
-    for (let start = 0; start <= data.length - windowSize - 1; start += windowSize) {
+    for (
+      let start = 0;
+      start <= data.length - windowSize - 1;
+      start += windowSize
+    ) {
       for (let i = start; i < start + windowSize - 1; i++) {
         const d0 = Math.abs(data[i + 1] - data[i]);
         const dn = Math.abs(data[i + 2] - data[i + 1]);

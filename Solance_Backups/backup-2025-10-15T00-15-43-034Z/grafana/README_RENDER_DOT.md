@@ -11,6 +11,7 @@ Usage (single file):
 ```powershell
 python phase_vplus_graphviz_wrapper.py
 ```
+
 Usage (batch):
 
 ```powershell
@@ -21,6 +22,7 @@ Notes:
 
 - If you prefer to call `dot` directly, the one-liner above remains the simplest option.
 - The wrapper prints helpful diagnostics if `python-graphviz` is missing or if `dot` is not in PATH.
+
 # Render DOT -> PNG (Windows)
 
 This short guide shows one-line commands and a PowerShell helper to convert Graphviz DOT files to PNG on Windows.

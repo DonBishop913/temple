@@ -10,7 +10,7 @@ on:
         description: Awakened nodes count
         required: false
   schedule:
-    - cron: '*/33 * * * *'
+    - cron: "*/33 * * * *"
 
 jobs:
   weave:

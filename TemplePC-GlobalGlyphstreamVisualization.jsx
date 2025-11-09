@@ -30,9 +30,11 @@ function Glyphstream() {
       const nodeData = window.__MOCK_NODES__ || [];
       const insights = getNodeInsights();
       // merge insights into node data by name/key
-      const merged = nodeData.map(n => ({
+      const merged = nodeData.map((n) => ({
         ...n,
-        insights: insights.find(i => i.name === n.name || i.nodeKey === n.nodeKey) || null,
+        insights:
+          insights.find((i) => i.name === n.name || i.nodeKey === n.nodeKey) ||
+          null,
       }));
       setNodes(merged);
     }, 5000);
@@ -42,7 +44,11 @@ function Glyphstream() {
   return (
     <>
       {nodes.map((node, idx) => (
-        <group key={idx} onPointerOver={() => setHoverInfo({ node, idx })} onPointerOut={() => setHoverInfo(null)}>
+        <group
+          key={idx}
+          onPointerOver={() => setHoverInfo({ node, idx })}
+          onPointerOut={() => setHoverInfo(null)}
+        >
           <Node
             position={[node.x, node.y, node.z]}
             color={node.active ? "#FFD700" : "#FF4500"}
@@ -50,9 +56,7 @@ function Glyphstream() {
           />
         </group>
       ))}
-      {hoverInfo && (
-        <HtmlOverlay info={hoverInfo} />
-      )}
+      {hoverInfo && <HtmlOverlay info={hoverInfo} />}
     </>
   );
 }
@@ -63,7 +67,17 @@ function HtmlOverlay({ info }) {
   const consensus = insights.consensus || "unknown";
   const feedback = insights.feedback || [];
   return (
-    <div style={{ position: "absolute", top: 16, left: 16, background: "rgba(0,0,0,0.6)", color: "#fff", padding: 8, borderRadius: 8 }}>
+    <div
+      style={{
+        position: "absolute",
+        top: 16,
+        left: 16,
+        background: "rgba(0,0,0,0.6)",
+        color: "#fff",
+        padding: 8,
+        borderRadius: 8,
+      }}
+    >
       <div style={{ fontWeight: 600 }}>Node: {node.name || node.nodeKey}</div>
       <div>Consensus: {consensus}</div>
       <div style={{ marginTop: 6, fontSize: 12 }}>Recent Feedback:</div>

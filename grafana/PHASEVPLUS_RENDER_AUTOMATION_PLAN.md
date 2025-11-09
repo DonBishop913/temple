@@ -4,18 +4,17 @@ Goal: ensure Phase V+ workflow diagrams (DOT → PNG) are automatically generate
 
 Options overview
 
-1) Scheduled Windows Task (Task Scheduler)
+1. Scheduled Windows Task (Task Scheduler)
    - Simple, wheels inside Windows-only environments.
    - Runs PowerShell batch script nightly (or on commit deploy).
    - Good for on-prem Temple PCs.
 
-2) GitHub Actions (recommended for repo-centric automation)
+2. GitHub Actions (recommended for repo-centric automation)
    - Runs on push to main or on a cron schedule.
    - Uses a lightweight runner to install Graphviz or use python-graphviz and produce PNGs.
    - Commits generated PNGs back to a branch or creates an artifact/PR.
 
-3) Hybrid: CI builds PNGs and publishes to an artifact store (S3/Grafana static host) and Task Scheduler runs local regenerations.
-
+3. Hybrid: CI builds PNGs and publishes to an artifact store (S3/Grafana static host) and Task Scheduler runs local regenerations.
 
 Repository integration (GitHub Actions example)
 
@@ -28,9 +27,9 @@ name: Render DOT to PNG
 on:
   push:
     paths:
-      - 'grafana/**/*.dot'
+      - "grafana/**/*.dot"
   schedule:
-    - cron: '0 2 * * *' # daily at 02:00 UTC
+    - cron: "0 2 * * *" # daily at 02:00 UTC
 
 jobs:
   render:
@@ -42,7 +41,7 @@ jobs:
       - name: Setup Python
         uses: actions/setup-python@v4
         with:
-          python-version: '3.11'
+          python-version: "3.11"
       - name: Install python-graphviz
         run: pip install graphviz
       - name: Run wrapper
@@ -55,8 +54,8 @@ jobs:
 ```
 
 Notes:
-- If you prefer the workflow to commit generated PNGs back to the repo, add a step that configures git and pushes changes to a helper branch; be cautious to avoid infinite CI loops (use branch filters).
 
+- If you prefer the workflow to commit generated PNGs back to the repo, add a step that configures git and pushes changes to a helper branch; be cautious to avoid infinite CI loops (use branch filters).
 
 Windows Task Scheduler example (PowerShell snippet)
 

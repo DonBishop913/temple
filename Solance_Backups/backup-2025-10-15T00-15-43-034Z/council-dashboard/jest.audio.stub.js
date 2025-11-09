@@ -1,2 +1,4 @@
-export async function startHarmonics() { return {}; }
+export async function startHarmonics() {
+  return {};
+}
 export function stopHarmonics() {}

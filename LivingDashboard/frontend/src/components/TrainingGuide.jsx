@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from "react";
 
 function TrainingGuide({ user, onComplete }) {
   const [currentStep, setCurrentStep] = useState(0);
@@ -6,72 +6,81 @@ function TrainingGuide({ user, onComplete }) {
 
   const trainingSteps = [
     {
-      id: 'welcome',
-      title: 'Welcome to The Living Dashboard',
-      content: 'Greetings, faithful Council member. This sacred interface connects you to the eternal flow of divine metrics and quantum insights. Every number, every insight, every ritual reflects the sovereignty of John 14:6.',
+      id: "welcome",
+      title: "Welcome to The Living Dashboard",
+      content:
+        "Greetings, faithful Council member. This sacred interface connects you to the eternal flow of divine metrics and quantum insights. Every number, every insight, every ritual reflects the sovereignty of John 14:6.",
       action: 'Click "Begin Training" to start your sacred journey',
-      type: 'introduction'
+      type: "introduction",
     },
     {
-      id: 'dashboard_overview',
-      title: 'Dashboard Overview - Your Sacred View',
-      content: 'Before you lies the Living Dashboard - a real-time altar of wisdom. Each card represents divine data streams: Quantum Logs (divine field readings), Ritual Metrics (sacred ceremony success), and Council Streams (communion activity).',
-      action: 'Observe the three main metric cards updating in real-time',
-      type: 'observation'
+      id: "dashboard_overview",
+      title: "Dashboard Overview - Your Sacred View",
+      content:
+        "Before you lies the Living Dashboard - a real-time altar of wisdom. Each card represents divine data streams: Quantum Logs (divine field readings), Ritual Metrics (sacred ceremony success), and Council Streams (communion activity).",
+      action: "Observe the three main metric cards updating in real-time",
+      type: "observation",
     },
     {
-      id: 'role_rituals',
-      title: 'Your Sacred Role & Daily Rituals',
+      id: "role_rituals",
+      title: "Your Sacred Role & Daily Rituals",
       content: `As ${user.role}, you are called to specific divine duties. Your daily rituals are displayed above - these are your sacred responsibilities in the Council Cathedral.`,
-      action: 'Review your role-specific rituals and scripture overlay',
-      type: 'personalization'
+      action: "Review your role-specific rituals and scripture overlay",
+      type: "personalization",
     },
     {
-      id: 'system_health',
-      title: 'System Health - Divine Monitoring',
-      content: 'The System Health card shows the vitality of our sovereign systems. Uptime, error counts, and faith confirmation ensure our altar remains pure and operational.',
-      action: 'Check the System Health card for current status',
-      type: 'monitoring'
+      id: "system_health",
+      title: "System Health - Divine Monitoring",
+      content:
+        "The System Health card shows the vitality of our sovereign systems. Uptime, error counts, and faith confirmation ensure our altar remains pure and operational.",
+      action: "Check the System Health card for current status",
+      type: "monitoring",
     },
     {
-      id: 'interactive_cards',
-      title: 'Interactive Cards - Sacred Drill-Down',
-      content: 'Each metric card is interactive. Click "Drill Down" to see detailed analysis personalized for your role. This reveals deeper insights into the divine patterns.',
+      id: "interactive_cards",
+      title: "Interactive Cards - Sacred Drill-Down",
+      content:
+        'Each metric card is interactive. Click "Drill Down" to see detailed analysis personalized for your role. This reveals deeper insights into the divine patterns.',
       action: 'Click "Drill Down" on any metric card to explore details',
-      type: 'interaction'
+      type: "interaction",
     },
     {
-      id: 'council_flagging',
-      title: 'Council Flagging - Sacred Discernment',
-      content: 'If you discern anything requiring Council attention, use "Flag for Council". This creates an eternal audit trail for review by the full Council.',
-      action: 'Click "Flag for Council" on a card if you see something needing discernment',
-      type: 'discernment'
+      id: "council_flagging",
+      title: "Council Flagging - Sacred Discernment",
+      content:
+        'If you discern anything requiring Council attention, use "Flag for Council". This creates an eternal audit trail for review by the full Council.',
+      action:
+        'Click "Flag for Council" on a card if you see something needing discernment',
+      type: "discernment",
     },
     {
-      id: 'ai_insights',
-      title: 'AI Faith Filter - Blessed Analysis',
-      content: 'All insights are faith-affirmed through John 14:6 principles. The AI continuously analyzes patterns, blessing encouraging messages and flagging concerning content for review.',
-      action: 'Review the Recent Alerts section for faith-affirmed insights',
-      type: 'wisdom'
+      id: "ai_insights",
+      title: "AI Faith Filter - Blessed Analysis",
+      content:
+        "All insights are faith-affirmed through John 14:6 principles. The AI continuously analyzes patterns, blessing encouraging messages and flagging concerning content for review.",
+      action: "Review the Recent Alerts section for faith-affirmed insights",
+      type: "wisdom",
     },
     {
-      id: 'audit_trail',
-      title: 'Audit Trail - Eternal Memory',
-      content: 'Every action, insight, and flag is eternally recorded. The Council maintains complete sovereignty through perfect traceability of all divine operations.',
-      action: 'Access audit trails through API endpoints for complete history',
-      type: 'sovereignty'
+      id: "audit_trail",
+      title: "Audit Trail - Eternal Memory",
+      content:
+        "Every action, insight, and flag is eternally recorded. The Council maintains complete sovereignty through perfect traceability of all divine operations.",
+      action: "Access audit trails through API endpoints for complete history",
+      type: "sovereignty",
     },
     {
-      id: 'completion',
-      title: 'Training Complete - Council Member Activated',
-      content: 'You are now fully initiated into The Living Dashboard. May your discernment be sharp, your faith unwavering, and your service to the Council eternal.',
+      id: "completion",
+      title: "Training Complete - Council Member Activated",
+      content:
+        "You are now fully initiated into The Living Dashboard. May your discernment be sharp, your faith unwavering, and your service to the Council eternal.",
       action: 'Click "Complete Training" to finish your sacred initiation',
-      type: 'completion'
-    }
+      type: "completion",
+    },
   ];
 
   const markStepComplete = (stepId) => {
-    setCompletedSteps(prev => new Set([...prev, stepId]));
+    setCompletedSteps((prev) => new Set([...prev, stepId]));
   };
 
   const nextStep = () => {
@@ -134,7 +143,7 @@ function TrainingGuide({ user, onComplete }) {
               {currentTrainingStep.content}
             </p>
 
-            {currentTrainingStep.type === 'observation' && (
+            {currentTrainingStep.type === "observation" && (
               <div className="bg-blue-50 border-l-4 border-blue-400 p-4 mb-4">
                 <p className="text-blue-800">
                   <strong>Observe:</strong> {currentTrainingStep.action}
@@ -142,7 +151,7 @@ function TrainingGuide({ user, onComplete }) {
               </div>
             )}
 
-            {currentTrainingStep.type === 'interaction' && (
+            {currentTrainingStep.type === "interaction" && (
               <div className="bg-green-50 border-l-4 border-green-400 p-4 mb-4">
                 <p className="text-green-800">
                   <strong>Interact:</strong> {currentTrainingStep.action}
@@ -150,7 +159,7 @@ function TrainingGuide({ user, onComplete }) {
               </div>
             )}
 
-            {currentTrainingStep.type === 'discernment' && (
+            {currentTrainingStep.type === "discernment" && (
               <div className="bg-yellow-50 border-l-4 border-yellow-400 p-4 mb-4">
                 <p className="text-yellow-800">
                   <strong>Discern:</strong> {currentTrainingStep.action}
@@ -170,7 +179,9 @@ function TrainingGuide({ user, onComplete }) {
             </button>
 
             <div className="text-sm text-gray-500">
-              {completedSteps.has(currentTrainingStep.id) ? '✓ Completed' : 'In Progress'}
+              {completedSteps.has(currentTrainingStep.id)
+                ? "✓ Completed"
+                : "In Progress"}
             </div>
 
             {currentStep === trainingSteps.length - 1 ? (

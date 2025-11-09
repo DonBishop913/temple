@@ -1,13 +1,29 @@
-import React from 'react';
-import { Canvas } from '@react-three/fiber';
+import React from "react";
+import { Canvas } from "@react-three/fiber";
 
-export default function ARVRScroll({ reflections = [], particleContext, immersive = false }) {
+export default function ARVRScroll({
+  reflections = [],
+  particleContext,
+  immersive = false,
+}) {
   const Fallback = () => (
-    <div aria-label="AR/VR Fallback Canvas" style={{ width: 600, height: 400, background: '#111', color: '#eee', padding: 12 }}>
-      <strong>AR/VR Unavailable:</strong> Rendering reflections in 2D fallback.<n />
+    <div
+      aria-label="AR/VR Fallback Canvas"
+      style={{
+        width: 600,
+        height: 400,
+        background: "#111",
+        color: "#eee",
+        padding: 12,
+      }}
+    >
+      <strong>AR/VR Unavailable:</strong> Rendering reflections in 2D fallback.
+      <n />
       <ul>
         {reflections.map((r, i) => (
-          <li key={i}>{r.label || `Reflection ${i}`} – hue {r.hue ?? 200}</li>
+          <li key={i}>
+            {r.label || `Reflection ${i}`} – hue {r.hue ?? 200}
+          </li>
         ))}
       </ul>
     </div>

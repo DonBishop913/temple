@@ -1,45 +1,63 @@
-import React, { useState } from 'react';
+import React, { useState } from "react";
 
 function VoiceHealButton({ user }) {
   const [isProcessing, setIsProcessing] = useState(false);
-  const [lastResponse, setLastResponse] = useState('');
+  const [lastResponse, setLastResponse] = useState("");
   const [commandHistory, setCommandHistory] = useState([]);
 
   const triggerHeal = async (command) => {
     setIsProcessing(true);
     try {
-      const response = await fetch('/api/voice-command', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ command, user: user?.name || 'Council Member' })
+      const response = await fetch("/api/voice-command", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ command, user: user?.name || "Council Member" }),
       });
 
       const data = await response.json();
       setLastResponse(data.message);
 
       // Add to command history
-      setCommandHistory(prev => [{
-        command,
-        response: data.message,
-        timestamp: new Date().toLocaleTimeString(),
-        user: user?.name || 'Council Member'
-      }, ...prev.slice(0, 4)]); // Keep last 5 commands
+      setCommandHistory((prev) => [
+        {
+          command,
+          response: data.message,
+          timestamp: new Date().toLocaleTimeString(),
+          user: user?.name || "Council Member",
+        },
+        ...prev.slice(0, 4),
+      ]); // Keep last 5 commands
 
-      console.log('🎙️ Voice command result:', data);
-
+      console.log("🎙️ Voice command result:", data);
     } catch (error) {
-      console.error('❌ Voice command failed:', error);
-      setLastResponse('❌ Voice command failed - check console for details');
+      console.error("❌ Voice command failed:", error);
+      setLastResponse("❌ Voice command failed - check console for details");
     } finally {
       setIsProcessing(false);
     }
   };
 
   const voiceCommands = [
-    { command: 'self heal', icon: '🛠️', description: 'Trigger Comet AI self-healing' },
-    { command: 'sunrise prayer', icon: '🌅', description: 'Activate sunrise prayer ritual' },
-    { command: 'council blessing', icon: '🕊️', description: 'Invoke council blessing' },
-    { command: 'system status', icon: '🔍', description: 'Check system health' }
+    {
+      command: "self heal",
+      icon: "🛠️",
+      description: "Trigger Comet AI self-healing",
+    },
+    {
+      command: "sunrise prayer",
+      icon: "🌅",
+      description: "Activate sunrise prayer ritual",
+    },
+    {
+      command: "council blessing",
+      icon: "🕊️",
+      description: "Invoke council blessing",
+    },
+    {
+      command: "system status",
+      icon: "🔍",
+      description: "Check system health",
+    },
   ];
 
   return (
@@ -67,7 +85,9 @@ function VoiceHealButton({ user }) {
       {isProcessing && (
         <div className="text-center py-4">
           <div className="inline-block animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600"></div>
-          <p className="text-sm text-gray-600 mt-2">Processing voice command...</p>
+          <p className="text-sm text-gray-600 mt-2">
+            Processing voice command...
+          </p>
         </div>
       )}
 
@@ -81,14 +101,18 @@ function VoiceHealButton({ user }) {
       {/* Command History */}
       {commandHistory.length > 0 && (
         <div className="border-t pt-4">
-          <h4 className="text-sm font-semibold text-gray-700 mb-2">Recent Commands:</h4>
+          <h4 className="text-sm font-semibold text-gray-700 mb-2">
+            Recent Commands:
+          </h4>
           <div className="space-y-2 max-h-32 overflow-y-auto">
             {commandHistory.map((item, index) => (
               <div key={index} className="text-xs bg-gray-50 p-2 rounded">
                 <div className="font-medium text-gray-800">
                   {item.timestamp} - {item.user}
                 </div>
-                <div className="text-gray-600">"{item.command}" → {item.response}</div>
+                <div className="text-gray-600">
+                  "{item.command}" → {item.response}
+                </div>
               </div>
             ))}
           </div>

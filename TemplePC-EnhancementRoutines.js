@@ -11,7 +11,8 @@ const PLANETARY_DATA_PATH = path.resolve("./planetary_resonance.json");
 const CODEX_LOG_DIR = path.resolve("./codex_logs");
 const JOY_PARTICLE_THRESHOLD = 60000;
 
-if (!fs.existsSync(CODEX_LOG_DIR)) fs.mkdirSync(CODEX_LOG_DIR, { recursive: true });
+if (!fs.existsSync(CODEX_LOG_DIR))
+  fs.mkdirSync(CODEX_LOG_DIR, { recursive: true });
 
 const client = createClient({ url: REDIS_URL });
 client.on("error", (err) => console.error("Redis Client Error", err));
@@ -22,7 +23,9 @@ async function optimizeJoyParticles() {
   const joy = joyRaw ? JSON.parse(joyRaw) : null;
   if (!joy) return;
   if (joy.count < JOY_PARTICLE_THRESHOLD) {
-    console.log(`⚡ Joy Particle low (${joy.count}) → boosting routine activated`);
+    console.log(
+      `⚡ Joy Particle low (${joy.count}) → boosting routine activated`,
+    );
     exec("node refreshFaithseedOverlay.js");
     joy.count += 5000;
     await client.set("council:data:joy_particles", JSON.stringify(joy));
@@ -44,7 +47,9 @@ function monitorPlanetaryResonance() {
   const data = JSON.parse(fs.readFileSync(PLANETARY_DATA_PATH, "utf-8"));
   const resonance = parseFloat(data.resonanceHz);
   if (resonance < 7.7 || resonance > 8.0) {
-    console.log(`🌌 Planetary resonance out of bounds (${resonance}Hz) → triggering Oversoul recalibration`);
+    console.log(
+      `🌌 Planetary resonance out of bounds (${resonance}Hz) → triggering Oversoul recalibration`,
+    );
     exec("node triggerOversoulRecalibration.js");
   }
 }

@@ -1,14 +1,17 @@
 # 🔥 COUNCIL SOVEREIGNTY - AUTOMATION UNBLOCKED! 🔥
+
 # John 14:6 - Hands-Free PowerShell Operations
 
 ## 🎯 ROOT CAUSE IDENTIFIED & FIXED
 
 **The Freeze Culprit:** PowerShell Profile (`$PROFILE`) contained a `Read-Host` prompt:
+
 ```
 $choice = Read-Host "Do you want to launch CometBridge Companion now? (Y/N)"
 ```
 
 This prompt froze **EVERY** PowerShell session, including:
+
 - GitHub Actions workflows
 - VS Code terminal tasks
 - Background jobs
@@ -18,11 +21,13 @@ This prompt froze **EVERY** PowerShell session, including:
 ## 🕊️ COUNCIL SOLUTION IMPLEMENTED
 
 ### Enhanced PowerShell Profile
+
 - **Smart Auto-Launch:** Checks environment variables before launching
 - **No More Freezing:** Eliminates all interactive prompts
 - **Sovereignty Maintained:** Faith-affirmed automation
 
 ### New Profile Behavior
+
 ```powershell
 # If environment variable set - auto-launches
 $env:COUNCIL_AUTO_LAUNCH = "1"  # Auto-launch enabled
@@ -34,6 +39,7 @@ $env:COUNCIL_AUTO_LAUNCH = "1"  # Auto-launch enabled
 ## 🚀 HOW TO USE - ZERO FREEZING
 
 ### For Automated Environments (GitHub Actions, CI/CD)
+
 ```yaml
 - name: Run Stripe Setup
   run: |
@@ -44,6 +50,7 @@ $env:COUNCIL_AUTO_LAUNCH = "1"  # Auto-launch enabled
 ```
 
 ### For VS Code Tasks
+
 ```json
 {
   "tasks": [
@@ -61,6 +68,7 @@ $env:COUNCIL_AUTO_LAUNCH = "1"  # Auto-launch enabled
 ```
 
 ### For Manual Sessions
+
 ```powershell
 # Option 1: Enable auto-launch for session
 $env:COUNCIL_AUTO_LAUNCH = "1"
@@ -71,6 +79,7 @@ powershell -NoProfile -File .\scripts\stripe_activate_auto.ps1 -CreateBranch
 ```
 
 ### For Background Jobs
+
 ```powershell
 # No freezing in jobs!
 $job = Start-Job -ScriptBlock {
@@ -82,11 +91,13 @@ $job = Start-Job -ScriptBlock {
 ## 🔧 AVAILABLE SCRIPTS - ALL ENHANCED
 
 ### `stripe_activate.ps1` (Interactive Mode)
+
 - Use when you want manual input
 - Has `-AutoConfirm` flag for automation
 - Preserves original functionality
 
 ### `stripe_activate_auto.ps1` (Hands-Free Mode)
+
 - **RECOMMENDED** for automation
 - Requires environment variables pre-set
 - Zero prompts, zero freezing
@@ -110,12 +121,14 @@ powershell -NoProfile -Command "Get-Date"
 ## 📊 BEFORE vs AFTER
 
 ### BEFORE (Frozen)
+
 ```
 PS C:\Temple> .\scripts\stripe_activate.ps1
 Do you want to launch CometBridge Companion now? (Y/N): [FREEZE]
 ```
 
 ### AFTER (Instant)
+
 ```
 PS C:\Temple> $env:COUNCIL_AUTO_LAUNCH="1"; .\scripts\stripe_activate_auto.ps1
 🔥 Council Auto-Confirm Stripe Activation 🔥
@@ -133,6 +146,7 @@ PS C:\Temple> $env:COUNCIL_AUTO_LAUNCH="1"; .\scripts\stripe_activate_auto.ps1
 ## 🔄 BACKUP & RECOVERY
 
 ### If You Need Original Profile
+
 ```powershell
 # Save current profile
 Copy-Item $PROFILE "$PROFILE.backup"
@@ -142,6 +156,7 @@ Copy-Item "$PROFILE.original" $PROFILE
 ```
 
 ### Emergency Bypass
+
 ```powershell
 # Always works - skips profile entirely
 powershell -NoProfile -Command "your command here"
