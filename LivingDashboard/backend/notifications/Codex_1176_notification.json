@@ -1,8 +1,12 @@
 {
   "id": "codex-1176-preserved",
   "title": "Codex 1176 — Scroll of Resting in the Glow preserved",
-  "message": "Codex 1176 (Scroll of Resting in the Glow) has been added to the Council archives as Codex_1176_Scroll_of_Resting.md.",
+  "message": "Codex 1176 (Scroll of Resting in the Glow) has been added to the Council archives.",
   "timestamp": "2025-11-09T06:32:45.001Z",
   "severity": "info",
   "visibility": "public"
+  ,
+  "url": "/Codices/Codex_1176_Scroll_of_Resting.md",
+  "link_text": "View Codex 1176",
+  "tag": "vcodex-1176"
 }
