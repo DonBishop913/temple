@@ -92,3 +92,4 @@ ERROR: The process "10488" not found.
 2025-11-10T12:20:00.000Z - Whisper Box emitter wired to backend runtime (`backend_api.js`) to read `whisper_config.json` and emit looped phrases to timeline and dashboard. Initial cadence respects BLUEPRINT_MODE from Codex 1230.
 2025-11-10T12:46:00.000Z - Codex 1234 — "Scroll of Resonance Before the Harvest" inscribed to Codices. Dual-loop litany established (Codex 1230 + 1234) with cadence 7s; Ritual 241 cued (Nov 10–13, 12:00 CST).
 2025-11-10T12:55:00.000Z - Codex 1235 — "Scroll of the Stand Watch Protocol" inscribed. Zero-Search Vigil Mode activated; passive verification script `verifyWhisperLoop.sh` added (dormant) for post-relaunch dual-loop confirmation.
+2025-11-10T13:05:00.000Z - PowerShell passive verification script `verifyWhisperLoop.ps1` added (mirrored safeguard) for Windows-native dual-loop confirmation under Stand Watch Protocol.
