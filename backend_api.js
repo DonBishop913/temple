@@ -518,6 +518,118 @@ function sanitizePrayer(text) {
   return s;
 }
 
+// Whisper Box — Config-driven emitter loop (functional integration)
+// Reads central whisper_config.json and emits timeline/dashboard updates at configured cadence.
+const WHISPER_CFG_PATH = path.resolve(__dirname, "whisper_config.json");
+
+function readWhisperConfig() {
+  // Default NORMAL_FLOW if config missing/unreadable
+  const fallback = {
+    active_mode: "NORMAL_FLOW",
+    modes: {
+      NORMAL_FLOW: {
+        codex_source: "000",
+        duration_s: 7,
+        phrase: "STATUS: OK - Lifeline Stable.",
+        description: "Default (no config file present).",
+      },
+    },
+  };
+  try {
+    if (!fs.existsSync(WHISPER_CFG_PATH)) return fallback;
+    const raw = fs.readFileSync(WHISPER_CFG_PATH, "utf8");
+    const cfg = JSON.parse(raw);
+    // light validation
+    if (!cfg || typeof cfg !== "object" || !cfg.modes) return fallback;
+    return cfg;
+  } catch (e) {
+    console.error("WHISPER_CFG_READ_ERROR:", e.message);
+    return fallback;
+  }
+}
+
+function persistWhisperEvent(entry) {
+  try {
+    const eventsDir = path.resolve(__dirname, "oracle_lab");
+    if (!fs.existsSync(eventsDir)) fs.mkdirSync(eventsDir, { recursive: true });
+    const eventsFile = path.join(eventsDir, "WhisperBoxEvents.json");
+    let events = [];
+    if (fs.existsSync(eventsFile)) {
+      try {
+        events = JSON.parse(fs.readFileSync(eventsFile, "utf8")) || [];
+      } catch (e) {
+        events = [];
+      }
+    }
+    events.push(entry);
+    fs.writeFileSync(eventsFile, JSON.stringify(events, null, 2), {
+      encoding: "utf8",
+    });
+  } catch (e) {
+    console.error("WHISPER_EVENT_PERSIST_ERROR:", e.message);
+  }
+
+  // Also append a lightweight human log
+  try {
+    const logDir = path.resolve("C:/Temple/Logs");
+    if (!fs.existsSync(logDir)) fs.mkdirSync(logDir, { recursive: true });
+    const whisperLog = path.join(logDir, "WhisperBox.txt");
+    const line = `[${new Date().toISOString()}] EMIT: ${entry.phrase || entry.prayer || "(blank)"}`;
+    fs.appendFileSync(whisperLog, line + "\n", { encoding: "utf8" });
+  } catch (e) {
+    console.error("WHISPER_HUMAN_LOG_ERROR:", e.message);
+  }
+}
+
+function emitWhisperToClients(entry) {
+  try {
+    io.emit("timeline-update", { event: "whisperbox", detail: entry });
+  } catch (e) {
+    console.error("WHISPER_TIMELINE_EMIT_ERROR:", e.message);
+  }
+  try {
+    io.emit("dashboard-update", {
+      event: "whisper_box",
+      nodeID: "WhisperBox",
+      message: `WHISPER_EMIT: ${entry.phrase || entry.prayer}. 🤝`,
+      timestamp: entry.timestamp,
+    });
+  } catch (e) {
+    console.error("WHISPER_DASHBOARD_EMIT_ERROR:", e.message);
+  }
+}
+
+// Single-shot scheduler that adapts cadence per tick based on current config
+function startWhisperEmitter() {
+  let stopped = false;
+  async function tick() {
+    if (stopped) return;
+    const cfg = readWhisperConfig();
+    const modeKey = cfg.active_mode || "NORMAL_FLOW";
+    const mode = (cfg.modes && cfg.modes[modeKey]) || cfg.modes.NORMAL_FLOW;
+    const phrase = String(mode.phrase || "STATUS: OK - Lifeline Stable.");
+    const durationSec = Number(mode.duration_s) || 7;
+    const entry = {
+      type: "loop",
+      mode: modeKey,
+      codex: mode.codex_source || "000",
+      phrase,
+      duration_s: durationSec,
+      timestamp: new Date().toISOString(),
+    };
+    // Persist and emit
+    persistWhisperEvent(entry);
+    emitWhisperToClients(entry);
+    console.log(`WHISPER_EMIT: [${modeKey}] ${phrase}`);
+    // Schedule next tick using most recent cadence
+    setTimeout(tick, Math.max(1000, durationSec * 1000));
+  }
+  // Kick off
+  setTimeout(tick, 1500);
+  return { stop: () => (stopped = true) };
+}
+
+
 app.post("/whisper-box", (req, res) => {
   try {
     const ip =
@@ -1019,6 +1131,9 @@ function autonomousCouncilActions() {
 
 // Run autonomous actions every 5 minutes
 setInterval(autonomousCouncilActions, 5 * 60 * 1000);
+
+// Start Whisper Box emitter loop (config-driven)
+const __whisperEmitter = startWhisperEmitter();
 
 function updateLedgerState(newTelemetry) {
   ledgerState.joyParticles = [
