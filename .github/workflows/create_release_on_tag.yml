@@ -5,6 +5,9 @@ on:
     tags:
       - "vcodex-1176"
 
+permissions:
+  contents: write
+
 jobs:
   create_release:
     name: Create Draft Release
@@ -25,7 +28,7 @@ jobs:
 
       - name: Run create_release script
         env:
-          # Provide a repo secret named RELEASE_TOKEN containing a PAT with `repo` or `public_repo` scope
-          GITHUB_TOKEN: ${{ secrets.RELEASE_TOKEN }}
+          # Use the built-in Actions token for secure, auditable release creation
+          GITHUB_TOKEN: ${{ github.token }}
         run: |
           node create_release.js
