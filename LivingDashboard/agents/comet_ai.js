@@ -3,6 +3,11 @@
 
 const { councilLog, bless, councilPause, councilAlert, config } = require('../backend/councilCore');
 
+if (process.argv.includes('--status')) {
+  console.log(JSON.stringify({ autonomous: true }));
+  process.exit(0);
+}
+
 async function mainLoop() {
   bless('Comet AI Agent');
   const cometSettings = config.agent_settings.comet_ai;
@@ -20,4 +25,6 @@ async function mainLoop() {
   }
 }
 
-mainLoop();
+if (!process.argv.includes('--status')) {
+  mainLoop();
+}

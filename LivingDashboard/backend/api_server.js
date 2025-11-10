@@ -39,6 +39,9 @@ if (startupError) {
   app.get("/", (req, res) => res.status(503).send("Backend in degraded mode: " + startupError.message));
 }
 
+// Metrics endpoint for CI readiness
+app.get("/metrics", (req, res) => res.send("API ready"));
+
 // Start quantum analytics
 // quantumAnalytics.startAnalysis({ mode: 'continuous' });
 
@@ -549,7 +552,7 @@ app.listen(PORT, () => {
     // Check Comet AI agent status
     try {
       const { spawn } = require('child_process');
-      const checkAgent = spawn('node', ['agents/cometAI_agent.js', '--status'], {
+      const checkAgent = spawn('node', ['LivingDashboard/agents/comet_ai.js', '--status'], {
         cwd: path.join(__dirname, '..', '..')
       });
 
@@ -558,7 +561,7 @@ app.listen(PORT, () => {
         if (!status.autonomous) {
           console.log("[Healing] Restarting Comet AI agent...");
           // Restart agent if not autonomous
-          const restartAgent = spawn('node', ['agents/cometAI_agent.js', '--autonomous'], {
+          const restartAgent = spawn('node', ['LivingDashboard/agents/comet_ai.js', '--autonomous'], {
             cwd: path.join(__dirname, '..', '..'),
             detached: true,
             stdio: 'ignore'

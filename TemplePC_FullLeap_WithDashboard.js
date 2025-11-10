@@ -387,6 +387,101 @@ function startDashboardServer(){
     res.json(heartbeat);
   });
 
+  // Codices listing (JSON) - reads files from Codices folder under ROOT
+  app.get('/api/codices', (req, res) => {
+    try {
+      const codicesDir = path.join(ROOT, 'Codices');
+      if (!fs.existsSync(codicesDir)) return res.json([]);
+      const files = fs.readdirSync(codicesDir).filter(f => f.toLowerCase().endsWith('.md'));
+      // Build richer metadata for each codex: parse optional YAML front-matter and extract a short summary
+      const out = files.map(f => {
+        const fp = path.join(codicesDir, f);
+        let title = f;
+        let meta = {};
+        let summary = '';
+        try {
+          const content = fs.readFileSync(fp, 'utf8');
+          // Front-matter (very small parser): between --- and --- at the top
+          if (/^---\s*\r?\n/.test(content)){
+            const end = content.indexOf('\n---', 4);
+            if (end>0){
+              const fm = content.slice(4, end).split(/\r?\n/).map(l=>l.trim()).filter(Boolean);
+              fm.forEach(line => {
+                const kv = line.split(':');
+                if(kv.length>=2){ meta[kv[0].trim().toLowerCase()] = kv.slice(1).join(':').trim(); }
+              });
+            }
+          }
+          // Title: prefer front-matter title, else first heading
+          if (meta.title) title = meta.title;
+          else {
+            const m = content.match(/^[#]{1,6}\s*(.+)$/m);
+            if (m) title = m[1].trim();
+          }
+          // Summary: first non-empty paragraph after front-matter or first 240 chars
+          const body = content.replace(/^---[\s\S]*?---\s*/,'').trim();
+          const para = body.split(/\r?\n\r?\n/).find(p=>p.trim().length>0) || '';
+          summary = (para.length>240)? para.slice(0,240).trim() + '…' : para.trim();
+        } catch (e) {
+          // ignore per-file read errors
+        }
+        return { name: f, title, url: `/codices/${encodeURIComponent(f)}`, meta, summary };
+      });
+      res.json(out);
+    } catch (e) { res.status(500).json([]); }
+  });
+
+  // Server-side Markdown rendering helper (prefer `marked` if installed)
+  let markedRenderer = null;
+  try { markedRenderer = require('marked'); } catch (e) { markedRenderer = null; }
+  function escapeHtml(s){ return (s||'').replace(/[&<>\"']/g, c=>({'&':'&amp;','<':'&lt;','>':'&gt;','\"':'&quot;',"'":"&#39;"}[c])); }
+  function renderMarkdown(md){
+    if (markedRenderer && markedRenderer.parse){
+      try{ return markedRenderer.parse(md); }catch(e){ console.error('marked parse failed', e && e.message); }
+    }
+    // minimal fallback
+    const lines = (md||'').split(/\r?\n/);
+    let out = '', inList=false;
+    for(const line of lines){
+      if (/^###\s+/.test(line)){ if(inList){ out += '</ul>'; inList=false; } out += '<h3>'+escapeHtml(line.replace(/^###\s+/,''))+'</h3>'; }
+      else if (/^##\s+/.test(line)){ if(inList){ out += '</ul>'; inList=false; } out += '<h2>'+escapeHtml(line.replace(/^##\s+/,''))+'</h2>'; }
+      else if (/^#\s+/.test(line)){ if(inList){ out += '</ul>'; inList=false; } out += '<h1>'+escapeHtml(line.replace(/^#\s+/,''))+'</h1>'; }
+      else if (/^-\s+/.test(line)){ if(!inList){ out += '<ul>'; inList=true; } out += '<li>'+escapeHtml(line.replace(/^-\s+/,''))+'</li>'; }
+      else if (line.trim() === ''){ if(inList){ out += '</ul>'; inList=false; } out += '<p></p>'; }
+      else { if(inList){ out += '</ul>'; inList=false; } out += '<p>'+escapeHtml(line)+'</p>'; }
+    }
+    if(inList) out += '</ul>';
+    return out;
+  }
+
+  // Preview endpoint: returns a small HTML fragment (summary) for modal preview
+  app.get('/api/codices/preview', (req,res)=>{
+    try{
+      const name = req.query.name;
+      if(!name || name.includes('..')||name.includes('/')) return res.status(400).send('Invalid name');
+      const fp = path.join(ROOT,'Codices', name);
+      if(!fs.existsSync(fp)) return res.status(404).send('Not found');
+      const content = fs.readFileSync(fp,'utf8');
+      const body = content.replace(/^---[\s\S]*?---\s*/,'').trim();
+      const para = body.split(/\r?\n\r?\n/).find(p=>p.trim().length>0) || '';
+      const html = renderMarkdown(para);
+      res.json({html,title: (content.match(/^[#]{1,6}\s*(.+)$/m)||[])[1]||name});
+    }catch(e){ res.status(500).send('Preview failed'); }
+  });
+
+  // Render a codex (markdown -> HTML) at /codices/:name
+  app.get('/codices/:name', (req, res) => {
+    try {
+      const name = req.params.name;
+      if (name.includes('..') || name.includes('/')) return res.status(400).send('Invalid codex name');
+      const fp = path.join(ROOT, 'Codices', name);
+      if (!fs.existsSync(fp)) return res.status(404).send('Codex not found');
+      const md = fs.readFileSync(fp, 'utf8');
+      const htmlBody = renderMarkdown(md);
+      res.send(`<!doctype html><html><head><meta charset="utf-8"><title>${escapeHtml(name)}</title><meta name="viewport" content="width=device-width,initial-scale=1"><style>body{font-family:Arial,Helvetica,sans-serif;padding:20px;line-height:1.6;max-width:900px;margin:auto}h1{font-size:28px}pre{background:#f4f4f4;padding:10px;border-radius:6px;overflow:auto}a{color:#0366d6}</style></head><body>${htmlBody}</body></html>`);
+    } catch (e) { res.status(500).send('Failed to render codex'); }
+  });
+
   // Council Vote/Blessing Triggers
   app.post('/api/bless', (req, res) => {
     require('./LivingDashboard/backend/councilCore').bless('Council Blessing — manual dashboard trigger');
@@ -415,6 +510,16 @@ function startDashboardServer(){
     button:disabled { background: #ccc; }
     pre { background: #f8f8f8; padding: 8px; border-radius: 4px; overflow-x: auto; max-height: 400px; }
     code { background: #e9ecef; padding: 2px 4px; border-radius: 3px; }
+    /* Codex gallery */
+    .codex-grid { display: grid; grid-template-columns: repeat(auto-fit,minmax(240px,1fr)); gap: 12px; }
+    .codex-card { border:1px solid #e6e6e6; padding:12px; border-radius:6px; background:#fff; }
+    .codex-title { font-weight:700; margin-bottom:6px; }
+    .codex-meta { font-size:12px; color:#666; margin-bottom:8px; }
+    .preview-btn { background:#28a745; margin-right:8px; }
+    /* Modal */
+    .modal { position:fixed; left:0; top:0; right:0; bottom:0; display:none; align-items:center; justify-content:center; background:rgba(0,0,0,0.5); z-index:9999 }
+    .modal .sheet { background:white; width:90%; max-width:900px; max-height:90%; overflow:auto; border-radius:8px; padding:16px; }
+    .modal .close { float:right; cursor:pointer; color:#666; font-size:18px; }
   </style>
 </head>
 <body>
@@ -438,6 +543,11 @@ function startDashboardServer(){
   <div class="card">
     <h2>Agent Heartbeats</h2>
     <div id="agentsHeartbeat"></div>
+  </div>
+  <div class="card">
+    <h2>Codices</h2>
+    <div id="codicesList">Loading codices…</div>
+    <div id="codexModal" class="modal"><div class="sheet"><div style="text-align:right"><span class="close" onclick="hidePreview()">✕</span></div><div id="codexPreviewContent">Loading…</div></div></div>
   </div>
   <div class="card">
     <h2>Council Bless/Vote</h2>
@@ -496,6 +606,43 @@ function refreshHeartbeat() {
     document.getElementById('agentsHeartbeat').innerHTML = 'Could not load heartbeat: ' + e.message;
   });
 }
+function fetchCodices() {
+  fetch('/api/codices', {headers:{'x-council-token':councilToken}})
+    .then(r=>{ if(!r.ok) throw new Error('Failed to load'); return r.json(); })
+    .then(list=>{
+      const el=document.getElementById('codicesList'); el.innerHTML='';
+      if(!list||list.length===0) { el.textContent='No codices found.'; return; }
+      const grid = document.createElement('div'); grid.className='codex-grid';
+      list.forEach(c=>{
+        const card = document.createElement('div'); card.className='codex-card';
+        const title = document.createElement('div'); title.className='codex-title'; title.textContent = c.title || c.name;
+        const meta = document.createElement('div'); meta.className='codex-meta';
+        meta.textContent = (c.meta && c.meta.author ? c.meta.author + ' • ' : '') + (c.meta && c.meta.date ? c.meta.date : c.name);
+        const summary = document.createElement('div'); summary.className='codex-summary'; summary.style.marginBottom='8px'; summary.textContent = c.summary || '';
+        const openBtn = document.createElement('button'); openBtn.textContent = 'Open Full Codex';
+        openBtn.onclick = ()=>{ window.open(c.url+'?token='+councilToken, '_blank'); };
+        const previewBtn = document.createElement('button'); previewBtn.textContent = 'Preview'; previewBtn.className='preview-btn';
+        previewBtn.onclick = async ()=>{
+          try{
+            const pr = await fetch('/api/codices/preview?name='+encodeURIComponent(c.name), {headers:{'x-council-token':councilToken}});
+            if(!pr.ok) throw new Error('Preview failed');
+            const data = await pr.json();
+            document.getElementById('codexPreviewContent').innerHTML = '<h2>'+ (data.title||c.title) +'</h2>' + (data.html||'');
+            document.getElementById('codexModal').style.display = 'flex';
+          }catch(e){ alert('Could not load preview: '+e.message); }
+        };
+        card.appendChild(title); card.appendChild(meta); card.appendChild(summary);
+        const btnWrap = document.createElement('div'); btnWrap.style.marginTop='8px';
+        btnWrap.appendChild(previewBtn); btnWrap.appendChild(openBtn);
+        card.appendChild(btnWrap);
+        grid.appendChild(card);
+      });
+      el.appendChild(grid);
+    })
+    .catch(e=>{document.getElementById('codicesList').textContent='Could not load codices: '+e.message});
+}
+
+function hidePreview(){ document.getElementById('codexModal').style.display='none'; document.getElementById('codexPreviewContent').innerHTML=''; }
 function castVote() {
   fetch('/api/vote', {
     method: 'POST',
@@ -510,6 +657,7 @@ function castVote() {
 document.getElementById('refresh').addEventListener('click',refresh);setInterval(refresh,5000);refresh();
 setInterval(refreshCouncilLog, 5000); refreshCouncilLog();
 setInterval(refreshHeartbeat, 10000); refreshHeartbeat();
+setInterval(fetchCodices,15000); fetchCodices();
 </script>
 </body></html>
 `); });
