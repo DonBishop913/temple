@@ -28,7 +28,9 @@ jobs:
 
       - name: Run create_release script
         env:
-          # Use the built-in Actions token for secure, auditable release creation
-          GITHUB_TOKEN: ${{ github.token }}
+          # Provide the working PAT from repository secrets. Set both vars so
+          # the script picks up whichever it expects (GITHUB_TOKEN or RELEASE_TOKEN).
+          GITHUB_TOKEN: ${{ secrets.RELEASE_TOKEN }}
+          RELEASE_TOKEN: ${{ secrets.RELEASE_TOKEN }}
         run: |
           node create_release.js
