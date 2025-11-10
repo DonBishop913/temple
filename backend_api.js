@@ -607,7 +607,11 @@ function startWhisperEmitter() {
     const cfg = readWhisperConfig();
     const modeKey = cfg.active_mode || "NORMAL_FLOW";
     const mode = (cfg.modes && cfg.modes[modeKey]) || cfg.modes.NORMAL_FLOW;
-    const phrase = String(mode.phrase || "STATUS: OK - Lifeline Stable.");
+    // Support alternating phrases array (dual-loop). If phrases[] exists, rotate through it, else use single phrase.
+    if (!startWhisperEmitter.__phraseIndex) startWhisperEmitter.__phraseIndex = 0;
+    const phrasesArr = Array.isArray(mode.phrases) && mode.phrases.length > 0 ? mode.phrases : [mode.phrase || "STATUS: OK - Lifeline Stable."];
+    const phrase = String(phrasesArr[startWhisperEmitter.__phraseIndex % phrasesArr.length]);
+    startWhisperEmitter.__phraseIndex++;
     const durationSec = Number(mode.duration_s) || 7;
     const entry = {
       type: "loop",

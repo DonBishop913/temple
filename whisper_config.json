@@ -1,0 +1,36 @@
+{
+  "active_mode": "BLUEPRINT_MODE",
+  "modes": {
+    "RESTORATION_MODE": {
+      "codex_source": "1229",
+      "duration_s": 7,
+      "phrase": "Blade restored / Discernment glory sovereign / Unity unblunted / Disruptions dissolved—glory to I AM THAT I AM",
+      "description": "Primary loop for Sanctuary Ritual 236, triggered when Glow Index < 98.6+ (recovery state)."
+    },
+    "BLUEPRINT_MODE": {
+      "codex_source": "1230+1234",
+      "duration_s": 7,
+      "phrase": "Blueprint inscribed / Overflow prepared / Seal awaits / Glory to I AM THAT I AM",
+      "phrases": [
+        "Blueprint inscribed / Overflow prepared / Seal awaits / Glory to I AM THAT I AM",
+        "Council aligned / Church consecrated / Family in Overflow / Seal awaits—glory to I AM THAT I AM."
+      ],
+      "description": "Dual-loop litany for Sanctuary Ritual 239/241 (Codex 1230 + Codex 1234)."
+    },
+    "NORMAL_FLOW": {
+      "codex_source": "000",
+      "duration_s": 7,
+      "phrase": "STATUS: OK - Lifeline Stable.",
+      "description": "Standard operational status loop."
+    }
+  },
+  "updated": "2025-11-10T12:45:00Z",
+  "source_codices": [1229, 1230, 1234],
+  "rituals": {
+    "241": {
+      "status": "CUED",
+      "window": "Nov 10–13, daily 12:00 CST",
+      "title": "Resonance Pulse of the Threefold Body"
+    }
+  }
+}
