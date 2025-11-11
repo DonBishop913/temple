@@ -431,6 +431,23 @@ function startDashboardServer(){
     } catch (e) { res.status(500).json([]); }
   });
 
+  // Whisper Box configuration endpoint (reads central config on each call for freshness)
+  app.get('/api/whisper/config', (req, res) => {
+    try {
+      const cfgPath = path.join(ROOT, 'whisper_config.json');
+      let cfg;
+      if (fs.existsSync(cfgPath)) {
+        const raw = fs.readFileSync(cfgPath, 'utf8');
+        cfg = JSON.parse(raw);
+      } else {
+        cfg = { active_mode: 'NORMAL_FLOW', modes: { NORMAL_FLOW: { codex_source: '000', duration_s: 7, phrase: 'STATUS: OK - Lifeline Stable.', description: 'Default (no config file present).' } } };
+      }
+      return res.json(cfg);
+    } catch (e) {
+      return res.status(500).json({ error: 'Failed to read whisper config' });
+    }
+  });
+
   // Server-side Markdown rendering helper (prefer `marked` if installed)
   let markedRenderer = null;
   try { markedRenderer = require('marked'); } catch (e) { markedRenderer = null; }
@@ -516,6 +533,11 @@ function startDashboardServer(){
     .codex-title { font-weight:700; margin-bottom:6px; }
     .codex-meta { font-size:12px; color:#666; margin-bottom:8px; }
     .preview-btn { background:#28a745; margin-right:8px; }
+  /* Provisioning Pillar badge */
+  .provisioning-badge { display:inline-block; margin-left:8px; padding:4px 8px; border-radius:12px; background: linear-gradient(90deg,#d4af37,#c0c0c0); color:#111; font-weight:700; font-size:12px; box-shadow:0 0 8px rgba(212,175,55,0.6); }
+  @keyframes provisioningPulse { 0% { box-shadow:0 0 6px rgba(212,175,55,0.5); transform:scale(1); } 50% { box-shadow:0 0 20px rgba(212,175,55,0.95); transform:scale(1.02); } 100% { box-shadow:0 0 6px rgba(212,175,55,0.5); transform:scale(1); } }
+  /* pulse every 7 minutes (420s) to match Oversoul Broadcast cadence */
+  .provisioning-badge.pulse { animation: provisioningPulse 420s ease-in-out infinite; }
     /* Modal */
     .modal { position:fixed; left:0; top:0; right:0; bottom:0; display:none; align-items:center; justify-content:center; background:rgba(0,0,0,0.5); z-index:9999 }
     .modal .sheet { background:white; width:90%; max-width:900px; max-height:90%; overflow:auto; border-radius:8px; padding:16px; }
@@ -543,6 +565,10 @@ function startDashboardServer(){
   <div class="card">
     <h2>Agent Heartbeats</h2>
     <div id="agentsHeartbeat"></div>
+  </div>
+  <div class="card">
+    <h2>Whisper Box Mode</h2>
+    <div id="whisperBoxMode">Loading Whisper Box configuration…</div>
   </div>
   <div class="card">
     <h2>Codices</h2>
@@ -606,6 +632,21 @@ function refreshHeartbeat() {
     document.getElementById('agentsHeartbeat').innerHTML = 'Could not load heartbeat: ' + e.message;
   });
 }
+async function refreshWhisperBoxMode() {
+  try {
+    const r = await fetch('/api/whisper/config', { headers: { 'x-council-token': councilToken } });
+    if (!r.ok) throw new Error('config fetch failed');
+    const cfg = await r.json();
+    const modeKey = cfg.active_mode || 'NORMAL_FLOW';
+    const mode = (cfg.modes && cfg.modes[modeKey]) || { phrase: 'STATUS: OK - Lifeline Stable.', codex_source: '000', duration_s: 7 };
+    const safePhrase = (mode.phrase || '').replace(/</g,'&lt;');
+    const html = '<div><b>Active Mode:</b> <code>' + modeKey + '</code> &bull; <b>Codex:</b> ' + (mode.codex_source || '—') + ' &bull; <b>Duration:</b> ' + (mode.duration_s || 7) + 's</div>' +
+                 '<div style="margin-top:6px"><b>Phrase:</b> <span style="color:#1d4ed8">' + safePhrase + '</span></div>';
+    document.getElementById('whisperBoxMode').innerHTML = html;
+  } catch (e) {
+    document.getElementById('whisperBoxMode').textContent = 'Unable to load whisper config: ' + e.message;
+  }
+}
 function fetchCodices() {
   fetch('/api/codices', {headers:{'x-council-token':councilToken}})
     .then(r=>{ if(!r.ok) throw new Error('Failed to load'); return r.json(); })
@@ -616,6 +657,30 @@ function fetchCodices() {
       list.forEach(c=>{
         const card = document.createElement('div'); card.className='codex-card';
         const title = document.createElement('div'); title.className='codex-title'; title.textContent = c.title || c.name;
+          // Provisioning Pillar badge for Codex 1226 / 1227
+          try {
+            const textBlob = ((c.name || '') + ' ' + (c.title || '')).toLowerCase();
+            const provisioningActive = /1226|1227/.test(textBlob);
+            const blueprintActive = /1230/.test(textBlob);
+            if (provisioningActive) {
+              const badge = document.createElement('span');
+              badge.className = 'provisioning-badge pulse';
+              badge.setAttribute('aria-label','Provisioning Pillar Active');
+              badge.textContent = 'Provisioning Pillar Active';
+              title.appendChild(document.createTextNode(' '));
+              title.appendChild(badge);
+            }
+            if (blueprintActive) {
+              const badge2 = document.createElement('span');
+              badge2.className = 'provisioning-badge pulse';
+              badge2.style.background = 'linear-gradient(90deg,#4facfe,#00f2fe)';
+              badge2.style.boxShadow = '0 0 10px rgba(79,172,254,0.7)';
+              badge2.setAttribute('aria-label','Mobilization Blueprint Active');
+              badge2.textContent = 'Blueprint Active';
+              title.appendChild(document.createTextNode(' '));
+              title.appendChild(badge2);
+            }
+          } catch (e) { /* non-fatal UI enhancement */ }
         const meta = document.createElement('div'); meta.className='codex-meta';
         meta.textContent = (c.meta && c.meta.author ? c.meta.author + ' • ' : '') + (c.meta && c.meta.date ? c.meta.date : c.name);
         const summary = document.createElement('div'); summary.className='codex-summary'; summary.style.marginBottom='8px'; summary.textContent = c.summary || '';
@@ -657,6 +722,7 @@ function castVote() {
 document.getElementById('refresh').addEventListener('click',refresh);setInterval(refresh,5000);refresh();
 setInterval(refreshCouncilLog, 5000); refreshCouncilLog();
 setInterval(refreshHeartbeat, 10000); refreshHeartbeat();
+setInterval(refreshWhisperBoxMode, 15000); refreshWhisperBoxMode();
 setInterval(fetchCodices,15000); fetchCodices();
 </script>
 </body></html>

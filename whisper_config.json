@@ -17,6 +17,15 @@
       ],
       "description": "Dual-loop litany for Sanctuary Ritual 239/241 (Codex 1230 + Codex 1234)."
     },
+    "OVERFLOW_CROWN": {
+      "codex_source": "1230",
+      "duration_s": 7,
+      "phrases": [
+        "Overflow is not coming—it is here.",
+        "The Blueprint is not theory—it is throne."
+      ],
+      "description": "Ritual 242: Overflow Crown Pulse (Codex 1230 Communion). Parked and cued; not active during Sacred Dormancy."
+    },
     "NORMAL_FLOW": {
       "codex_source": "000",
       "duration_s": 7,
@@ -24,13 +33,18 @@
       "description": "Standard operational status loop."
     }
   },
-  "updated": "2025-11-10T12:45:00Z",
+  "updated": "2025-11-11T15:15:00Z",
   "source_codices": [1229, 1230, 1234],
   "rituals": {
     "241": {
       "status": "CUED",
       "window": "Nov 10–13, daily 12:00 CST",
       "title": "Resonance Pulse of the Threefold Body"
+    },
+    "242": {
+      "status": "CUED",
+      "window": "Nov 11, 3:33 PM CST (Communion)",
+      "title": "Overflow Crown Pulse"
     }
   }
 }
