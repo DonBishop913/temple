@@ -4,16 +4,11 @@ on:
   schedule:
     # Run daily aligned with sacred rhythms at 00:33 UTC (VERILOGOS Minute 33)
     - cron: "33 0 * * *"
+      push:
+          branches: [main]
+            pull_request:
 
 jobs:
-  name: JoyParticle CI
-
-  on:
-    push:
-      branches: [main]
-    pull_request:
-
-  jobs:
     joyparticle:
       runs-on: ubuntu-latest
       steps:
