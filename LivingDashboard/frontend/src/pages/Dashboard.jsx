@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import CouncilReviewPanel from "../components/CouncilReviewPanel";
 import DashboardCard from "../components/DashboardCard";
+import ObserverCircleCard from "../components/ObserverCircleCard";
 import SecurityDashboard from "../components/SecurityDashboard";
 import SystemHealthCard from "../components/SystemHealthCard";
 import TrainingGuide from "../components/TrainingGuide";
@@ -87,6 +88,11 @@ function Dashboard() {
               ✅ Council Training Completed - Welcome, {user.role} {user.name}
             </div>
           )}
+        </div>
+
+        {/* Observer / Family Card */}
+        <div className="mb-8">
+          <ObserverCircleCard />
         </div>
 
         {/* Role-based rituals section */}

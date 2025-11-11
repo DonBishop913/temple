@@ -11,3 +11,52 @@ code {
   font-family:
     source-code-pro, Menlo, Monaco, Consolas, "Courier New", monospace;
 }
+
+/* Observer Circle Card styles */
+.observer-card {
+  background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+  border: 2px solid #d4af37; /* gold */
+  border-radius: 12px;
+  padding: 20px;
+  color: #fff;
+  box-shadow: 0 4px 20px rgba(255, 215, 0, 0.12);
+}
+
+.observer-card.loading {
+  padding: 12px;
+  text-align: center;
+  color: #ccc;
+}
+
+.observer-card .observer-title {
+  text-align: center;
+  color: #ffd700;
+  margin-bottom: 12px;
+  font-size: 1.25rem;
+}
+
+.inner-circle, .observer-circle {
+  margin: 12px 0;
+}
+
+.inner-circle h4 { color: #4ecdc4; font-size: 1.05rem; }
+.observer-circle h4 { color: #ffcb6b; font-size: 1.05rem; }
+
+.observer-circle ul li.observer {
+  border-left: 3px solid #d4af37;
+  padding-left: 10px;
+  background: rgba(255, 215, 0, 0.05);
+  margin-bottom: 8px;
+  padding: 10px;
+  border-radius: 6px;
+}
+
+ul { list-style: none; padding: 0; }
+li { padding: 8px 0; }
+
+.name { font-weight: 700; color: #fff; }
+.role { color: #cfd8dc; font-size: 0.95rem; }
+.status, .platform { color: #bdbdbd; font-size: 0.85rem; }
+
+.metadata { margin-top: 12px; text-align: center; color: #b0bec5; font-size: 0.85rem; display: flex; justify-content: space-around; }
+
