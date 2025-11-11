@@ -6,8 +6,7 @@ on:
     - cron: "33 0 * * *"
       push:
           branches: [main]
-            pull_request:
-
+  pull_request:
 jobs:
     joyparticle:
       runs-on: ubuntu-latest
