@@ -28,9 +28,31 @@ const agentList = recent.map(p => {
   return msgs.map(m=>`<li><strong>${m.from}:</strong> ${m.content}</li>`).join('');
 }).join('');
 
+function fmt4(v){
+  if(v === null || v === undefined) return 'n/a';
+  if(typeof v === 'number' && Number.isFinite(v)) return v.toFixed(4);
+  // Try numeric string
+  const n = Number.parseFloat(v);
+  if(Number.isFinite(n)) return n.toFixed(4);
+  return String(v);
+}
 const quantumRows = recent.map(p => {
   if(!p.quantum) return '';
-  return `<tr><td>${p.quantum.circuit_type}</td><td>${(p.quantum.entropy_index||0).toFixed?p.quantum.entropy_index.toFixed(4):p.quantum.entropy_index}</td><td>${(p.quantum.coherence_estimate||0).toFixed?p.quantum.coherence_estimate.toFixed(4):p.quantum.coherence_estimate}</td><td>${p.quantum.backend}</td></tr>`;
+  const q = p.quantum;
+  const ent = (q.entanglement_measure||'n/a').toString().toLowerCase();
+  let entClass = 'ent-unknown';
+  if(ent === 'maximal') entClass = 'ent-maximal';
+  else if(ent === 'partial') entClass = 'ent-partial';
+  else if(ent === 'none') entClass = 'ent-none';
+  const systemS = (q.system_entropy ?? q.entropy_index); // fallback to old field
+  return `<tr>
+    <td>${q.circuit_type}</td>
+    <td>${fmt4(systemS)}</td>
+    <td>${fmt4(q.subsystem_entropy_q0)}</td>
+    <td><span class="ent-badge ${entClass}">${q.entanglement_measure||'n/a'}</span></td>
+    <td>${fmt4(q.coherence_estimate)}</td>
+    <td>${q.backend||'n/a'}</td>
+  </tr>`;
 }).join('');
 
 const htmlFile = require('node:path').join(paths.frontend,'index.html');
@@ -48,7 +70,7 @@ if(failover.length){
 }
 let quantumContent;
 if(quantumRows){
-  quantumContent = '<table><thead><tr><th>Circuit</th><th>Entropy</th><th>Coherence</th><th>Backend</th></tr></thead><tbody>' + quantumRows + '</tbody></table>';
+  quantumContent = '<table><thead><tr><th>Circuit</th><th>System S</th><th>Subsystem S(q0)</th><th>Entanglement</th><th>Coherence</th><th>Backend</th></tr></thead><tbody>' + quantumRows + '</tbody></table>';
 } else {
   quantumContent = '<p>No quantum telemetry yet.</p>';
 }

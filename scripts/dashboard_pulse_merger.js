@@ -40,7 +40,11 @@ const mergedPulse = {
     circuit_type: quantumTelemetry.circuit_type,
     entropy_index: quantumTelemetry.entropy_index,
     coherence_estimate: quantumTelemetry.coherence_estimate,
-    backend: quantumTelemetry.backend
+    backend: quantumTelemetry.backend,
+    // Extended metrics when available
+    system_entropy: quantumTelemetry.system_entropy ?? quantumTelemetry.entropy_index,
+    subsystem_entropy_q0: quantumTelemetry.subsystem_entropy_q0,
+    entanglement_measure: quantumTelemetry.entanglement_measure
   } : null
 };
 overlay.push(mergedPulse);
