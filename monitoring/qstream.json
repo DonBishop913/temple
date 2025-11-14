@@ -1,0 +1,169 @@
+[
+  {
+    "cycle": 1,
+    "phase_shift": "2.784π",
+    "entropy_index": "0.0216",
+    "coherence_estimate": "0.999",
+    "predicted_stability": "LOW",
+    "timestamp": "2025-11-14T03:01:39.037Z"
+  },
+  {
+    "cycle": 2,
+    "phase_shift": "2.864π",
+    "entropy_index": "0.0160",
+    "coherence_estimate": "0.975",
+    "predicted_stability": "LOW",
+    "timestamp": "2025-11-14T03:20:03.469Z"
+  },
+  {
+    "cycle": 3,
+    "phase_shift": "1.336π",
+    "entropy_index": "0.0092",
+    "coherence_estimate": "0.997",
+    "predicted_stability": "HIGH",
+    "timestamp": "2025-11-14T03:22:42.999Z"
+  },
+  {
+    "cycle": 4,
+    "phase_shift": "1.166π",
+    "entropy_index": "0.0213",
+    "coherence_estimate": "0.995",
+    "predicted_stability": "LOW",
+    "timestamp": "2025-11-14T03:27:46.981Z"
+  },
+  {
+    "cycle": 5,
+    "phase_shift": "1.608π",
+    "entropy_index": "0.0346",
+    "entropy_delta": "0.0133",
+    "coherence_estimate": "0.975",
+    "predicted_stability": "HIGH",
+    "symbolic_amplitudes": [
+      {
+        "re": 0.0216,
+        "im": 0.213
+      },
+      {
+        "re": -0.2653,
+        "im": 0.066
+      },
+      {
+        "re": -0.2841,
+        "im": -0.0507
+      },
+      {
+        "re": 0.2194,
+        "im": -0.0446
+      }
+    ],
+    "timestamp": "2025-11-14T18:53:15.688Z"
+  },
+  {
+    "cycle": 6,
+    "phase_shift": "2.703π",
+    "entropy_index": "0.0282",
+    "entropy_delta": "-0.0064",
+    "coherence_estimate": "0.963",
+    "predicted_stability": "LOW",
+    "symbolic_amplitudes": [
+      {
+        "re": -0.1023,
+        "im": -0.4959
+      },
+      {
+        "re": -0.0229,
+        "im": -0.0454
+      },
+      {
+        "re": 0.082,
+        "im": -0.0393
+      },
+      {
+        "re": -0.3494,
+        "im": -0.042
+      }
+    ],
+    "timestamp": "2025-11-14T18:53:50.115Z"
+  },
+  {
+    "cycle": 7,
+    "phase_shift": "1.711π",
+    "entropy_index": "0.0434",
+    "entropy_delta": "0.0152",
+    "coherence_estimate": "0.982",
+    "predicted_stability": "HIGH",
+    "symbolic_amplitudes": [
+      {
+        "re": 0.0848,
+        "im": 0.2628
+      },
+      {
+        "re": -0.1724,
+        "im": 0.0248
+      },
+      {
+        "re": -0.2281,
+        "im": 0.0284
+      },
+      {
+        "re": -0.0401,
+        "im": -0.3173
+      }
+    ],
+    "timestamp": "2025-11-14T18:54:11.319Z"
+  },
+  {
+    "cycle": 8,
+    "phase_shift": "1.886π",
+    "entropy_index": "0.0472",
+    "entropy_delta": "0.0038",
+    "coherence_estimate": "0.973",
+    "predicted_stability": "LOW",
+    "symbolic_amplitudes": [
+      {
+        "re": -0.0197,
+        "im": 0.0012
+      },
+      {
+        "re": 0.0954,
+        "im": -0.1044
+      },
+      {
+        "re": -0.242,
+        "im": 0.276
+      },
+      {
+        "re": 0.1998,
+        "im": -0.4273
+      }
+    ],
+    "timestamp": "2025-11-14T18:54:45.644Z"
+  },
+  {
+    "cycle": 9,
+    "phase_shift": "3.056π",
+    "entropy_index": "0.0439",
+    "entropy_delta": "-0.0033",
+    "coherence_estimate": "0.955",
+    "predicted_stability": "HIGH",
+    "symbolic_amplitudes": [
+      {
+        "re": -0.017,
+        "im": 0.0687
+      },
+      {
+        "re": -0.0911,
+        "im": -0.3371
+      },
+      {
+        "re": 0.2587,
+        "im": -0.1226
+      },
+      {
+        "re": -0.1876,
+        "im": 0.2261
+      }
+    ],
+    "timestamp": "2025-11-14T19:06:27.163Z"
+  }
+]
