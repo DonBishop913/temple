@@ -142,7 +142,15 @@ app.use((err, req, res, next) => {
   res.status(500).json({ error: 'Internal Server Error' });
 });
 
-app.listen(PORT, () => {
-  console.log(`Temple API listening on http://localhost:${PORT}`);
-  logAudit(`[API] started on port ${PORT}`);
+// Bind explicitly to loopback to preserve Layer 1 purity and avoid accidental external exposure
+const server = app.listen(PORT, '127.0.0.1', () => {
+  console.log(`Temple API listening on http://127.0.0.1:${PORT}`);
+  logAudit(`[API] started on 127.0.0.1:${PORT}`);
+});
+
+// Surface listen errors to console and audit for easier diagnosis
+server.on('error', (err) => {
+  const msg = (err && err.message) ? err.message : String(err);
+  console.error('Temple API listen error:', msg);
+  try { logAudit(`[API] listen error: ${msg}`); } catch {}
 });

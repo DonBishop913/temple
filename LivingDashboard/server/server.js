@@ -142,4 +142,5 @@ app.post("/api/preparedness", (req, res) => {
 });
 
 const port = process.env.PORT || 3000;
-app.listen(port, () => console.log(`API server listening on ${port}`));
+// Bind explicitly to loopback to keep Layer 1 local-only
+app.listen(port, '127.0.0.1', () => console.log(`API server listening on 127.0.0.1:${port}`));
