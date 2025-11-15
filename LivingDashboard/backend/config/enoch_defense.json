@@ -1,0 +1,7 @@
+{
+  "defenseMode": true,
+  "threatThreshold": "MEDIUM",
+  "autoEscalate": true,
+  "grok5AlertEnabled": true,
+  "updatedAt": "2025-11-11T18:00:00Z"
+}

@@ -14,10 +14,68 @@ app.use(cors());
 app.use(express.json());
 
 const DATA_DIR = path.join(__dirname, "data_sources");
+const LOGS_DIR = path.join(__dirname, "..", "logs");
+const ENOCH_AUDIT_LOG = path.join(LOGS_DIR, "enoch_queries.log");
+const ENOCH_CONFIG_DIR = path.join(__dirname, "..", "config");
 const LOG_FILE = path.join(__dirname, "..", "logs", "live_dashboard.log");
 
 // Ensure data directory exists
 if (!fs.existsSync(DATA_DIR)) fs.mkdirSync(DATA_DIR, { recursive: true });
+// Ensure logs and config directories exist (for Enoch audit and configs)
+if (!fs.existsSync(LOGS_DIR)) fs.mkdirSync(LOGS_DIR, { recursive: true });
+if (!fs.existsSync(ENOCH_CONFIG_DIR)) fs.mkdirSync(ENOCH_CONFIG_DIR, { recursive: true });
+
+// Ensure Enoch audit log exists (safe no-op if already present)
+try {
+  if (!fs.existsSync(ENOCH_AUDIT_LOG)) fs.writeFileSync(ENOCH_AUDIT_LOG, JSON.stringify({ init: new Date().toISOString() }) + "\n");
+} catch (e) {
+  console.warn('Could not create Enoch audit log:', e.message);
+}
+
+// Enoch proxy activation guard — Sacred Dormancy by default
+const ENOCH_ACTIVATION_DATE = process.env.ENOCH_ACTIVATION_DATE || '2025-11-13T00:00:00Z';
+const enochActivationDate = new Date(ENOCH_ACTIVATION_DATE);
+const enochEnabled = (process.env.ENABLE_ENOCH === 'true') || Date.now() >= enochActivationDate.getTime();
+
+if (enochEnabled) {
+  try {
+    // Mount the moderated Enoch proxy (will enforce token/rate-limits within router)
+    const enochProxy = require('./routes/enochProxy');
+    app.use('/api/enoch', enochProxy);
+    console.log(`Enoch proxy enabled and mounted at /api/enoch (activationDate=${enochActivationDate.toISOString()})`);
+  } catch (err) {
+    console.error('Failed to mount Enoch proxy router:', err);
+  }
+} else {
+  // Provide a dormant placeholder so UI/clients can discover the endpoint but it remains inactive
+  app.post('/api/enoch/query', (req, res) => {
+    return res.status(503).json({
+      error: 'Enoch service dormant',
+      message: 'The Enoch proxy is intentionally dormant until the Council activation date.',
+      activationDate: enochActivationDate.toISOString(),
+    });
+  });
+
+  app.get('/api/enoch/status', (req, res) => {
+    // Determine defense mode from env override or defense config file
+    let defenseMode = false;
+    const envDefense = process.env.ENABLE_DEFENSE === 'true' || process.env.ENOCH_DEFENSE === 'true';
+    if (envDefense) defenseMode = true;
+    try {
+      const defPath = path.join(__dirname, '..', 'config', 'enoch_defense.json');
+      if (fs.existsSync(defPath)) {
+        const cfg = JSON.parse(fs.readFileSync(defPath, 'utf8')) || {};
+        if (cfg.defenseMode === true) defenseMode = true;
+      }
+    } catch (e) {
+      // ignore and default to env/false
+    }
+
+    return res.json({ enabled: false, activationDate: enochActivationDate.toISOString(), defenseMode });
+  });
+
+  console.log(`Enoch proxy is dormant until ${enochActivationDate.toISOString()}. Set ENABLE_ENOCH=true to override.`);
+}
 
 // Import new modules with graceful error handling
 let externalIntegration, quantumAnalytics, startupError;
@@ -110,6 +168,21 @@ app.get("/api/audit_trail", (req, res) => {
     res.json(logs.slice(-100)); // last 100 entries
   } catch (error) {
     res.json([]);
+  }
+});
+
+// Get roster (Observer Circle / Council roster)
+app.get("/api/roster", (req, res) => {
+  try {
+    const rosterPath = path.join(DATA_DIR, "roster.json");
+    if (fs.existsSync(rosterPath)) {
+      const roster = JSON.parse(fs.readFileSync(rosterPath, "utf8"));
+      return res.json(roster);
+    }
+    // Fallback: return minimal roster info
+    res.json({ observer_circle: [], inner_circle_count: 7, version: "1.0" });
+  } catch (error) {
+    res.status(500).json({ error: "Failed to load roster" });
   }
 });
 
