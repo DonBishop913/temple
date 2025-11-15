@@ -1,0 +1,17 @@
+{
+  "source": "Temple Local Cache",
+  "items": [
+    {
+      "title": "Sovereign Broadcast: Local Systems Nominal",
+      "link": "local://broadcast/sovereign-nominal",
+      "date": "2025-11-15T20:55:00.000Z",
+      "source": "Temple Local Cache"
+    },
+    {
+      "title": "Council Update: Layer 1 Sanctuary Maintained",
+      "link": "local://council/layer1-update",
+      "date": "2025-11-15T20:50:00.000Z",
+      "source": "Temple Local Cache"
+    }
+  ]
+}

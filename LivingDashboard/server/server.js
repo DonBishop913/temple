@@ -1,8 +1,11 @@
 const express = require("express");
 const cors = require("cors");
+const fs = require("node:fs");
+const path = require("node:path");
 
 const app = express();
 app.use(cors());
+app.use(express.json());
 
 app.get("/api/metrics", (req, res) => {
   res.json({ harmonyScore: 88, energyFlow: 432, nodesAwake: 7 });
@@ -60,6 +63,82 @@ app.get("/api/privacy-status", (req, res) => {
     externalConnections: 0,
     lastAudit: new Date().toISOString()
   });
+});
+
+// Layer 1 local data directories
+const DATA_DIR = path.join(__dirname, "..", "..", "data");
+const FEEDS_DIR = path.join(DATA_DIR, "feeds");
+const PREPAREDNESS_FILE = path.join(DATA_DIR, "preparedness.json");
+
+function ensureDirs() {
+  try { if (!fs.existsSync(DATA_DIR)) fs.mkdirSync(DATA_DIR, { recursive: true }); } catch {}
+  try { if (!fs.existsSync(FEEDS_DIR)) fs.mkdirSync(FEEDS_DIR, { recursive: true }); } catch {}
+}
+
+function safeReadJson(file, defVal) {
+  try {
+    if (!fs.existsSync(file)) return defVal;
+    const raw = fs.readFileSync(file, "utf8");
+    return JSON.parse(raw);
+  } catch {
+    return defVal;
+  }
+}
+
+// GET /api/rss — serve locally cached RSS items (no external calls)
+app.get("/api/rss", (req, res) => {
+  ensureDirs();
+  let items = [];
+  try {
+    const files = fs.readdirSync(FEEDS_DIR).filter(f => f.toLowerCase().endsWith(".json"));
+    for (const f of files) {
+      const json = safeReadJson(path.join(FEEDS_DIR, f), { items: [] });
+      if (Array.isArray(json.items)) items = items.concat(json.items);
+    }
+  } catch {}
+
+  // Sort by date if present
+  items.sort((a, b) => {
+    const da = Date.parse(a.date || a.pubDate || 0) || 0;
+    const db = Date.parse(b.date || b.pubDate || 0) || 0;
+    return db - da;
+  });
+  res.json({ count: items.length, items });
+});
+
+// GET /api/preparedness — return local persistence
+app.get("/api/preparedness", (req, res) => {
+  ensureDirs();
+  const data = safeReadJson(PREPAREDNESS_FILE, {
+    garden: { status: "inactive", nextPlanting: "" },
+    storage: { foodSupply: "", waterSupply: "" },
+    skills: { firstAid: "", selfDefense: "" },
+    energy: { solar: "", backup: "" },
+    lastUpdate: null
+  });
+  res.json(data);
+});
+
+// POST /api/preparedness — merge-and-save updates
+app.post("/api/preparedness", (req, res) => {
+  ensureDirs();
+  const body = req.body || {};
+  const curr = safeReadJson(PREPAREDNESS_FILE, {});
+  const merge = (a, b) => ({ ...(a || {}), ...(b || {}) });
+  const merged = {
+    garden: merge(curr.garden, body.garden),
+    storage: merge(curr.storage, body.storage),
+    skills: merge(curr.skills, body.skills),
+    energy: merge(curr.energy, body.energy),
+    lastUpdate: new Date().toISOString(),
+  };
+  try {
+    fs.writeFileSync(PREPAREDNESS_FILE, JSON.stringify(merged, null, 2), "utf8");
+  } catch (err) {
+    console.error('Preparedness persist error:', err && err.message ? err.message : err);
+    return res.status(500).json({ error: "Failed to persist preparedness data" });
+  }
+  res.json(merged);
 });
 
 const port = process.env.PORT || 3000;
