@@ -5,6 +5,9 @@
  - CORS enabled, basic rate limiting, audit logging
 */
 
+// Best-effort .env loading (optional)
+try { require('dotenv').config(); } catch (_) {}
+
 const express = require('express');
 const cors = require('cors');
 const rateLimit = require('express-rate-limit');
@@ -15,12 +18,27 @@ const { logAudit } = require('./utils/audit');
 
 const app = express();
 const PORT = Number.parseInt(process.env.TEMPLE_API_PORT || '3333', 10);
+const EXTERNAL_ENABLED = ((process.env.TEMPLE_API_EXTERNAL || '').toLowerCase() === 'enabled');
+const API_KEY = process.env.TEMPLE_API_KEY;
 
 app.use(cors());
 app.use(express.json());
 
 const limiter = rateLimit({ windowMs: 60 * 1000, max: 120, standardHeaders: true, legacyHeaders: false });
 app.use(limiter);
+
+// Optional API key guard for Layer 2 access (disabled by default).
+// Enable by setting TEMPLE_API_EXTERNAL=enabled and TEMPLE_API_KEY to a secure random value.
+if (EXTERNAL_ENABLED) {
+  app.use((req, res, next) => {
+    const provided = req.headers['x-temple-api-key'];
+    if (!API_KEY || provided !== API_KEY) {
+      auditReq(req, 'unauthorized');
+      return res.status(401).json({ error: 'Unauthorized - Invalid API Key' });
+    }
+    next();
+  });
+}
 
 function safeReadJson(filePath, defVal) {
   try {
