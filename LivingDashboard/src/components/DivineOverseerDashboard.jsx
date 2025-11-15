@@ -1,11 +1,16 @@
 import { useEffect, useState } from "react";
-import OverseerCard from "./OverseerCard.jsx";
-import LiveCopilotFeed from "./LiveCopilotFeed.jsx";
-import AutoMergeStatus from "./AutoMergeStatus.jsx";
-import ErrorCorrectionFeed from "./ErrorCorrectionFeed.jsx";
 import AuraBackground from "./AuraBackground.jsx";
+import AutoMergeStatus from "./AutoMergeStatus.jsx";
+import DecentralizedNewsPanel from "./DecentralizedNewsPanel.jsx";
+import EconomicLibertyPanel from "./EconomicLibertyPanel.jsx";
+import ErrorCorrectionFeed from "./ErrorCorrectionFeed.jsx";
 import JoyParticleOverlay from "./JoyParticleOverlay.jsx";
+import LiveCopilotFeed from "./LiveCopilotFeed.jsx";
 import MiracleAlertPanel from "./MiracleAlertPanel.jsx";
+import NaturalHealthPanel from "./NaturalHealthPanel.jsx";
+import OverseerCard from "./OverseerCard.jsx";
+import PreparednessPanel from "./PreparednessPanel.jsx";
+import PrivacyGuardPanel from "./PrivacyGuardPanel.jsx";
 
 function Metric({ label, value }) {
   return (
@@ -78,6 +83,27 @@ export default function DivineOverseerDashboard() {
         <OverseerCard title="Error Correction Feed">
           <ErrorCorrectionFeed />
         </OverseerCard>
+
+        <div className="grid grid-cols-2 gap-6">
+          <OverseerCard title="Natural Health Intelligence">
+            <NaturalHealthPanel />
+          </OverseerCard>
+          <OverseerCard title="Privacy Sanctuary Status">
+            <PrivacyGuardPanel />
+          </OverseerCard>
+        </div>
+
+        <div className="grid grid-cols-2 gap-6">
+          <OverseerCard title="Decentralized Intelligence Feed">
+            <DecentralizedNewsPanel />
+          </OverseerCard>
+          <OverseerCard title="Resilience & Economic Sovereignty">
+            <div className="space-y-4">
+              <PreparednessPanel />
+              <EconomicLibertyPanel />
+            </div>
+          </OverseerCard>
+        </div>
       </div>
     </div>
   );
