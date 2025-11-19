@@ -15,6 +15,7 @@ function Dashboard() {
   const [user] = useState({ name: "Bishop Donald", role: "Bishop" });
   const [showTraining, setShowTraining] = useState(false);
   const [trainingCompleted, setTrainingCompleted] = useState(false);
+  const [backupMsg, setBackupMsg] = useState("");
 
   useEffect(() => {
     // Fetch metrics
@@ -60,6 +61,21 @@ function Dashboard() {
 
     return () => clearInterval(interval);
   }, []);
+
+  const handleBackupNow = async () => {
+    setBackupMsg("Backing up…");
+    try {
+      const res = await fetch("http://localhost:4000/api/backup", { method: "POST" });
+      const data = await res.json();
+      if (res.ok) {
+        setBackupMsg(`✅ Backup export ready: ${data.file}`);
+      } else {
+        setBackupMsg(`❌ Backup failed: ${data.error || "Unknown error"}`);
+      }
+    } catch (e) {
+      setBackupMsg(`❌ Backup error: ${e?.message || e}`);
+    }
+  };
 
   const metricCards = Object.entries(metrics).map(([key, data]) => ({
     name: key
@@ -107,6 +123,19 @@ function Dashboard() {
               ✅ Council Training Completed - Welcome, {user.role} {user.name}
             </div>
           )}
+
+          {/* Backup Now */}
+          <div className="mt-4 flex items-center justify-center gap-3">
+            <button
+              onClick={handleBackupNow}
+              className="bg-blue-600 text-white font-semibold py-2 px-4 rounded hover:bg-blue-700 transition"
+            >
+              ⬇️ Backup Now
+            </button>
+            {backupMsg && (
+              <span className="text-sm text-gray-700">{backupMsg}</span>
+            )}
+          </div>
         </div>
 
         {/* Observer / Family Card */}

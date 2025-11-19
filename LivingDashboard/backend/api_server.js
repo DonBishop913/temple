@@ -30,6 +30,7 @@ const USER_CONTENT_FILE = path.join(SCRIPTURE_DIR, "User_Content.json");
 const ALTNEWS_FILE = path.join(SCRIPTURE_DIR, "AltNews_Feed.json");
 const MOD_LOG = path.join(SCRIPTURE_DIR, "Moderation_Log.json");
 const BACKUP_EXPORT = path.join(__dirname, "dashboard_export.json");
+const WEEKLY_DIGEST = path.join(__dirname, "weekly_digest.json");
 
 // Ensure data directory exists
 if (!fs.existsSync(DATA_DIR)) fs.mkdirSync(DATA_DIR, { recursive: true });
@@ -490,6 +491,79 @@ app.post("/api/backup", (req, res) => {
   }
 });
 
+// Optional nightly backup scheduler (disabled by default)
+// Enable by setting ENABLE_NIGHTLY_BACKUP=true
+// Optional cron time override via NIGHTLY_CRON_TIME (default: 59 23 * * *)
+try {
+  const enableNightly = (process.env.ENABLE_NIGHTLY_BACKUP || '').toLowerCase() === 'true';
+  if (enableNightly) {
+    // Lazy-load to avoid hard dependency if unused
+    // Requires installation in LivingDashboard: npm i node-cron
+    const cron = require('node-cron');
+    const spec = process.env.NIGHTLY_CRON_TIME || '59 23 * * *';
+    cron.schedule(spec, () => {
+      try {
+        if (!fs.existsSync(SCRIPTURE_DIR)) fs.mkdirSync(SCRIPTURE_DIR, { recursive: true });
+        const file = buildBackupExport();
+        console.log(`[Nightly Backup] Export created at ${new Date().toISOString()} -> ${file}`);
+      } catch (e) {
+        console.error('[Nightly Backup] Failed:', e && e.message ? e.message : e);
+      }
+    }, { timezone: process.env.NIGHTLY_TZ || undefined });
+    console.log(`[Nightly Backup] Scheduler enabled with cron '${spec}'`);
+  }
+} catch (e) {
+  console.warn('[Nightly Backup] Scheduler not started (node-cron missing or init error).');
+}
+
+// Optional weekly digest scheduler (disabled by default)
+// Enable by setting ENABLE_WEEKLY_SUMMARY=true
+// Default cron: 0 9 * * MON (Mondays at 09:00 local time unless NIGHTLY_TZ provided)
+try {
+  const enableWeekly = (process.env.ENABLE_WEEKLY_SUMMARY || '').toLowerCase() === 'true';
+  if (enableWeekly) {
+    const cron = require('node-cron');
+    const spec = process.env.WEEKLY_CRON_TIME || '0 9 * * MON';
+    cron.schedule(spec, () => {
+      try {
+        const digest = {};
+        // Build a compact weekly digest snapshot
+        const readJson = (p, defVal) => {
+          try { return fs.existsSync(p) ? JSON.parse(fs.readFileSync(p, 'utf8')) : defVal; } catch { return defVal; }
+        };
+        const overflow = readJson(OVERFLOW_STATUS_FILE, { launched: false });
+        const whispers = readJson(WHISPER_LOG, []);
+        const blessings = readJson(BLESSINGS_FILE, []);
+        const content = readJson(USER_CONTENT_FILE, []);
+        const news = readJson(ALTNEWS_FILE, []);
+        const moderation = readJson(MOD_LOG, []);
+
+        digest.generatedAt = new Date().toISOString();
+        digest.overflow = overflow;
+        digest.counts = {
+          whispers: Array.isArray(whispers) ? whispers.length : 0,
+          blessings: Array.isArray(blessings) ? blessings.length : 0,
+          content: Array.isArray(content) ? content.length : 0,
+          news: Array.isArray(news) ? news.length : 0,
+          moderation: Array.isArray(moderation) ? moderation.length : 0,
+        };
+
+        fs.writeFileSync(WEEKLY_DIGEST, JSON.stringify(digest, null, 2));
+
+        // Append an alert entry for visibility
+        const alert = { timestamp: new Date().toISOString(), type: 'insight', message: 'Weekly digest generated', file: WEEKLY_DIGEST };
+        fs.appendFileSync(LOG_FILE, JSON.stringify(alert) + "\n");
+        console.log(`[Weekly Digest] Created at ${digest.generatedAt} -> ${WEEKLY_DIGEST}`);
+      } catch (e) {
+        console.error('[Weekly Digest] Failed:', e && e.message ? e.message : e);
+      }
+    }, { timezone: process.env.NIGHTLY_TZ || undefined });
+    console.log(`[Weekly Digest] Scheduler enabled with cron '${spec}'`);
+  }
+} catch (e) {
+  console.warn('[Weekly Digest] Scheduler not started (node-cron missing or init error).');
+}
+
 // System health endpoint
 app.get("/api/system_health", (req, res) => {
   const uptime = process.uptime();
@@ -889,7 +963,7 @@ app.listen(PORT, () => {
     console.log("[Healing] Checking agent health...");
     // Check Comet AI agent status
     try {
-      const { spawn } = require('child_process');
+      const { spawn } = require('node:child_process');
       const checkAgent = spawn('node', ['LivingDashboard/agents/comet_ai.js', '--status'], {
         cwd: path.join(__dirname, '..', '..')
       });
@@ -911,5 +985,40 @@ app.listen(PORT, () => {
     } catch (error) {
       console.error("[Healing] Agent health check failed:", error.message);
     }
+  }, 60000); // every 60 seconds
+
+  // Lightweight health alert monitor (optional thresholds)
+  setInterval(() => {
+    try {
+      const cores = os.cpus()?.length || 1;
+      const load = os.loadavg();
+      const free = os.freemem();
+      const total = os.totalmem();
+      const freeRatio = total > 0 ? (free / total) : 1;
+
+      const maxLoadPerCore = Number.parseFloat(process.env.METRIC_MAX_LOAD_PER_CORE || '1.5');
+      const minFreeRatio = Number.parseFloat(process.env.MIN_FREE_MEM_RATIO || '0.10');
+
+      const overLoad = (load[0] || 0) / Math.max(1, cores) > maxLoadPerCore;
+      const lowMem = freeRatio < minFreeRatio;
+
+      if (overLoad || lowMem) {
+        const alert = {
+          timestamp: new Date().toISOString(),
+          type: 'alert',
+          message: `System health threshold exceeded: ${overLoad ? 'CPU load high ' : ''}${lowMem ? 'Memory low' : ''}`.trim(),
+          data: {
+            load1m: load[0] || 0,
+            cores,
+            free,
+            total,
+            freeRatio,
+            maxLoadPerCore,
+            minFreeRatio,
+          }
+        };
+        fs.appendFileSync(LOG_FILE, JSON.stringify(alert) + "\n");
+      }
+    } catch (_) { /* silent guard */ }
   }, 60000); // every 60 seconds
 });
