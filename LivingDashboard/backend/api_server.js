@@ -6,6 +6,8 @@ const cors = require("cors");
 const fs = require("fs");
 const path = require("path");
 const os = require("node:os");
+const crypto = require('node:crypto');
+let nodemailer; // lazy-loaded for optional email digest
 
 const app = express();
 const PORT = process.env.PORT || 4000;
@@ -559,9 +561,201 @@ try {
       }
     }, { timezone: process.env.NIGHTLY_TZ || undefined });
     console.log(`[Weekly Digest] Scheduler enabled with cron '${spec}'`);
+    // Optional immediate email send after digest generation if emailing enabled
   }
 } catch (e) {
   console.warn('[Weekly Digest] Scheduler not started (node-cron missing or init error).');
+}
+
+// Optional scripture integrity hash verification
+// Enable with ENABLE_INTEGRITY_CHECK=true
+// Cron override via INTEGRITY_CRON_TIME (default: 30 * * * * => every hour at minute 30)
+// Maintains scripture_hashes.json with baseline + changed files list
+const INTEGRITY_HASH_FILE = path.join(SCRIPTURE_DIR, 'scripture_hashes.json');
+function computeFileHash(filePath) {
+  try {
+    const data = fs.readFileSync(filePath);
+    return crypto.createHash('sha256').update(data).digest('hex');
+  } catch { return null; }
+}
+
+// --- Email Weekly Digest (Codex Extension) ---
+// Env flags:
+// ENABLE_WEEKLY_EMAIL_DIGEST=true to send automatically after weekly digest generation
+// EMAIL_SMTP_HOST, EMAIL_SMTP_PORT, EMAIL_SMTP_USER, EMAIL_SMTP_PASS
+// EMAIL_DIGEST_FROM, EMAIL_DIGEST_TO (comma-separated)
+function loadMailer() {
+  if (nodemailer) return nodemailer;
+  try { nodemailer = require('nodemailer'); } catch (e) { console.warn('[EmailDigest] nodemailer not installed.'); }
+  return nodemailer;
+}
+function createTransport() {
+  const nm = loadMailer();
+  if (!nm) return null;
+  const host = process.env.EMAIL_SMTP_HOST;
+  const port = parseInt(process.env.EMAIL_SMTP_PORT || '587',10);
+  const user = process.env.EMAIL_SMTP_USER;
+  const pass = process.env.EMAIL_SMTP_PASS;
+  if (!host || !user || !pass) { console.warn('[EmailDigest] Missing SMTP env config'); return null; }
+  return nm.createTransport({ host, port, secure: port===465, auth: { user, pass } });
+}
+function buildWeeklyDigestPayload() {
+  const readJson = (p, defVal) => { try { return fs.existsSync(p)? JSON.parse(fs.readFileSync(p,'utf8')): defVal; } catch { return defVal; } };
+  const overflow = readJson(OVERFLOW_STATUS_FILE, { launched:false });
+  const whispers = readJson(WHISPER_LOG, []);
+  const blessings = readJson(BLESSINGS_FILE, []);
+  const content = readJson(USER_CONTENT_FILE, []);
+  const news = readJson(ALTNEWS_FILE, []);
+  const moderation = readJson(MOD_LOG, []);
+  return {
+    generatedAt: new Date().toISOString(),
+    overflow,
+    counts: {
+      whispers: Array.isArray(whispers)? whispers.length:0,
+      blessings: Array.isArray(blessings)? blessings.length:0,
+      content: Array.isArray(content)? content.length:0,
+      news: Array.isArray(news)? news.length:0,
+      moderation: Array.isArray(moderation)? moderation.length:0,
+    }
+  };
+}
+async function sendWeeklyDigestEmail(payload) {
+  const transport = createTransport();
+  if (!transport) return { sent:false, reason:'Transport not available' };
+  const from = process.env.EMAIL_DIGEST_FROM || 'living-dashboard@example.com';
+  const to = (process.env.EMAIL_DIGEST_TO || '').split(',').map(s=>s.trim()).filter(Boolean);
+  if (!to.length) return { sent:false, reason:'No recipients configured' };
+  const subject = `Weekly Living Dashboard Digest – ${payload.generatedAt}`;
+  const text = `Overflow: ${payload.overflow.launched ? 'ACTIVE 🌊' : 'Dormant'}\nCounts: ${Object.entries(payload.counts).map(([k,v])=>`${k}=${v}`).join(', ')}\nFaith: John 14:6\n`;
+  try {
+    const info = await transport.sendMail({ from, to, subject, text });
+    console.log('[EmailDigest] Sent digest:', info.messageId);
+    return { sent:true, id:info.messageId };
+  } catch (e) {
+    console.error('[EmailDigest] Failed:', e.message);
+    return { sent:false, reason:e.message };
+  }
+}
+// Trigger email manually
+app.post('/api/digest/email/test', async (req,res)=>{
+  try {
+    const payload = buildWeeklyDigestPayload();
+    const result = await sendWeeklyDigestEmail(payload);
+    res.json({ payload, result });
+  } catch (e) {
+    res.status(500).json({ error:'Failed to send test digest', details:e.message });
+  }
+});
+
+// Auto email after weekly digest file creation (hook into existing log alert)
+// Lightweight hook: monitor ENABLE_WEEKLY_EMAIL_DIGEST each hour to send if file exists & not yet emailed today.
+try {
+  const enableEmailDigest = (process.env.ENABLE_WEEKLY_EMAIL_DIGEST || '').toLowerCase()==='true';
+  if (enableEmailDigest) {
+    const cron = require('node-cron');
+    cron.schedule('15 * * * *', async () => { // every hour at :15
+      try {
+        if (!fs.existsSync(WEEKLY_DIGEST)) return; // no digest yet
+        const stat = fs.statSync(WEEKLY_DIGEST);
+        const today = new Date().toISOString().slice(0,10);
+        const stampFile = path.join(path.dirname(WEEKLY_DIGEST), '.weekly_digest_email_stamp');
+        let lastStamp = null;
+        if (fs.existsSync(stampFile)) { try { lastStamp = fs.readFileSync(stampFile,'utf8').trim(); } catch {} }
+        if (lastStamp === today) return; // already sent today
+        const payload = JSON.parse(fs.readFileSync(WEEKLY_DIGEST,'utf8'));
+        const result = await sendWeeklyDigestEmail(payload);
+        if (result.sent) fs.writeFileSync(stampFile, today);
+      } catch (e) {
+        console.error('[EmailDigest] Hourly check failed:', e.message);
+      }
+    });
+    console.log('[EmailDigest] Hourly email scheduler enabled');
+  }
+} catch (e) {
+  console.warn('[EmailDigest] Scheduler not started:', e.message);
+}
+
+// --- Crypto Donation / Ledger Endpoints ---
+const DONATIONS_LEDGER = path.join(SCRIPTURE_DIR, 'Donations_Ledger.json');
+function readLedger() { try { return fs.existsSync(DONATIONS_LEDGER)? JSON.parse(fs.readFileSync(DONATIONS_LEDGER,'utf8')): []; } catch { return []; } }
+function writeLedger(entries) { try { fs.writeFileSync(DONATIONS_LEDGER, JSON.stringify(entries,null,2)); } catch (e) { console.error('[Ledger] Write failed:', e.message); } }
+app.get('/api/ledger/donations', (req,res)=>{ res.json(readLedger()); });
+app.post('/api/ledger/donations', (req,res)=>{
+  try {
+    const { amount, asset='USD', txId=null, donor='Anonymous', note=null } = req.body || {};
+    if (!amount || isNaN(amount)) return res.status(400).json({ error:'Invalid amount' });
+    const entry = { id: crypto.randomUUID(), timestamp:new Date().toISOString(), amount: Number(amount), asset, donor, txId, note };
+    const ledger = readLedger();
+    ledger.push(entry);
+    writeLedger(ledger);
+    fs.appendFileSync(LOG_FILE, JSON.stringify({ timestamp: entry.timestamp, type:'donation', entry }) + '\n');
+    res.status(201).json(entry);
+  } catch (e) {
+    res.status(500).json({ error:'Failed to record donation', details:e.message });
+  }
+});
+app.get('/api/ledger/summary', (req,res)=>{
+  try {
+    const ledger = readLedger();
+    const totals = ledger.reduce((acc,e)=>{ acc[e.asset] = (acc[e.asset]||0)+ e.amount; return acc; }, {});
+    res.json({ totalCount: ledger.length, totals });
+  } catch (e) { res.status(500).json({ error:'Failed to summarize ledger', details:e.message }); }
+});
+function loadHashBaseline() {
+  try { return fs.existsSync(INTEGRITY_HASH_FILE) ? JSON.parse(fs.readFileSync(INTEGRITY_HASH_FILE,'utf8')) : { generatedAt: null, files: {}, changes: [] }; } catch { return { generatedAt: null, files: {}, changes: [] }; }
+}
+function persistHashBaseline(baseline) {
+  try { fs.writeFileSync(INTEGRITY_HASH_FILE, JSON.stringify(baseline, null, 2)); } catch (e) { console.error('[Integrity] Failed to persist baseline:', e.message); }
+}
+app.get('/api/integrity/status', (req,res)=>{
+  const baseline = loadHashBaseline();
+  res.json({ generatedAt: baseline.generatedAt, fileCount: Object.keys(baseline.files).length, changes: baseline.changes });
+});
+try {
+  const enableIntegrity = (process.env.ENABLE_INTEGRITY_CHECK || '').toLowerCase() === 'true';
+  if (enableIntegrity) {
+    const cron = require('node-cron');
+    const spec = process.env.INTEGRITY_CRON_TIME || '30 * * * *';
+    // Build list of scripture files to hash
+    const scriptureFiles = [WHISPER_LOG, COUNCIL_MEMORY, BLESSINGS_FILE, USER_CONTENT_FILE, ALTNEWS_FILE, MOD_LOG, OVERFLOW_STATUS_FILE];
+    // Initialize baseline if missing
+    const baseline = loadHashBaseline();
+    if (!baseline.generatedAt) {
+      scriptureFiles.forEach(f => { if (fs.existsSync(f)) baseline.files[f] = computeFileHash(f); });
+      baseline.generatedAt = new Date().toISOString();
+      persistHashBaseline(baseline);
+      console.log('[Integrity] Baseline established for scripture files.');
+    }
+    cron.schedule(spec, () => {
+      try {
+        const current = loadHashBaseline();
+        const changes = [];
+        scriptureFiles.forEach(f => {
+          if (fs.existsSync(f)) {
+            const h = computeFileHash(f);
+            if (h && current.files[f] && current.files[f] !== h) {
+              changes.push({ file: f, previous: current.files[f], current: h, timestamp: new Date().toISOString() });
+              current.files[f] = h; // update stored hash
+            } else if (h && !current.files[f]) {
+              changes.push({ file: f, previous: null, current: h, timestamp: new Date().toISOString(), added: true });
+              current.files[f] = h;
+            }
+          }
+        });
+        if (changes.length) {
+          current.changes = (current.changes || []).concat(changes);
+          fs.appendFileSync(LOG_FILE, JSON.stringify({ timestamp: new Date().toISOString(), type: 'integrity_alert', changes }) + '\n');
+          console.log(`[Integrity] Detected ${changes.length} change(s). Baseline updated.`);
+        }
+        persistHashBaseline(current);
+      } catch (e) {
+        console.error('[Integrity] Check failed:', e.message);
+      }
+    });
+    console.log(`[Integrity] Scheduler enabled with cron '${spec}'`);
+  }
+} catch (e) {
+  console.warn('[Integrity] Scheduler not started (node-cron missing or init error).');
 }
 
 // System health endpoint
