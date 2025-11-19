@@ -5,6 +5,7 @@ const express = require("express");
 const cors = require("cors");
 const fs = require("fs");
 const path = require("path");
+const os = require("node:os");
 
 const app = express();
 const PORT = process.env.PORT || 4000;
@@ -110,6 +111,34 @@ if (startupError) {
 
 // Metrics endpoint for CI readiness
 app.get("/metrics", (req, res) => res.send("API ready"));
+
+// Real system metrics for the Dashboard (lightweight, no auth)
+// Returns: harmonyScore, energyFlow (loadavg), nodesAwake (CPU cores),
+// memoryFree/Total, uptimeSeconds, timestamp
+app.get("/api/metrics", (req, res) => {
+  try {
+    const load = os.loadavg(); // [1m, 5m, 15m] (0s on Windows)
+    const cores = os.cpus()?.length || 1;
+    const free = os.freemem();
+    const total = os.totalmem();
+    const uptimeSeconds = os.uptime();
+    // Harmony score heuristic: lower load => higher harmony, clamped 0..1
+    const energy1m = load[0] || 0;
+    const harmonyScore = Math.max(0, Math.min(1, 1 - (energy1m / Math.max(1, cores))));
+
+    res.json({
+      harmonyScore,
+      energyFlow: { oneMin: load[0] || 0, fiveMin: load[1] || 0, fifteenMin: load[2] || 0 },
+      nodesAwake: cores,
+      memoryFree: free,
+      memoryTotal: total,
+      uptimeSeconds,
+      timestamp: new Date().toISOString(),
+    });
+  } catch (e) {
+    res.status(500).json({ error: "Failed to collect metrics", details: e.message });
+  }
+});
 
 // Start quantum analytics
 // quantumAnalytics.startAnalysis({ mode: 'continuous' });
@@ -514,19 +543,6 @@ app.post("/api/external_sync", async (req, res) => {
 });
 
 // Get quantum analytics insights
-app.get("/api/quantum_insights", (req, res) => {
-  try {
-    const insights = quantumAnalytics.getCurrentInsights();
-    res.json({
-      ...insights,
-      timestamp: new Date().toISOString(),
-      sovereignty_affirmation: "John 14:6 - All glory to Yeshua",
-    });
-  } catch (error) {
-    res.status(500).json({ error: "Failed to get quantum insights" });
-  }
-});
-
 // Get quantum prophecy
 app.get("/api/quantum_prophecy", (req, res) => {
   try {
