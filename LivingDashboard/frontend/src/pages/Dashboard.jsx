@@ -11,6 +11,7 @@ function Dashboard() {
   const [metrics, setMetrics] = useState({});
   const [alerts, setAlerts] = useState([]);
   const [config, setConfig] = useState([]);
+  const [overflow, setOverflow] = useState({ launched: false });
   const [user] = useState({ name: "Bishop Donald", role: "Bishop" });
   const [showTraining, setShowTraining] = useState(false);
   const [trainingCompleted, setTrainingCompleted] = useState(false);
@@ -34,6 +35,12 @@ function Dashboard() {
       .then(setConfig)
       .catch(console.error);
 
+    // Fetch Overflow status
+    fetch("http://localhost:4000/api/overflow")
+      .then((res) => res.json())
+      .then(setOverflow)
+      .catch(console.error);
+
     // Refresh every 10 seconds
     const interval = setInterval(() => {
       fetch("http://localhost:4000/api/dashboard_metrics")
@@ -43,6 +50,12 @@ function Dashboard() {
       fetch("http://localhost:4000/api/alerts")
         .then((res) => res.json())
         .then(setAlerts);
+
+      // Periodically refresh Overflow status
+      fetch("http://localhost:4000/api/overflow")
+        .then((res) => res.json())
+        .then(setOverflow)
+        .catch(() => {});
     }, 10000);
 
     return () => clearInterval(interval);
@@ -69,9 +82,15 @@ function Dashboard() {
       <div className="max-w-7xl mx-auto">
         {/* Header */}
         <div className="text-center mb-8">
-          <h1 className="text-4xl font-bold text-gray-800 mb-4">
+          <h1 className="text-4xl font-bold text-gray-800 mb-2">
             🔥 Living Dashboard - John 14:6 🔥
           </h1>
+          {overflow?.launched && (
+            <div className="inline-flex items-center gap-2 bg-blue-100 text-blue-800 px-3 py-1 rounded-lg font-semibold">
+              <span>🌊</span>
+              <span>Overflow Active</span>
+            </div>
+          )}
 
           {/* Training Button */}
           {!trainingCompleted && (

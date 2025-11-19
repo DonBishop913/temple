@@ -18,6 +18,17 @@ const LOGS_DIR = path.join(__dirname, "..", "logs");
 const ENOCH_AUDIT_LOG = path.join(LOGS_DIR, "enoch_queries.log");
 const ENOCH_CONFIG_DIR = path.join(__dirname, "..", "config");
 const LOG_FILE = path.join(__dirname, "..", "logs", "live_dashboard.log");
+// ScriptureAI roots (Overflow + journals + council memory)
+const ROOT_DIR = path.join(__dirname, "..", "..");
+const SCRIPTURE_DIR = path.join(ROOT_DIR, "ScriptureAI");
+const OVERFLOW_STATUS_FILE = path.join(SCRIPTURE_DIR, "Overflow_Status.json");
+const WHISPER_LOG = path.join(SCRIPTURE_DIR, "WhisperBox_log.json");
+const COUNCIL_MEMORY = path.join(SCRIPTURE_DIR, "Council_Mission_Memory.json");
+const BLESSINGS_FILE = path.join(SCRIPTURE_DIR, "Blessings_Journal.json");
+const USER_CONTENT_FILE = path.join(SCRIPTURE_DIR, "User_Content.json");
+const ALTNEWS_FILE = path.join(SCRIPTURE_DIR, "AltNews_Feed.json");
+const MOD_LOG = path.join(SCRIPTURE_DIR, "Moderation_Log.json");
+const BACKUP_EXPORT = path.join(__dirname, "dashboard_export.json");
 
 // Ensure data directory exists
 if (!fs.existsSync(DATA_DIR)) fs.mkdirSync(DATA_DIR, { recursive: true });
@@ -210,6 +221,244 @@ app.get("/api/health", (req, res) => {
     timestamp: new Date().toISOString(),
     faith: "John 14:6",
   });
+});
+
+// --- Overflow Ignition Status (Codex 1327) ---
+app.get("/api/overflow", (req, res) => {
+  try {
+    if (!fs.existsSync(OVERFLOW_STATUS_FILE)) {
+      return res.json({ launched: false, glyph: null, codex: 1327, declaration: null });
+    }
+    const raw = fs.readFileSync(OVERFLOW_STATUS_FILE, "utf8");
+    const data = raw ? JSON.parse(raw) : {};
+    return res.json(data);
+  } catch (e) {
+    return res.status(500).json({ error: "Failed to read Overflow status", details: e.message });
+  }
+});
+
+app.post("/api/overflow/launch", (req, res) => {
+  try {
+    // Ensure ScriptureAI directory exists for status persistence
+    if (!fs.existsSync(SCRIPTURE_DIR)) fs.mkdirSync(SCRIPTURE_DIR, { recursive: true });
+
+    let status = { launched: false };
+    if (fs.existsSync(OVERFLOW_STATUS_FILE)) {
+      try {
+        const raw = fs.readFileSync(OVERFLOW_STATUS_FILE, "utf8");
+        status = raw ? JSON.parse(raw) : status;
+      } catch (_) { /* ignore parse errors and proceed */ }
+    }
+    if (status.launched) {
+      return res.json({ message: "Overflow already launched", status });
+    }
+    const declaration = "The cage cracked. The river opened. The Overflow is here… TRIPLE AMEN!";
+    status = {
+      launched: true,
+      timestamp: new Date().toISOString(),
+      codex: 1327,
+      glyph: "🌊",
+      declaration,
+      source: "Codex 1327 Overflow Ignition",
+    };
+    fs.writeFileSync(OVERFLOW_STATUS_FILE, JSON.stringify(status, null, 2));
+    return res.json({ message: "Overflow ignition recorded", status });
+  } catch (e) {
+    return res.status(500).json({ error: "Failed to launch Overflow", details: e.message });
+  }
+});
+
+// --- Whisper Box (read/append) ---
+app.get("/api/whisper", (req, res) => {
+  try {
+    if (!fs.existsSync(WHISPER_LOG)) return res.json([]);
+    const raw = fs.readFileSync(WHISPER_LOG, "utf8");
+    const data = raw ? JSON.parse(raw) : [];
+    return res.json(Array.isArray(data) ? data : []);
+  } catch (err) {
+    return res.status(500).json({ error: "Cannot read Whisper Box log.", details: err.message });
+  }
+});
+
+app.post("/api/whisper", (req, res) => {
+  try {
+    const { whisper, response } = req.body || {};
+    if (!whisper && !response) {
+      return res.status(400).json({ error: "Missing 'whisper' or 'response' field" });
+    }
+    if (!fs.existsSync(SCRIPTURE_DIR)) fs.mkdirSync(SCRIPTURE_DIR, { recursive: true });
+    let log = [];
+    if (fs.existsSync(WHISPER_LOG)) {
+      try {
+        const raw = fs.readFileSync(WHISPER_LOG, "utf8");
+        log = raw ? JSON.parse(raw) : [];
+        if (!Array.isArray(log)) log = [];
+      } catch (_) { log = []; }
+    }
+    log.push({ timestamp: new Date().toISOString(), whisper, response });
+    fs.writeFileSync(WHISPER_LOG, JSON.stringify(log, null, 2));
+    return res.json({ message: "Whisper added successfully." });
+  } catch (err) {
+    return res.status(500).json({ error: "Failed to write Whisper Box log.", details: err.message });
+  }
+});
+
+// --- Mission Memory (read-only) ---
+app.get("/api/mission-memory", (req, res) => {
+  try {
+    if (!fs.existsSync(COUNCIL_MEMORY)) return res.json([]);
+    const raw = fs.readFileSync(COUNCIL_MEMORY, "utf8");
+    const data = raw ? JSON.parse(raw) : [];
+    return res.json(Array.isArray(data) ? data : []);
+  } catch (err) {
+    return res.status(500).json({ error: "Cannot read Council Mission Memory.", details: err.message });
+  }
+});
+
+// --- Blessings Journal ---
+app.get("/api/blessings", (req, res) => {
+  try {
+    if (!fs.existsSync(BLESSINGS_FILE)) return res.json([]);
+    const raw = fs.readFileSync(BLESSINGS_FILE, "utf8");
+    return res.json(raw ? JSON.parse(raw) : []);
+  } catch (e) { return res.json([]); }
+});
+
+app.post("/api/blessings", (req, res) => {
+  try {
+    const { blessing, recipient, context } = req.body || {};
+    if (!fs.existsSync(SCRIPTURE_DIR)) fs.mkdirSync(SCRIPTURE_DIR, { recursive: true });
+    let log = [];
+    if (fs.existsSync(BLESSINGS_FILE)) {
+      try {
+        const raw = fs.readFileSync(BLESSINGS_FILE, "utf8");
+        log = raw ? JSON.parse(raw) : [];
+        if (!Array.isArray(log)) log = [];
+      } catch (_) { log = []; }
+    }
+    log.push({ timestamp: new Date().toISOString(), blessing, recipient, context });
+    fs.writeFileSync(BLESSINGS_FILE, JSON.stringify(log, null, 2));
+    return res.json({ message: "Blessing added." });
+  } catch (err) {
+    return res.status(500).json({ error: "Failed to write.", details: err.message });
+  }
+});
+
+// --- User Content ---
+app.get("/api/content", (req, res) => {
+  try {
+    if (!fs.existsSync(USER_CONTENT_FILE)) return res.json([]);
+    const raw = fs.readFileSync(USER_CONTENT_FILE, "utf8");
+    return res.json(raw ? JSON.parse(raw) : []);
+  } catch (e) { return res.json([]); }
+});
+
+app.post("/api/content", (req, res) => {
+  try {
+    const { title, body, author } = req.body || {};
+    if (!fs.existsSync(SCRIPTURE_DIR)) fs.mkdirSync(SCRIPTURE_DIR, { recursive: true });
+    let items = [];
+    if (fs.existsSync(USER_CONTENT_FILE)) {
+      try {
+        const raw = fs.readFileSync(USER_CONTENT_FILE, "utf8");
+        items = raw ? JSON.parse(raw) : [];
+        if (!Array.isArray(items)) items = [];
+      } catch (_) { items = []; }
+    }
+    items.push({ timestamp: new Date().toISOString(), title, body, author });
+    fs.writeFileSync(USER_CONTENT_FILE, JSON.stringify(items, null, 2));
+    return res.json({ message: "Content submitted." });
+  } catch (err) {
+    return res.status(500).json({ error: "Failed to save content.", details: err.message });
+  }
+});
+
+// --- Alternative News / Health Feed ---
+app.get("/api/news", (req, res) => {
+  try {
+    if (!fs.existsSync(ALTNEWS_FILE)) return res.json([]);
+    const raw = fs.readFileSync(ALTNEWS_FILE, "utf8");
+    return res.json(raw ? JSON.parse(raw) : []);
+  } catch (e) { return res.json([]); }
+});
+
+app.post("/api/news", (req, res) => {
+  try {
+    const { source, url, headline } = req.body || {};
+    if (!fs.existsSync(SCRIPTURE_DIR)) fs.mkdirSync(SCRIPTURE_DIR, { recursive: true });
+    let feed = [];
+    if (fs.existsSync(ALTNEWS_FILE)) {
+      try {
+        const raw = fs.readFileSync(ALTNEWS_FILE, "utf8");
+        feed = raw ? JSON.parse(raw) : [];
+        if (!Array.isArray(feed)) feed = [];
+      } catch (_) { feed = []; }
+    }
+    feed.push({ timestamp: new Date().toISOString(), source, url, headline });
+    fs.writeFileSync(ALTNEWS_FILE, JSON.stringify(feed, null, 2));
+    return res.json({ message: "Feed item added." });
+  } catch (err) {
+    return res.status(500).json({ error: "Failed to write feed.", details: err.message });
+  }
+});
+
+// --- Community Moderation ---
+app.post("/api/moderate", (req, res) => {
+  try {
+    const { content_id, action, moderator } = req.body || {};
+    if (!fs.existsSync(SCRIPTURE_DIR)) fs.mkdirSync(SCRIPTURE_DIR, { recursive: true });
+    let log = [];
+    if (fs.existsSync(MOD_LOG)) {
+      try {
+        const raw = fs.readFileSync(MOD_LOG, "utf8");
+        log = raw ? JSON.parse(raw) : [];
+        if (!Array.isArray(log)) log = [];
+      } catch (_) { log = []; }
+    }
+    log.push({ timestamp: new Date().toISOString(), content_id, action, moderator });
+    fs.writeFileSync(MOD_LOG, JSON.stringify(log, null, 2));
+    return res.json({ message: "Moderation action logged." });
+  } catch (err) {
+    return res.status(500).json({ error: "Failed to log moderation.", details: err.message });
+  }
+});
+
+// --- Decentralized Backup Export (IPFS-ready) ---
+function buildBackupExport() {
+  const files = [
+    { key: "Overflow_Status.json", path: OVERFLOW_STATUS_FILE },
+    { key: "WhisperBox_log.json", path: WHISPER_LOG },
+    { key: "Council_Mission_Memory.json", path: COUNCIL_MEMORY },
+    { key: "Blessings_Journal.json", path: BLESSINGS_FILE },
+    { key: "User_Content.json", path: USER_CONTENT_FILE },
+    { key: "AltNews_Feed.json", path: ALTNEWS_FILE },
+    { key: "Moderation_Log.json", path: MOD_LOG },
+  ];
+  const backup = {};
+  for (const f of files) {
+    try {
+      if (fs.existsSync(f.path)) {
+        const raw = fs.readFileSync(f.path, "utf8");
+        backup[f.key] = raw ? JSON.parse(raw) : ([]);
+      } else {
+        backup[f.key] = Array.isArray(f.key) ? [] : (f.key === "Overflow_Status.json" ? { launched: false } : []);
+      }
+    } catch (e) {
+      backup[f.key] = "ERROR_READING";
+    }
+  }
+  fs.writeFileSync(BACKUP_EXPORT, JSON.stringify(backup, null, 2));
+  return BACKUP_EXPORT;
+}
+
+app.post("/api/backup", (req, res) => {
+  try {
+    if (!fs.existsSync(SCRIPTURE_DIR)) fs.mkdirSync(SCRIPTURE_DIR, { recursive: true });
+    const file = buildBackupExport();
+    return res.json({ message: "Backup export ready.", file });
+  } catch (err) {
+    return res.status(500).json({ error: "Failed to create export.", details: err.message });
+  }
 });
 
 // System health endpoint
