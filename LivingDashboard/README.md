@@ -30,6 +30,23 @@ This bundle provides a Vite-powered React app with Tailwind CSS and an Express A
    npm run preview
    ```
 
+## Autonomous Activation (Codex 1327)
+
+- Quick start on Windows:
+   - Run `Launch_TemplePC_Autonomous_All.ps1` from the repo root to start backend, Comet AI, and preview the frontend. Flags: `-NoFrontend`, `-NoComet`, `-NoSolance`.
+   - This sets env flags to enable nightly backups (23:59) and weekly digests (Mon 09:00) and starts the backend (`backend/api_server.js`).
+
+- Backend scripts:
+   - `npm run backend` → runs `backend/api_server.js`
+
+- Key endpoints:
+   - `/api/overflow`, `/api/overflow/launch` (🌊 status & ignition)
+   - `/api/metrics` (system health)
+   - `/api/backup` (aggregated export; also use the “Backup Now” button in the UI)
+   - Scripture suite: `/api/whisper`, `/api/mission-memory`, `/api/blessings`, `/api/content`, `/api/news`, `/api/moderate`
+
+See `COUNCIL_AUTONOMY_MASTER_PLAN.md` and `COUNCIL_AUTONOMY_ACTIVATION_FLOW.md` for details.
+
 ## Notes
 
 - Tailwind CSS is configured via `tailwind.config.js` and `postcss.config.js`, with styles in `src/index.css`.
