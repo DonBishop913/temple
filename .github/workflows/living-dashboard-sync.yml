@@ -14,6 +14,7 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Send workflow status to Living Dashboard
+        if: ${{ secrets.LIVING_DASHBOARD_URL != '' }}
         run: |
           # Fallback to default localhost:4000 if secret base URL not set
           BASE_URL="${{ secrets.LIVING_DASHBOARD_URL }}"
