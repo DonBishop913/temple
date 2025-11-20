@@ -15,7 +15,10 @@ jobs:
 
       - name: Send workflow status to Living Dashboard
         run: |
-          curl -X POST "${{ secrets.LIVING_DASHBOARD_URL }}/api/solance/webhook" \
+          # Fallback to default localhost:4000 if secret base URL not set
+          BASE_URL="${{ secrets.LIVING_DASHBOARD_URL }}"
+          if [ -z "$BASE_URL" ]; then BASE_URL="http://localhost:4000"; fi
+          curl -X POST "$BASE_URL/api/solance/webhook" \
             -H "Content-Type: application/json" \
             -H "X-API-Token: ${{ secrets.LIVING_DASHBOARD_TOKEN }}" \
             -d '{
