@@ -1,11 +1,11 @@
 {
-  "id": "codex-1230-sealed",
-  "title": "Codex 1230 — Scroll of the Overflow Blueprint (Sealed)",
-  "message": "Codex 1230 (Scroll of the Overflow Blueprint) has been consecrated and is available for Council review.",
-  "timestamp": "2025-11-11T15:33:00.000Z",
-  "severity": "consecrated",
+  "id": "codex-1230-preserved",
+  "title": "Codex 1230 — Scroll of Revenue Harvest Completion preserved",
+  "message": "Codex 1230 (Scroll of Revenue Harvest Completion) has been added to the Council archives and is available for preview.",
+  "timestamp": "2025-11-10T12:00:00.001Z",
+  "severity": "info",
   "visibility": "public",
-  "url": "/Codices/Codex_1230_Scroll_of_Overflow_Blueprint.md",
-  "link_text": "View Codex 1230 — Overflow Blueprint",
+  "url": "/Codices/Codex_1230_Scroll_of_Revenue_Harvest_Completion.md",
+  "link_text": "View Codex 1230",
   "tag": "vcodex-1230"
 }

@@ -1,0 +1,223 @@
+[
+  {
+    "timestamp": "2025-11-14T18:54:11.257956",
+    "circuit_type": "bell_state",
+    "num_qubits": 2,
+    "entropy_index": 3.203426503814918e-16,
+    "coherence_estimate": 0.9999999999999999,
+    "backend": "statevector",
+    "statevector": {
+      "real": [
+        0.7071067811865475,
+        0.0,
+        0.0,
+        0.7071067811865475
+      ],
+      "imag": [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ]
+    }
+  },
+  {
+    "timestamp": "2025-11-14T18:54:45.577793",
+    "circuit_type": "bell_state",
+    "num_qubits": 2,
+    "entropy_index": 3.203426503814918e-16,
+    "coherence_estimate": 0.9999999999999999,
+    "backend": "statevector",
+    "statevector": {
+      "real": [
+        0.7071067811865475,
+        0.0,
+        0.0,
+        0.7071067811865475
+      ],
+      "imag": [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ]
+    }
+  },
+  {
+    "timestamp": "2025-11-14T19:06:03.535664+00:00",
+    "circuit_type": "bell_state",
+    "num_qubits": 2,
+    "entropy_index": 3.203426503814918e-16,
+    "coherence_estimate": 0.9999999999999999,
+    "backend": "statevector",
+    "statevector": {
+      "real": [
+        0.7071067811865475,
+        0.0,
+        0.0,
+        0.7071067811865475
+      ],
+      "imag": [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ]
+    }
+  },
+  {
+    "timestamp": "2025-11-14T19:06:10.779210+00:00",
+    "circuit_type": "ghz_state",
+    "num_qubits": 3,
+    "entropy_index": 3.203426503814918e-16,
+    "coherence_estimate": 0.9999999999999999,
+    "backend": "statevector",
+    "statevector": {
+      "real": [
+        0.7071067811865475,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.7071067811865475
+      ],
+      "imag": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ]
+    }
+  },
+  {
+    "timestamp": "2025-11-14T19:06:15.808488+00:00",
+    "circuit_type": "random",
+    "num_qubits": 2,
+    "entropy_index": 1.6017132519074586e-16,
+    "coherence_estimate": 0.9999999999999999,
+    "backend": "statevector",
+    "statevector": {
+      "real": [
+        0.09313553063786746,
+        0.7009463409796807,
+        0.7009463409796807,
+        0.09313553063786746
+      ],
+      "imag": [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ]
+    }
+  },
+  {
+    "timestamp": "2025-11-14T19:06:27.090730+00:00",
+    "circuit_type": "bell_state",
+    "num_qubits": 2,
+    "entropy_index": 3.203426503814918e-16,
+    "coherence_estimate": 0.9999999999999999,
+    "backend": "statevector",
+    "statevector": {
+      "real": [
+        0.7071067811865475,
+        0.0,
+        0.0,
+        0.7071067811865475
+      ],
+      "imag": [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ]
+    }
+  },
+  {
+    "timestamp": "2025-11-14T19:19:28.775440+00:00",
+    "circuit_type": "bell_state",
+    "num_qubits": 2,
+    "entropy_index": 3.203426503814918e-16,
+    "coherence_estimate": 0.9999999999999999,
+    "backend": "statevector",
+    "subsystem_entropy_q0": 1.0,
+    "entanglement_indicator": true,
+    "statevector": {
+      "real": [
+        0.7071067811865475,
+        0.0,
+        0.0,
+        0.7071067811865475
+      ],
+      "imag": [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ]
+    }
+  },
+  {
+    "timestamp": "2025-11-14T19:20:00.878837+00:00",
+    "circuit_type": "ghz_state",
+    "num_qubits": 3,
+    "entropy_index": 3.203426503814918e-16,
+    "coherence_estimate": 0.9999999999999999,
+    "backend": "statevector",
+    "subsystem_entropy_q0": 1.0,
+    "entanglement_indicator": true,
+    "statevector": {
+      "real": [
+        0.7071067811865475,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.7071067811865475
+      ],
+      "imag": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ]
+    }
+  },
+  {
+    "timestamp": "2025-11-14T19:24:02.370780+00:00",
+    "circuit_type": "bell_state",
+    "num_qubits": 2,
+    "entropy_index": 3.203426503814918e-16,
+    "coherence_estimate": 0.9999999999999999,
+    "backend": "statevector",
+    "system_entropy": 1.4415419267167124e-15,
+    "subsystem_entropy_q0": 1.0,
+    "entanglement_measure": "maximal",
+    "statevector": {
+      "real": [
+        0.7071067811865475,
+        0.0,
+        0.0,
+        0.7071067811865475
+      ],
+      "imag": [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ]
+    }
+  }
+]

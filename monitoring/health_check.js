@@ -5,7 +5,8 @@ const { URL } = require('url');
 const path = require('path');
 
 const config = {
-  metricsUrl: process.env.METRICS_URL || 'http://localhost:4000/metrics',
+  // Primary metrics endpoint now uses /api/metrics (the actual rich metrics route)
+  metricsUrl: process.env.METRICS_URL || 'http://localhost:4000/api/metrics',
   trackerUrl: process.env.TRACKER_URL || 'http://localhost:8080/stripe_scaffold_tracker.html',
   codicesUrl: process.env.CODICES_URL || 'http://localhost:4100/api/codices',
   dashboardUrl: process.env.DASHBOARD_URL || 'http://localhost:4100/',
@@ -108,6 +109,30 @@ async function checkAll() {
       }
     } else {
       r = await httpGet(finalUrl);
+      // Fallback logic for metrics endpoint legacy path/port mismatches
+      if (name === 'metrics' && (!r.ok || r.status >= 400)) {
+        const fallbacks = [];
+        try {
+          const u = new URL(finalUrl);
+          const baseHost = u.hostname;
+          // Candidate ports (current PORT env often 4000, legacy sometimes 3000)
+          const ports = [u.port || '4000', '4000', '3000'];
+          const paths = ['/api/metrics', '/metrics'];
+          for (const p of ports) {
+            for (const pathVariant of paths) {
+              const candidate = `http://${baseHost}:${p}${pathVariant}`;
+              if (candidate !== finalUrl && !fallbacks.includes(candidate)) fallbacks.push(candidate);
+            }
+          }
+        } catch (_) { /* ignore URL parse errors */ }
+        for (const fb of fallbacks) {
+          const attempt = await httpGet(fb);
+            if (attempt.ok && attempt.status < 400) {
+              r = { ...attempt, url: fb, originalUrl: finalUrl, fallbackUsed: true };
+              break;
+            }
+        }
+      }
     }
     results.push({ name, url: finalUrl, originalUrl: url, ...r });
   }

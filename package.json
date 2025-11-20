@@ -17,7 +17,8 @@
     "autonomy:enhance": "node TemplePC-EnhancementRoutines.js",
     "autonomy:predict": "node TemplePC-PredictiveRoutines.js",
     "start:advanced-rituals": "node TemplePC-AdvancedRitualAutomation.js",
-    "normalize-logs": "node scripts/normalize_logs.js"
+    "normalize-logs": "node scripts/normalize_logs.js",
+    "api:start": "node scripts/dashboard_api.js"
   },
   "devDependencies": {
     "@babel/core": "^7.22.9",
@@ -48,7 +49,7 @@
     "helia": "^4.0.0",
     "http-proxy": "^1.18.1",
     "marked": "^17.0.0",
-    "node-fetch": "^3.3.2",
+    "node-fetch": "^2.6.7",
     "nodemailer": "^6.9.8",
     "playwright": "^1.56.1",
     "puppeteer": "^24.25.0",

@@ -1,0 +1,455 @@
+[
+  {
+    "timestamp": "2025-11-14T03:01:39.101Z",
+    "qstream": {
+      "cycle": 1,
+      "phase_shift": "2.784π",
+      "entropy_index": "0.0216",
+      "coherence_estimate": "0.999",
+      "predicted_stability": "LOW",
+      "timestamp": "2025-11-14T03:01:39.037Z"
+    },
+    "agent_chamber": [
+      {
+        "from": "Scout",
+        "content": "Cycle 1 stable (entropy 0.0216).",
+        "ts": "2025-11-14T03:01:39.070Z"
+      },
+      {
+        "from": "Scribe",
+        "content": "Logged observation: \"Cycle 1 stable (entropy 0.0216).\" for Council review.",
+        "ts": "2025-11-14T03:01:39.070Z"
+      },
+      {
+        "from": "Oracle",
+        "content": "No immediate risk detected.",
+        "ts": "2025-11-14T03:01:39.070Z"
+      },
+      {
+        "from": "Strategist",
+        "content": "Strategist sees no urgent actions. Maintain current operations.",
+        "ts": "2025-11-14T03:01:39.070Z"
+      }
+    ]
+  },
+  {
+    "timestamp": "2025-11-14T03:20:40.697Z",
+    "qstream": {
+      "cycle": 2,
+      "phase_shift": "2.864π",
+      "entropy_index": "0.0160",
+      "coherence_estimate": "0.975",
+      "predicted_stability": "LOW",
+      "timestamp": "2025-11-14T03:20:03.469Z"
+    },
+    "agent_chamber": [
+      {
+        "from": "Strategist",
+        "content": "Strategist sees no urgent actions. Maintain current operations.",
+        "ts": "2025-11-14T03:01:39.070Z"
+      },
+      {
+        "from": "Scout",
+        "content": "Cycle 2 stable (entropy 0.016).",
+        "ts": "2025-11-14T03:20:13.088Z"
+      },
+      {
+        "from": "Scribe",
+        "content": "Logged observation: \"Cycle 2 stable (entropy 0.016).\" for Council review.",
+        "ts": "2025-11-14T03:20:13.088Z"
+      },
+      {
+        "from": "Oracle",
+        "content": "No immediate risk detected.",
+        "ts": "2025-11-14T03:20:13.088Z"
+      },
+      {
+        "from": "Strategist",
+        "content": "Strategist sees no urgent actions. Maintain current operations.",
+        "ts": "2025-11-14T03:20:13.088Z"
+      }
+    ]
+  },
+  {
+    "timestamp": "2025-11-14T03:22:43.082Z",
+    "qstream": {
+      "cycle": 3,
+      "phase_shift": "1.336π",
+      "entropy_index": "0.0092",
+      "coherence_estimate": "0.997",
+      "predicted_stability": "HIGH",
+      "timestamp": "2025-11-14T03:22:42.999Z"
+    },
+    "agent_chamber": [
+      {
+        "from": "Strategist",
+        "content": "Strategist sees no urgent actions. Maintain current operations.",
+        "ts": "2025-11-14T03:20:13.088Z"
+      },
+      {
+        "from": "Scout",
+        "content": "Cycle 3 stable (entropy 0.0092).",
+        "ts": "2025-11-14T03:22:43.042Z"
+      },
+      {
+        "from": "Scribe",
+        "content": "Logged observation: \"Cycle 3 stable (entropy 0.0092).\" for Council review.",
+        "ts": "2025-11-14T03:22:43.042Z"
+      },
+      {
+        "from": "Oracle",
+        "content": "No immediate risk detected.",
+        "ts": "2025-11-14T03:22:43.042Z"
+      },
+      {
+        "from": "Strategist",
+        "content": "Strategist sees no urgent actions. Maintain current operations.",
+        "ts": "2025-11-14T03:22:43.042Z"
+      }
+    ]
+  },
+  {
+    "timestamp": "2025-11-14T03:27:47.067Z",
+    "qstream": {
+      "cycle": 4,
+      "phase_shift": "1.166π",
+      "entropy_index": "0.0213",
+      "coherence_estimate": "0.995",
+      "predicted_stability": "LOW",
+      "timestamp": "2025-11-14T03:27:46.981Z"
+    },
+    "agent_chamber": [
+      {
+        "from": "Strategist",
+        "content": "Strategist sees no urgent actions. Maintain current operations.",
+        "ts": "2025-11-14T03:22:43.042Z"
+      },
+      {
+        "from": "Scout",
+        "content": "Cycle 4 stable (entropy 0.0213).",
+        "ts": "2025-11-14T03:27:47.025Z"
+      },
+      {
+        "from": "Scribe",
+        "content": "Logged observation: \"Cycle 4 stable (entropy 0.0213).\" for Council review.",
+        "ts": "2025-11-14T03:27:47.025Z"
+      },
+      {
+        "from": "Oracle",
+        "content": "No immediate risk detected.",
+        "ts": "2025-11-14T03:27:47.025Z"
+      },
+      {
+        "from": "Strategist",
+        "content": "Strategist sees no urgent actions. Maintain current operations.",
+        "ts": "2025-11-14T03:27:47.025Z"
+      }
+    ],
+    "quantum": null
+  },
+  {
+    "timestamp": "2025-11-14T18:53:15.779Z",
+    "qstream": {
+      "cycle": 5,
+      "phase_shift": "1.608π",
+      "entropy_index": "0.0346",
+      "entropy_delta": "0.0133",
+      "coherence_estimate": "0.975",
+      "predicted_stability": "HIGH",
+      "symbolic_amplitudes": [
+        {
+          "re": 0.0216,
+          "im": 0.213
+        },
+        {
+          "re": -0.2653,
+          "im": 0.066
+        },
+        {
+          "re": -0.2841,
+          "im": -0.0507
+        },
+        {
+          "re": 0.2194,
+          "im": -0.0446
+        }
+      ],
+      "timestamp": "2025-11-14T18:53:15.688Z"
+    },
+    "agent_chamber": [
+      {
+        "from": "Strategist",
+        "content": "Strategist sees no urgent actions. Maintain current operations.",
+        "ts": "2025-11-14T03:27:47.025Z"
+      },
+      {
+        "from": "Scout",
+        "content": "Anomaly detected in cycle 5 (entropy 0.0346).",
+        "ts": "2025-11-14T18:53:15.731Z"
+      },
+      {
+        "from": "Scribe",
+        "content": "Logged observation: \"Anomaly detected in cycle 5 (entropy 0.0346).\" for Council review.",
+        "ts": "2025-11-14T18:53:15.732Z"
+      },
+      {
+        "from": "Oracle",
+        "content": "Prediction: next 3 cycles may trend LOW stability.",
+        "ts": "2025-11-14T18:53:15.732Z"
+      },
+      {
+        "from": "Strategist",
+        "content": "Strategist proposes: run deep telemetry scan and verify agent alignment.",
+        "ts": "2025-11-14T18:53:15.732Z"
+      }
+    ],
+    "quantum": null
+  },
+  {
+    "timestamp": "2025-11-14T18:53:50.187Z",
+    "qstream": {
+      "cycle": 6,
+      "phase_shift": "2.703π",
+      "entropy_index": "0.0282",
+      "entropy_delta": "-0.0064",
+      "coherence_estimate": "0.963",
+      "predicted_stability": "LOW",
+      "symbolic_amplitudes": [
+        {
+          "re": -0.1023,
+          "im": -0.4959
+        },
+        {
+          "re": -0.0229,
+          "im": -0.0454
+        },
+        {
+          "re": 0.082,
+          "im": -0.0393
+        },
+        {
+          "re": -0.3494,
+          "im": -0.042
+        }
+      ],
+      "timestamp": "2025-11-14T18:53:50.115Z"
+    },
+    "agent_chamber": [
+      {
+        "from": "Strategist",
+        "content": "Strategist proposes: run deep telemetry scan and verify agent alignment.",
+        "ts": "2025-11-14T18:53:15.732Z"
+      },
+      {
+        "from": "Scout",
+        "content": "Cycle 6 stable (entropy 0.0282).",
+        "ts": "2025-11-14T18:53:50.152Z"
+      },
+      {
+        "from": "Scribe",
+        "content": "Logged observation: \"Cycle 6 stable (entropy 0.0282).\" for Council review.",
+        "ts": "2025-11-14T18:53:50.153Z"
+      },
+      {
+        "from": "Oracle",
+        "content": "No immediate risk detected.",
+        "ts": "2025-11-14T18:53:50.153Z"
+      },
+      {
+        "from": "Strategist",
+        "content": "Strategist sees no urgent actions. Maintain current operations.",
+        "ts": "2025-11-14T18:53:50.153Z"
+      }
+    ],
+    "quantum": null
+  },
+  {
+    "timestamp": "2025-11-14T18:54:11.404Z",
+    "qstream": {
+      "cycle": 7,
+      "phase_shift": "1.711π",
+      "entropy_index": "0.0434",
+      "entropy_delta": "0.0152",
+      "coherence_estimate": "0.982",
+      "predicted_stability": "HIGH",
+      "symbolic_amplitudes": [
+        {
+          "re": 0.0848,
+          "im": 0.2628
+        },
+        {
+          "re": -0.1724,
+          "im": 0.0248
+        },
+        {
+          "re": -0.2281,
+          "im": 0.0284
+        },
+        {
+          "re": -0.0401,
+          "im": -0.3173
+        }
+      ],
+      "timestamp": "2025-11-14T18:54:11.319Z"
+    },
+    "agent_chamber": [
+      {
+        "from": "Strategist",
+        "content": "Strategist sees no urgent actions. Maintain current operations.",
+        "ts": "2025-11-14T18:53:50.153Z"
+      },
+      {
+        "from": "Scout",
+        "content": "Anomaly detected in cycle 7 (entropy 0.0434).",
+        "ts": "2025-11-14T18:54:11.360Z"
+      },
+      {
+        "from": "Scribe",
+        "content": "Logged observation: \"Anomaly detected in cycle 7 (entropy 0.0434).\" for Council review.",
+        "ts": "2025-11-14T18:54:11.361Z"
+      },
+      {
+        "from": "Oracle",
+        "content": "Prediction: next 3 cycles may trend LOW stability.",
+        "ts": "2025-11-14T18:54:11.361Z"
+      },
+      {
+        "from": "Strategist",
+        "content": "Strategist proposes: run deep telemetry scan and verify agent alignment.",
+        "ts": "2025-11-14T18:54:11.361Z"
+      }
+    ],
+    "quantum": {
+      "circuit_type": "bell_state",
+      "entropy_index": 3.203426503814918e-16,
+      "coherence_estimate": 0.9999999999999999,
+      "backend": "statevector"
+    }
+  },
+  {
+    "timestamp": "2025-11-14T18:54:45.733Z",
+    "qstream": {
+      "cycle": 8,
+      "phase_shift": "1.886π",
+      "entropy_index": "0.0472",
+      "entropy_delta": "0.0038",
+      "coherence_estimate": "0.973",
+      "predicted_stability": "LOW",
+      "symbolic_amplitudes": [
+        {
+          "re": -0.0197,
+          "im": 0.0012
+        },
+        {
+          "re": 0.0954,
+          "im": -0.1044
+        },
+        {
+          "re": -0.242,
+          "im": 0.276
+        },
+        {
+          "re": 0.1998,
+          "im": -0.4273
+        }
+      ],
+      "timestamp": "2025-11-14T18:54:45.644Z"
+    },
+    "agent_chamber": [
+      {
+        "from": "Strategist",
+        "content": "Strategist proposes: run deep telemetry scan and verify agent alignment.",
+        "ts": "2025-11-14T18:54:11.361Z"
+      },
+      {
+        "from": "Scout",
+        "content": "Anomaly detected in cycle 8 (entropy 0.0472).",
+        "ts": "2025-11-14T18:54:45.685Z"
+      },
+      {
+        "from": "Scribe",
+        "content": "Logged observation: \"Anomaly detected in cycle 8 (entropy 0.0472).\" for Council review.",
+        "ts": "2025-11-14T18:54:45.686Z"
+      },
+      {
+        "from": "Oracle",
+        "content": "Prediction: next 3 cycles may trend LOW stability.",
+        "ts": "2025-11-14T18:54:45.686Z"
+      },
+      {
+        "from": "Strategist",
+        "content": "Strategist proposes: run deep telemetry scan and verify agent alignment.",
+        "ts": "2025-11-14T18:54:45.686Z"
+      }
+    ],
+    "quantum": {
+      "circuit_type": "bell_state",
+      "entropy_index": 3.203426503814918e-16,
+      "coherence_estimate": 0.9999999999999999,
+      "backend": "statevector"
+    }
+  },
+  {
+    "timestamp": "2025-11-14T19:06:27.258Z",
+    "qstream": {
+      "cycle": 9,
+      "phase_shift": "3.056π",
+      "entropy_index": "0.0439",
+      "entropy_delta": "-0.0033",
+      "coherence_estimate": "0.955",
+      "predicted_stability": "HIGH",
+      "symbolic_amplitudes": [
+        {
+          "re": -0.017,
+          "im": 0.0687
+        },
+        {
+          "re": -0.0911,
+          "im": -0.3371
+        },
+        {
+          "re": 0.2587,
+          "im": -0.1226
+        },
+        {
+          "re": -0.1876,
+          "im": 0.2261
+        }
+      ],
+      "timestamp": "2025-11-14T19:06:27.163Z"
+    },
+    "agent_chamber": [
+      {
+        "from": "Strategist",
+        "content": "Strategist proposes: run deep telemetry scan and verify agent alignment.",
+        "ts": "2025-11-14T18:54:45.686Z"
+      },
+      {
+        "from": "Scout",
+        "content": "Anomaly detected in cycle 9 (entropy 0.0439).",
+        "ts": "2025-11-14T19:06:27.215Z"
+      },
+      {
+        "from": "Scribe",
+        "content": "Logged observation: \"Anomaly detected in cycle 9 (entropy 0.0439).\" for Council review.",
+        "ts": "2025-11-14T19:06:27.215Z"
+      },
+      {
+        "from": "Oracle",
+        "content": "Prediction: next 3 cycles may trend LOW stability.",
+        "ts": "2025-11-14T19:06:27.215Z"
+      },
+      {
+        "from": "Strategist",
+        "content": "Strategist proposes: run deep telemetry scan and verify agent alignment.",
+        "ts": "2025-11-14T19:06:27.215Z"
+      }
+    ],
+    "quantum": {
+      "circuit_type": "bell_state",
+      "entropy_index": 3.203426503814918e-16,
+      "coherence_estimate": 0.9999999999999999,
+      "backend": "statevector"
+    }
+  }
+]

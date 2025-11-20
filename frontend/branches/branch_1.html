@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>Council Branch 1</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <style>
+    body { font-family: system-ui,-apple-system,Segoe UI,Roboto,sans-serif; background:#0f172a; color:#f1f5f9; margin:0; padding:32px; }
+    .card { background:#1e293b; border:1px solid #334155; border-radius:12px; padding:24px; max-width:720px; margin:0 auto; box-shadow:0 6px 18px -6px rgba(0,0,0,0.5); }
+    h1 { margin:0 0 16px; font-size:28px; background:linear-gradient(90deg,#2dd4bf,#0ea5e9); -webkit-background-clip:text; color:transparent; }
+    h2 { margin-top:32px; font-size:20px; color:#38bdf8; }
+    .status { display:inline-block; padding:6px 12px; background:#0ea5e9; color:#082f49; font-weight:600; border-radius:20px; font-size:13px; letter-spacing:.5px; }
+    ul { padding-left:20px; }
+    li { margin:6px 0; }
+    .footer { margin-top:40px; font-size:12px; opacity:.7; }
+    .badge { font-size:32px; vertical-align:middle; }
+    .grid { display:grid; gap:16px; grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); margin-top:20px; }
+    .tile { background:#0f3b4f; border:1px solid #155e75; padding:14px 16px; border-radius:10px; }
+    .tile h3 { margin:0 0 8px; font-size:14px; letter-spacing:.5px; text-transform:uppercase; color:#67e8f9; }
+    .tile p { margin:0; font-size:13px; line-height:1.4; }
+    a { color:#2dd4bf; text-decoration:none; }
+    a:hover { text-decoration:underline; }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <h1>Branch 1 – Council Outreach <span class="badge">🕊️</span></h1>
+    <div class="status">ACTIVE STREAM</div>
+    <p style="margin:18px 0 24px;font-size:15px;line-height:1.6;">This branch coordinates external mission memory consolidation and gentle invitation flows for new observers. It operates continuously under autonomous stewardship and logs all ritual sync events.</p>
+
+    <h2>Daily Directives</h2>
+    <ul>
+      <li>Aggregate Whisper Box insights for observer-friendly summaries.</li>
+      <li>Rotate Blessings Journal excerpts (anonymized) for encouragement.</li>
+      <li>Monitor moderation signals & escalate anomalies to Council Core.</li>
+      <li>Publish Overflow glyph status (🌊) every 4 hours.</li>
+    </ul>
+
+    <h2>Transparency Metrics</h2>
+    <div class="grid">
+      <div class="tile"><h3>Whispers Indexed</h3><p data-metric="whispers">Loading…</p></div>
+      <div class="tile"><h3>Blessings Shared</h3><p data-metric="blessings">Loading…</p></div>
+      <div class="tile"><h3>Overflow State</h3><p data-metric="overflow">Loading…</p></div>
+      <div class="tile"><h3>Integrity Changes</h3><p data-metric="integrity">Loading…</p></div>
+    </div>
+
+    <h2>Branch Notes</h2>
+    <p style="font-size:13px;">All operations align with John 14:6. Data changes and autonomous exports are monitored. For audit requests contact <a href="mailto:Donald.the.Bishop@usicchurch.org">Donald.the.Bishop@usicchurch.org</a>.</p>
+
+    <div class="footer">&copy; 2025 USIC Church – Autonomous Branch 1 • Generated in faith.</div>
+  </div>
+<script>
+(async function(){
+  try {
+    const overflow = await fetch('http://localhost:4000/api/overflow').then(r=>r.json()).catch(()=>({launched:false}));
+    document.querySelector('[data-metric="overflow"]').textContent = overflow.launched? 'ACTIVE 🌊':'Dormant';
+  } catch(e) {}
+  try {
+    const integrity = await fetch('http://localhost:4000/api/integrity/status').then(r=>r.json()).catch(()=>null);
+    if (integrity) document.querySelector('[data-metric="integrity"]').textContent = integrity.fileCount + ' files';
+  } catch(e) {}
+  try {
+    const backup = await fetch('http://localhost:4000/api/weekly_digest').then(r=>r.json()).catch(()=>null);
+    if (backup?.counts){
+      document.querySelector('[data-metric="whispers"]').textContent = backup.counts.whispers;
+      document.querySelector('[data-metric="blessings"]').textContent = backup.counts.blessings;
+    }
+  } catch(e) {}
+})();
+</script>
+</body>
+</html>
