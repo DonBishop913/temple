@@ -12,6 +12,13 @@ function Dashboard() {
   const [alerts, setAlerts] = useState([]);
   const [config, setConfig] = useState([]);
   const [overflow, setOverflow] = useState({ launched: false });
+  const [backendOnline, setBackendOnline] = useState(true);
+  const [lastPing, setLastPing] = useState(null);
+  const [apiToken, setApiToken] = useState("");
+  const [integrity, setIntegrity] = useState(null);
+  const [ledgerSummary, setLedgerSummary] = useState(null);
+  const [donations, setDonations] = useState([]);
+  const [exportStatus, setExportStatus] = useState("");
   const [user] = useState({ name: "Bishop Donald", role: "Bishop" });
   const [showTraining, setShowTraining] = useState(false);
   const [trainingCompleted, setTrainingCompleted] = useState(false);
@@ -57,10 +64,57 @@ function Dashboard() {
         .then((res) => res.json())
         .then(setOverflow)
         .catch(() => {});
+
+      // Ping health to detect disconnection
+      fetch("http://localhost:4000/api/health")
+        .then(r => {
+          if (!r.ok) throw new Error('Bad status');
+          return r.json();
+        })
+        .then(() => { setBackendOnline(true); setLastPing(new Date()); })
+        .catch(() => { setBackendOnline(false); });
     }, 10000);
 
     return () => clearInterval(interval);
   }, []);
+
+  // Fetch protected integrity + ledger when token changes or every 60s
+  useEffect(() => {
+    if (!apiToken) return; // wait for token entry
+    const fetchProtected = () => {
+      fetch("http://localhost:4000/api/integrity/status", { headers:{ 'x-api-token': apiToken }})
+        .then(r => r.ok ? r.json() : Promise.reject())
+        .then(setIntegrity)
+        .catch(()=>{});
+      fetch("http://localhost:4000/api/ledger/summary", { headers:{ 'x-api-token': apiToken }})
+        .then(r => r.ok ? r.json() : Promise.reject())
+        .then(setLedgerSummary)
+        .catch(()=>{});
+      fetch("http://localhost:4000/api/ledger/donations", { headers:{ 'x-api-token': apiToken }})
+        .then(r => r.ok ? r.json() : Promise.reject())
+        .then(setDonations)
+        .catch(()=>{});
+    };
+    fetchProtected();
+    const interval = setInterval(fetchProtected, 60000);
+    return () => clearInterval(interval);
+  }, [apiToken]);
+
+  const handleExportLedger = async () => {
+    if (!apiToken) { setExportStatus("Token required"); return; }
+    setExportStatus("Exporting...");
+    try {
+      const res = await fetch("http://localhost:4000/api/ledger/export", { headers:{ 'x-api-token': apiToken }});
+      const data = await res.json();
+      if (!res.ok) { setExportStatus(data.error || "Export failed"); return; }
+      const blob = new Blob([JSON.stringify(data,null,2)], { type:'application/json' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url; a.download = `Donations_Ledger_${data.exportedAt}.json`;
+      document.body.appendChild(a); a.click(); a.remove(); URL.revokeObjectURL(url);
+      setExportStatus("✅ Export downloaded");
+    } catch (e) { setExportStatus("Export error"); }
+  };
 
   const handleBackupNow = async () => {
     setBackupMsg("Backing up…");
@@ -101,6 +155,26 @@ function Dashboard() {
           <h1 className="text-4xl font-bold text-gray-800 mb-2">
             🔥 Living Dashboard - John 14:6 🔥
           </h1>
+          {!backendOnline && (
+            <div className="mb-4 flex flex-col items-center">
+              <div className="bg-red-100 text-red-700 px-4 py-2 rounded-lg font-semibold shadow">
+                Backend connection lost – attempting auto‑reconnect.
+              </div>
+              <button
+                onClick={async () => {
+                  try {
+                    const r = await fetch("http://localhost:4000/api/health");
+                    if (r.ok) { setBackendOnline(true); setLastPing(new Date()); }
+                    else setBackendOnline(false);
+                  } catch { setBackendOnline(false); }
+                }}
+                className="mt-2 bg-red-600 hover:bg-red-700 text-white text-sm font-medium px-3 py-2 rounded shadow"
+              >↻ Retry Connection</button>
+            </div>
+          )}
+          {backendOnline && lastPing && (
+            <div className="text-xs text-gray-500 mb-2">Last heartbeat: {lastPing.toLocaleTimeString()}</div>
+          )}
           {overflow?.launched && (
             <div className="inline-flex items-center gap-2 bg-blue-100 text-blue-800 px-3 py-1 rounded-lg font-semibold">
               <span>🌊</span>
@@ -211,6 +285,74 @@ function Dashboard() {
         {showTraining && (
           <TrainingGuide user={user} onComplete={handleTrainingComplete} />
         )}
+
+        {/* Integrity & Donation Panel */}
+        <div className="mt-8 bg-white rounded-lg shadow-lg p-6">
+          <h2 className="text-2xl font-bold mb-4">Integrity & Donations Transparency</h2>
+          <div className="mb-4 flex flex-col md:flex-row gap-3 items-start md:items-center">
+            <input
+              type="text"
+              placeholder="API Token"
+              value={apiToken}
+              onChange={e=>setApiToken(e.target.value.trim())}
+              className="w-full md:w-64 border border-gray-300 rounded px-3 py-2 text-sm focus:outline-none focus:ring focus:ring-blue-300"
+            />
+            <button
+              onClick={()=>{ if(apiToken){ setApiToken(apiToken); } }}
+              className="bg-blue-600 hover:bg-blue-700 text-white text-sm font-semibold px-4 py-2 rounded shadow"
+            >Refresh</button>
+            <button
+              onClick={handleExportLedger}
+              className="bg-green-600 hover:bg-green-700 text-white text-sm font-semibold px-4 py-2 rounded shadow"
+            >Export Ledger</button>
+            {exportStatus && <span className="text-xs text-gray-600">{exportStatus}</span>}
+          </div>
+          {!apiToken && (
+            <div className="text-sm text-gray-600 italic mb-4">Enter a valid API token to view protected integrity and ledger data.</div>
+          )}
+          {apiToken && (
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div>
+                <h3 className="font-semibold text-lg mb-2">Integrity Status</h3>
+                {integrity ? (
+                  <div className="text-sm space-y-1">
+                    <div>Baseline Generated: <span className="font-medium">{integrity.generatedAt || 'N/A'}</span></div>
+                    <div>File Count: <span className="font-medium">{integrity.fileCount}</span></div>
+                    <div>Recent Changes:</div>
+                    <ul className="list-disc list-inside max-h-40 overflow-auto">
+                      {integrity.changes.slice(-10).map((c,i)=>(
+                        <li key={i} className="text-gray-700">{c.timestamp} – {c.file}</li>
+                      ))}
+                      {!integrity.changes.length && <li className="text-gray-500">No changes detected.</li>}
+                    </ul>
+                  </div>
+                ) : <div className="text-sm text-gray-500">Loading integrity…</div>}
+              </div>
+              <div>
+                <h3 className="font-semibold text-lg mb-2">Donation Summary</h3>
+                {ledgerSummary ? (
+                  <div className="text-sm space-y-2">
+                    <div>Total Entries: <span className="font-medium">{ledgerSummary.totalCount}</span></div>
+                    <div>Totals:</div>
+                    <ul className="list-disc list-inside">
+                      {Object.entries(ledgerSummary.totals).map(([asset,val])=> (
+                        <li key={asset}>{asset}: {val}</li>
+                      ))}
+                      {!Object.keys(ledgerSummary.totals).length && <li className="text-gray-500">No donations yet.</li>}
+                    </ul>
+                    <div className="mt-2">Recent Donations:</div>
+                    <ul className="list-disc list-inside max-h-40 overflow-auto">
+                      {donations.slice(-10).reverse().map(d => (
+                        <li key={d.id} className="text-gray-700">{d.timestamp} – {d.amount} {d.asset} by {d.donor}</li>
+                      ))}
+                      {!donations.length && <li className="text-gray-500">No donations recorded.</li>}
+                    </ul>
+                  </div>
+                ) : <div className="text-sm text-gray-500">Loading ledger…</div>}
+              </div>
+            </div>
+          )}
+        </div>
       </div>
     </div>
   );

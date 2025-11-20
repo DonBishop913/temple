@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>Council Branch 3 – Risk Sentinel</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <style>
+    body { font-family: system-ui,-apple-system,Segoe UI,Roboto,sans-serif; background:#111827; color:#f1f5f9; margin:0; padding:32px; }
+    .wrap { max-width:760px; margin:0 auto; }
+    .panel { background:#1f2937; border:1px solid #374151; border-radius:14px; padding:28px; box-shadow:0 8px 24px -8px rgba(0,0,0,.6); }
+    h1 { margin:0 0 20px; font-size:30px; background:linear-gradient(90deg,#f59e0b,#ef4444); -webkit-background-clip:text; background-clip:text; color:transparent; }
+    .badge { display:inline-block; padding:6px 14px; font-size:12px; font-weight:600; border-radius:18px; letter-spacing:.5px; }
+    .risk { background:#ef4444; color:#fff; }
+    .ok { background:#10b981; color:#062e2e; }
+    .grid { display:grid; gap:18px; grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); margin-top:24px; }
+    .tile { background:#0f172a; border:1px solid #1e3a8a; padding:16px 18px; border-radius:12px; position:relative; }
+    .tile h3 { margin:0 0 10px; font-size:14px; letter-spacing:.6px; text-transform:uppercase; color:#60a5fa; }
+    .tiny { font-size:11px; opacity:.65; }
+    .footer { margin-top:36px; font-size:11px; opacity:.65; }
+    code { background:#1e293b; padding:2px 5px; border-radius:4px; font-size:12px; }
+    .error-line { background:#7f1d1d; color:#fdd; padding:6px 8px; border-radius:6px; margin:4px 0; font-size:12px; }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="panel">
+      <h1>Branch 3 – Risk Sentinel 🔐</h1>
+      <div id="statusBadge" class="badge risk">HIGH RISK (Initializing)</div>
+      <p style="margin:16px 0 20px;font-size:15px;line-height:1.6;">This branch surfaces operational risk indicators: failed fetches, integrity divergences, unreachable services. If metrics stabilize, badge transitions to <strong>OK</strong>. Silent failures are converted into transparent lines below.</p>
+
+      <div class="grid">
+        <div class="tile"><h3>Integrity Baseline</h3><p data-metric="integrityFiles">Loading…</p><p class="tiny" data-metric="integrityChanges">Changes: …</p></div>
+        <div class="tile"><h3>Overflow</h3><p data-metric="overflow">Loading…</p></div>
+        <div class="tile"><h3>Health Ping</h3><p data-metric="health">Loading…</p></div>
+        <div class="tile"><h3>Donation Totals</h3><p data-metric="donTotals">Loading…</p></div>
+      </div>
+
+      <h2 style="margin:32px 0 12px;font-size:18px;color:#f87171;">Error & Alert Lines</h2>
+      <div id="errorLines" aria-live="polite"></div>
+
+      <div class="footer">&copy; 2025 USIC Church – Branch 3 Risk Sentinel • Continuous transparency.</div>
+    </div>
+  </div>
+<script type="module">
+const errs = [];
+function pushErr(label, err){
+  const box = document.getElementById('errorLines');
+  const div = document.createElement('div');
+  div.className='error-line';
+  div.textContent = label+': '+(err?.message||err||'Unknown error');
+  box.appendChild(div);
+  errs.push(err);
+  assessRisk();
+}
+function assessRisk(){
+  const badge = document.getElementById('statusBadge');
+  // Simple heuristic: if <3 errors and integrity loaded, downgrade risk
+  const integrityLoaded = document.querySelector('[data-metric="integrityFiles"]').textContent.includes('files');
+  if (integrityLoaded && errs.length < 3){ badge.textContent='STABLE'; badge.className='badge ok'; }
+}
+async function safeFetch(label, url, opts){
+  try { const r = await fetch(url, opts); if(!r.ok) throw new Error('Status '+r.status); return await r.json(); } catch(e){ pushErr(label, e); return null; }
+}
+(async ()=>{
+  const integrity = await safeFetch('Integrity', 'http://localhost:4000/api/integrity/status');
+  if (integrity){
+    document.querySelector('[data-metric="integrityFiles"]').textContent = integrity.fileCount+' files';
+    document.querySelector('[data-metric="integrityChanges"]').textContent = 'Changes: '+integrity.changes.length;
+  }
+  const overflow = await safeFetch('Overflow', 'http://localhost:4000/api/overflow');
+  if (overflow){ document.querySelector('[data-metric="overflow"]').textContent = overflow.launched? 'ACTIVE 🌊':'Dormant'; }
+  const health = await safeFetch('Health', 'http://localhost:4000/api/health');
+  if (health){ document.querySelector('[data-metric="health"]').textContent = 'OK'; }
+  const digest = await safeFetch('WeeklyDigest', 'http://localhost:4000/api/weekly_digest');
+  if (digest?.counts){
+     const totals = 'Whispers:'+digest.counts.whispers+' Blessings:'+digest.counts.blessings;
+     document.querySelector('[data-metric="donTotals"]').textContent = totals;
+  }
+  assessRisk();
+})();
+</script>
+</body>
+</html>
