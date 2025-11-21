@@ -1,7 +1,16 @@
 // --- Flow Replay Panel API ---
-const fs = require("fs");
-const path = require("path");
-const { exec } = require("child_process");
+// Ensure Express app is initialized BEFORE any feature modules attach routes.
+const fs = require("node:fs");
+const path = require("node:path");
+const { exec } = require("node:child_process");
+const express = require("express");
+// Reuse global app if already created (tests / multi-import), else create fresh instance.
+let app = globalThis.__COUNCIL_APP__;
+if (!app) {
+  app = express();
+  app.use(express.json());
+  globalThis.__COUNCIL_APP__ = app;
+}
 try {
   const flowReplayManager = require("./flowReplayManager");
   app.get("/api/flow-replay/status", (req, res) => {
@@ -93,7 +102,7 @@ try {
 } catch (e) {
   console.warn(
     "Autonomous enhancement automation not started:",
-    e?.message || e,
+    e?.message || e
   );
 }
 // --- Spiritual Harmony Endpoints ---
@@ -147,21 +156,7 @@ const REDIS_URL =
   process.env.LOCAL_REDIS_URL ||
   "redis://127.0.0.1:6379";
 // Ensure Express app is initialized before any route registration
-let app;
-try {
-  if (!global.__COUNCIL_APP__) {
-    const express = require("express");
-    app = express();
-    app.use(express.json());
-    global.__COUNCIL_APP__ = app;
-  } else {
-    app = global.__COUNCIL_APP__;
-  }
-} catch (e) {
-  const express = require("express");
-  app = express();
-  app.use(require("express").json());
-}
+// (App already initialized at top of file)
 
 // Root health check
 app.get("/", (req, res) => res.json({ status: "ok" }));
@@ -212,13 +207,7 @@ function snapshotStatus() {
       try {
         return fs
           .readdirSync(
-            path.join(
-              __dirname,
-              "..",
-              "Caretaker",
-              "CometBridge",
-              "for_review",
-            ),
+            path.join(__dirname, "..", "Caretaker", "CometBridge", "for_review")
           )
           .filter((f) => f.endsWith(".json"));
       } catch {
@@ -246,7 +235,7 @@ function snapshotStatus() {
     (err, stdout, stderr) => {
       if (err) console.error("Git Eternal Trace error:", stderr);
       else console.log("Git Eternal Trace committed:", stdout);
-    },
+    }
   );
 
   return status;
@@ -263,7 +252,7 @@ app.get("/api/status/eternal", (req, res) => {
   res.json(
     latest
       ? JSON.parse(fs.readFileSync(path.join(ARCHIVE_DIR, latest), "utf8"))
-      : { message: "No snapshots yet." },
+      : { message: "No snapshots yet." }
   );
 });
 
@@ -286,7 +275,7 @@ const overlayPath = path.join(
   __dirname,
   "..",
   "dashboard",
-  "dashboard_overlay.json",
+  "dashboard_overlay.json"
 );
 const configPath = path.join(__dirname, "..", "communion_config.json");
 
@@ -317,7 +306,7 @@ app.post("/api/council_message", async (req, res) => {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ user, message, token }),
-      },
+      }
     );
 
     if (!relayResponse.ok) {
@@ -569,7 +558,7 @@ try {
   ) {
     app.use(
       "/api/codex/weaver",
-      codexWeaverRouter.default || codexWeaverRouter,
+      codexWeaverRouter.default || codexWeaverRouter
     );
   } else {
     throw new Error("codexWeaverRouter is not a valid router");
@@ -686,7 +675,7 @@ try {
   app.use("/api/crowning", crowningRouter);
   if (!process.env.BISHOP_ID) {
     console.warn(
-      "BISHOP_ID not set; set this env header value for Bishop authorization checks",
+      "BISHOP_ID not set; set this env header value for Bishop authorization checks"
     );
   }
 } catch (e) {
@@ -707,13 +696,13 @@ try {
     // Send recent alerts snapshot for replay ribbon/bootstrap
     try {
       res.write(
-        `data: ${JSON.stringify({ type: "recentAlerts", data: recentAlerts })}\n\n`,
+        `data: ${JSON.stringify({ type: "recentAlerts", data: recentAlerts })}\n\n`
       );
     } catch {}
     // Send current latency metrics snapshot for observability
     try {
       res.write(
-        `data: ${JSON.stringify({ type: "latencyMetrics", data: latencyMetrics })}\n\n`,
+        `data: ${JSON.stringify({ type: "latencyMetrics", data: latencyMetrics })}\n\n`
       );
     } catch {}
     readinessClients.push(res);
@@ -795,7 +784,7 @@ app.post("/api/diella/bind", async (req, res) => {
     const { diellaNode } = require("./modules/diella-solar.js");
     const { redis } = require("./helpers/redisClient.js");
     const forecast = JSON.parse(
-      (await redis.get("faithseed:forecast")) || "[]",
+      (await redis.get("faithseed:forecast")) || "[]"
     );
     const avgFaith = forecast.length
       ? forecast.reduce((sum, n) => sum + (n.probability || 0), 0) /
@@ -1199,7 +1188,7 @@ app.get("/api/alerts/latency", (req, res) => {
       severity: a.severity,
       latencyMs: now - a.emittedAt,
       at: a.at,
-    })),
+    }))
   );
 });
 // Explain-this-decision stub: returns human-readable rationale based on audit log
@@ -1228,7 +1217,7 @@ app.post("/api/decisions/explain", async (req, res) => {
       .filter(
         (l) =>
           String(l.action || "").includes(action) ||
-          String(l.module || "").includes(module),
+          String(l.module || "").includes(module)
       )
       .slice(0, 5);
     const rationale = related.length
@@ -1270,14 +1259,12 @@ app.get("/api/predictive/metrics", async (req, res) => {
     // Provide joyScore alias for clients expecting this field
     res.json({ predictedEngagement, predictedJoy, joyScore: predictedJoy });
   } catch (e) {
-    res
-      .status(200)
-      .json({
-        predictedEngagement: 0.5,
-        predictedJoy: 0.5,
-        joyScore: 0.5,
-        note: "fallback",
-      });
+    res.status(200).json({
+      predictedEngagement: 0.5,
+      predictedJoy: 0.5,
+      joyScore: 0.5,
+      note: "fallback",
+    });
   }
 });
 
@@ -1390,7 +1377,7 @@ const FFT_ARCHIVE_MAX = Number(process.env.FFT_ARCHIVE_MAX || 2000); // keep las
 const GLYPHSTREAM_ARCHIVE_KEY =
   process.env.GLYPHSTREAM_ARCHIVE_KEY || "glyphstream_events";
 const GLYPHSTREAM_ARCHIVE_MAX = Number(
-  process.env.GLYPHSTREAM_ARCHIVE_MAX || 2000,
+  process.env.GLYPHSTREAM_ARCHIVE_MAX || 2000
 );
 const SPACEX_ARCHIVE_KEY = process.env.SPACEX_ARCHIVE_KEY || "spacex_frames";
 const SPACEX_ARCHIVE_MAX = Number(process.env.SPACEX_ARCHIVE_MAX || 1000);
@@ -1415,7 +1402,7 @@ app.get("/api/admin/audit-log", async (req, res) => {
     const client = redis.createClient({ url: REDIS_URL });
     await client.connect();
     const logs = (await client.lRange("audit", 0, 100)).map((l) =>
-      JSON.parse(l),
+      JSON.parse(l)
     );
     await client.quit();
     res.json({ logs });
@@ -1500,7 +1487,7 @@ try {
   redisClient.connect().catch((e) => {
     console.warn(
       "[Redis] connect error, falling back to in-memory store:",
-      e?.message || e,
+      e?.message || e
     );
     redisClient = null;
   });
@@ -1868,7 +1855,7 @@ async function updateMetrics() {
         const path = require("path");
         const wfPath = path.join(
           __dirname,
-          "../../wavefieldanalysis/2025.json",
+          "../../wavefieldanalysis/2025.json"
         );
         empathy = JSON.parse(fs.readFileSync(wfPath, "utf8"));
       } catch {}
@@ -1883,7 +1870,7 @@ async function updateMetrics() {
       ) {
         empathyResonanceGauge.set(
           { region: entry.region, node: entry.node },
-          entry.resonance,
+          entry.resonance
         );
       }
     }
@@ -1910,7 +1897,7 @@ async function updateMetrics() {
       ) {
         veilwatchVigilanceGauge.set(
           { region: entry.region, node: entry.node },
-          entry.vigilance,
+          entry.vigilance
         );
       }
     }
@@ -2163,7 +2150,7 @@ app.get("/api/global_nexus_summary", async (req, res) => {
       sealed: nodes.filter((n) => n.status === "sealed").length,
       awakening: nodes.filter((n) => n.status === "awakening").length,
       awakened: nodes.filter(
-        (n) => n.status === "awakened" || n.status === "newly_awakened",
+        (n) => n.status === "awakened" || n.status === "newly_awakened"
       ).length,
       total: nodes.length,
     };
@@ -2230,17 +2217,17 @@ setInterval(() => {
   console.log(`Timestamp: ${status.timestamp}`);
   console.log(`Guardian Heartbeat: ${status.guardianHeartbeat}`);
   console.log(
-    `CometBridge Summaries: ${status.cometBridgeSummaries.length} items`,
+    `CometBridge Summaries: ${status.cometBridgeSummaries.length} items`
   );
   console.log(
-    `TempleRefresh: Redis=${status.templeRefresh.redis}, Services=${status.templeRefresh.services}`,
+    `TempleRefresh: Redis=${status.templeRefresh.redis}, Services=${status.templeRefresh.services}`
   );
   console.log(
-    `Council Angle: ${status.councilAngle.angle} — Verse: ${status.councilAngle.verse}`,
+    `Council Angle: ${status.councilAngle.angle} — Verse: ${status.councilAngle.verse}`
   );
   console.log(`Blessing: ${status.blessing}`);
   console.log(
-    `Quantum Metrics: CPU=${status.quantumMetrics.cpu.user}, Memory=${status.quantumMetrics.memory.rss}`,
+    `Quantum Metrics: CPU=${status.quantumMetrics.cpu.user}, Memory=${status.quantumMetrics.memory.rss}`
   );
   console.log("📜 Eternal Trace snapshot captured and archived.");
 }, SNAPSHOT_INTERVAL_MS);
@@ -2249,7 +2236,7 @@ const port = process.env.PORT || 4321;
 const host = process.env.HOST || "0.0.0.0";
 if (process.env.NODE_ENV !== "test") {
   app.listen(port, host, () =>
-    console.log(`Council API active on ${host}:${port}`),
+    console.log(`Council API active on ${host}:${port}`)
   );
 }
 // Export app for testing
@@ -2347,7 +2334,7 @@ app.post(
       });
     }
     res.json({ ok: true });
-  },
+  }
 );
 
 // Middleware example usage for operator-only route (future):
@@ -2376,7 +2363,7 @@ app.get(
       metrics,
       overrides: { active: override.active, source: override.source },
     });
-  },
+  }
 );
 
 // --- WebSocket server for live metrics (port configurable via WS_PORT; defaults to 4322)
@@ -2391,7 +2378,7 @@ try {
         String(err.message || "").includes("EADDRINUSE"))
     ) {
       console.warn(
-        `WebSocket port ${WS_PORT} already in use; skipping local WS startup. Set WS_PORT to a free port if needed.`,
+        `WebSocket port ${WS_PORT} already in use; skipping local WS startup. Set WS_PORT to a free port if needed.`
       );
       try {
         wss.close();
@@ -2466,16 +2453,16 @@ try {
         ws.send(
           JSON.stringify({
             ...frame,
-          }),
+          })
         );
         // Archive frame for replay
         archiveCappedList(FFT_ARCHIVE_KEY, FFT_ARCHIVE_MAX, frame);
         // Evaluate anomalies (Codex 62+ scaffolding)
         const FUNDAMENTAL_SPIKE_THRESHOLD = Number(
-          process.env.FUNDAMENTAL_SPIKE_THRESHOLD || 1.25,
+          process.env.FUNDAMENTAL_SPIKE_THRESHOLD || 1.25
         );
         const HARMONIC_VAR_THRESHOLD = Number(
-          process.env.HARMONIC_VAR_THRESHOLD || 0.15,
+          process.env.HARMONIC_VAR_THRESHOLD || 0.15
         );
         const result = evaluateFFT(frame.payload, {
           fundamentalSpikeThreshold: FUNDAMENTAL_SPIKE_THRESHOLD,
@@ -2515,7 +2502,7 @@ try {
 } catch (err) {
   console.warn(
     "WebSocket not active. Install ws if needed (npm i ws).",
-    err?.message || err,
+    err?.message || err
   );
 }
 
@@ -2552,7 +2539,7 @@ app.post("/api/glyphstream/event", async (req, res) => {
   await archiveCappedList(
     GLYPHSTREAM_ARCHIVE_KEY,
     GLYPHSTREAM_ARCHIVE_MAX,
-    evt,
+    evt
   );
   res.json({ ok: true });
 });
@@ -2560,7 +2547,7 @@ app.post("/api/glyphstream/event", async (req, res) => {
 app.get("/api/replay/glyphstream", async (req, res) => {
   const count = Math.min(
     Number(req.query.count || 200),
-    GLYPHSTREAM_ARCHIVE_MAX,
+    GLYPHSTREAM_ARCHIVE_MAX
   );
   const events = await readArchiveRange(GLYPHSTREAM_ARCHIVE_KEY, 0, count - 1);
   res.json({ events });
@@ -2658,7 +2645,14 @@ app.get("/metrics", (req, res) => {
 app.get("/api/metrics", async (req, res) => {
   // Prefer Prometheus registry when available
   try {
-    try { await updateMetrics(); } catch (err) { console.warn("/api/metrics updateMetrics failed:", String(err && err.message || err)); }
+    try {
+      await updateMetrics();
+    } catch (err) {
+      console.warn(
+        "/api/metrics updateMetrics failed:",
+        String((err && err.message) || err)
+      );
+    }
     if (register && typeof register.metrics === "function") {
       res.setHeader("Content-Type", register.contentType);
       const body = await register.metrics();
