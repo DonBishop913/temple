@@ -34,6 +34,17 @@ jobs:
       - name: Start Redis
         run: docker run -d --name redis-stack -p 6379:6379 redis/redis-stack-server:latest
 
+      - name: Verify API process startup
+        run: |
+          sleep 5
+          if ! pgrep -f "node server/server.js" > /dev/null; then
+            echo "❌ API process did not start"
+            echo "------ api.log (if present) ------"
+            [ -f council-dashboard/api.log ] && cat council-dashboard/api.log || echo "api.log missing"
+            exit 1
+          fi
+          echo "✅ API process running"
+
       - name: Wait for API /metrics readiness
         run: |
           for i in {1..40}; do
