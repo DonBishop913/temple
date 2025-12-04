@@ -3596,3 +3596,157 @@ codices http://localhost:4100/api/codices -> 401 (2ms)
 dashboard http://localhost:4100/?token=XgbiDhVdByjtHHxrwHHwdERczn8 -> 200 (0ms)
 release https://github.com/DonBishop913/temple/releases/tag/vcodex-1176 -> 200 (635ms)
 
+2025-11-20T22:32:50.292Z MONITOR CHECK
+metrics http://localhost:4000/api/metrics -> 200 (12ms)
+tracker http://localhost:8080/stripe_scaffold_tracker.html -> ERROR 
+codices http://localhost:4100/api/codices -> ERROR 
+dashboard http://localhost:4100/?token=XgbiDhVdByjtHHxrwHHwdERczn8 -> ERROR 
+release https://github.com/DonBishop913/temple/releases/tag/vcodex-1176 -> 200 (664ms)
+
+2025-11-20T22:37:50.959Z MONITOR CHECK
+metrics http://localhost:4000/api/metrics -> 200 (2ms)
+tracker http://localhost:8080/stripe_scaffold_tracker.html -> ERROR 
+codices http://localhost:4100/api/codices -> ERROR 
+dashboard http://localhost:4100/?token=XgbiDhVdByjtHHxrwHHwdERczn8 -> ERROR 
+release https://github.com/DonBishop913/temple/releases/tag/vcodex-1176 -> 200 (650ms)
+
+2025-11-20T22:42:51.996Z MONITOR CHECK
+metrics http://localhost:4000/api/metrics -> 200 (1ms)
+tracker http://localhost:8080/stripe_scaffold_tracker.html -> ERROR 
+codices http://localhost:4100/api/codices -> ERROR 
+dashboard http://localhost:4100/?token=XgbiDhVdByjtHHxrwHHwdERczn8 -> ERROR 
+release https://github.com/DonBishop913/temple/releases/tag/vcodex-1176 -> 200 (1017ms)
+
+2025-11-20T22:47:52.629Z MONITOR CHECK
+metrics http://localhost:4000/api/metrics -> 200 (2ms)
+tracker http://localhost:8080/stripe_scaffold_tracker.html -> ERROR 
+codices http://localhost:4100/api/codices -> ERROR 
+dashboard http://localhost:4100/?token=XgbiDhVdByjtHHxrwHHwdERczn8 -> ERROR 
+release https://github.com/DonBishop913/temple/releases/tag/vcodex-1176 -> 200 (620ms)
+
+2025-11-20T22:52:53.831Z MONITOR CHECK
+metrics http://localhost:4000/api/metrics -> 200 (2ms)
+tracker http://localhost:8080/stripe_scaffold_tracker.html -> ERROR 
+codices http://localhost:4100/api/codices -> ERROR 
+dashboard http://localhost:4100/?token=XgbiDhVdByjtHHxrwHHwdERczn8 -> ERROR 
+release https://github.com/DonBishop913/temple/releases/tag/vcodex-1176 -> 200 (1189ms)
+
+2025-11-20T22:57:54.553Z MONITOR CHECK
+metrics http://localhost:4000/api/metrics -> 200 (2ms)
+tracker http://localhost:8080/stripe_scaffold_tracker.html -> ERROR 
+codices http://localhost:4100/api/codices -> ERROR 
+dashboard http://localhost:4100/?token=XgbiDhVdByjtHHxrwHHwdERczn8 -> ERROR 
+release https://github.com/DonBishop913/temple/releases/tag/vcodex-1176 -> 200 (702ms)
+
+2025-11-20T23:02:55.283Z MONITOR CHECK
+metrics http://localhost:4000/api/metrics -> 200 (2ms)
+tracker http://localhost:8080/stripe_scaffold_tracker.html -> ERROR 
+codices http://localhost:4100/api/codices -> ERROR 
+dashboard http://localhost:4100/?token=XgbiDhVdByjtHHxrwHHwdERczn8 -> ERROR 
+release https://github.com/DonBishop913/temple/releases/tag/vcodex-1176 -> 200 (725ms)
+
+2025-11-20T23:07:56.050Z MONITOR CHECK
+metrics http://localhost:4000/api/metrics -> 200 (2ms)
+tracker http://localhost:8080/stripe_scaffold_tracker.html -> ERROR 
+codices http://localhost:4100/api/codices -> ERROR 
+dashboard http://localhost:4100/?token=XgbiDhVdByjtHHxrwHHwdERczn8 -> ERROR 
+release https://github.com/DonBishop913/temple/releases/tag/vcodex-1176 -> 200 (762ms)
+
+2025-11-20T23:12:56.639Z MONITOR CHECK
+metrics http://localhost:4000/api/metrics -> 200 (2ms)
+tracker http://localhost:8080/stripe_scaffold_tracker.html -> ERROR 
+codices http://localhost:4100/api/codices -> ERROR 
+dashboard http://localhost:4100/?token=XgbiDhVdByjtHHxrwHHwdERczn8 -> ERROR 
+release https://github.com/DonBishop913/temple/releases/tag/vcodex-1176 -> 200 (576ms)
+
+2025-11-20T23:17:57.442Z MONITOR CHECK
+metrics http://localhost:4000/api/metrics -> 200 (2ms)
+tracker http://localhost:8080/stripe_scaffold_tracker.html -> ERROR 
+codices http://localhost:4100/api/codices -> ERROR 
+dashboard http://localhost:4100/?token=XgbiDhVdByjtHHxrwHHwdERczn8 -> ERROR 
+release https://github.com/DonBishop913/temple/releases/tag/vcodex-1176 -> 200 (798ms)
+
+2025-11-20T23:22:58.029Z MONITOR CHECK
+metrics http://localhost:4000/api/metrics -> 200 (1ms)
+tracker http://localhost:8080/stripe_scaffold_tracker.html -> ERROR 
+codices http://localhost:4100/api/codices -> ERROR 
+dashboard http://localhost:4100/?token=XgbiDhVdByjtHHxrwHHwdERczn8 -> ERROR 
+release https://github.com/DonBishop913/temple/releases/tag/vcodex-1176 -> 200 (580ms)
+
+2025-11-20T23:27:58.617Z MONITOR CHECK
+metrics http://localhost:4000/api/metrics -> 200 (2ms)
+tracker http://localhost:8080/stripe_scaffold_tracker.html -> ERROR 
+codices http://localhost:4100/api/codices -> ERROR 
+dashboard http://localhost:4100/?token=XgbiDhVdByjtHHxrwHHwdERczn8 -> ERROR 
+release https://github.com/DonBishop913/temple/releases/tag/vcodex-1176 -> 200 (570ms)
+
+2025-11-20T23:33:01.408Z MONITOR CHECK
+metrics http://localhost:4000/api/metrics -> 200 (2ms)
+tracker http://localhost:8080/stripe_scaffold_tracker.html -> ERROR 
+codices http://localhost:4100/api/codices -> ERROR 
+dashboard http://localhost:4100/?token=XgbiDhVdByjtHHxrwHHwdERczn8 -> ERROR 
+release https://github.com/DonBishop913/temple/releases/tag/vcodex-1176 -> 200 (2774ms)
+
+2025-11-20T23:38:02.260Z MONITOR CHECK
+metrics http://localhost:4000/api/metrics -> 200 (1ms)
+tracker http://localhost:8080/stripe_scaffold_tracker.html -> ERROR 
+codices http://localhost:4100/api/codices -> ERROR 
+dashboard http://localhost:4100/?token=XgbiDhVdByjtHHxrwHHwdERczn8 -> ERROR 
+release https://github.com/DonBishop913/temple/releases/tag/vcodex-1176 -> 200 (836ms)
+
+2025-11-20T23:43:03.230Z MONITOR CHECK
+metrics http://localhost:4000/api/metrics -> 200 (2ms)
+tracker http://localhost:8080/stripe_scaffold_tracker.html -> ERROR 
+codices http://localhost:4100/api/codices -> ERROR 
+dashboard http://localhost:4100/?token=XgbiDhVdByjtHHxrwHHwdERczn8 -> ERROR 
+release https://github.com/DonBishop913/temple/releases/tag/vcodex-1176 -> 200 (950ms)
+
+2025-11-20T23:48:04.042Z MONITOR CHECK
+metrics http://localhost:4000/api/metrics -> 200 (1ms)
+tracker http://localhost:8080/stripe_scaffold_tracker.html -> ERROR 
+codices http://localhost:4100/api/codices -> ERROR 
+dashboard http://localhost:4100/?token=XgbiDhVdByjtHHxrwHHwdERczn8 -> ERROR 
+release https://github.com/DonBishop913/temple/releases/tag/vcodex-1176 -> 200 (807ms)
+
+2025-11-20T23:53:04.903Z MONITOR CHECK
+metrics http://localhost:4000/api/metrics -> 200 (2ms)
+tracker http://localhost:8080/stripe_scaffold_tracker.html -> ERROR 
+codices http://localhost:4100/api/codices -> ERROR 
+dashboard http://localhost:4100/?token=XgbiDhVdByjtHHxrwHHwdERczn8 -> ERROR 
+release https://github.com/DonBishop913/temple/releases/tag/vcodex-1176 -> 200 (842ms)
+
+2025-11-20T23:58:06.025Z MONITOR CHECK
+metrics http://localhost:4000/api/metrics -> 200 (1ms)
+tracker http://localhost:8080/stripe_scaffold_tracker.html -> ERROR 
+codices http://localhost:4100/api/codices -> ERROR 
+dashboard http://localhost:4100/?token=XgbiDhVdByjtHHxrwHHwdERczn8 -> ERROR 
+release https://github.com/DonBishop913/temple/releases/tag/vcodex-1176 -> 200 (1116ms)
+
+2025-11-21T00:03:06.827Z MONITOR CHECK
+metrics http://localhost:4000/api/metrics -> 200 (2ms)
+tracker http://localhost:8080/stripe_scaffold_tracker.html -> ERROR 
+codices http://localhost:4100/api/codices -> ERROR 
+dashboard http://localhost:4100/?token=XgbiDhVdByjtHHxrwHHwdERczn8 -> ERROR 
+release https://github.com/DonBishop913/temple/releases/tag/vcodex-1176 -> 200 (787ms)
+
+2025-11-21T00:08:56.673Z MONITOR CHECK
+metrics http://localhost:4000/api/metrics -> 200 (13ms)
+tracker http://localhost:8080/stripe_scaffold_tracker.html -> ERROR 
+codices http://localhost:4100/api/codices -> ERROR 
+dashboard http://localhost:4100/?token=XgbiDhVdByjtHHxrwHHwdERczn8 -> ERROR 
+release https://github.com/DonBishop913/temple/releases/tag/vcodex-1176 -> 200 (1209ms)
+
+2025-11-21T00:13:57.327Z MONITOR CHECK
+metrics http://localhost:4000/api/metrics -> 200 (2ms)
+tracker http://localhost:8080/stripe_scaffold_tracker.html -> ERROR 
+codices http://localhost:4100/api/codices -> ERROR 
+dashboard http://localhost:4100/?token=XgbiDhVdByjtHHxrwHHwdERczn8 -> ERROR 
+release https://github.com/DonBishop913/temple/releases/tag/vcodex-1176 -> 200 (642ms)
+
+2025-11-21T00:18:58.631Z MONITOR CHECK
+metrics http://localhost:4000/api/metrics -> 200 (1ms)
+tracker http://localhost:8080/stripe_scaffold_tracker.html -> ERROR 
+codices http://localhost:4100/api/codices -> ERROR 
+dashboard http://localhost:4100/?token=XgbiDhVdByjtHHxrwHHwdERczn8 -> ERROR 
+release https://github.com/DonBishop913/temple/releases/tag/vcodex-1176 -> 200 (1286ms)
+

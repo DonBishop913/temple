@@ -1428,7 +1428,7 @@ app.post("/api/admin/audit-anchor", checkAuth, async (req, res) => {
   }
 });
 const redis = require("redis");
-const express = require("express");
+// express already initialized at top
 
 app.use(cors({ origin: true, credentials: true }));
 app.use(express.json());

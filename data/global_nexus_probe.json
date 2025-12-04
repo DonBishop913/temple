@@ -3742,5 +3742,57 @@
       }
     ],
     "status": "pilot"
+  },
+  {
+    "timestamp": "2025-11-21T00:40:00.167Z",
+    "regions": [
+      {
+        "name": "Pacific",
+        "latencyMs": 23,
+        "lossPercent": 1.95
+      },
+      {
+        "name": "Americas",
+        "latencyMs": 49,
+        "lossPercent": 1.91
+      },
+      {
+        "name": "EMEA",
+        "latencyMs": 21,
+        "lossPercent": 0.08
+      },
+      {
+        "name": "APAC",
+        "latencyMs": 49,
+        "lossPercent": 0.97
+      }
+    ],
+    "status": "pilot"
+  },
+  {
+    "timestamp": "2025-11-21T00:50:00.085Z",
+    "regions": [
+      {
+        "name": "Pacific",
+        "latencyMs": 45,
+        "lossPercent": 0.67
+      },
+      {
+        "name": "Americas",
+        "latencyMs": 41,
+        "lossPercent": 0.91
+      },
+      {
+        "name": "EMEA",
+        "latencyMs": 44,
+        "lossPercent": 0.56
+      },
+      {
+        "name": "APAC",
+        "latencyMs": 35,
+        "lossPercent": 1.59
+      }
+    ],
+    "status": "pilot"
   }
 ]
