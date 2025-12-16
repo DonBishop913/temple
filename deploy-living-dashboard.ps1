@@ -4,7 +4,8 @@ param(
     [int]$MaxHealthChecks = 10,
     [int]$HealthCheckDelay = 2,
     [switch]$OpenBrowser,
-    [int]$DashboardPort = 5173
+    [int]$DashboardPort = 5173,
+    [switch]$UsePM2Backend
 )
 
 $ErrorActionPreference = 'Stop'
@@ -56,8 +57,29 @@ if (Test-Path "jest.config.js") {
     catch { Write-Warning "Smoke tests reported failures; continuing" }
 }
 
-# 5. Start backend and frontend servers
 Write-Host "Starting backend and frontend servers..." -ForegroundColor Yellow
+
+# Optional: start backend via PM2
+if ($UsePM2Backend) {
+    Write-Host "Starting backend via PM2" -ForegroundColor Yellow
+    $pm2 = Get-Command pm2 -ErrorAction SilentlyContinue
+    if (-not $pm2) {
+        Write-Host "PM2 not found; installing globally..." -ForegroundColor Yellow
+        npm install -g pm2 | Out-Null
+    }
+    $pm2Name = 'TempleDashboard'
+    Push-Location "C:\Temple\LivingDashboard"
+    if ((pm2 list | Select-String -SimpleMatch $pm2Name)) {
+        pm2 restart $pm2Name --update-env | Out-Null
+    }
+    else {
+        pm2 start backend\api_server.js --name $pm2Name --env production | Out-Null
+    }
+    pm2 save | Out-Null
+    Pop-Location
+}
+
+# Frontend start: prefer preview; fallback to dev
 if (& cmd.exe /c "npm run preview" 2>$null) {
     Write-Host "Using Vite preview (static build serve)" -ForegroundColor Yellow
     Start-Process -FilePath "cmd.exe" -ArgumentList "/c","npm","run","preview" -NoNewWindow
