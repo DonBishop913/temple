@@ -19,7 +19,8 @@ services:
     command: ["node", "server/server.js"]
     environment:
       - PORT=4321
-      - COUNCIL_JWT_SECRET=supersecret
+      # Read secret from environment; avoid hardcoding in repo
+      - COUNCIL_JWT_SECRET=${COUNCIL_JWT_SECRET:-dev_only}
       - REDIS_URL=redis://council_redis:6379
       - SCHUMANN_SIM_ENABLED=true # Set to 'false' to disable simulator
     depends_on:
@@ -29,7 +30,7 @@ services:
       - "4321:4321"
       - "4322:4322"
     healthcheck:
-      test: ["CMD", "wget", "-qO-", "http://localhost:4321/metrics"]
+      test: ["CMD-SHELL", "wget -qO- http://localhost:4321/api/metrics > /dev/null || exit 1"]
       interval: 5s
       timeout: 3s
       retries: 20

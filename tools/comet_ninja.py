@@ -40,8 +40,7 @@ def execute_task(task: str) -> dict:
         try:
             logger.info(f"Attempt {attempt}/{MAX_RETRIES}")
 
-            # Task execution simulation
-            # Replace this block with actual API calls when Comet API is available
+            # Task execution simulation (no external API calls)
             result = {
                 "task": task,
                 "status": "COMPLETED",

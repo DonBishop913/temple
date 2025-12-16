@@ -1,0 +1,43 @@
+{
+	"folders": [
+		{
+			"path": "../../AMD"
+		},
+		{
+			"path": "../../c"
+		},
+		{
+			"path": "../../inetpub"
+		},
+		{
+			"path": "../../logs"
+		},
+		{
+			"path": "../../PerfLogs"
+		},
+		{
+			"path": "../../Program Files"
+		},
+		{
+			"path": "../../Program Files (x86)"
+		},
+		{
+			"path": "../../Python313"
+		},
+		{
+			"path": "../../Redis"
+		},
+		{
+			"path": "../../SANCTUARY"
+		},
+		{
+			"path": ".."
+		},
+		{
+			"path": "../../Users"
+		},
+		{
+			"path": "../../Windows"
+		}
+	]
+}
