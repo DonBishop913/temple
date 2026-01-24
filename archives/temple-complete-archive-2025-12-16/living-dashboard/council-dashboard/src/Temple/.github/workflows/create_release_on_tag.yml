@@ -1,0 +1,36 @@
+name: Create Codex Release on Tag
+
+on:
+  push:
+    tags:
+      - "vcodex-1176"
+
+permissions:
+  contents: write
+
+jobs:
+  create_release:
+    name: Create Draft Release
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "18"
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run create_release script
+        env:
+          # Provide the working PAT from repository secrets. Set both vars so
+          # the script picks up whichever it expects (GITHUB_TOKEN or RELEASE_TOKEN).
+          GITHUB_TOKEN: ${{ secrets.RELEASE_TOKEN }}
+          RELEASE_TOKEN: ${{ secrets.RELEASE_TOKEN }}
+        run: |
+          node create_release.js

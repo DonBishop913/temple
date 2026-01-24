@@ -1,5 +1,0 @@
-module.exports = {
-  name: "IBM Watson",
-  onTelemetry: (evt) => {},
-  enhance: async (s) => s,
-};

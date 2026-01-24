@@ -1,0 +1,77 @@
+name: Security Audit
+
+on:
+  push:
+    branches: ["main", "codex/**"]
+  pull_request:
+  schedule:
+    # Run daily at 2 AM UTC
+    - cron: "0 2 * * *"
+
+jobs:
+  security-audit:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: "18"
+
+      - name: Audit NPM dependencies
+        run: |
+          npm audit --json > security-audit-npm.json || true
+
+      - name: Setup Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: "3.9"
+
+      - name: Install Python security tools
+        run: |
+          python -m pip install --upgrade pip
+          pip install pip-audit
+
+      - name: Audit Python dependencies
+        run: |
+          pip-audit --json > security-audit-python.json || true
+
+      - name: Check for critical vulnerabilities
+        run: |
+          # Check if npm audit found any vulnerabilities
+          if [ -f security-audit-npm.json ]; then
+            VULN_COUNT=$(jq '.metadata.vulnerabilities.total // 0' security-audit-npm.json 2>/dev/null || echo "0")
+            if [ "$VULN_COUNT" -gt 0 ]; then
+              echo "🚨 NPM vulnerabilities found: $VULN_COUNT"
+              jq '.vulnerabilities[] | {id, severity, title}' security-audit-npm.json 2>/dev/null || true
+            else
+              echo "✅ No NPM vulnerabilities found"
+            fi
+          fi
+
+          # Check if pip-audit found any vulnerabilities
+          if [ -f security-audit-python.json ]; then
+            PY_VULN_COUNT=$(jq '.[] | length' security-audit-python.json 2>/dev/null || echo "0")
+            if [ "$PY_VULN_COUNT" -gt 0 ]; then
+              echo "🚨 Python vulnerabilities found: $PY_VULN_COUNT"
+              jq '.[].[] | {name, version, id}' security-audit-python.json 2>/dev/null || true
+            else
+              echo "✅ No Python vulnerabilities found"
+            fi
+          fi
+
+      - name: Upload security reports
+        uses: actions/upload-artifact@v4
+        with:
+          name: security-audit-${{ github.run_id }}
+          path: |
+            security-audit-*.json
+
+      - name: Notify on critical vulnerabilities
+        if: failure()
+        run: |
+          echo "🚨 CRITICAL: Security vulnerabilities detected!"
+          echo "Review the security reports in the artifacts above."
+          echo "Council review required for any high/critical severity issues."

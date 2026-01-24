@@ -1,5 +1,0 @@
-module.exports = {
-  name: "Venice",
-  onTelemetry: (evt) => {},
-  enhance: async (s) => s,
-};

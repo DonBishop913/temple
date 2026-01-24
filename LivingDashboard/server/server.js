@@ -1,7 +1,11 @@
-const express = require("express");
-const cors = require("cors");
-const fs = require("node:fs");
-const path = require("node:path");
+import express from "express";
+import cors from "cors";
+import fs from "node:fs";
+import path from "node:path";
+import { fileURLToPath } from 'url';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 const app = express();
 app.use(cors());
