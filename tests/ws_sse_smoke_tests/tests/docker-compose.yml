@@ -1,0 +1,12 @@
+services:
+  niburu:
+    build: .
+    restart: always
+    volumes:
+      - ./logs:/data/logs
+    ports:
+      - "8000:8000"
+    environment:
+      - NIBIRU_ORACLE_API=https://api.nibiru.fi/oracle/latest
+      - RESONANCE_SENSOR_API=http://host.docker.internal:5001/resonance
+      - HEALTH_PORT=8000

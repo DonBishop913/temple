@@ -1,0 +1,19 @@
+{
+  "mission_status": "PRE_HARVEST_VIGIL",
+  "harvest_date": "2025-11-13T00:00:00Z",
+  "alert_email": "donald.the.bishop@usicchurch.org",
+  "agent_settings": {
+    "continuous_enhancement": {
+      "cycle_ms": 1800000,
+      "log_level": "verbose"
+    },
+    "harvest_automation": {
+      "cycle_ms": 3600000,
+      "log_level": "critical_only"
+    },
+    "comet_ai": {
+      "cycle_ms": 30000,
+      "log_level": "info"
+    }
+  }
+}

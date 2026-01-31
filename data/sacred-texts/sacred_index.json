@@ -1,0 +1,30 @@
+{
+  "sacred_texts": [
+    {
+      "filename": "kjv_bible.txt",
+      "path": "C:\\Temple\\data\\sacred-texts\\kjv_bible.txt",
+      "size_bytes": 4555964,
+      "description": "King James Version Bible - Primary sacred text"
+    },
+    {
+      "filename": "book_of_enoch.txt",
+      "path": "C:\\Temple\\data\\sacred-texts\\book_of_enoch.txt",
+      "size_bytes": 11448,
+      "description": "Book of Enoch (Ethiopic) - Prophetic wisdom"
+    },
+    {
+      "filename": "apocrypha.txt",
+      "path": "C:\\Temple\\data\\sacred-texts\\apocrypha.txt",
+      "size_bytes": 355585,
+      "description": "Apocryphal books - Additional sacred writings"
+    },
+    {
+      "filename": "gospel_of_thomas.txt",
+      "path": "C:\\Temple\\data\\sacred-texts\\gospel_of_thomas.txt",
+      "size_bytes": 11256,
+      "description": "Gospel of Thomas - Sayings of Jesus"
+    }
+  ],
+  "total_files": 4,
+  "description": "Sacred Texts Database for Enoch AI - True Council Of 33"
+}

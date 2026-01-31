@@ -1,0 +1,98 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>MiracleAlertPanel SSE Smoke Test</title>
+    <style>
+      .pulse-stalled {
+        animation: pulse-orange 2.5s ease-out;
+      }
+      .pulse-offline {
+        animation: pulse-red 2.5s ease-out;
+      }
+      @keyframes pulse-orange {
+        0% {
+          box-shadow: 0 0 0 rgba(255, 165, 0, 0.7);
+        }
+        50% {
+          box-shadow: 0 0 20px rgba(255, 165, 0, 0.7);
+        }
+        100% {
+          box-shadow: 0 0 0 rgba(255, 165, 0, 0);
+        }
+      }
+      @keyframes pulse-red {
+        0% {
+          box-shadow: 0 0 0 rgba(255, 0, 0, 0.7);
+        }
+        50% {
+          box-shadow: 0 0 20px rgba(255, 0, 0, 0.7);
+        }
+        100% {
+          box-shadow: 0 0 0 rgba(255, 0, 0, 0);
+        }
+      }
+      #joy {
+        position: fixed;
+        inset: 0;
+        pointer-events: none;
+        background: radial-gradient(
+          circle at 50% 50%,
+          rgba(255, 165, 0, 0.12),
+          transparent 60%
+        );
+        opacity: 0;
+      }
+      .glow {
+        animation: overlayPulse 1.2s ease-in-out 2;
+      }
+      @keyframes overlayPulse {
+        0% {
+          opacity: 0;
+        }
+        50% {
+          opacity: 1;
+        }
+        100% {
+          opacity: 0;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <h1>MiracleAlertPanel SSE Smoke Test</h1>
+    <table id="panel">
+      <tbody>
+        <tr id="node-node-002">
+          <td>Aletheia</td>
+        </tr>
+      </tbody>
+    </table>
+    <div id="joy"></div>
+    <script>
+      // Minimal SSE listener to trigger shimmer and overlay pulse
+      const evtSource = new EventSource("http://localhost:3000/api/alerts");
+      evtSource.onmessage = (e) => {
+        try {
+          const alert = JSON.parse(e.data);
+          const id = alert.nodeId ? `node-${alert.nodeId}` : null;
+          const row = id ? document.getElementById(id) : null;
+          if (row && alert.severity) {
+            row.classList.add(`pulse-${alert.severity}`);
+            setTimeout(
+              () => row.classList.remove(`pulse-${alert.severity}`),
+              2500,
+            );
+          }
+          const joy = document.getElementById("joy");
+          joy.classList.add("glow");
+          setTimeout(() => joy.classList.remove("glow"), 2500);
+        } catch {}
+      };
+    </script>
+    <p>
+      Use the POST endpoint to emit an alert and watch the row shimmer and
+      overlay glow.
+    </p>
+  </body>
+</html>

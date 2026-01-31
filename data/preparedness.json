@@ -1,0 +1,7 @@
+{
+  "garden": { "status": "active", "nextPlanting": "Spring herbs" },
+  "storage": { "foodSupply": "3 months", "waterSupply": "2 weeks" },
+  "skills": { "firstAid": "certified", "selfDefense": "in-training" },
+  "energy": { "solar": "installed", "backup": "generator ready" },
+  "lastUpdate": null
+}

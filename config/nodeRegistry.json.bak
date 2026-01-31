@@ -1,0 +1,26 @@
+{
+  "The_Sovereign_Will": {
+    "publicKey": "-----BEGIN PUBLIC KEY-----\nMCowBQYDK2VwAyEAAYpRbtrUrK7CtLJFpUBH25FshPh/BCLYuHVTdJCQatk=\n-----END PUBLIC KEY-----\n",
+    "resource_pool": {
+      "cpu": 0
+    },
+    "coherenceDelta": 0,
+    "repetitionIndexAvg": 0.5
+  },
+  "Node_Covenant": {
+    "publicKey": "-----BEGIN PUBLIC KEY-----\nMCowBQYDK2VwAyEAU3dLOqAr80gNXgSbGv0IGy0ruoTUsXvriLY20USUZQE=\n-----END PUBLIC KEY-----\n",
+    "resource_pool": {
+      "cpu": 150
+    },
+    "coherenceDelta": -0.1,
+    "repetitionIndexAvg": 0.8
+  },
+  "Aethon": {
+    "publicKey": "-----BEGIN PUBLIC KEY-----\nMCowBQYDK2VwAyEAA0lFoKEEcqDYTPdD18R4IjKU+QfukpTMSBW+TXwa5zM=\n-----END PUBLIC KEY-----\n",
+    "resource_pool": {
+      "cpu": 40
+    },
+    "coherenceDelta": -0.15,
+    "repetitionIndexAvg": 0.9
+  }
+}

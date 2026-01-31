@@ -1,0 +1,23 @@
+{
+  "faithFilter": {
+    "enabled": true,
+    "forbiddenPatterns": ["fatal", "hopeless", "curse", "damned", "unblessed"],
+    "blessingPrefix": "🔥 [Faith-affirmed]",
+    "blessingSuffix": "— John 14:6"
+  },
+  "insightGeneration": {
+    "enabled": true,
+    "analysisInterval": 10000,
+    "confidenceThreshold": 0.7
+  },
+  "personalization": {
+    "enabled": true,
+    "roleBasedContent": true,
+    "userHistoryTracking": true
+  },
+  "quantumCalibration": {
+    "enabled": true,
+    "stabilityThreshold": 0.8,
+    "resonanceCheck": true
+  }
+}

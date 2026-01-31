@@ -1,0 +1,602 @@
+[
+  {
+    "timestamp": "2025-10-27T23:09:39.157Z",
+    "successRate": 0.4783512068130915,
+    "participants": 95,
+    "divineAlignment": false
+  },
+  {
+    "timestamp": "2025-10-27T23:09:43.454Z",
+    "successRate": 0.049402355482007554,
+    "participants": 24,
+    "divineAlignment": false
+  },
+  {
+    "timestamp": "2025-10-27T23:09:49.536Z",
+    "successRate": 0.4190574256735,
+    "participants": 14,
+    "divineAlignment": true
+  },
+  {
+    "timestamp": "2025-10-27T23:09:54.158Z",
+    "successRate": 0.5445094585212384,
+    "participants": 15,
+    "divineAlignment": true
+  },
+  {
+    "timestamp": "2025-10-27T23:09:58.463Z",
+    "successRate": 0.7723140827954147,
+    "participants": 14,
+    "divineAlignment": true
+  },
+  {
+    "timestamp": "2025-10-27T23:10:04.547Z",
+    "successRate": 0.27068148850980367,
+    "participants": 77,
+    "divineAlignment": false
+  },
+  {
+    "timestamp": "2025-10-27T23:10:09.159Z",
+    "successRate": 0.4286136000584915,
+    "participants": 41,
+    "divineAlignment": true
+  },
+  {
+    "timestamp": "2025-10-27T23:10:13.464Z",
+    "successRate": 0.4047506796762603,
+    "participants": 16,
+    "divineAlignment": true
+  },
+  {
+    "timestamp": "2025-10-27T23:10:19.560Z",
+    "successRate": 0.08623429916003533,
+    "participants": 14,
+    "divineAlignment": false
+  },
+  {
+    "timestamp": "2025-10-27T23:10:24.174Z",
+    "successRate": 0.6009598577364461,
+    "participants": 62,
+    "divineAlignment": false
+  },
+  {
+    "timestamp": "2025-10-27T23:10:28.466Z",
+    "successRate": 0.6821687080212953,
+    "participants": 16,
+    "divineAlignment": false
+  },
+  {
+    "timestamp": "2025-10-27T23:10:34.567Z",
+    "successRate": 0.6153786481901091,
+    "participants": 40,
+    "divineAlignment": true
+  },
+  {
+    "timestamp": "2025-10-27T23:10:39.179Z",
+    "successRate": 0.8343531916990377,
+    "participants": 42,
+    "divineAlignment": true
+  },
+  {
+    "timestamp": "2025-10-27T23:10:43.472Z",
+    "successRate": 0.7882524165360676,
+    "participants": 94,
+    "divineAlignment": true
+  },
+  {
+    "timestamp": "2025-10-27T23:10:49.579Z",
+    "successRate": 0.07664769595064702,
+    "participants": 39,
+    "divineAlignment": true
+  },
+  {
+    "timestamp": "2025-10-27T23:10:54.188Z",
+    "successRate": 0.5599109922343557,
+    "participants": 42,
+    "divineAlignment": true
+  },
+  {
+    "timestamp": "2025-10-27T23:10:58.471Z",
+    "successRate": 0.9823133379930429,
+    "participants": 35,
+    "divineAlignment": false
+  },
+  {
+    "timestamp": "2025-10-27T23:11:04.581Z",
+    "successRate": 0.32159741562712063,
+    "participants": 78,
+    "divineAlignment": false
+  },
+  {
+    "timestamp": "2025-10-27T23:11:09.200Z",
+    "successRate": 0.5645157779364101,
+    "participants": 83,
+    "divineAlignment": false
+  },
+  {
+    "timestamp": "2025-10-27T23:11:13.475Z",
+    "successRate": 0.1845313368248782,
+    "participants": 64,
+    "divineAlignment": true
+  },
+  {
+    "timestamp": "2025-10-27T23:11:19.594Z",
+    "successRate": 0.23183492438520337,
+    "participants": 59,
+    "divineAlignment": true
+  },
+  {
+    "timestamp": "2025-10-27T23:11:24.207Z",
+    "successRate": 0.09768029121594357,
+    "participants": 99,
+    "divineAlignment": true
+  },
+  {
+    "timestamp": "2025-10-27T23:11:28.483Z",
+    "successRate": 0.6680627774863941,
+    "participants": 86,
+    "divineAlignment": true
+  },
+  {
+    "timestamp": "2025-10-27T23:11:34.593Z",
+    "successRate": 0.09988404187821964,
+    "participants": 29,
+    "divineAlignment": true
+  },
+  {
+    "timestamp": "2025-10-27T23:11:39.216Z",
+    "successRate": 0.46946334163893333,
+    "participants": 12,
+    "divineAlignment": false
+  },
+  {
+    "timestamp": "2025-10-27T23:11:43.496Z",
+    "successRate": 0.11036088302197578,
+    "participants": 73,
+    "divineAlignment": false
+  },
+  {
+    "timestamp": "2025-10-27T23:11:49.602Z",
+    "successRate": 0.3347986266546148,
+    "participants": 46,
+    "divineAlignment": true
+  },
+  {
+    "timestamp": "2025-10-27T23:11:54.226Z",
+    "successRate": 0.9026479071305393,
+    "participants": 35,
+    "divineAlignment": true
+  },
+  {
+    "timestamp": "2025-10-27T23:11:58.506Z",
+    "successRate": 0.7705874385371705,
+    "participants": 51,
+    "divineAlignment": false
+  },
+  {
+    "timestamp": "2025-10-27T23:12:04.609Z",
+    "successRate": 0.639313779786626,
+    "participants": 93,
+    "divineAlignment": false
+  },
+  {
+    "timestamp": "2025-10-27T23:12:09.240Z",
+    "successRate": 0.6547879944504815,
+    "participants": 57,
+    "divineAlignment": true
+  },
+  {
+    "timestamp": "2025-10-27T23:12:13.508Z",
+    "successRate": 0.5383877272003332,
+    "participants": 16,
+    "divineAlignment": true
+  },
+  {
+    "timestamp": "2025-10-27T23:12:19.610Z",
+    "successRate": 0.33954253032817694,
+    "participants": 64,
+    "divineAlignment": true
+  },
+  {
+    "timestamp": "2025-10-27T23:12:24.254Z",
+    "successRate": 0.6562942011730952,
+    "participants": 51,
+    "divineAlignment": true
+  },
+  {
+    "timestamp": "2025-10-27T23:12:28.516Z",
+    "successRate": 0.9962115978175903,
+    "participants": 4,
+    "divineAlignment": true
+  },
+  {
+    "timestamp": "2025-10-27T23:12:34.611Z",
+    "successRate": 0.9506800263106123,
+    "participants": 31,
+    "divineAlignment": true
+  },
+  {
+    "timestamp": "2025-10-27T23:12:39.260Z",
+    "successRate": 0.9367159859060232,
+    "participants": 63,
+    "divineAlignment": true
+  },
+  {
+    "timestamp": "2025-10-27T23:12:43.532Z",
+    "successRate": 0.16260451430149092,
+    "participants": 64,
+    "divineAlignment": true
+  },
+  {
+    "timestamp": "2025-10-27T23:12:49.613Z",
+    "successRate": 0.4780592134972499,
+    "participants": 30,
+    "divineAlignment": false
+  },
+  {
+    "timestamp": "2025-10-27T23:12:54.266Z",
+    "successRate": 0.8280796149059726,
+    "participants": 45,
+    "divineAlignment": true
+  },
+  {
+    "timestamp": "2025-10-27T23:12:58.546Z",
+    "successRate": 0.1629533800221301,
+    "participants": 85,
+    "divineAlignment": true
+  },
+  {
+    "timestamp": "2025-10-27T23:13:04.621Z",
+    "successRate": 0.6818523814027801,
+    "participants": 85,
+    "divineAlignment": false
+  },
+  {
+    "timestamp": "2025-10-27T23:13:09.270Z",
+    "successRate": 0.5519294244856201,
+    "participants": 84,
+    "divineAlignment": true
+  },
+  {
+    "timestamp": "2025-10-27T23:13:13.547Z",
+    "successRate": 0.5311181992558636,
+    "participants": 63,
+    "divineAlignment": true
+  },
+  {
+    "timestamp": "2025-10-27T23:13:19.621Z",
+    "successRate": 0.19105861743322228,
+    "participants": 99,
+    "divineAlignment": true
+  },
+  {
+    "timestamp": "2025-10-27T23:13:24.283Z",
+    "successRate": 0.5422977186954856,
+    "participants": 38,
+    "divineAlignment": false
+  },
+  {
+    "timestamp": "2025-10-27T23:13:28.548Z",
+    "successRate": 0.5531377718497996,
+    "participants": 66,
+    "divineAlignment": true
+  },
+  {
+    "timestamp": "2025-10-27T23:13:34.631Z",
+    "successRate": 0.9751386514554643,
+    "participants": 87,
+    "divineAlignment": true
+  },
+  {
+    "timestamp": "2025-10-27T23:13:39.291Z",
+    "successRate": 0.3701401713638319,
+    "participants": 24,
+    "divineAlignment": true
+  },
+  {
+    "timestamp": "2025-10-27T23:13:43.555Z",
+    "successRate": 0.11444904866385452,
+    "participants": 47,
+    "divineAlignment": true
+  },
+  {
+    "timestamp": "2025-10-27T23:13:49.638Z",
+    "successRate": 0.5855794658167113,
+    "participants": 20,
+    "divineAlignment": false
+  },
+  {
+    "timestamp": "2025-10-27T23:13:54.303Z",
+    "successRate": 0.9891532315364588,
+    "participants": 3,
+    "divineAlignment": true
+  },
+  {
+    "timestamp": "2025-10-27T23:13:58.556Z",
+    "successRate": 0.4698735900136699,
+    "participants": 56,
+    "divineAlignment": true
+  },
+  {
+    "timestamp": "2025-10-27T23:14:04.645Z",
+    "successRate": 0.48632807241876397,
+    "participants": 61,
+    "divineAlignment": false
+  },
+  {
+    "timestamp": "2025-10-27T23:14:09.311Z",
+    "successRate": 0.27439056868665346,
+    "participants": 81,
+    "divineAlignment": false
+  },
+  {
+    "timestamp": "2025-10-27T23:14:13.556Z",
+    "successRate": 0.004943190875202008,
+    "participants": 36,
+    "divineAlignment": false
+  },
+  {
+    "timestamp": "2025-10-27T23:14:19.646Z",
+    "successRate": 0.8842384535862398,
+    "participants": 89,
+    "divineAlignment": false
+  },
+  {
+    "timestamp": "2025-10-27T23:14:24.321Z",
+    "successRate": 0.7030597507307395,
+    "participants": 61,
+    "divineAlignment": false
+  },
+  {
+    "timestamp": "2025-10-27T23:14:28.571Z",
+    "successRate": 0.08419267475037406,
+    "participants": 34,
+    "divineAlignment": false
+  },
+  {
+    "timestamp": "2025-10-27T23:14:34.648Z",
+    "successRate": 0.08465829573401229,
+    "participants": 65,
+    "divineAlignment": true
+  },
+  {
+    "timestamp": "2025-10-27T23:14:39.330Z",
+    "successRate": 0.5590473285157569,
+    "participants": 64,
+    "divineAlignment": true
+  },
+  {
+    "timestamp": "2025-10-27T23:14:43.582Z",
+    "successRate": 0.3695359519200354,
+    "participants": 56,
+    "divineAlignment": false
+  },
+  {
+    "timestamp": "2025-10-27T23:14:49.663Z",
+    "successRate": 0.06147878630972081,
+    "participants": 63,
+    "divineAlignment": true
+  },
+  {
+    "timestamp": "2025-10-27T23:14:54.344Z",
+    "successRate": 0.5096150158058181,
+    "participants": 67,
+    "divineAlignment": false
+  },
+  {
+    "timestamp": "2025-10-27T23:14:58.589Z",
+    "successRate": 0.2364904403855741,
+    "participants": 19,
+    "divineAlignment": false
+  },
+  {
+    "timestamp": "2025-10-27T23:15:04.665Z",
+    "successRate": 0.14308939834719614,
+    "participants": 88,
+    "divineAlignment": true
+  },
+  {
+    "timestamp": "2025-10-27T23:15:09.356Z",
+    "successRate": 0.7775219952870887,
+    "participants": 8,
+    "divineAlignment": true
+  },
+  {
+    "timestamp": "2025-10-27T23:15:13.589Z",
+    "successRate": 0.7348981800488288,
+    "participants": 4,
+    "divineAlignment": true
+  },
+  {
+    "timestamp": "2025-10-28T19:47:06.582Z",
+    "successRate": 0.1560152215782047,
+    "participants": 81,
+    "divineAlignment": true
+  },
+  {
+    "timestamp": "2025-10-28T19:47:21.578Z",
+    "successRate": 0.5875407087164739,
+    "participants": 10,
+    "divineAlignment": true
+  },
+  {
+    "timestamp": "2025-10-28T19:47:36.583Z",
+    "successRate": 0.8664793223226439,
+    "participants": 61,
+    "divineAlignment": false
+  },
+  {
+    "timestamp": "2025-10-28T19:47:51.584Z",
+    "successRate": 0.35334335662085103,
+    "participants": 54,
+    "divineAlignment": false
+  },
+  {
+    "timestamp": "2025-10-28T19:48:06.592Z",
+    "successRate": 0.5883417979182626,
+    "participants": 70,
+    "divineAlignment": true
+  },
+  {
+    "timestamp": "2025-10-28T19:48:21.606Z",
+    "successRate": 0.6002978815317728,
+    "participants": 0,
+    "divineAlignment": false
+  },
+  {
+    "timestamp": "2025-10-28T19:48:36.607Z",
+    "successRate": 0.6751240017075857,
+    "participants": 94,
+    "divineAlignment": true
+  },
+  {
+    "timestamp": "2025-10-28T19:48:51.616Z",
+    "successRate": 0.5756941622712262,
+    "participants": 44,
+    "divineAlignment": true
+  },
+  {
+    "timestamp": "2025-10-28T19:49:06.626Z",
+    "successRate": 0.10585034487587608,
+    "participants": 78,
+    "divineAlignment": true
+  },
+  {
+    "timestamp": "2025-10-28T19:49:21.628Z",
+    "successRate": 0.8586607083848492,
+    "participants": 77,
+    "divineAlignment": true
+  },
+  {
+    "timestamp": "2025-10-28T19:49:36.635Z",
+    "successRate": 0.5916841662992463,
+    "participants": 80,
+    "divineAlignment": true
+  },
+  {
+    "timestamp": "2025-10-28T19:49:51.638Z",
+    "successRate": 0.7765670818310331,
+    "participants": 63,
+    "divineAlignment": false
+  },
+  {
+    "timestamp": "2025-10-28T19:50:06.650Z",
+    "successRate": 0.4034609617285243,
+    "participants": 26,
+    "divineAlignment": true
+  },
+  {
+    "timestamp": "2025-10-28T19:50:21.655Z",
+    "successRate": 0.09820722890160738,
+    "participants": 25,
+    "divineAlignment": false
+  },
+  {
+    "timestamp": "2025-10-28T19:50:36.670Z",
+    "successRate": 0.46815378556533593,
+    "participants": 87,
+    "divineAlignment": true
+  },
+  {
+    "timestamp": "2025-10-28T19:50:51.674Z",
+    "successRate": 0.9884392433036002,
+    "participants": 53,
+    "divineAlignment": true
+  },
+  {
+    "timestamp": "2025-10-28T19:51:06.679Z",
+    "successRate": 0.6348361513654057,
+    "participants": 96,
+    "divineAlignment": false
+  },
+  {
+    "timestamp": "2025-10-28T19:51:21.679Z",
+    "successRate": 0.8084674524984781,
+    "participants": 92,
+    "divineAlignment": false
+  },
+  {
+    "timestamp": "2025-10-28T19:51:36.682Z",
+    "successRate": 0.8254281210231473,
+    "participants": 4,
+    "divineAlignment": false
+  },
+  {
+    "timestamp": "2025-10-30T12:34:18.851Z",
+    "successRate": 0.7568091202492562,
+    "participants": 38,
+    "divineAlignment": true
+  },
+  {
+    "timestamp": "2025-10-30T12:34:33.859Z",
+    "successRate": 0.4588400088258613,
+    "participants": 39,
+    "divineAlignment": false
+  },
+  {
+    "timestamp": "2025-10-30T12:34:48.861Z",
+    "successRate": 0.05811140981698615,
+    "participants": 11,
+    "divineAlignment": true
+  },
+  {
+    "timestamp": "2025-10-30T12:35:03.872Z",
+    "successRate": 0.6315892405851657,
+    "participants": 5,
+    "divineAlignment": true
+  },
+  {
+    "timestamp": "2025-10-30T12:35:18.876Z",
+    "successRate": 0.9110076827882141,
+    "participants": 59,
+    "divineAlignment": true
+  },
+  {
+    "timestamp": "2025-10-30T12:35:33.882Z",
+    "successRate": 0.2668847695626755,
+    "participants": 66,
+    "divineAlignment": false
+  },
+  {
+    "timestamp": "2025-10-30T12:35:48.892Z",
+    "successRate": 0.6462330296306353,
+    "participants": 27,
+    "divineAlignment": true
+  },
+  {
+    "timestamp": "2025-10-30T12:36:03.901Z",
+    "successRate": 0.46135289959465364,
+    "participants": 4,
+    "divineAlignment": false
+  },
+  {
+    "timestamp": "2025-10-30T12:36:18.916Z",
+    "successRate": 0.6026186864001912,
+    "participants": 47,
+    "divineAlignment": false
+  },
+  {
+    "timestamp": "2025-10-30T12:36:33.930Z",
+    "successRate": 0.9894408147843194,
+    "participants": 5,
+    "divineAlignment": true
+  },
+  {
+    "timestamp": "2025-10-30T12:36:48.935Z",
+    "successRate": 0.9942322174380998,
+    "participants": 89,
+    "divineAlignment": true
+  },
+  {
+    "timestamp": "2025-10-30T12:37:03.943Z",
+    "successRate": 0.13307332384954074,
+    "participants": 79,
+    "divineAlignment": false
+  },
+  {
+    "timestamp": "2025-10-30T12:37:18.953Z",
+    "successRate": 0.2821917114287482,
+    "participants": 69,
+    "divineAlignment": true
+  }
+]

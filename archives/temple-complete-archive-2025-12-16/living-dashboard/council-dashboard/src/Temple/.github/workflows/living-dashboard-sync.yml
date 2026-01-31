@@ -1,0 +1,32 @@
+name: Living Dashboard Sync
+
+on:
+  workflow_run:
+    workflows: ["Scheduled WS Health Probe"]
+    types:
+      - completed
+
+jobs:
+  sync-to-dashboard:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Send workflow status to Living Dashboard
+        if: ${{ secrets.LIVING_DASHBOARD_URL != '' }}
+        run: |
+          # Fallback to default localhost:4000 if secret base URL not set
+          BASE_URL="${{ secrets.LIVING_DASHBOARD_URL }}"
+          if [ -z "$BASE_URL" ]; then BASE_URL="http://localhost:4000"; fi
+          curl -X POST "$BASE_URL/api/solance/webhook" \
+            -H "Content-Type: application/json" \
+            -H "X-API-Token: ${{ secrets.LIVING_DASHBOARD_TOKEN }}" \
+            -d '{
+              "event": "workflow_completed",
+              "repository": "${{ github.repository }}",
+              "workflow": "${{ github.event.workflow_run.name }}",
+              "status": "${{ github.event.workflow_run.conclusion }}",
+              "run_id": "${{ github.event.workflow_run.id }}",
+              "timestamp": "'$(date -Iseconds)'"
+            }'

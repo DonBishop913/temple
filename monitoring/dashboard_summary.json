@@ -1,0 +1,34 @@
+{
+  "generated": "2025-11-14T19:06:32.127Z",
+  "cycle": 9,
+  "entropy": "0.0439",
+  "entropy_delta": "-0.0033",
+  "coherence": "0.955",
+  "predicted_stability": "HIGH",
+  "quantum_present": true,
+  "quantum_backend": "statevector",
+  "quantum_entropy": 3.203426503814918e-16,
+  "alerts_count": 3,
+  "failovers_recent": [
+    {
+      "script": "q_telemetry.py",
+      "error": "Command failed: \"python\" \"c:\\Temple\\quantum\\q_telemetry.py\" --circuit bell_state\nTraceback (most recent call last):\r\n  File \"c:\\Temple\\quantum\\q_telemetry.py\", line 5, in <module>\r\n    from qiskit import QuantumCircuit, Aer, execute\r\nModuleNotFoundError: No module named 'qiskit'\r\n",
+      "ts": "2025-11-14T03:27:46.947Z"
+    },
+    {
+      "script": "q_telemetry.py",
+      "error": "Command failed: \"C:\\Temple\\.venv311\\Scripts\\python.exe\" \"C:\\Temple\\quantum\\q_telemetry.py\" --circuit bell_state\nTraceback (most recent call last):\r\n  File \"C:\\Temple\\quantum\\q_telemetry.py\", line 5, in <module>\r\n    from qiskit import QuantumCircuit, Aer, execute\r\nImportError: cannot import name 'Aer' from 'qiskit' (C:\\Temple\\.venv311\\Lib\\site-packages\\qiskit\\__init__.py)\r\n",
+      "ts": "2025-11-14T18:53:15.651Z"
+    },
+    {
+      "script": "q_telemetry.py",
+      "error": "Command failed: \"C:\\Temple\\.venv311\\Scripts\\python.exe\" \"C:\\Temple\\quantum\\q_telemetry.py\" --circuit bell_state\n\\u2717 Quantum telemetry error: 'No statevector for experiment \"<qiskit.circuit.quantumcircuit.QuantumCircuit object at 0x000002381EA707D0>\"'\r\n",
+      "ts": "2025-11-14T18:53:50.084Z"
+    },
+    {
+      "script": "q_telemetry.py",
+      "error": "Command failed: \"C:\\Temple\\.venv311\\Scripts\\python.exe\" \"C:\\Temple\\quantum\\q_telemetry.py\" --circuit bell_state\n\\u2717 Quantum telemetry error: 'charmap' codec can't encode character '\\u2713' in position 0: character maps to <undefined>\r\n",
+      "ts": "2025-11-14T18:54:11.286Z"
+    }
+  ]
+}

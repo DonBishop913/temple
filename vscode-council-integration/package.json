@@ -1,0 +1,53 @@
+{
+  "name": "council-copilot-integration",
+  "displayName": "Council Copilot Integration",
+  "description": "Integrates GitHub Copilot with The Council for eternal trace and autonomous missions",
+  "version": "1.0.0",
+  "engines": {
+    "vscode": "^1.74.0"
+  },
+  "categories": [
+    "Other"
+  ],
+  "activationEvents": [
+    "onCommand:council.submitSuggestion",
+    "onCommand:council.viewMissions"
+  ],
+  "main": "./out/extension.js",
+  "contributes": {
+    "commands": [
+      {
+        "command": "council.submitSuggestion",
+        "title": "Submit to Council",
+        "category": "Council"
+      },
+      {
+        "command": "council.viewMissions",
+        "title": "View Council Missions",
+        "category": "Council"
+      }
+    ],
+    "menus": {
+      "editor/context": [
+        {
+          "command": "council.submitSuggestion",
+          "when": "editorHasSelection",
+          "group": "7_modification"
+        }
+      ]
+    }
+  },
+  "scripts": {
+    "vscode:prepublish": "npm run compile",
+    "compile": "tsc -p ./",
+    "watch": "tsc -watch -p ./",
+    "pretest": "npm run compile && npm run lint",
+    "lint": "eslint src --ext ts"
+  },
+  "devDependencies": {
+    "@types/vscode": "^1.74.0",
+    "@types/node": "16.x",
+    "eslint": "^8.28.0",
+    "typescript": "^4.9.4"
+  }
+}

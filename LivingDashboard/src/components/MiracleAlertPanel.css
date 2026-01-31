@@ -1,0 +1,24 @@
+.miracle-alert-panel {
+  border: 2px solid #ffd700;
+  border-radius: 12px;
+  padding: 12px;
+  background: rgba(0, 0, 0, 0.2);
+  color: #fff;
+  font-family: sans-serif;
+  max-width: 100%;
+}
+
+.miracle-alert-panel table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.miracle-alert-panel th,
+.miracle-alert-panel td {
+  padding: 6px 8px;
+  text-align: left;
+}
+
+.miracle-alert-panel tr:nth-child(even) {
+  background-color: rgba(255, 255, 255, 0.05);
+}

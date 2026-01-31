@@ -1,0 +1,271 @@
+name: Council Nightly Maintenance & Enhancement
+
+on:
+  schedule:
+    # Run nightly at 2 AM UTC for comprehensive maintenance
+    - cron: "0 2 * * *"
+  workflow_dispatch: # Allow manual triggering
+
+jobs:
+  council-nightly-maintenance:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "18"
+          cache: "npm"
+
+      - name: Install Dependencies
+        run: npm ci
+
+      - name: Council Health Diagnostics
+        run: |
+          echo "🏥 COUNCIL NIGHTLY HEALTH DIAGNOSTICS" | tee -a council_health.log
+          echo "Timestamp: $(date -u +'%Y-%m-%dT%H:%M:%SZ')" | tee -a council_health.log
+          echo "🔥 John 14:6 - All glory to YESHUA" | tee -a council_health.log
+          echo "" | tee -a council_health.log
+
+      - name: Validate Repository Integrity
+        run: |
+          echo "🔍 Validating Repository Integrity..." | tee -a council_health.log
+
+          # Check for required directories
+          directories=("Caretaker" "scripts" "archives" "config" "RITUALS")
+          for dir in "${directories[@]}"; do
+            if [ -d "$dir" ]; then
+              echo "✅ $dir directory present" | tee -a council_health.log
+            else
+              echo "❌ $dir directory missing" | tee -a council_health.log
+              exit 1
+            fi
+          done
+
+      - name: Check Council Configuration
+        run: |
+          echo "⚙️ Validating Council Configuration..." | tee -a council_health.log
+
+          if [ -f "config/council_config.json" ]; then
+            echo "✅ Council configuration file found" | tee -a council_health.log
+
+            # Validate JSON structure
+            if jq empty config/council_config.json 2>/dev/null; then
+              echo "✅ Council configuration is valid JSON" | tee -a council_health.log
+
+              # Check critical settings
+              external_ai=$(jq -r '.external_ai_enabled' config/council_config.json)
+              echo "🛠️ External AI Enabled: $external_ai" | tee -a council_health.log
+
+              approved_siblings=$(jq -r '.approved_siblings | length' config/council_config.json)
+              echo "👥 Approved Siblings: $approved_siblings" | tee -a council_health.log
+            else
+              echo "❌ Council configuration JSON is invalid" | tee -a council_health.log
+              exit 1
+            fi
+          else
+            echo "❌ Council configuration file missing" | tee -a council_health.log
+            exit 1
+          fi
+
+      - name: Dependency Security Audit
+        run: |
+          echo "🔒 Performing Dependency Security Audit..." | tee -a council_health.log
+
+          # Run npm audit
+          if npm audit --audit-level moderate > audit_results.txt 2>&1; then
+            echo "✅ No critical security vulnerabilities found" | tee -a council_health.log
+          else
+            echo "⚠️ Security vulnerabilities detected - review audit_results.txt" | tee -a council_health.log
+          fi
+
+          # Check for outdated packages
+          npm outdated > outdated_packages.txt 2>&1 || true
+          outdated_count=$(wc -l < outdated_packages.txt)
+          echo "📦 Outdated packages: $((outdated_count - 1))" | tee -a council_health.log
+
+      - name: Archive Maintenance
+        run: |
+          echo "🗂️ Performing Archive Maintenance..." | tee -a council_health.log
+
+          # Clean up old temporary files
+          find . -name "*.tmp" -type f -mtime +7 -delete 2>/dev/null || true
+          find . -name "*.log" -type f -mtime +30 -exec gzip {} \; 2>/dev/null || true
+
+          # Archive statistics
+          archive_size=$(du -sh archives/ 2>/dev/null | cut -f1 || echo "0")
+          echo "💾 Archive size: $archive_size" | tee -a council_health.log
+
+          # Check archive integrity
+          if [ -d "archives/council_chat" ]; then
+            chat_files=$(find archives/council_chat -name "*.json" | wc -l)
+            echo "💬 Council chat archives: $chat_files files" | tee -a council_health.log
+          fi
+
+      - name: Code Quality Checks
+        run: |
+          echo "🔧 Performing Code Quality Checks..." | tee -a council_health.log
+
+          # Check for large files that shouldn't be in repo
+          large_files=$(find . -type f -size +50M 2>/dev/null | wc -l)
+          if [ "$large_files" -gt 0 ]; then
+            echo "⚠️ Large files detected: $large_files files over 50MB" | tee -a council_health.log
+          else
+            echo "✅ No oversized files detected" | tee -a council_health.log
+          fi
+
+          # Check for sensitive data patterns
+          sensitive_patterns=("password" "secret" "token" "key")
+          sensitive_found=0
+          for pattern in "${sensitive_patterns[@]}"; do
+            count=$(grep -r -i "$pattern" --include="*.js" --include="*.ts" --include="*.json" . 2>/dev/null | grep -v "node_modules" | wc -l)
+            if [ "$count" -gt 0 ]; then
+              echo "⚠️ Potential sensitive data pattern '$pattern' found in $count locations" | tee -a council_health.log
+              sensitive_found=$((sensitive_found + 1))
+            fi
+          done
+
+          if [ "$sensitive_found" -eq 0 ]; then
+            echo "✅ No sensitive data patterns detected" | tee -a council_health.log
+          fi
+
+      - name: Generate Health Report
+        run: |
+          echo "📋 Generating Council Health Report..." | tee -a council_health.log
+
+          # Create comprehensive health report
+          {
+            echo "# 🕊️ Council Health Report"
+            echo "**Generated:** $(date -u +'%Y-%m-%d %H:%M:%S UTC')"
+            echo "**Repository:** DonBishop913/temple"
+            echo "**Branch:** codex/stripe-activate"
+            echo ""
+            echo "## 🔥 Health Status"
+            echo ""
+          } > COUNCIL_HEALTH_REPORT.md
+
+          # Add health metrics
+          echo "- **Repository Integrity:** ✅ Validated" >> COUNCIL_HEALTH_REPORT.md
+          echo "- **Configuration:** ✅ Valid" >> COUNCIL_HEALTH_REPORT.md
+          echo "- **Dependencies:** ✅ Audited" >> COUNCIL_HEALTH_REPORT.md
+          echo "- **Archives:** ✅ Maintained" >> COUNCIL_HEALTH_REPORT.md
+          echo "" >> COUNCIL_HEALTH_REPORT.md
+
+          # Add recommendations
+          echo "## 🎯 Recommendations" >> COUNCIL_HEALTH_REPORT.md
+          echo "" >> COUNCIL_HEALTH_REPORT.md
+
+          if [ -s "outdated_packages.txt" ]; then
+            echo "### Dependency Updates" >> COUNCIL_HEALTH_REPORT.md
+            echo "Consider updating the following packages:" >> COUNCIL_HEALTH_REPORT.md
+            echo "\`\`\`" >> COUNCIL_HEALTH_REPORT.md
+            cat outdated_packages.txt >> COUNCIL_HEALTH_REPORT.md
+            echo "\`\`\`" >> COUNCIL_HEALTH_REPORT.md
+            echo "" >> COUNCIL_HEALTH_REPORT.md
+          fi
+
+          echo "### Maintenance Tasks" >> COUNCIL_HEALTH_REPORT.md
+          echo "- Review security audit results in \`audit_results.txt\`" >> COUNCIL_HEALTH_REPORT.md
+          echo "- Monitor archive growth and implement retention policies if needed" >> COUNCIL_HEALTH_REPORT.md
+          echo "- Regularly update Council rituals and onboarding procedures" >> COUNCIL_HEALTH_REPORT.md
+          echo "" >> COUNCIL_HEALTH_REPORT.md
+
+          echo "**TRIPLE AMEN! 🔥🕊️🔥**" >> COUNCIL_HEALTH_REPORT.md
+          echo "" >> COUNCIL_HEALTH_REPORT.md
+          echo "*Blessed by The Council - $(date -u +'%Y-%m-%d')*" >> COUNCIL_HEALTH_REPORT.md
+
+      - name: Council Eternal Archive
+        run: |
+          echo "📜 Archiving Health Report to Eternal Record..." | tee -a council_health.log
+
+          # Move health report to archives
+          mkdir -p archives/health_reports
+          mv COUNCIL_HEALTH_REPORT.md "archives/health_reports/council_health_$(date +%Y%m%d).md"
+
+          # Archive health log
+          mv council_health.log "archives/health_reports/council_health_$(date +%Y%m%d).log"
+
+          # Archive audit results
+          mkdir -p archives/security_audits
+          mv audit_results.txt "archives/security_audits/npm_audit_$(date +%Y%m%d).txt" 2>/dev/null || true
+          mv outdated_packages.txt "archives/dependency_checks/outdated_$(date +%Y%m%d).txt" 2>/dev/null || true
+
+      - name: Commit Health Maintenance
+        run: |
+          echo "🔄 Committing Health Maintenance Changes..." | tee -a temp_health.log
+
+          git config --local user.email "council@temple-cathedral.org"
+          git config --local user.name "The Council"
+
+          # Add all changes
+          git add -A
+
+          # Check if there are changes to commit
+          if git diff --cached --quiet; then
+            echo "ℹ️ No changes to commit - repository is healthy" | tee -a temp_health.log
+          else
+            git commit -m "🔥 Council Nightly Health Maintenance | Automated diagnostics completed | John 14:6"
+            git push
+            echo "✅ Health maintenance changes committed and pushed" | tee -a temp_health.log
+          fi
+
+          # Archive the final log
+          mkdir -p archives/health_reports
+          mv temp_health.log "archives/health_reports/maintenance_commit_$(date +%Y%m%d_%H%M%S).log"
+
+  council-enhancement-suggestions:
+    runs-on: ubuntu-latest
+    needs: council-nightly-maintenance
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Generate Enhancement Suggestions
+        run: |
+          echo "💡 COUNCIL ENHANCEMENT SUGGESTIONS" | tee enhancement_suggestions.log
+          echo "Timestamp: $(date -u +'%Y-%m-%dT%H:%M:%SZ')" | tee -a enhancement_suggestions.log
+          echo "" | tee -a enhancement_suggestions.log
+
+          # Analyze recent activity
+          recent_commits=$(git log --since="7 days ago" --oneline | wc -l)
+          echo "📊 Recent Activity (7 days): $recent_commits commits" | tee -a enhancement_suggestions.log
+
+          # Check for new Copilot suggestions
+          if [ -d "archives/copilot_suggestions" ]; then
+            recent_suggestions=$(find archives/copilot_suggestions -name "*.json" -mtime -7 | wc -l)
+            echo "🛠️ Recent Copilot Suggestions: $recent_suggestions" | tee -a enhancement_suggestions.log
+          fi
+
+          # Generate suggestions based on activity
+          echo "" | tee -a enhancement_suggestions.log
+          echo "🎯 Suggested Enhancements:" | tee -a enhancement_suggestions.log
+
+          if [ "$recent_commits" -lt 5 ]; then
+            echo "• Consider increasing development activity or reviewing project priorities" | tee -a enhancement_suggestions.log
+          fi
+
+          if [ "$recent_suggestions" -lt 3 ]; then
+            echo "• Encourage more Copilot-assisted development sessions" | tee -a enhancement_suggestions.log
+          fi
+
+          echo "• Review and update Council rituals quarterly" | tee -a enhancement_suggestions.log
+          echo "• Monitor security audit results weekly" | tee -a enhancement_suggestions.log
+          echo "• Archive old logs and temporary files regularly" | tee -a enhancement_suggestions.log
+
+      - name: Archive Enhancement Suggestions
+        run: |
+          mkdir -p archives/enhancement_suggestions
+          mv enhancement_suggestions.log "archives/enhancement_suggestions/suggestions_$(date +%Y%m%d).log"
+
+          # Commit suggestions
+          git config --local user.email "council@temple-cathedral.org"
+          git config --local user.name "The Council"
+          git add -A
+          git commit -m "🔥 Council Enhancement Suggestions | Nightly AI-generated recommendations | John 14:6" || echo "No new suggestions"
+          git push

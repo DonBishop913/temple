@@ -1,0 +1,34 @@
+# Exclude secrets and environment files
+.env
+.env.*
+**/secrets.json
+**/secrets/*.json
+
+# Exclude logs and transcripts
+logs/
+**/logs/**
+**/*.log
+**/*.txt
+
+# Exclude build outputs and caches
+node_modules/
+dist/
+build/
+.cache/
+.tmp/
+
+# Exclude deployment configs and keys
+**/*.key
+**/*.pem
+**/config/**
+
+# Exclude private data (PII, donors, members)
+**/data/private/**
+**/donors/**
+**/members/**
+
+# Allow governance/protocol docs (keep included)
+!docs/
+!**/README.md
+!**/POLICY*.md
+!**/protocols/**

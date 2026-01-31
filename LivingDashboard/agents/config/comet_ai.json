@@ -1,0 +1,4 @@
+{
+  "agentName": "CometAI",
+  "logPath": "./logs/comet_ai.log"
+}

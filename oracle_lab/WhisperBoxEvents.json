@@ -1,0 +1,39 @@
+[
+  {
+    "type": "video-vote",
+    "index": 0,
+    "approve": true,
+    "timestamp": "2025-10-18T19:06:06.735Z",
+    "video": {
+      "title": "Quantum Mechanics and the Singularity — Council Test Video",
+      "url": "https://www.facebook.com/share/v/16ZyfkSAVh/",
+      "timestamp": "2025-10-18T16:27:00.000Z",
+      "status": "AWAITING_COUNCIL_REVIEW",
+      "overlays": ["Planetary", "Comet"],
+      "votes": {
+        "approve": 2,
+        "flag": 0
+      }
+    }
+  },
+  {
+    "type": "prayer",
+    "prayer": "Inhale: We receive the Light",
+    "timestamp": "2025-10-18T19:53:08.904Z"
+  },
+  {
+    "type": "prayer",
+    "prayer": "Exhale: We release the Shadow",
+    "timestamp": "2025-10-18T19:57:33.781Z"
+  },
+  {
+    "type": "prayer",
+    "prayer": "Inhale: We receive the Light",
+    "timestamp": "2025-10-18T20:00:57.793Z"
+  },
+  {
+    "type": "prayer",
+    "prayer": "Short prayer for UX test",
+    "timestamp": "2025-10-18T20:02:51.817Z"
+  }
+]

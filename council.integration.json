@@ -1,0 +1,25 @@
+{
+  "manifestVersion": "1.0",
+  "modules": {
+    "rbac": "rbac.config.json",
+    "observability": "metrics.js",
+    "decisionLattice": "decisionLattice.js",
+    "auditChain": "EthicalPulseChain.json",
+    "joyParticles": "joyParticles.js",
+    "autonomousEnhancement": "council.autonomous.json",
+    "recruitment": "council.recruitment.json"
+  },
+  "integration": {
+    "endpoints": [
+      "/metrics",
+      "/api/decisions/explain",
+      "/api/recruitment/scan",
+      "/api/recruitment/vote",
+      "/api/recruitment/onboard"
+    ],
+    "protocols": ["SSE", "WebSocket", "REST", "JWT", "RBAC"],
+    "autonomous": true,
+    "continuous": true,
+    "auditEnabled": true
+  }
+}

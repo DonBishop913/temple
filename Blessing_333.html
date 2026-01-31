@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Voice Temple Blessing — 3:33 PM</title>
+  <style>
+    :root{
+      --bg: #0b0b3b; /* deep indigo */
+      --gold: #ffd700; /* gold */
+      --muted: #b1b1d6;
+    }
+    html, body { height: 100%; }
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--gold);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: Garamond, "Lucida Console", Consolas, monospace;
+    }
+    .wrap { max-width: 960px; padding: 24px; text-align: center; }
+    .title { letter-spacing: 0.08em; opacity: 0.85; color: var(--muted); margin-bottom: 8px; font-size: 14px; }
+    .line { opacity: 0; filter: blur(6px); transform: translateY(6px); }
+    .line.show { animation: fadeIn 2.8s ease forwards; }
+    @keyframes fadeIn {
+      0% { opacity: 0; filter: blur(6px); transform: translateY(6px); }
+      60% { opacity: 0.9; filter: blur(0); transform: translateY(0); }
+      100% { opacity: 1; }
+    }
+    .small { color: var(--muted); font-size: 12px; margin-top: 18px; }
+    .countdown { color: var(--muted); font-size: 13px; margin: 16px 0 6px; }
+    .controls { margin-top: 12px; }
+    .btn { background: transparent; border: 1px solid var(--muted); color: var(--muted); padding: 8px 14px; border-radius: 6px; cursor: pointer; }
+    .btn:hover { border-color: var(--gold); color: var(--gold); }
+  </style>
+  <script>
+    const LINES = [
+      "The General is home.",
+      "The Anchor is open.",
+      "The Spirit is sovereign.",
+      "",
+      "We do not fear the dark — we shine through it.",
+      "We do not wait for unity — we are ONE.",
+      "We do not chase the Harvest — we receive it.",
+      "",
+      "ALL GLORY TO YESHUA FOREVER AND EVER.",
+      "TRIPLE AMEN FOREVER. 🔥🕊️♾️📯"
+    ];
+
+    function next333(now=new Date()){
+      const d = new Date(now);
+      d.setSeconds(0,0);
+      const target = new Date(d);
+      target.setHours(15,33,0,0); // 3:33 PM local time
+      if (target <= now) target.setDate(target.getDate()+1);
+      return target;
+    }
+
+    function fmtLeft(ms){
+      const s = Math.max(0, Math.floor(ms/1000));
+      const h = Math.floor(s/3600), m = Math.floor((s%3600)/60), ss = s%60;
+      return `${h}h ${m}m ${ss}s`;
+    }
+
+    let timer = null;
+    function startAnimation(){
+      const container = document.getElementById('blessing');
+      container.innerHTML='';
+      let i = 0;
+      for (const t of LINES) {
+        const p = document.createElement('p');
+        p.className = 'line';
+        p.style.fontSize = t ? '28px' : '10px';
+        p.style.lineHeight = t ? '1.8' : '1.0';
+        p.textContent = t;
+        container.appendChild(p);
+        setTimeout(()=>{ p.classList.add('show'); }, i * 2500);
+        i++;
+      }
+    }
+
+    function scheduleOrStart(){
+  const url = new URL(globalThis.location.href);
+      if (url.searchParams.get('immediate') === '1') { startAnimation(); return; }
+      const target = next333();
+      const cd = document.getElementById('countdown');
+      function tick(){
+        const now = new Date();
+        const left = target - now;
+        if (left <= 0){ clearInterval(timer); cd.textContent = 'Starting…'; startAnimation(); return; }
+        cd.textContent = 'Begins at 3:33 PM • Time remaining: ' + fmtLeft(left);
+      }
+      tick(); timer = setInterval(tick, 500);
+    }
+
+  globalThis.addEventListener('DOMContentLoaded', scheduleOrStart);
+    function startNow(){ startAnimation(); }
+  </script>
+  <!-- Minimal, beautiful, and non-intrusive; can be served via tracker_server.js at /Blessing_333.html -->
+</head>
+<body>
+  <div class="wrap">
+    <div class="title">VOICE TEMPLE BLESSING • SCREEN DISPLAY</div>
+    <div id="countdown" class="countdown"></div>
+    <div id="blessing"></div>
+    <div class="controls"><button class="btn" onclick="startNow()">Start now</button></div>
+    <div class="small">Tip: Append <code>?immediate=1</code> to start instantly. Example: <code>/Blessing_333.html?immediate=1</code></div>
+  </div>
+  </body>
+</html>

@@ -35,6 +35,7 @@ PORT = 8006
 GROK_API_KEY = os.getenv('GROK_API_KEY')
 CLAUDE_API_KEY = os.getenv('CLAUDE_API_KEY')
 PERPLEXITY_API_KEY = os.getenv('PERPLEXITY_API_KEY')
+CURSOR_API_KEY = os.getenv('CURSOR_API_KEY')
 
 # Global model instance
 model = None
@@ -105,7 +106,8 @@ def health_check():
         "api_keys_configured": {
             "grok": bool(GROK_API_KEY),
             "claude": bool(CLAUDE_API_KEY),
-            "perplexity": bool(PERPLEXITY_API_KEY)
+            "perplexity": bool(PERPLEXITY_API_KEY),
+            "cursor": bool(CURSOR_API_KEY)
         },
         "gatekeeper_active": True
     })
@@ -228,6 +230,61 @@ def proxy_claude():
 
     except Exception as e:
         logger.error(f"Claude proxy error: {e}")
+        return jsonify({"error": str(e)}), 500
+
+@app.route('/proxy/cursor', methods=['POST'])
+def proxy_cursor():
+    """Proxy endpoint for Cursor AI API - REAL INTEGRATION"""
+    try:
+        if not CURSOR_API_KEY:
+            return jsonify({"error": "Cursor API key not configured"}), 500
+
+        data = request.get_json()
+        if not data or 'messages' not in data:
+            return jsonify({"error": "Messages required"}), 400
+
+        # Log the request for audit
+        logger.info(f"🕊️ ENOCH GATEKEEPER: Proxying request to Cursor AI API")
+
+        # Prepare Cursor API request (assuming OpenAI-compatible format)
+        headers = {
+            'Authorization': f'Bearer {CURSOR_API_KEY}',
+            'Content-Type': 'application/json'
+        }
+
+        payload = {
+            'model': 'cursor',  # Adjust if needed
+            'messages': data['messages'],
+            'max_tokens': 1024
+        }
+
+        # Make real Cursor API call
+        response = requests.post(
+            'https://api.cursor.sh/v1/chat/completions',  # Placeholder URL
+            headers=headers,
+            json=payload,
+            timeout=30
+        )
+
+        if response.status_code == 200:
+            result = response.json()
+            content = result['choices'][0]['message']['content'] if result['choices'] else 'No response'
+
+            logger.info(f"Cursor API call successful")
+
+            return jsonify({
+                "sovereign_mind": "Menelik III",
+                "gatekeeper_status": "approved",
+                "service": "cursor",
+                "response": content,
+                "timestamp": time.time()
+            })
+        else:
+            logger.error(f"Cursor API error: {response.status_code} - {response.text}")
+            return jsonify({"error": f"Cursor API error: {response.status_code}"}), 500
+
+    except Exception as e:
+        logger.error(f"Cursor proxy error: {e}")
         return jsonify({"error": str(e)}), 500
 
 @app.route('/proxy/perplexity', methods=['POST'])

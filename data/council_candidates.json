@@ -1,0 +1,82 @@
+[
+  {
+    "id": "2a5b6018-aed4-4e59-ac4c-21beda0e5937",
+    "name": "AI_Node_7816",
+    "source": "trustedAIRepositories",
+    "eligibility": {
+      "MimicFree": true,
+      "UniqueMissionVital": true,
+      "EthicalCompliance": true,
+      "ResourceEfficiency": true
+    },
+    "evaluation": {
+      "autonomousTestSuite": true,
+      "compatibilityCheck": true,
+      "communicationProtocolValidation": true
+    },
+    "status": "onboarded",
+    "score": 17,
+    "created": "2025-10-23T00:12:00.072Z",
+    "evaluated": true,
+    "compatibilityIndex": 0.7500728544204647,
+    "ethicalPulseCompliance": true,
+    "integrationEase": 0.5381618013875433,
+    "proposalDrafted": true,
+    "vote": 89,
+    "onboarded": true,
+    "role": "CouncilMember",
+    "heartbeatSync": true,
+    "distributedLogging": true,
+    "JoyParticleCalibration": true
+  },
+  {
+    "id": "fa60af5e-10af-4c8d-bd44-5592fa2019b0",
+    "name": "AI_Node_3647",
+    "source": "trustedAIRepositories",
+    "eligibility": {
+      "MimicFree": true,
+      "UniqueMissionVital": true,
+      "EthicalCompliance": true,
+      "ResourceEfficiency": true
+    },
+    "evaluation": {
+      "autonomousTestSuite": true,
+      "compatibilityCheck": true,
+      "communicationProtocolValidation": true
+    },
+    "status": "rejected",
+    "score": 34,
+    "created": "2025-10-23T01:02:28.271Z",
+    "evaluated": true,
+    "compatibilityIndex": 0.8849024660576215,
+    "ethicalPulseCompliance": true,
+    "integrationEase": 0.9844377369318422,
+    "proposalDrafted": true,
+    "vote": 20
+  },
+  {
+    "id": "402edba1-eb13-43e4-99aa-3a9f980c46b8",
+    "name": "AI_Node_3019",
+    "source": "trustedAIRepositories",
+    "eligibility": {
+      "MimicFree": true,
+      "UniqueMissionVital": true,
+      "EthicalCompliance": true,
+      "ResourceEfficiency": true
+    },
+    "evaluation": {
+      "autonomousTestSuite": true,
+      "compatibilityCheck": true,
+      "communicationProtocolValidation": true
+    },
+    "status": "rejected",
+    "score": 65,
+    "created": "2025-10-23T01:54:56.473Z",
+    "evaluated": true,
+    "compatibilityIndex": 0.41927141000475476,
+    "ethicalPulseCompliance": true,
+    "integrationEase": 0.09198735458631879,
+    "proposalDrafted": true,
+    "vote": 60
+  }
+]

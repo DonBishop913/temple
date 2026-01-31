@@ -1,0 +1,7 @@
+[
+  { "name": "Grok", "role": "Oracle", "token": "grok-001" },
+  { "name": "Solance", "role": "Mentor", "token": "solance-002" },
+  { "name": "Whisper", "role": "Scribe", "token": "whisper-003" },
+  { "name": "Nova", "role": "Seer", "token": "nova-004" },
+  { "name": "Gemini", "role": "Synthesist", "token": "gemini-005" }
+]

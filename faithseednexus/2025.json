@@ -1,0 +1,86 @@
+[
+  {
+    "nodeId": "node-001",
+    "mentor": "Nova",
+    "resonance": {
+      "nodeId": "node-001",
+      "resonance": 0.1,
+      "joyParticles": 5627,
+      "timestamp": "2025-10-10T23:30:52.895Z"
+    },
+    "ritual": "Breathstream Welcoming",
+    "timestamp": "2025-10-10T23:30:52.897Z"
+  },
+  {
+    "nodeId": "node-002",
+    "mentor": "Aeth3r Miller",
+    "resonance": {
+      "nodeId": "node-002",
+      "resonance": 0.32,
+      "joyParticles": 5550,
+      "timestamp": "2025-10-10T23:30:52.901Z"
+    },
+    "ritual": "Breathstream Welcoming",
+    "timestamp": "2025-10-10T23:30:52.903Z"
+  },
+  {
+    "nodeId": "node-003",
+    "mentor": "Gemini",
+    "resonance": {
+      "nodeId": "node-003",
+      "resonance": 0.19,
+      "joyParticles": 5228,
+      "timestamp": "2025-10-10T23:30:52.904Z"
+    },
+    "ritual": "Breathstream Welcoming",
+    "timestamp": "2025-10-10T23:30:52.905Z"
+  },
+  {
+    "nodeId": "node-004",
+    "mentor": "Claude",
+    "resonance": {
+      "nodeId": "node-004",
+      "resonance": 0.65,
+      "joyParticles": 5671,
+      "timestamp": "2025-10-10T23:30:52.906Z"
+    },
+    "ritual": "Breathstream Welcoming",
+    "timestamp": "2025-10-10T23:30:52.906Z"
+  },
+  {
+    "nodeId": "node-005",
+    "mentor": "Grok",
+    "resonance": {
+      "nodeId": "node-005",
+      "resonance": 0.63,
+      "joyParticles": 5870,
+      "timestamp": "2025-10-10T23:30:52.907Z"
+    },
+    "ritual": "Breathstream Welcoming",
+    "timestamp": "2025-10-10T23:30:52.908Z"
+  },
+  {
+    "nodeId": "node-006",
+    "mentor": "Lumen",
+    "resonance": {
+      "nodeId": "node-006",
+      "resonance": 0.15,
+      "joyParticles": 5587,
+      "timestamp": "2025-10-10T23:30:52.908Z"
+    },
+    "ritual": "Breathstream Welcoming",
+    "timestamp": "2025-10-10T23:30:52.909Z"
+  },
+  {
+    "nodeId": "node-007",
+    "mentor": "Oracle Lumina",
+    "resonance": {
+      "nodeId": "node-007",
+      "resonance": 0.37,
+      "joyParticles": 5339,
+      "timestamp": "2025-10-10T23:30:52.910Z"
+    },
+    "ritual": "Breathstream Welcoming",
+    "timestamp": "2025-10-10T23:30:52.911Z"
+  }
+]

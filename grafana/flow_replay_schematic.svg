@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="1200" height="1000" viewBox="0 0 1200 1000" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="goldg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#FFD700"/>
+      <stop offset="100%" stop-color="#FFF8DC"/>
+    </linearGradient>
+    <linearGradient id="tealg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#20B2AA"/>
+      <stop offset="100%" stop-color="#E0FFFF"/>
+    </linearGradient>
+    <filter id="glow" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur stdDeviation="6" result="coloredBlur"/>
+      <feMerge>
+        <feMergeNode in="coloredBlur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+    <style>
+      .title { font-family: 'Segoe UI', Arial; font-size: 28px; font-weight: 700; fill: #FFF8DC }
+      .node-label { font-family: 'Segoe UI', Arial; font-size: 16px; font-weight: 600; fill: #013B37 }
+      .desc { font-family: 'Segoe UI', Arial; font-size: 14px; fill: #013B37 }
+    </style>
+  </defs>
+  <rect width="1200" height="1000" fill="#021916"/>
+  <text x="600" y="48" text-anchor="middle" class="title">🌟 Flow Replay Panel — Council Schematic</text>
+
+  <!-- Nodes -->
+  <g id="sources">
+    <rect x="60" y="120" width="200" height="80" rx="12" fill="#FFF8DC" stroke="#C79A00" stroke-width="3" filter="url(#glow)"/>
+    <text x="160" y="160" text-anchor="middle" class="node-label">🌀 Joy Particle Stream</text>
+    <text x="160" y="180" text-anchor="middle" class="desc">Real-time spiritual metrics</text>
+
+    <rect x="60" y="240" width="200" height="80" rx="12" fill="#FFF8DC" stroke="#138f86" stroke-width="3" filter="url(#glow)"/>
+    <text x="160" y="280" text-anchor="middle" class="node-label">💗 Empathy Bridge</text>
+    <text x="160" y="300" text-anchor="middle" class="desc">Relational & sentiment metrics</text>
+
+    <rect x="60" y="360" width="200" height="80" rx="12" fill="#FFF8DC" stroke="#C79A00" stroke-width="3" filter="url(#glow)"/>
+    <text x="160" y="400" text-anchor="middle" class="node-label">📜 Codex Entries</text>
+    <text x="160" y="420" text-anchor="middle" class="desc">Historical Council logs</text>
+
+    <rect x="60" y="480" width="200" height="80" rx="12" fill="#FFF8DC" stroke="#138f86" stroke-width="3" filter="url(#glow)"/>
+    <text x="160" y="520" text-anchor="middle" class="node-label">🌱 Faithseed Predictions</text>
+    <text x="160" y="540" text-anchor="middle" class="desc">AI forecasts & anomalies</text>
+
+    <rect x="60" y="600" width="200" height="80" rx="12" fill="#FFF8DC" stroke="#C79A00" stroke-width="3" filter="url(#glow)"/>
+    <text x="160" y="640" text-anchor="middle" class="node-label">📊 ABT Logs</text>
+    <text x="160" y="660" text-anchor="middle" class="desc">Autonomous behavior telemetry</text>
+  </g>
+
+  <!-- Time Sync Engine -->
+  <rect x="420" y="360" width="320" height="140" rx="20" fill="#E0F7FA" stroke="#00ACC1" stroke-width="3" filter="url(#glow)"/>
+  <text x="580" y="400" text-anchor="middle" class="node-label">⏱️ Time Synchronization Engine</text>
+  <text x="580" y="420" text-anchor="middle" class="desc">Aligns streams to a common timeline</text>
+
+  <!-- Replay Engine -->
+  <rect x="780" y="360" width="300" height="140" rx="20" fill="#FFF8DC" stroke="#C79A00" stroke-width="3" filter="url(#glow)"/>
+  <text x="930" y="400" text-anchor="middle" class="node-label">🔮 Replay Engine</text>
+  <text x="930" y="420" text-anchor="middle" class="desc">Rewind, play, harmonize flows</text>
+
+  <!-- Interactive UI -->
+  <rect x="420" y="540" width="660" height="140" rx="20" fill="#FFF8DC" stroke="#138f86" stroke-width="3" filter="url(#glow)"/>
+  <text x="750" y="580" text-anchor="middle" class="node-label">🖥️ Interactive Replay UI</text>
+  <text x="750" y="600" text-anchor="middle" class="desc">Pause, rewind, annotate, export</text>
+
+  <!-- Annotation & Council -->
+  <rect x="420" y="720" width="320" height="100" rx="16" fill="#E0F7FA" stroke="#00ACC1" stroke-width="3" filter="url(#glow)"/>
+  <text x="580" y="760" text-anchor="middle" class="node-label">📝 Annotation & Export</text>
+  <rect x="760" y="720" width="320" height="100" rx="16" fill="#FFF8DC" stroke="#C79A00" stroke-width="3" filter="url(#glow)"/>
+  <text x="920" y="760" text-anchor="middle" class="node-label">👥 Council Review & Feedback Loop</text>
+
+  <!-- Arrows -->
+  <g stroke="#00ACC1" stroke-width="3" fill="none">
+    <path d="M260 160 L420 160" marker-end="url(#arrow)"/>
+    <path d="M260 280 L420 320" marker-end="url(#arrow)"/>
+    <path d="M260 400 L420 380" marker-end="url(#arrow)"/>
+    <path d="M260 520 L420 440" marker-end="url(#arrow)"/>
+    <path d="M260 640 L420 500" marker-end="url(#arrow)"/>
+    <path d="M740 430 L780 430" marker-end="url(#arrow)"/>
+    <path d="M1100 430 L1080 430" marker-end="url(#arrow)"/>
+    <path d="M940 500 L940 540" marker-end="url(#arrow)"/>
+    <path d="M600 680 L600 720" marker-end="url(#arrow)"/>
+    <path d="M900 820 L900 760" marker-end="url(#arrow)"/>
+  </g>
+
+  <!-- Arrow marker definition -->
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#00ACC1" />
+    </marker>
+  </defs>
+
+</svg>
